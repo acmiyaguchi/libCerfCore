@@ -3,6 +3,8 @@
 #include "nec_mobilepro_700_family_id.h"
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 namespace {
 
 class NecMobilePro700Context : public BoardContext {
@@ -19,3 +21,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(NecMobilePro700Context, BoardContext);
+
+}

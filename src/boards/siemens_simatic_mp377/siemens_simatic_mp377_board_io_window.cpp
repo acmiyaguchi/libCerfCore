@@ -1,6 +1,8 @@
 #include "siemens_simatic_mp377_board_io_window.h"
 #include "siemens_simatic_mp377_family_id.h"
 
+namespace cerfcore {
+
 namespace siemens_simatic_mp377_board_io_detail {
 
 bool SiemensSimaticMp377BoardIoWindow::ShouldRegister() {
@@ -37,3 +39,5 @@ void SiemensSimaticMp377BoardIoWindow::WriteWord(uint32_t addr, uint32_t value) 
 }
 
 } // namespace mp377_board_io_detail
+
+}

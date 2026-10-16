@@ -7,6 +7,8 @@
 
 #include <cstring>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kGeBlockLo     = 0xC000u;
@@ -95,4 +97,6 @@ void MediaQMq200GeWindow::SaveState(StateWriter& w) const {
 
 void MediaQMq200GeWindow::RestoreState(StateReader& r) {
     r.ReadBytes("ge_secondary", secondary_, sizeof(secondary_));
+}
+
 }

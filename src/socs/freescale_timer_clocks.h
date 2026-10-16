@@ -6,6 +6,8 @@
 #include <cstdint>
 #include <functional>
 
+namespace cerfcore {
+
 enum class FreescaleTimerUnit : uint8_t { kEpit1, kEpit2, kGpt };
 
 enum class FreescaleTimerInput : uint8_t { kIpg, kHighfreq, kLowfreq };
@@ -29,3 +31,5 @@ public:
     GuestCycleClock::Rate PrescaledRate(FreescaleTimerUnit unit, uint32_t base,
                                         GuestCycleClock::Rate input, uint32_t prescaler) const;
 };
+
+}

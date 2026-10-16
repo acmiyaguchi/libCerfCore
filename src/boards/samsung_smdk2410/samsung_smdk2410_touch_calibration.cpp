@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* devemu_wm5 touch.dll sub_153170C 0x153170C. */
@@ -41,3 +43,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(SamsungSmdk2410TouchCalibration, S3C2410TouchCalibration);
+
+}

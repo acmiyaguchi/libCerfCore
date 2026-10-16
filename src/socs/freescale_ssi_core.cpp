@@ -7,6 +7,8 @@
 
 #include <utility>
 
+namespace cerfcore {
+
 namespace ssi = cerf_freescale_ssi;
 
 namespace {
@@ -415,3 +417,5 @@ void FreescaleSsiCore::Restore(StateReader& r) {
 }
 
 void FreescaleSsiCore::PostRestore() { status_.PostRestore(StatusControl()); }
+
+}

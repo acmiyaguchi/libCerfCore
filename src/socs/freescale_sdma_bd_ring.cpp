@@ -7,6 +7,8 @@
 
 #include <string>
 
+namespace cerfcore {
+
 using cerf_freescale_sdma_detail::kBdCont;
 using cerf_freescale_sdma_detail::kBdDone;
 using cerf_freescale_sdma_detail::kBdWrap;
@@ -65,4 +67,6 @@ void FreescaleSdmaBdRing::Restore(StateReader& r, const char* prefix) {
     r.Read((p + "bd_base").c_str(), base_);
     r.Read((p + "bd_stride").c_str(), stride_);
     r.Read((p + "bd_current").c_str(), cur_pa_);
+}
+
 }

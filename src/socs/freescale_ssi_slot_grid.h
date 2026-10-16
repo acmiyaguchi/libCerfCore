@@ -5,6 +5,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class CerfEmulator;
 class StateReader;
 class StateWriter;
@@ -62,3 +64,5 @@ private:
     FreescaleSsiFrameShape shape_;
     bool                   on_ = false;
 };
+
+}

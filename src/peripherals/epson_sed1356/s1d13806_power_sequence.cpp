@@ -5,6 +5,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include <cerfcore/core/fatal.h>
 
+namespace cerfcore {
+
 namespace {
 
 class S1d13806PowerSequence : public Sed1356PowerSequence {
@@ -42,3 +44,5 @@ private:
 }
 
 REGISTER_SERVICE_AS(S1d13806PowerSequence, Sed1356PowerSequence);
+
+}

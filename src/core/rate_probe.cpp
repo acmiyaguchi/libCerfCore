@@ -7,6 +7,8 @@
 #include <chrono>
 #include <cstdio>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(RateProbe);
 
 RateProbe::~RateProbe() {
@@ -203,4 +205,6 @@ void RateProbe::LogLoop() {
             cbuf[static_cast<uint8_t>(Counter::TcFlushes)],
             cbuf[static_cast<uint8_t>(Counter::CtxFlushes)]);
     }
+}
+
 }

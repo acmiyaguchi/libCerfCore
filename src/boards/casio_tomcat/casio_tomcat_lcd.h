@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 /* casio_cassiopeia_e55 ddi.dll sub_14F0C28 @0x14F0D34-@0x14F0D48 maps this window:
    li $a2, 0x1FFFF / lw $a1, dword_14F845C / jal VirtualCopy / li $a3, 0x204, with
    $a0 = dword_14FA534. dword_14F845C = 0xAA000000, KSEG1 of PA 0x0A000000. VR4111 UM
@@ -76,3 +78,5 @@ private:
     uint8_t              ctrl_[kCtrlCount] = {};
     DisplaySizeLatch     size_latch_;
 };
+
+}

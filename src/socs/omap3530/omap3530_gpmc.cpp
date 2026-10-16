@@ -3,6 +3,8 @@
 #include <cerfcore/core/byte_order.h>
 #include "../../storage/fat_volume_layout.h"
 
+namespace cerfcore {
+
 void Omap3530Gpmc::OnReady() {
     Omap3530PrcmStubBlock::OnReady();
     /* In-RAM blank NAND for CS0 - 256 MB of 0xFF. */
@@ -329,3 +331,5 @@ const char* Omap3530Gpmc::RegisterName(uint32_t off) const {
 }
 
 REGISTER_SERVICE(Omap3530Gpmc);
+
+}

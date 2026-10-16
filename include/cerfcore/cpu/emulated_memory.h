@@ -12,12 +12,15 @@
 #include <mutex>
 #include <vector>
 
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 
 class EmulatedMemory : public Service {
 public:
     using Service::Service;
+    ~EmulatedMemory() override;
 
     void OnReady() override;
 
@@ -144,3 +147,5 @@ private:
     std::mutex          add_mutex_;
     std::vector<std::function<void()>> decode_listeners_;
 };
+
+}

@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* NEC VR41xx PIU (Touch Panel Interface Unit), VR4121 UM ch.20 / VR4102 UM ch.19.
    Control block 0x0B000120 + data buffers 0x0B0002A0 (VR4121 UM Table 20-1,
    VR4102 UM Table 19-1). */
@@ -20,3 +22,5 @@ public:
 
     virtual void SyntheticTap(uint16_t pos_x, uint16_t pos_y) = 0;
 };
+
+}

@@ -11,6 +11,8 @@
 #include <array>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 class SiemensSimaticMp377PciConfig final : public Iop13xxPciConfig {
@@ -274,3 +276,5 @@ private:
 REGISTER_SERVICE_AS(SiemensSimaticMp377PciConfig, Iop13xxPciConfig);
 
 } // namespace
+
+}

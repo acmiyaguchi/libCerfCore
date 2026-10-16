@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace siemens_simatic_mp377 {
 
 inline bool IsErtecPerPortRegister(uint32_t offset, uint32_t base,
@@ -97,3 +99,5 @@ inline bool IsErtecWriteOnlyRegister(uint32_t offset) {
 }
 
 } // namespace siemens_mp377
+
+}

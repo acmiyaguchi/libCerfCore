@@ -7,6 +7,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* NetBSD vripreg.h VR4122_SIU_ADDR 0x0F000800; DSIU follows at 0x0F000820. */
@@ -34,3 +36,5 @@ protected:
 }  /* namespace */
 
 REGISTER_SERVICE(Vr4122Siu);
+
+}

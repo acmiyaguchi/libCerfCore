@@ -1,5 +1,7 @@
 #include "omap3530_prcm_stub_block.h"
 
+namespace cerfcore {
+
 namespace {
 
 class Omap3530Gpio3 : public Omap3530GpioBankBase {
@@ -15,3 +17,5 @@ protected:
 }  /* namespace */
 
 REGISTER_SERVICE(Omap3530Gpio3);
+
+}

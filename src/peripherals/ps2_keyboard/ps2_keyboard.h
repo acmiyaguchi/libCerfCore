@@ -6,6 +6,8 @@
 #include <functional>
 #include <mutex>
 
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 
@@ -45,3 +47,5 @@ private:
     bool                  reporting_    = true;   /* scanning on by default (PS/2 power-on) */
     std::function<void()> on_data_;
 };
+
+}

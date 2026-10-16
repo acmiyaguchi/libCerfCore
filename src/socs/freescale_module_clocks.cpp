@@ -4,6 +4,8 @@
 #include <cerfcore/core/fatal.h>
 #include "../execution/guest_cycle_clock.h"
 
+namespace cerfcore {
+
 namespace {
 
 const char* ModuleName(FreescaleModule module) {
@@ -63,4 +65,6 @@ void FreescaleModuleClocks::RequireRunning(FreescaleModule module, const char* o
 FreescaleLowPowerMode FreescaleModuleClocks::CurrentMode() const {
     return emu_.Get<GuestCycleClock>().InIdle()
         ? emu_.Get<FreescaleTimerClocks>().WfiMode() : FreescaleLowPowerMode::kRun;
+}
+
 }

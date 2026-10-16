@@ -10,6 +10,8 @@
 #include <cerfcore/state/emulation_freeze.h>
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 
 /* Linux drivers/input/keyboard/pm8058-keypad.c pm8058_keypad_probe:
@@ -222,3 +224,5 @@ void Pm8058Keypad::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE(Pm8058Keypad);
+
+}

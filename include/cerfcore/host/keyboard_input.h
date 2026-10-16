@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <string>
 
+namespace cerfcore {
+
 /* A keyboard source. Each concrete self-registers with KeyboardRouter from its
    OnReady (like peripherals/widgets); the router forwards host keys to the one
    active source and the keyboard widget switches between them. */
@@ -23,3 +25,5 @@ public:
     /* cerf.rc ICON resource the keyboard widget draws while this source is active. */
     virtual const char* IconResourceName() const { return "ICON_KEYBOARD"; }
 };
+
+}

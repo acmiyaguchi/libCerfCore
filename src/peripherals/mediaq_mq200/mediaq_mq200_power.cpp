@@ -4,6 +4,8 @@
 #include <cerfcore/core/fatal.h>
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kPm00R = 0x0000u;
@@ -295,4 +297,6 @@ void MediaQMq200Power::RestoreState(StateReader& r) {
     r.Read("pm02", pm02_);
     r.Read("pm06", pm06_);
     r.Read("pm07", pm07_);
+}
+
 }

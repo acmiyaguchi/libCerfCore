@@ -11,6 +11,8 @@
 #include <cerfcore/state/state_stream.h>
 #include "sa11xx_intc.h"
 
+namespace cerfcore {
+
 REGISTER_SERVICE(Sa11xxRtc);
 
 namespace {
@@ -130,4 +132,6 @@ void Sa11xxRtc::WriteWord(uint32_t addr, uint32_t value) {
         HaltUnsupportedAccess("WriteWord", addr, value);
     }
     WriteReg(off, value);
+}
+
 }

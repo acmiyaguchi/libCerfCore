@@ -8,6 +8,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kBank0ChipBytes = 0x02000000u;
@@ -39,3 +41,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(NecCronos3eVr4121BcuBoard, Vr4121BcuBoard);
+
+}

@@ -11,6 +11,8 @@
 #include <functional>
 #include <vector>
 
+namespace cerfcore {
+
 class CerfEmulator;
 class StateReader;
 class StateWriter;
@@ -106,3 +108,5 @@ private:
     uint32_t str_ = 0, sacnt_ = 0, sacadd_ = 0, sacdat_ = 0, tx_tag_ = 0, stmsk_ = 0, srmsk_ = 0;
     uint32_t saccst_ = 0, cmd_bits_ = 0;
 };
+
+}

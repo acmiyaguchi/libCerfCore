@@ -7,6 +7,8 @@
 #include <cerfcore/socs/guest_cpu_reset.h>
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 
 /* Linux drivers/mfd/pm8058-core.c pm8058_gpio_mux_cfg:
@@ -80,3 +82,5 @@ void Pm8058Gpio::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE(Pm8058Gpio);
+
+}

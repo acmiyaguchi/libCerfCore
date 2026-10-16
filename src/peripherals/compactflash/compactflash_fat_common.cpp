@@ -8,6 +8,8 @@
 #include <cstdio>
 #include <cstring>
 
+namespace cerfcore {
+
 namespace cf_fat {
 
 std::string BaseName(const std::string& path) {
@@ -173,3 +175,5 @@ std::vector<FileEntry> CollectEntries(const std::vector<std::string>& files,
 }
 
 }  /* namespace cf_fat */
+
+}

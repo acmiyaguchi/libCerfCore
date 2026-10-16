@@ -6,6 +6,8 @@
 #include <mutex>
 #include <vector>
 
+namespace cerfcore {
+
 /* Maps host VKs to Jornada MCU scancodes (inverse of TSCkbdr.dll's scancode->VK
    table word_FC10A0 @ 0xFC10A0) and signals them by a GPIO0 falling edge (HP doc
    §4.3). The MCU GetScanKeyCode (0x90) handler drains the queue. */
@@ -29,3 +31,5 @@ private:
     mutable std::mutex   mtx_;
     std::vector<uint8_t> pending_;
 };
+
+}

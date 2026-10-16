@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <cstdio>
 
+namespace cerfcore {
+
 using cerf::be::U16;
 using namespace cerf::inet;
 
@@ -86,4 +88,6 @@ void ClassifyFrame(const uint8_t* f, std::size_t len,
         return;
     }
     std::snprintf(out, out_len, "etype=0x%04X", etype);
+}
+
 }

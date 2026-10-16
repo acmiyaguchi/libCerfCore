@@ -1,5 +1,7 @@
 #include "slirp_poll_shim.h"
 
+namespace cerfcore {
+
 namespace {
 
 int SlirpEventsToHost(int slirp_events) {
@@ -30,4 +32,6 @@ int cb_add_poll_socket(slirp_os_socket fd, int events, void* opaque) {
 int cb_get_revents(int idx, void* opaque) {
     auto* ctx = static_cast<PollFillCtx*>(opaque);
     return HostEventsToSlirp(ctx->fds->Revents(idx));
+}
+
 }

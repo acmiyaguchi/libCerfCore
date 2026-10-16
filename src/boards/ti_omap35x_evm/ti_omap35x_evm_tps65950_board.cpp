@@ -10,6 +10,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "ti_omap35x_evm_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class TiOmap35xEvmTps65950Board : public Tps65950Board {
@@ -57,3 +59,5 @@ private:
 }
 
 REGISTER_SERVICE_AS(TiOmap35xEvmTps65950Board, Tps65950Board);
+
+}

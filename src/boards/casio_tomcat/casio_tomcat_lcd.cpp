@@ -10,6 +10,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "casio_tomcat_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* casio_cassiopeia_e55 nk.exe @0x9E816B40-@0x9E816B4C load 0xF4 0x84 0xB0 0xD0, stored twice
@@ -107,3 +109,5 @@ void CasioTomcatLcd::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE(CasioTomcatLcd);
+
+}

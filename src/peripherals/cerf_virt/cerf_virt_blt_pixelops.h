@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace CerfVirt {
 
 struct BltPixelOps {
@@ -120,5 +122,7 @@ struct BltPixelOps {
     }
     static void WritePixel(uint8_t* p, uint32_t bpp, uint32_t v) { cerf::le::PutN(p, v, bpp); }
 };
+
+}
 
 }

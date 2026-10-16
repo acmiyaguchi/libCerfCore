@@ -5,6 +5,8 @@
 #include "swisscom_wp50_id.h"
 #include "t_sinus_pad_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class SiemensSimpadCl4Sdram : public Sa1110SdramGeometry {
@@ -25,3 +27,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(SiemensSimpadCl4Sdram, Sa1110SdramGeometry);
+
+}

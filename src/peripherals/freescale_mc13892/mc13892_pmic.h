@@ -10,6 +10,8 @@
 #include <array>
 #include <cstdint>
 
+namespace cerfcore {
+
 /* MC13892 (Atlas) PMIC - the SYNC2 board's power IC on i.MX51 I2C2, 7-bit slave
    address 0x08 (pmicPdk_mc13892.dll GetRegister/SetRegister). 64 24-bit
    registers accessed MSB-first: a register access is a 1-byte reg-index write
@@ -56,3 +58,5 @@ private:
     uint8_t wr_idx_           = 0;
     uint8_t rd_idx_           = 0;
 };
+
+}

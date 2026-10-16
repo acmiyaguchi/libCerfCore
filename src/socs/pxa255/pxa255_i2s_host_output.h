@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Pxa255I2sHostOutput : public Service {
 public:
     using Service::Service;
@@ -23,3 +25,5 @@ private:
     bool         active_ = false;
     uint32_t     rate_   = 0;
 };
+
+}

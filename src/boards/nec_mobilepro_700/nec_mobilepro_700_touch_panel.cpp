@@ -10,6 +10,8 @@
 #include <iterator>
 #include <optional>
 
+namespace cerfcore {
+
 namespace {
 
 /* PIUCMDREG ADCMD(3:0): 0100 ADIN0, 0101 ADIN1, 0110 ADIN2 (VR4102 UM 19.3.5 (2/2)). */
@@ -78,3 +80,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(NecMobilePro700TouchPanel, Vr41xxPiuPanel);
+
+}

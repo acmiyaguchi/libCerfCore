@@ -3,6 +3,8 @@
 #include "hp_jornada_820_family_id.h"
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 namespace {
 
 class HpJornada820Context : public BoardContext {
@@ -15,3 +17,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(HpJornada820Context, BoardContext);
+
+}

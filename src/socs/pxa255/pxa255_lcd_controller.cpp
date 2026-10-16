@@ -8,6 +8,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* PXA255 internal LCD controller (§7.7 Table 7-16, base 0x44000000), decoded
@@ -67,3 +69,5 @@ void Pxa255LcdController::RestoreState(StateReader& r) {
 }  /* namespace */
 
 REGISTER_SERVICE(Pxa255LcdController);
+
+}

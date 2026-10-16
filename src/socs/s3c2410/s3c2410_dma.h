@@ -6,6 +6,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 /* S3C2410A User Manual, printed p. 8-2, Table 8-1 "DMA Request Sources for Each
    Channel". */
 enum class S3C2410DmaSource : uint8_t {
@@ -116,3 +118,5 @@ private:
     std::array<Channel, kChannelCount>                     ch_{};
     std::array<S3C2410DmaRequester*, kRequesterCount>      requesters_{};
 };
+
+}

@@ -2,6 +2,8 @@
 
 #include <cerfcore/peripherals/peripheral_base.h>
 
+namespace cerfcore {
+
 class SiemensSimaticMp377DebugLedPeripheral : public Peripheral {
 public:
     using Peripheral::Peripheral;
@@ -15,3 +17,5 @@ public:
     void WriteHalf(uint32_t addr, uint16_t value) override;
     void WriteWord(uint32_t addr, uint32_t value) override;
 };
+
+}

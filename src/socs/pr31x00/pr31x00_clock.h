@@ -7,6 +7,8 @@
 #include <functional>
 #include <vector>
 
+namespace cerfcore {
+
 class Tx39ConfigRegister;
 
 class Pr31x00Clock : public Peripheral {
@@ -61,3 +63,5 @@ private:
     std::vector<std::function<void()>> video_listeners_;
     std::vector<std::function<void()>> module_listeners_;
 };
+
+}

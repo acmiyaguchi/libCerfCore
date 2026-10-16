@@ -14,6 +14,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kBase = 0xAC400800u;
@@ -363,3 +365,5 @@ void Msm8255Dmov::SaveState(StateWriter& w) {
 }  // namespace
 
 REGISTER_SERVICE(Msm8255Dmov);
+
+}

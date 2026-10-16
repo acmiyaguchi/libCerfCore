@@ -5,6 +5,8 @@
 
 #include <algorithm>
 
+namespace cerfcore {
+
 void Pxa2xxDmaChannel::Bind(Pxa2xxDmaPort* port) {
     if (port != port_) chained_ = false;
     port_ = port;
@@ -69,4 +71,6 @@ void Pxa2xxDmaChannel::Restore(StateReader& r) {
     r.Read("chan_end", end_);
     active_  = active != 0u;
     chained_ = chained != 0u;
+}
+
 }

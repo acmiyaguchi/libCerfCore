@@ -6,6 +6,8 @@
 #include <cstdint>
 #include <memory>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 
@@ -34,3 +36,5 @@ private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
 };
+
+}

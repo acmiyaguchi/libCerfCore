@@ -4,6 +4,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "ford_sync_gen2_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* IMX51CEC Table 3 XTAL/EXTAL: "Freescale BSP (Board Support Package) software
@@ -32,3 +34,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(FordSyncGen2ClockInput, Imx51ClockInput);
+
+}

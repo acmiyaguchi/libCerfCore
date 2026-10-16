@@ -2,6 +2,8 @@
 
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 void Vr41xxRtclRephase::OnPairStart(int ch, bool repeat_half, uint64_t now,
                                     const Vr41xxRtclView& v) {
     using Pair = Vr41xxRtclCensus::Pair;
@@ -72,4 +74,6 @@ void Vr41xxRtclRephase::Restore(StateReader& r, uint64_t now, const Vr41xxRtclVi
         pending_grid_[ch]  = now - back;
         banked_period_[ch] = banked != 0u ? v[ch].periods : kNoPeriod;
     }
+}
+
 }

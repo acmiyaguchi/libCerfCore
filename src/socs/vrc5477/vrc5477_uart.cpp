@@ -10,6 +10,8 @@
 #include <cstdint>
 #include <string>
 
+namespace cerfcore {
+
 /* NEC VRC5477 northbridge dual 16550 UART (UART0 at base, UART1 at +0x40;
    8-bit registers at 8-byte stride). TX bytes route to KernelDebugSink. */
 
@@ -140,3 +142,5 @@ void Vrc5477Uart::WriteByte(uint32_t addr, uint8_t value) {
 }  /* namespace */
 
 REGISTER_SERVICE(Vrc5477Uart);
+
+}

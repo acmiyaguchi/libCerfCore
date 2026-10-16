@@ -2,6 +2,8 @@
 
 #include "host_unimplemented.h"
 
+namespace cerfcore {
+
 namespace host_platform {
 
 HostEvent::~HostEvent() {
@@ -11,5 +13,7 @@ HostEvent::~HostEvent() {
 bool HostEvent::Create() { NoHostImplementation("HostEvent::Create"); }
 void HostEvent::Set() { NoHostImplementation("HostEvent::Set"); }
 void HostEvent::Wait(uint32_t) { NoHostImplementation("HostEvent::Wait"); }
+
+}
 
 }

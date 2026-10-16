@@ -14,6 +14,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 bool Msm8255RpcRouterPeer::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     return bd && bd->GetSocId() == SocId::Msm8255;
@@ -301,3 +303,5 @@ void Msm8255RpcRouterPeer::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE(Msm8255RpcRouterPeer);
+
+}

@@ -3,6 +3,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 
 /* CS3 board CPLD (PA 0x13000000). Offset 0x80000 (the OAL table's "NAND" entry) is
@@ -44,3 +46,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(NecMobilepro900SeriesBoardCpld);
+
+}

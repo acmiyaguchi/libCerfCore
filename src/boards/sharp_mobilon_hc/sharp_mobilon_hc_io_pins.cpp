@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <optional>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kCmttReadReady = 0x00010000u;   /* MFIODIN bit 16, sub_910235E0 */
@@ -34,3 +36,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(SharpMobilonHcIoPins, Pr31x00IoPins);
+
+}

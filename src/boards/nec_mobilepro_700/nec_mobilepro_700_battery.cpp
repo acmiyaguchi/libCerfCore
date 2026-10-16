@@ -6,6 +6,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "nec_mobilepro_700_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* nec_mobilepro_700_ce2 battdrv.dll BatteryDriverGetStatus 0x1560644: VRC4172 EXGPDATA0
@@ -30,3 +32,5 @@ void NecMobilePro700Battery::DriveAcPin() {
 }
 
 REGISTER_SERVICE(NecMobilePro700Battery);
+
+}

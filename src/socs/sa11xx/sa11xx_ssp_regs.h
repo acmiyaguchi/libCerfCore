@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace sa11xx_ssp {
 
 /* SA-1110 Developer's Manual §11.12.9 SSCR0 (page 11-158): DSS 3..0, FRF 5..4, SSE 7, SCR 15..8. */
@@ -34,5 +36,17 @@ constexpr uint32_t kRor = 1u << 6;
 constexpr uint32_t kTxDepth = 8u;
 constexpr uint32_t kRxDepth = 12u;
 constexpr uint32_t kBurst   = 4u;
+
+/* SA-1110 Developer's Manual §9.2.1.1 (printed 9-12): IP19 "Serial port 4b", "SSP service
+   request". */
+constexpr uint32_t kIntcBitSsp = 1u << 19;
+
+/* §9.1.2 (printed 9-9): GP 10 SSP_TXD, GP 11 SSP_RXD, GP 12 SSP_SCLK, GP 13 SSP_SFRM. */
+constexpr uint32_t kTxdPin  = 10u;
+constexpr uint32_t kRxdPin  = 11u;
+constexpr uint32_t kSclkPin = 12u;
+constexpr uint32_t kSfrmPin = 13u;
+
+}
 
 }

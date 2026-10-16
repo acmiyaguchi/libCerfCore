@@ -11,6 +11,8 @@
 #include <algorithm>
 #include <numeric>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint64_t kNsPerSec        = 1000000000ull;
@@ -197,10 +199,6 @@ void GuestCycleClock::OnDispatch() {
     DispatchDue();
 }
 
-void CERFENGINE_FASTCALL cerfengine::host::ClockDispatch(ClockHost* clock) {
-    static_cast<GuestCycleClock*>(clock)->DispatchDue();
-}
-
 int64_t GuestCycleClock::TargetWallNs(uint64_t cycle) const {
     const auto guest_ns = static_cast<uint64_t>(CyclesToNs(cycle - ref_cycle_));
     return ref_wall_ns_ +
@@ -330,4 +328,10 @@ void GuestCycleClock::OnCyclesRestored() {
     stat_wall_mark_ns_  = ref_wall_ns_;
 #endif
     Arm(throttle_, ref_cycle_ + NsToCycles(kThrottleSliceNs));
+}
+
+}
+
+void CERFENGINE_FASTCALL cerfengine::host::ClockDispatch(ClockHost* clock) {
+    static_cast<cerfcore::GuestCycleClock*>(clock)->DispatchDue();
 }

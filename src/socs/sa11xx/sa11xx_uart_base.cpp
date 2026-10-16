@@ -19,6 +19,8 @@
 
 #include <string>
 
+namespace cerfcore {
+
 using namespace sa11xx_uart;
 
 namespace {
@@ -287,4 +289,6 @@ void Sa11xxUartBase::PostRestore() {
     std::lock_guard<std::mutex> lk(state_mtx_);
     rx_->PostRestore(rx_port_);
     RefreshIrqLocked();
+}
+
 }

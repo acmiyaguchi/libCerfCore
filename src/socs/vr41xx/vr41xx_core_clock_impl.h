@@ -8,6 +8,8 @@
 #include "../../cpu/mips/mips_core_clock.h"
 #include "vr41xx_clock_strap.h"
 
+namespace cerfcore {
+
 struct Vr41xxClkselRow {
     uint16_t clksp;
     uint16_t pclock_per_masterout;
@@ -54,3 +56,5 @@ public:
 private:
     const Vr41xxClkselRow* row_ = nullptr;
 };
+
+}

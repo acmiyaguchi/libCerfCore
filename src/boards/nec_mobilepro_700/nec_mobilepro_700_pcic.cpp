@@ -8,6 +8,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "nec_mobilepro_700_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kPortIndex = 0x0u;
@@ -252,3 +254,5 @@ void NecMobilePro700Pcic::PostRestore() {
 }
 
 REGISTER_SERVICE(NecMobilePro700Pcic);
+
+}

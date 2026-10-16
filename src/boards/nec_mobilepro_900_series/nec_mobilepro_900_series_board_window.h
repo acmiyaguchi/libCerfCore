@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <unordered_map>
 
+namespace cerfcore {
+
 /* Unmodeled-device scaffold (NOT a model): stores writes, returns stored/0 on
    reads, logs every access loud (CAUTION). Each access is a peripheral CERF does
    not model; a flood of one offset is a guest busy-waiting on a status bit this
@@ -39,3 +41,5 @@ private:
 
     std::unordered_map<uint32_t, uint32_t> regs_;
 };
+
+}

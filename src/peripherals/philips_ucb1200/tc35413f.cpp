@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* NetBSD hpcmips ucb1200reg.h TC35413F_ID 0x9712 (TOSHIBA); ucb1200.c ucb_id[]
@@ -30,3 +32,5 @@ protected:
 }
 
 REGISTER_SERVICE_AS(Tc35413f, Ucb1x00Codec);
+
+}

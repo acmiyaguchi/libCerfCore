@@ -4,6 +4,8 @@
 #define NOMINMAX
 #include <windows.h>
 
+namespace cerfcore {
+
 namespace host_platform {
 
 HostEvent::~HostEvent() {
@@ -21,6 +23,8 @@ void HostEvent::Set() {
 
 void HostEvent::Wait(uint32_t timeout_ms) {
     WaitForSingleObject(static_cast<HANDLE>(handle_), timeout_ms);
+}
+
 }
 
 }

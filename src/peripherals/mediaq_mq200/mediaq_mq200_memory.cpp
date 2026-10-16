@@ -5,6 +5,8 @@
 #include <cerfcore/core/fatal.h>
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kMm00R = 0x4000u;
@@ -125,4 +127,6 @@ void MediaQMq200Memory::RestoreState(StateReader& r) {
     r.Read("mm02", mm02_);
     r.Read("mm03", mm03_);
     r.Read("mm04", mm04_);
+}
+
 }

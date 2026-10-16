@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 /* Win32 VK -> matrix cell (device_code = col*16+row), inverted from
@@ -65,3 +67,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(SharpMobilonHcKeyboardMap, KeyboardMap);
+
+}

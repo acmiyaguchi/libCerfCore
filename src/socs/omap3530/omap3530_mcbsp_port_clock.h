@@ -11,6 +11,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 class Omap3530McBspClockInputs;
@@ -135,3 +137,5 @@ using Omap3530McBsp2PortClock = Omap3530McBspPortClock<2>;
 using Omap3530McBsp3PortClock = Omap3530McBspPortClock<3>;
 using Omap3530McBsp4PortClock = Omap3530McBspPortClock<4>;
 using Omap3530McBsp5PortClock = Omap3530McBspPortClock<5>;
+
+}

@@ -7,6 +7,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* nk.exe sub_9F40F39C polls CS2+$1024 with `lw` and treats any word OTHER than
@@ -36,3 +38,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE(PhilipsVelo1DebugModule);
+
+}

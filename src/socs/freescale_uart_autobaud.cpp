@@ -3,6 +3,8 @@
 #include <cerfcore/state/state_stream.h>
 #include "freescale_uart_regs.h"
 
+namespace cerfcore {
+
 using namespace cerf_freescale_uart;
 
 /* MCIMX51RM Table 59-19 (page 59-30): "The 16 bit Baud Rate Count register is reset to 4". */
@@ -93,4 +95,6 @@ void FreescaleUartAutobaud::Restore(StateReader& r) {
     adet_      = adet != 0u;
     acst_      = acst != 0u;
     measuring_ = measuring != 0u;
+}
+
 }

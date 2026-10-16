@@ -6,6 +6,8 @@
 #include <functional>
 #include <vector>
 
+namespace cerfcore {
+
 struct Omap3530McBspDxWord {
     uint32_t start = 0;
     uint32_t bits  = 0;
@@ -57,3 +59,5 @@ public:
 protected:
     ~Omap3530McBspClockPad() = default;
 };
+
+}

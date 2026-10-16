@@ -4,6 +4,8 @@
 #include <array>
 #include <unordered_map>
 
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 
@@ -31,3 +33,5 @@ private:
     };
     std::array<Bank, 3> banks_{};
 };
+
+}

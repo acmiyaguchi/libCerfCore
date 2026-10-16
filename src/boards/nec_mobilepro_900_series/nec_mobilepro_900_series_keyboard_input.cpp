@@ -11,6 +11,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 namespace {
 
 class NecMobilepro900SeriesKeyboardInput : public KeyboardInput {
@@ -52,3 +54,5 @@ private:
 }
 
 REGISTER_SERVICE(NecMobilepro900SeriesKeyboardInput);
+
+}

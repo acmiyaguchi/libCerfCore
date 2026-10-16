@@ -4,6 +4,8 @@
 #include <cerfcore/core/log.h>
 #include "peripheral_dispatcher.h"
 
+namespace cerfcore {
+
 bool OpenBusWindow::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     return bd && bd->GetBoardFamilyId() == WindowBoardFamilyId();
@@ -24,3 +26,5 @@ uint32_t OpenBusWindow::ReadWord (uint32_t addr) { Trace("r32", addr); return 0x
 void OpenBusWindow::WriteByte (uint32_t addr, uint8_t)  { Trace("w8",  addr); }
 void OpenBusWindow::WriteHalf (uint32_t addr, uint16_t) { Trace("w16", addr); }
 void OpenBusWindow::WriteWord (uint32_t addr, uint32_t) { Trace("w32", addr); }
+
+}

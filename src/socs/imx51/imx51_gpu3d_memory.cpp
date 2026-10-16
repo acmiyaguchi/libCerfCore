@@ -7,6 +7,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "imx51_id.h"
 
+namespace cerfcore {
+
 REGISTER_SERVICE(Imx51Gpu3dMemory);
 
 bool Imx51Gpu3dMemory::ShouldRegister() {
@@ -39,4 +41,6 @@ uint32_t Imx51Gpu3dMemory::ReadPa32(uint64_t pa, uint32_t mmu_config) {
 }
 void Imx51Gpu3dMemory::WritePa32(uint64_t pa, uint32_t value, uint32_t mmu_config) {
     cerf::le::Put32(WriteSpan(pa, 4u, mmu_config), value);
+}
+
 }

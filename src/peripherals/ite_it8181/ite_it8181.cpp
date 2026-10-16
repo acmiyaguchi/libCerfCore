@@ -9,6 +9,8 @@
 #include "../peripheral_dispatcher.h"
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 bool IteIt8181::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     return bd && bd->GetBoardFamilyId() == BoardFamilyId::NecMobilepro700;
@@ -77,3 +79,5 @@ void IteIt8181::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE(IteIt8181);
+
+}

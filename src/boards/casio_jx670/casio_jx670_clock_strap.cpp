@@ -4,6 +4,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "casio_jx670_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class CasioJx670ClockStrap : public Vr41xxClockStrap {
@@ -20,3 +22,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(CasioJx670ClockStrap, Vr41xxClockStrap);
+
+}

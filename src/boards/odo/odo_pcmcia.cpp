@@ -10,6 +10,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kPcmciaPaBase   = 0x10000410u;
@@ -164,3 +166,5 @@ void OdoPcmcia::WriteWord(uint32_t addr, uint32_t value) {
 }  /* namespace */
 
 REGISTER_SERVICE(OdoPcmcia);
+
+}

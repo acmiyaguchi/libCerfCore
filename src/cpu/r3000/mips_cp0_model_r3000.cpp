@@ -13,6 +13,8 @@
 #include "../mips_processor_config.h"
 #include "tx39_config_register.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* TX39 CP0 register numbers (TMPR39xx-um Table 2-1). */
@@ -95,3 +97,5 @@ private:
 }
 
 REGISTER_SERVICE_AS(MipsCp0ModelR3000, MipsCp0Model);
+
+}

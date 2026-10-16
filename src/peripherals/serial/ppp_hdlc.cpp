@@ -4,6 +4,8 @@
 
 #include <algorithm>
 
+namespace cerfcore {
+
 namespace {
 
 /* RFC 1662: Flag Sequence 0x7e, Control Escape 0x7d; PPPINITFCS16 0xffff
@@ -114,4 +116,6 @@ void PppHdlc::BuildFrame(uint16_t protocol, const uint8_t* payload, size_t len,
         else      out.push_back(b);
     }
     out.push_back(kFlag);
+}
+
 }

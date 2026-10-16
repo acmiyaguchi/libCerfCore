@@ -4,6 +4,8 @@
 
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 void PutBits(uint32_t out[4], uint32_t start, uint32_t width, uint32_t value) {
@@ -70,4 +72,6 @@ void EncodeEmmcCsd(const EmmcCsdFields& csd, uint32_t out[4]) {
     PutBits(out,  26u, 3u,  csd.r2w_factor);
     PutBits(out,  22u, 4u,  csd.write_bl_len);
     SealCrc7(out);
+}
+
 }

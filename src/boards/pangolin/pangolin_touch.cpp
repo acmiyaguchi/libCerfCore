@@ -11,6 +11,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* smartbook_g138_ce4_2 penmount.dll sub_1B43070, pmode 4, no grid (no CalibPoints, IOCTL 12):
@@ -105,3 +107,5 @@ private:
 }
 
 REGISTER_SERVICE_AS(PangolinTouch, TouchInput);
+
+}

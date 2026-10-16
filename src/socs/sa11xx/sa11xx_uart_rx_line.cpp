@@ -13,6 +13,8 @@
 
 #include <algorithm>
 
+namespace cerfcore {
+
 using namespace sa11xx_uart;
 
 namespace {
@@ -294,3 +296,5 @@ void Sa11xxUartRxLine::Restore(uint32_t port, StateReader& r) {
 }
 
 REGISTER_SERVICE(Sa11xxUartRxLine);
+
+}

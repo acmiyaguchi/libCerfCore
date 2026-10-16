@@ -14,6 +14,8 @@
 
 #include <atomic>
 
+namespace cerfcore {
+
 namespace {
 
 /* S3C2410A User's Manual Table 1-4 (p. 1-34) places the I/O port block at
@@ -480,3 +482,5 @@ void S3C2410IoPort::WriteWord(uint32_t addr, uint32_t value) {
 }  /* namespace */
 
 REGISTER_SERVICE(S3C2410IoPort);
+
+}

@@ -15,6 +15,8 @@
 #include <cstdint>
 #include <iterator>
 
+namespace cerfcore {
+
 namespace {
 
 /* MCIMX51RM Table 34-1 memory map. */
@@ -179,3 +181,5 @@ private:
 }
 
 REGISTER_SERVICE(Imx51Gpc);
+
+}

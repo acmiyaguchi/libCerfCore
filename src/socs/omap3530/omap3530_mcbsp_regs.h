@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 struct Omap3530McBspRegs {
     uint32_t spcr2  = 0;
     uint32_t spcr1  = 0;
@@ -48,5 +50,7 @@ inline uint32_t Rjust(uint32_t spcr1) { return (spcr1 >> 13) & 3u; }
 inline uint32_t Fper(uint32_t srgr2) { return srgr2 & 0xFFFu; }
 inline uint32_t Fwid(uint32_t srgr1) { return (srgr1 >> 8) & 0xFFu; }
 inline uint32_t Clkgdv(uint32_t srgr1) { return srgr1 & 0xFFu; }
+
+}
 
 }

@@ -14,6 +14,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* Linux drivers/mfd/pm8058-core.c: REG_HWREV 0x0002, REG_IRQ_ROOT 0x01bb,
@@ -159,3 +161,5 @@ private:
 }  // namespace
 
 REGISTER_SERVICE_AS(Pm8058, SsbiSlave);
+
+}

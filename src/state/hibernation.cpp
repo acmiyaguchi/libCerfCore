@@ -31,6 +31,8 @@
 #include <filesystem>
 #include <functional>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(Hibernation);
 
 Hibernation::~Hibernation() {
@@ -353,4 +355,6 @@ bool Hibernation::ApplyStateFile(StateReader& r, bool ram_only, std::string& rea
     }
     pause.EndStateOperation(ok);
     return ok;
+}
+
 }

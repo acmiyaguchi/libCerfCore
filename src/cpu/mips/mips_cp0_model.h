@@ -6,6 +6,8 @@
 #include <cerfengine/mips/mips_cpu_state.h>
 #include <cerfengine/mips/mips_system_host.h>
 
+namespace cerfcore {
+
 class MipsCp0Model : public Service {
 public:
     using Service::Service;
@@ -18,3 +20,5 @@ protected:
                rd != cerfengine::MipsCp0::kBadVAddr;
     }
 };
+
+}

@@ -11,6 +11,8 @@
 #include <functional>
 #include <vector>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 class Tps65950AudioDownlink;
@@ -96,3 +98,5 @@ private:
     bool                             host_active_ = false;
     std::vector<uint8_t>             block_;
 };
+
+}

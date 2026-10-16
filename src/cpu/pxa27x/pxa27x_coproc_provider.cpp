@@ -5,6 +5,8 @@
 #include "../../socs/pxa27x/pxa270_id.h"
 #include "../../socs/pxa27x/pxa27x_clock_manager.h"
 
+namespace cerfcore {
+
 namespace {
 
 using cerfengine::ArmCoprocAccess;
@@ -61,3 +63,5 @@ protected:
 }
 
 REGISTER_SERVICE_AS(Pxa27xCoprocProvider, ArmCoprocProvider);
+
+}

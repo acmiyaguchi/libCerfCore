@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* VR4122 RTC (VR4131 UM U15350EJ2V0UM Table 13-1): one contiguous window at
@@ -40,3 +42,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(Vr4122Rtc, Vr41xxRtc);
+
+}

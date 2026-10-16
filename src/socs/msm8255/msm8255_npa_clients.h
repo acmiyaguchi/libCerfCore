@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 
@@ -28,3 +30,5 @@ private:
     std::vector<uint32_t> request_;
     std::vector<uint32_t> issued_;
 };
+
+}

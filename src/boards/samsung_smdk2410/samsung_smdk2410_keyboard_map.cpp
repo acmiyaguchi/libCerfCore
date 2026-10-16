@@ -5,6 +5,8 @@
 
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 /* device_code = guest_vk << 8 | scancode; inverse of the matrix scancode->VK
@@ -103,3 +105,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(SamsungSmdk2410KeyboardMap, KeyboardMap);
+
+}

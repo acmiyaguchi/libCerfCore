@@ -4,6 +4,8 @@
 #include <cstdint>
 #include <memory>
 
+namespace cerfcore {
+
 class WaveInFifo {
 public:
     WaveInFifo();
@@ -22,3 +24,5 @@ private:
     class Impl;
     std::unique_ptr<Impl> impl_;
 };
+
+}

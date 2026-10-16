@@ -6,6 +6,8 @@
 #include <functional>
 #include <vector>
 
+namespace cerfcore {
+
 /* SA-1110 §11.7 LCD Controller. Register layout per §11.7.12:
    LCCR0 +0x00, LCSR +0x04 (W1C), DBAR1 +0x10, DCAR1 +0x14 (R-O),
    DBAR2 +0x18, DCAR2 +0x1C (R-O), LCCR1 +0x20, LCCR2 +0x24,
@@ -64,3 +66,5 @@ private:
                off == 0x20 || off == 0x24 || off == 0x28;
     }
 };
+
+}

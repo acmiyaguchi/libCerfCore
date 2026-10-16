@@ -12,6 +12,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 class Pxa255Dma : public Pxa2xxDmaMoves {
@@ -190,3 +192,5 @@ private:
 }
 
 REGISTER_SERVICE_AS(Pxa255Dma, Pxa2xxDma);
+
+}

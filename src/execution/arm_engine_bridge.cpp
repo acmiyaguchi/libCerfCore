@@ -17,6 +17,8 @@
 #include "../tracing/trace_manager.h"
 #include "guest_cycle_clock.h"
 
+namespace cerfcore {
+
 namespace {
 
 template <typename F>
@@ -229,3 +231,5 @@ private:
 }
 
 REGISTER_SERVICE_AS(ArmEngineBridge, EngineBridge);
+
+}

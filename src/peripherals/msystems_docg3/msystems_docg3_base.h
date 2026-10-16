@@ -5,6 +5,8 @@
 #include <cstddef>
 #include <cstdint>
 
+namespace cerfcore {
+
 /* Board-supplied wiring for the M-Systems DiskOnChip G3 controller: where its
    register window sits in physical space (the board chip-select), how many NAND
    blocks the part has, and the medium contents to back it with. The
@@ -20,3 +22,5 @@ public:
        with no provisioned image leaves it erased (a blank DiskOnChip). */
     virtual void LoadInto(uint8_t* nand, std::size_t size) = 0;
 };
+
+}

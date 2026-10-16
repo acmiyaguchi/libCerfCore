@@ -5,12 +5,15 @@
 #include <cerfcore/core/log.h>
 #include <cerfcore/boards/board_context.h>
 #include "imx51_id.h"
+#include "imx51_gpu2d_pixel_blend.h"
 #include "imx51_gpu2d_rasterizer.h"
 
 #include <algorithm>
 #include <cmath>
 #include <cstdint>
 #include <vector>
+
+namespace cerfcore {
 
 REGISTER_SERVICE(Imx51Gpu2dStroker);
 
@@ -78,7 +81,8 @@ void Imx51Gpu2dStroker::Stroke(const Gpu2dFillTarget& t, float radius_raw,
                                float xf_a, float xf_b, float xf_c, float xf_d,
                                float exp_scale, uint32_t cap, uint32_t join,
                                float miter_thresh) {
-    auto& rast = emu_.Get<Imx51Gpu2dRasterizer>();
+    auto&       rast  = emu_.Get<Imx51Gpu2dRasterizer>();
+    const auto& blend = emu_.Get<Imx51Gpu2dPixelBlend>();
     /* Modeled: cap BUTT(0)/ROUND(1), join MITER(0)/ROUND(1). SQUARE cap(2) and
        BEVEL join(2) stay born-FATAL. vgenums_z160.h V2_CAP/V2_JOIN. */
     if (cap > 1u || join > 1u)
@@ -167,13 +171,15 @@ void Imx51Gpu2dStroker::Stroke(const Gpu2dFillTarget& t, float radius_raw,
     bool per_pixel = false;
     if (t.blend) {
         if (!t.color_transform) {
-            rast.ValidateBlendProg(t.prog_a);
-            rast.ValidateBlendProg(t.prog_c);
+            blend.ValidateBlendProg(t.prog_a);
+            blend.ValidateBlendProg(t.prog_c);
         }
-        per_pixel = t.color_transform || Imx51Gpu2dRasterizer::BlendProgRefsDest(t.prog_a) ||
-                    Imx51Gpu2dRasterizer::BlendProgRefsDest(t.prog_c);
-        if (!per_pixel) const_px = rast.BlendPixel(t, t.argb, 0u, 1.0f);
+        per_pixel = t.color_transform || blend.BlendProgRefsDest(t.prog_a) ||
+                    blend.BlendProgRefsDest(t.prog_c);
+        if (!per_pixel) const_px = blend.BlendPixel(t, t.argb, 0u, 1.0f);
     }
     rast.FillContours(t, contours, const_px, per_pixel);
     rast.ClearPath();
+}
+
 }

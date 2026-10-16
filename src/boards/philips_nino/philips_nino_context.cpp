@@ -3,6 +3,8 @@
 #include "philips_nino_family_id.h"
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 namespace {
 
 class PhilipsNinoContext : public BoardContext {
@@ -20,3 +22,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(PhilipsNinoContext, BoardContext);
+
+}

@@ -11,6 +11,8 @@
 #include <cerfcore/host/pointer_input.h>
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(CerfVirtPointer);
 
 bool CerfVirtPointer::ShouldRegister() {
@@ -119,5 +121,7 @@ private:
 };
 
 REGISTER_SERVICE_AS(CerfVirtPointerInput, PointerInput);
+
+}
 
 }

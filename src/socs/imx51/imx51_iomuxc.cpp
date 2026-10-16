@@ -12,6 +12,8 @@
 #include <iterator>
 #include <utility>
 
+namespace cerfcore {
+
 namespace {
 
 /* MCIMX51RM Table A-493/A-494: IOMUXC_SW_MUX_CTL_PAD_GPIO1_4 at 0x3D8, SION [4] and
@@ -152,4 +154,6 @@ void Imx51Iomuxc::RestoreState(StateReader& r) {
     r.Read("gpio1_4_mux", mux);
     gpio1_4_mux_ = mux;
     r.ReadBytes("board_pad_mux", pad_mux_.data(), sizeof(pad_mux_));
+}
+
 }

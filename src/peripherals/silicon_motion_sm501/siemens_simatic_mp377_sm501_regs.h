@@ -11,6 +11,8 @@
 #include <mutex>
 #include <vector>
 
+namespace cerfcore {
+
 class IrqController;
 
 namespace siemens_simatic_mp377 {
@@ -97,3 +99,5 @@ private:
 };
 
 } // namespace siemens_mp377
+
+}

@@ -5,6 +5,8 @@
 #include <cerfcore/host/frame_renderer.h>
 #include <cerfcore/host/hw_screen.h>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(GuestPowerNotifier);
 
 void GuestPowerNotifier::Banner(const char* line) {
@@ -35,4 +37,6 @@ void GuestPowerNotifier::NotifyResume(ResumeSource src) {
 
 void GuestPowerNotifier::NotifyHardReset() {
     Banner("!! CERF: CPU+RAM hard reset !!");
+}
+
 }

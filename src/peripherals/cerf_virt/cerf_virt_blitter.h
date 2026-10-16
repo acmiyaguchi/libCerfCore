@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 namespace CerfVirt {
 
 class CerfVirtBlitter : public Service, public BltSurfaceAccess {
@@ -24,5 +26,7 @@ private:
     std::vector<int32_t> sx_lut_;
     std::vector<int32_t> sy_lut_;
 };
+
+}
 
 }

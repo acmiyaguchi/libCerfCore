@@ -9,6 +9,8 @@
 #include <cerfcore/state/state_stream.h>
 #include "wm9713_clocks.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* symbol_mk500 touch.dll FUN_02236e30 @0x02236e30 requires reg 0x7C == 0x574D
@@ -394,3 +396,5 @@ void Wm9713Codec::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE_AS(Wm9713Codec, Ac97Codec);
+
+}

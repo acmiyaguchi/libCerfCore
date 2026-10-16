@@ -6,6 +6,8 @@
 #include <mutex>
 #include <vector>
 
+namespace cerfcore {
+
 class HostWidgetRegistry : public Service {
 public:
     using Service::Service;
@@ -27,3 +29,5 @@ private:
     std::mutex               mtx_;
     std::vector<HostWidget*> widgets_;
 };
+
+}

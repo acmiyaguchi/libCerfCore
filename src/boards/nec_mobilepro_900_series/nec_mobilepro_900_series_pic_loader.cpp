@@ -6,6 +6,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "nec_mobilepro_900_series_family_id.h"
 
+namespace cerfcore {
+
 REGISTER_SERVICE(NecMobilepro900SeriesPicLoader);
 
 namespace {
@@ -75,4 +77,6 @@ void NecMobilepro900SeriesPicLoader::RestoreState(StateReader& r) {
     r.Read("pic_dl_field", field_);
     r.ReadBytes("pic_dl_type", type_.data(), type_.size());
     active_ = active != 0u;
+}
+
 }

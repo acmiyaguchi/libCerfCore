@@ -5,6 +5,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* The ICU's second MMIO window, 0x0B000200 (VR4121 UM Table 15-1, VR4102 UM
@@ -33,3 +35,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE(Vr41xxIcu2Mmio);
+
+}

@@ -4,6 +4,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include "arm720t_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class Arm720tCoreClock : public ArmCoreClock {
@@ -22,3 +24,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(Arm720tCoreClock, ArmCoreClock);
+
+}

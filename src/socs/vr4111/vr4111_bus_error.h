@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 
@@ -32,3 +34,5 @@ private:
     std::mutex mtx_;
     bool       berrst_ = false;
 };
+
+}

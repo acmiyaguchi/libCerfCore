@@ -10,6 +10,8 @@
 #include <atomic>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kEbi2Cs6Base = 0x8E000000u;
@@ -91,3 +93,5 @@ private:
 }
 
 REGISTER_SERVICE(NokiaSeaRayEbi2Cs6);
+
+}

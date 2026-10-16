@@ -15,6 +15,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kBase = 0x73FA4000u;
@@ -250,3 +252,5 @@ private:
 }
 
 REGISTER_SERVICE(Imx51Srtc);
+
+}

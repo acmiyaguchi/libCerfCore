@@ -3,6 +3,8 @@
 #include "imx31_avic.h"
 #include "imx31_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 using cerf_freescale_gpt_detail::GptClockInput;
@@ -38,3 +40,5 @@ class Imx31Gpt
 }
 
 REGISTER_SERVICE(Imx31Gpt);
+
+}

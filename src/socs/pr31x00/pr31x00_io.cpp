@@ -14,6 +14,8 @@
 #include <cstdint>
 #include <utility>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kBase = 0x10C00180u;
@@ -198,3 +200,5 @@ void Pr31x00Io::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE(Pr31x00Io);
+
+}

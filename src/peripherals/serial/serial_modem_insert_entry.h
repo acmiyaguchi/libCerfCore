@@ -5,9 +5,13 @@
 
 #include <functional>
 
+namespace cerfcore {
+
 class SerialModemInsertEntry : public Service {
 public:
     using Service::Service;
 
     SlotEntry BuildInsertEntry(std::function<void()> on_insert);
 };
+
+}

@@ -2,6 +2,8 @@
 
 #include <cerfcore/peripherals/peripheral_base.h>
 
+namespace cerfcore {
+
 class PcmciaSlot;
 
 /* 16-bit PC Card static-window router. PA 0x20000000; socket = bit 28
@@ -43,3 +45,5 @@ private:
 
     PcmciaSlot* sockets_[2] = {};
 };
+
+}

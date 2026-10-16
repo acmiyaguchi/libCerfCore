@@ -17,6 +17,8 @@
 #include <string>
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 /* Intel PXA255 Developer's Manual section 13.8.1 (page 13-18): receive FIFOs "with sixteen 32-bit
@@ -247,4 +249,6 @@ void Pxa2xxAc97InFifo::Restore(StateReader& r) {
     fifo_.SetSupply(0u);
     error_       = error != 0u;
     eoc_         = eoc != 0u;
+}
+
 }

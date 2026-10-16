@@ -4,6 +4,8 @@
 #include <functional>
 #include <memory>
 
+namespace cerfcore {
+
 class WaveOutSink {
 public:
     static constexpr uint32_t kSlots  = 8;
@@ -35,3 +37,5 @@ private:
     class Impl;
     std::unique_ptr<Impl> impl_;
 };
+
+}

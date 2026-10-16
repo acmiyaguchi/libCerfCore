@@ -3,6 +3,8 @@
 #include "../freescale_gpio_impl.h"
 #include "imx51_id.h"
 
+namespace cerfcore {
+
 /* i.MX51 GPIO4 at 0x73F9_0000 (MCIMX51RM Table 2-2). Named (not anonymous) so the
    Ford iPod-auth coprocessor can drive its SOMI-ready input via SetInputPin: the
    ipdacp driver's DDKGpioReadDataPin(port 3, pin 23) resolves to GPIO4 (cspddk's
@@ -12,3 +14,5 @@ class Imx51Gpio4
                                                            SocId::Imx51> {
     using FreescaleGpioBase::FreescaleGpioBase;
 };
+
+}

@@ -4,6 +4,8 @@
 
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 namespace siemens_simatic_mp377 {
 
 void SiemensSimaticMp377Sm501Regs::SaveState(StateWriter& w) {
@@ -37,3 +39,5 @@ void SiemensSimaticMp377Sm501Regs::RestoreState(StateReader& r) {
 }
 
 } // namespace siemens_mp377
+
+}

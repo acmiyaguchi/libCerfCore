@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 
@@ -44,3 +46,5 @@ private:
     uint16_t adc_x_            = 0;
     uint16_t adc_y_            = 0;
 };
+
+}

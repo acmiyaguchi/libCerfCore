@@ -15,6 +15,8 @@
 #include <cstdint>
 #include <utility>
 
+namespace cerfcore {
+
 SerialCradle::SerialCradle(CerfEmulator& emu, SerialLine& line, std::string label)
     : emu_(emu), line_(line), label_(std::move(label)) {}
 
@@ -173,4 +175,6 @@ std::string SerialCradle::Tooltip() const {
             return label_ + " - empty";
     }
     return label_;
+}
+
 }

@@ -12,6 +12,8 @@
 #include <algorithm>
 #include <cstring>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(Pxa255I2sFifoValues);
 
 namespace {
@@ -206,4 +208,6 @@ void Pxa255I2sFifoValues::Restore(StateReader& r) {
         r.Read("i2s_loop_value", value);
         loop_.emplace_back(frame, value);
     }
+}
+
 }

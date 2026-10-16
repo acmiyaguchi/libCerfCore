@@ -8,6 +8,8 @@
 
 #include <string>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(BoardNotFoundService);
 
 bool BoardNotFoundService::ShouldRegister() {
@@ -28,4 +30,6 @@ void BoardNotFoundService::EnsureFound() {
 #endif
 
     CerfFatalExit(CERF_FATAL_USER_ERROR);
+}
+
 }

@@ -5,6 +5,8 @@
 #include "s3c2410_clocks.h"
 #include "s3c2410_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class S3c2410CoreClock : public ArmCoreClock {
@@ -23,3 +25,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(S3c2410CoreClock, ArmCoreClock);
+
+}

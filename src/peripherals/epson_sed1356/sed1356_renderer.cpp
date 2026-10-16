@@ -10,6 +10,8 @@
 
 #include <cstring>
 
+namespace cerfcore {
+
 namespace {
 
 /* S1D13506 LCD pipe -> host BGRA. Pixel formats per Technical Manual §11.1:
@@ -165,3 +167,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(Sed1356Renderer, PanelFrameRenderer);
+
+}

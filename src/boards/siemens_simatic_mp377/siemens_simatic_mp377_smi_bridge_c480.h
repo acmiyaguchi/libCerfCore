@@ -2,6 +2,8 @@
 
 #include "siemens_simatic_mp377_smi_bridge_window.h"
 
+namespace cerfcore {
+
 namespace siemens_simatic_mp377 {
 
 class SiemensSimaticMp377SmiBridgeC480 : public SiemensSimaticMp377SmiBridgeWindow {
@@ -16,3 +18,5 @@ public:
 };
 
 } // namespace siemens_mp377
+
+}

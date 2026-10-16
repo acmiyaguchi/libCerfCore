@@ -5,6 +5,8 @@
 
 #include <utility>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr const char* kActiveSyncUrl = "https://cerf.cx/activesync";
@@ -34,4 +36,6 @@ SlotEntry SerialForwardInsertEntry::BuildInsertEntry(
     entry.details.push_back(WidgetControl{GroupControl{
         "", {WidgetControl{LinkControl{"Connecting to ActiveSync tutorial", kActiveSyncUrl}}}}});
     return entry;
+}
+
 }

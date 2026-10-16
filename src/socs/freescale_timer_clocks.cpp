@@ -3,6 +3,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include <cerfcore/core/fatal.h>
 
+namespace cerfcore {
+
 GuestCycleClock::Rate FreescaleTimerClocks::PrescaledRate(FreescaleTimerUnit unit, uint32_t base,
                                                           GuestCycleClock::Rate input,
                                                           uint32_t prescaler) const {
@@ -15,4 +17,6 @@ GuestCycleClock::Rate FreescaleTimerClocks::PrescaledRate(FreescaleTimerUnit uni
                               static_cast<unsigned long long>(divide));
     }
     return input.Scaled(1u, divide);
+}
+
 }

@@ -17,6 +17,8 @@
 #include <algorithm>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace siemens_simatic_mp377 {
 namespace {
 
@@ -477,3 +479,5 @@ void SiemensSimaticMp377Sm501Regs::PostRestore() {
 REGISTER_SERVICE(SiemensSimaticMp377Sm501Regs);
 
 } // namespace siemens_mp377
+
+}

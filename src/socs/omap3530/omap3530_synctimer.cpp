@@ -13,6 +13,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* OMAP3530 TRM SPRUF98Y Table 16-92 (printed p. 2662): base 0x4832 0000,
@@ -133,3 +135,5 @@ void Omap3530Synctimer::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE(Omap3530Synctimer);
+
+}

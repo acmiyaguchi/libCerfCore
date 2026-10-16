@@ -1,4 +1,7 @@
 #include "iop13xx_pmmr_guard.h"
+
+namespace cerfcore {
+
 namespace {
 class Iop13xxPmmrAfterSecondaryConfig final : public Iop13xxPmmrRange<0xFFDC8334u, 0x00004CCCu> {
 public:
@@ -7,3 +10,5 @@ public:
 };
 } // namespace
 REGISTER_SERVICE(Iop13xxPmmrAfterSecondaryConfig);
+
+}

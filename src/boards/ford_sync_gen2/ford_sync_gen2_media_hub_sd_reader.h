@@ -3,6 +3,8 @@
 #include <cerfcore/core/sd_card_cid.h>
 #include "../../peripherals/usb/usb_mass_storage_device.h"
 
+namespace cerfcore {
+
 class FordSyncGen2MediaHubSdReader final : public UsbMassStorageDevice {
 public:
     static constexpr uint32_t kStateKind = 3;
@@ -20,3 +22,5 @@ protected:
 private:
     std::optional<SdCardCid> cid_;
 };
+
+}

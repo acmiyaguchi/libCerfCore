@@ -5,6 +5,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 
@@ -56,3 +58,5 @@ private:
     static uint32_t AutoFastRead (void* ctx, uint32_t off, uint32_t width_bytes);
     static void     AutoFastWrite(void* ctx, uint32_t off, uint32_t value, uint32_t width_bytes);
 };
+
+}

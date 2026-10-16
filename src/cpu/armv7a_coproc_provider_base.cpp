@@ -2,6 +2,8 @@
 
 #include "arm/arm_cp15_decisions.h"
 
+namespace cerfcore {
+
 using cerfengine::ArmCoprocAccess;
 using cerfengine::ArmCoprocDecision;
 using A = cerfengine::ArmCoprocAction;
@@ -22,4 +24,6 @@ ArmCoprocDecision Armv7aCoprocProviderBase::DataTransfer(const ArmCoprocAccess& 
 
 ArmCoprocDecision Armv7aCoprocProviderBase::DataOperation(const ArmCoprocAccess&) {
     return {.action = A::kUndefined};
+}
+
 }

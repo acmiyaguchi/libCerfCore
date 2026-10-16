@@ -6,6 +6,8 @@
 #include <atomic>
 #include <cstdint>
 
+namespace cerfcore {
+
 class CerfVirtKeyboard : public Peripheral {
 public:
     using Peripheral::Peripheral;
@@ -27,3 +29,5 @@ private:
     std::atomic<uint32_t> ring_[CerfVirt::kKbRingCount]{};
     std::atomic<uint32_t> write_seq_{0};
 };
+
+}

@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Sa1111ResetLine;
 class Sa1111Sbi;
 class Sa1111SystemController;
@@ -48,3 +50,5 @@ private:
     Sa1111Sbi*              sbi_        = nullptr;
     Sa1111SystemController* controller_ = nullptr;
 };
+
+}

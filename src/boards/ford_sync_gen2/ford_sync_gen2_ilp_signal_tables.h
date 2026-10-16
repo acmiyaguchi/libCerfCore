@@ -3,6 +3,8 @@
 #include <cstddef>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace cerf_ford_sync_gen2_ilp_detail {
 
 struct GroundedSignal {
@@ -259,5 +261,7 @@ constexpr GroundedSignal kGroundedSignals[] = {
     {0x02000427u, 3u},
     {0x0200044Du, 4u},
 };
+
+}
 
 }

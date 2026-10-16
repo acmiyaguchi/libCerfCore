@@ -5,6 +5,8 @@
 #include <cerfcore/peripherals/peripheral_base.h>
 #include "../spi_slave.h"
 
+namespace cerfcore {
+
 class S3C2410Spi : public Peripheral {
 public:
     using Peripheral::Peripheral;
@@ -53,3 +55,5 @@ private:
     Channel   channel_[kChannels];
     SpiSlave* slave_[kChannels] = {};
 };
+
+}

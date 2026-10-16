@@ -7,6 +7,8 @@
 #include <string>
 #include <string_view>
 
+namespace cerfcore {
+
 /* Single funnel for guest OS debug text. Every producer - live SoC/board
    UART/serial TX, and hooks on a nulled OEM debug sink - routes finished
    lines here, which emits them to the always-on Nkdbg log channel and the
@@ -36,3 +38,5 @@ public:
     void EmitWideStringAt(const TraceContext& c, uint32_t va,
                           std::string_view source = {});
 };
+
+}

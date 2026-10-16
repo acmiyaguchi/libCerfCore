@@ -5,6 +5,8 @@
 #include <array>
 #include <cstdint>
 
+namespace cerfcore {
+
 class Imx31ClockInput;
 class StateReader;
 class StateWriter;
@@ -44,3 +46,5 @@ private:
     std::array<uint8_t, kCount> on_{};
     uint8_t                     prcs_  = 0u;
 };
+
+}

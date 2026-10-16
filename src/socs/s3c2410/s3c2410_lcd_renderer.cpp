@@ -13,6 +13,8 @@
 
 #include <cstring>
 
+namespace cerfcore {
+
 namespace {
 
 class S3C2410LcdRenderer : public PanelFrameRenderer {
@@ -88,3 +90,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(S3C2410LcdRenderer, PanelFrameRenderer);
+
+}

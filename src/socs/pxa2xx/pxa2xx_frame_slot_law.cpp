@@ -6,6 +6,8 @@
 #include <limits>
 #include <string>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint64_t kOpen = std::numeric_limits<uint64_t>::max();
@@ -102,4 +104,6 @@ void Pxa2xxFrameSlotLaw::Restore(StateReader& r, const char* prefix) {
         r.Read((p + "_law_div").c_str(), s.pace.div);
         segments_.push_back(s);
     }
+}
+
 }

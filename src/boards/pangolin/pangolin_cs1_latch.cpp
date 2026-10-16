@@ -9,6 +9,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* G138 board-control latch on nCS1 (PA 0x08000000): OAL firmware-init
@@ -52,3 +54,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(PangolinCs1Latch);
+
+}

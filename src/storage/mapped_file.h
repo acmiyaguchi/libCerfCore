@@ -6,6 +6,8 @@
 #include <cstdint>
 #include <string>
 
+namespace cerfcore {
+
 /* Read-only access to a file of any size from a 32-bit process. A whole-file
    MapViewOfFile of a multi-GiB file cannot fit the 2 GB user address space, so
    only a bounded, granularity-aligned view is mapped at a time and slid on
@@ -47,3 +49,5 @@ private:
     uint32_t granularity_ = 0;        /* MapViewOfFile offset alignment          */
     size_t   window_      = kDefaultWindow;
 };
+
+}

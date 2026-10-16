@@ -7,6 +7,8 @@
 #include <mutex>
 #include <vector>
 
+namespace cerfcore {
+
 class Omap3530Gpmc : public Omap3530PrcmStubBlock {
 public:
     using Omap3530PrcmStubBlock::Omap3530PrcmStubBlock;
@@ -131,4 +133,6 @@ inline void Omap3530Gpmc::SaveState(StateWriter& w) {
     std::lock_guard<std::mutex> lk(irq_mu_);
     w.Write("irq_status", irq_status_);
     w.Write("irq_enable", irq_enable_);
+}
+
 }

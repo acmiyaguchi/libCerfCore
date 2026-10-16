@@ -10,6 +10,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* nk.exe 0x801BB0D4: NKCreateStaticMapping(0x00A01380, 0x1000), arg0 = PA >> 8. */
@@ -70,3 +72,5 @@ private:
 }
 
 REGISTER_SERVICE(SymbolHamptonsBspArgs);
+
+}

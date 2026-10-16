@@ -1,4 +1,7 @@
 #include "iop13xx_pci_config_controller.h"
+
+namespace cerfcore {
+
 namespace {
 class Iop13xxSecondaryPciConfig final : public Iop13xxPciConfigController<0xFFDC832Cu, false> {
 public:
@@ -7,3 +10,5 @@ public:
 };
 } // namespace
 REGISTER_SERVICE(Iop13xxSecondaryPciConfig);
+
+}

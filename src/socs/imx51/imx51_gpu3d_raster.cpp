@@ -13,6 +13,8 @@
 #include <cmath>
 #include <vector>
 
+namespace cerfcore {
+
 /* ImageMagick config/thresholds.xml: o4x4 ordered thresholds, divisor 17. */
 static uint32_t ApproximateDitherQuantize(float channel, uint32_t maximum, unsigned component,
     uint32_t x, uint32_t y, bool enabled) {
@@ -423,4 +425,6 @@ void Imx51Gpu3dRaster::RasterizeTriangle(const std::array<Imx51Gpu3dShaderState,
         writes.pixels.push_back(pixel);
     }
     if (gmem && !resolve && !writes.pixels.empty()) { writes.binding = binding; writes.pitch = pitch; }
+}
+
 }

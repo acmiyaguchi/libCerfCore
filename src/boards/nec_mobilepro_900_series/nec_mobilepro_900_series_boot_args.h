@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 struct NecMobilepro900SeriesBootArgsLayout {
     uint32_t display_mode_pa;
     uint32_t core_mhz_pa;
@@ -31,3 +33,5 @@ public:
 protected:
     bool BoardMatchesKernelMajor(uint16_t major) const;
 };
+
+}

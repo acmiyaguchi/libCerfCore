@@ -6,6 +6,8 @@
 #include <optional>
 #include <string>
 
+namespace cerfcore {
+
 struct Pr31x00SerialPin {
     enum class Bank { Mfio, Io };
 
@@ -33,3 +35,5 @@ public:
 
     virtual std::optional<Pr31x00SerialModem> ForUart(uint32_t mmio_base) const = 0;
 };
+
+}

@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 struct FreescaleSsiSectionControl {
     bool     enabled     = false;
     bool     run         = false;
@@ -22,3 +24,5 @@ public:
     virtual uint64_t DmaWords() = 0;
     virtual bool     CycleOfDmaWords(uint64_t words, uint64_t& cycle) = 0;
 };
+
+}

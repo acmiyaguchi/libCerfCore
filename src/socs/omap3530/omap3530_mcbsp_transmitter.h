@@ -8,6 +8,8 @@
 #include <deque>
 #include <vector>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 
@@ -108,3 +110,5 @@ using Omap3530McBsp2Transmitter = Omap3530McBspTransmitter<2>;
 using Omap3530McBsp3Transmitter = Omap3530McBspTransmitter<3>;
 using Omap3530McBsp4Transmitter = Omap3530McBspTransmitter<4>;
 using Omap3530McBsp5Transmitter = Omap3530McBspTransmitter<5>;
+
+}

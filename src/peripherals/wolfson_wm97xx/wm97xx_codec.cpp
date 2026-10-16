@@ -8,6 +8,8 @@
 #include <cerfengine/host_request_channel.h>
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 
 /* Wolfson WM9705 page 51: with DEL 15 CR gives "sample rates of 8, 12, 24 or 48ks/s"; Cirrus Logic WM9713L
@@ -163,4 +165,6 @@ void Wm97xxCodec::RestorePen(StateReader& r) {
     r.Read("pen_down", down);
     pen_down_ = down != 0u;
     digitiser_.Restore(r);
+}
+
 }

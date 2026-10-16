@@ -1,5 +1,7 @@
 #include "imx51_gpu3d_tiling.h"
 
+namespace cerfcore {
+
 /* Ford SYNC 2 librenderboy.dll: 0x41CE3440 (2D layout),
    0x41CE3A1C-0x41CE3ABC (CPU tiled upload/readback address). */
 uint64_t Imx51Gpu3dTiledAddress(uint32_t base, uint32_t pitch, uint32_t bytes,
@@ -12,4 +14,6 @@ uint64_t Imx51Gpu3dTiledAddress(uint32_t base, uint32_t pitch, uint32_t bytes,
     const uint64_t permutation = (bank & ~1u) + ((bank & 1u) << 6);
     return (offset & 63u) + (((offset & 448u) +
         (((offset & ~uint64_t{511}) + (permutation << 2)) << 1)) << 2);
+}
+
 }

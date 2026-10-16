@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class IteIt8368BusWindow : public Peripheral {
 public:
     using Peripheral::Peripheral;
@@ -19,3 +21,5 @@ public:
 protected:
     virtual bool LanesCrossed() const = 0;
 };
+
+}

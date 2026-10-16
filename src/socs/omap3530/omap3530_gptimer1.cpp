@@ -16,6 +16,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 using namespace Omap3530Gptimer1Regs;
@@ -449,3 +451,5 @@ void Omap3530Gptimer1::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE(Omap3530Gptimer1);
+
+}

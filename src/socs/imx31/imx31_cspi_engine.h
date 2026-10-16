@@ -12,6 +12,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* Shared i.MX31 CSPI register engine (MCIMX31RM Ch 24). The register behaviour
    is identical across CSPI1/2/3; concrete ports supply their MMIO base and the
    per-port SPI exchange (which slave a transfer talks to). */
@@ -68,3 +70,5 @@ private:
     uint32_t last_txdata_ = 0;
     uint32_t last_rxdata_ = 0;
 };
+
+}

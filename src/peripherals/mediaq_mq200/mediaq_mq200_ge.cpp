@@ -3,6 +3,8 @@
 #include "mediaq_mq200_ge_pixel.h"
 #include <cerfcore/core/byte_order.h>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kCmdSrcStrideSelect  = 1u << 24;
@@ -229,4 +231,6 @@ const char* MediaQMq200Ge::CommandUnmodeled(uint32_t cmd) const {
     if (path == CommandPath::SystemMono && !(cmd & kCmdPacked)) return "streams a lined mono source";
     if (path == CommandPath::SystemMono && solid) return "streams a mono source the solid colour replaces";
     return nullptr;
+}
+
 }

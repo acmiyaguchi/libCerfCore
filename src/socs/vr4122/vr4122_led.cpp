@@ -1,6 +1,8 @@
 #include "../vr41xx/vr41xx_led_impl.h"
 #include "vr4122_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 using cerf_vr41xx_led_detail::Vr41xxLedBase;
@@ -16,3 +18,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE(Vr4122Led);
+
+}

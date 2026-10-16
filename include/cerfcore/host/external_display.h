@@ -7,6 +7,8 @@
 #include <memory>
 #include <string>
 
+namespace cerfcore {
+
 class FrameSource;
 
 class ExternalDisplay {
@@ -26,3 +28,5 @@ public:
                                                     const std::string& title,
                                                     std::function<void()> on_eject) = 0;
 };
+
+}

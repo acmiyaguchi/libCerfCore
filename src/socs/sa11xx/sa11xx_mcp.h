@@ -8,6 +8,8 @@
 #include <functional>
 #include <vector>
 
+namespace cerfcore {
+
 class Sa11xxDma;
 class Sa11xxIntc;
 class Sa11xxMcpAudioStream;
@@ -67,3 +69,5 @@ private:
     bool     crc_        = false;
     uint32_t mcdr2_      = 0;
 };
+
+}

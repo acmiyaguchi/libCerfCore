@@ -13,6 +13,8 @@
 #include <mutex>
 #include <vector>
 
+namespace cerfcore {
+
 class Sa11xxUartBase;
 class StateReader;
 class StateWriter;
@@ -105,3 +107,5 @@ private:
     std::array<std::unique_ptr<Line>, kPorts> line_{};
     uint32_t count_ = 0;
 };
+
+}

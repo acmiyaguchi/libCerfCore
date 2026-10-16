@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 
+namespace cerfcore {
+
 struct DeviceMeta;
 
 /* Human-readable "OS" label from a device's cerf.json meta: the os_name with
@@ -8,3 +10,5 @@ struct DeviceMeta;
    carry that version. The version-in-name test mirrors the launcher's table OS
    column (device_tree.py _os_name_has_version). */
 std::string OsDisplayLabel(const DeviceMeta& meta);
+
+}

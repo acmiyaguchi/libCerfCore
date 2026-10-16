@@ -5,6 +5,8 @@
 
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 /* device_code = KIU matrix index (16*KIUDATn + bit), reversed from keybddr's
@@ -104,3 +106,5 @@ public:
 }  // namespace
 
 REGISTER_SERVICE_AS(NecMobilePro700KeyboardMap, KeyboardMap);
+
+}

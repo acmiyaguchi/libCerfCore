@@ -8,6 +8,8 @@
 #include <algorithm>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace siemens_simatic_mp377 {
 
 void SiemensSimaticMp377Sm501Blitter::PatternFillRect16(const SiemensSimaticMp377Sm501Blitter::State2d& st) {
@@ -47,3 +49,5 @@ void SiemensSimaticMp377Sm501Blitter::PatternFillRect16(const SiemensSimaticMp37
 }
 
 }  // namespace siemens_mp377
+
+}

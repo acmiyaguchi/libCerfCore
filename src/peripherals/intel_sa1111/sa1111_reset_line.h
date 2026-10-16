@@ -7,6 +7,8 @@
 #include <functional>
 #include <vector>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 
@@ -37,3 +39,5 @@ private:
     std::atomic<bool> held_{false};
     bool              power_on_pending_ = false;
 };
+
+}

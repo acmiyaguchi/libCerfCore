@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 
+namespace cerfcore {
+
 class CerfEmulator;
 class PcmciaSlot;
 class StateWriter;
@@ -100,3 +102,5 @@ protected:
     PcmciaSlot*   slot_    = nullptr;
     uint64_t      card_id_ = 0;
 };
+
+}

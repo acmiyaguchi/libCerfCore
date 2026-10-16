@@ -5,6 +5,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include <cerfcore/core/fatal.h>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(Msm8255CrciBus);
 
 bool Msm8255CrciBus::ShouldRegister() {
@@ -73,4 +75,6 @@ void Msm8255CrciBus::Deassert(uint32_t crci) {
 bool Msm8255CrciBus::LevelHigh(uint32_t crci) const {
     if (crci == 0u || crci >= kCrciCount) return false;
     return level_[crci];
+}
+
 }

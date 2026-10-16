@@ -2,6 +2,8 @@
 #include <cerfcore/core/log.h>
 #include "../../peripherals/usb/usb_state.h"
 
+namespace cerfcore {
+
 /* SYNC 2 hardware MsgLog2.txt, t=145536: USB!AttachDevice 0424:4040:0203. */
 FordSyncGen2MediaHubSdReader::FordSyncGen2MediaHubSdReader(std::optional<SdCardCid> cid)
     : UsbMassStorageDevice(0x0424u, 0x4040u, 0x0203u), cid_(cid) {}
@@ -43,4 +45,6 @@ bool FordSyncGen2MediaHubSdReader::HandleVendorScsiCommand(const uint8_t* cdb, u
             static_cast<unsigned>(cdb_len > 5u ? cdb[5] : 0u));
     }
     return false;
+}
+
 }

@@ -10,6 +10,8 @@
 #include "../irq_controller.h"
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 
 /* S3C2410A UM pp. 22-7..22-10, Address columns. */
@@ -199,3 +201,5 @@ void S3C2410Spi::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE(S3C2410Spi);
+
+}

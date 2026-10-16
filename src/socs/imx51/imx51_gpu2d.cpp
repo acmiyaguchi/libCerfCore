@@ -13,6 +13,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* g12 register page 0x1000: functional 0x800 (MCIMX51RM Table 37-1) + PrimeCell PERIPHID 0xFE4/0xFE8. */
@@ -245,3 +247,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(Imx51Gpu2d);
+
+}

@@ -8,6 +8,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* The VRC5477 external PCI memory window (PA 0x08000000, 128 MB; BSP_REG_PA_PCI_MEM).
    Carries both config cycles and BAR memory; forwards every access to the host
    bridge, which decodes config-vs-memory from PCIINIT00 and routes to PCI devices. */
@@ -60,3 +62,5 @@ private:
 REGISTER_SERVICE(Vrc5477PciWindow);
 
 }  /* namespace */
+
+}

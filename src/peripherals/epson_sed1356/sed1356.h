@@ -8,6 +8,8 @@
 #include <unordered_set>
 #include <vector>
 
+namespace cerfcore {
+
 class Sed1356PanelPower;
 class Sed1356PowerSequence;
 
@@ -143,3 +145,5 @@ private:
 
     friend class Sed1356BitBlt;
 };
+
+}

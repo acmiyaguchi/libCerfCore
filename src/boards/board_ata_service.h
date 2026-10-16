@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <string>
 
+namespace cerfcore {
+
 class BoardAtaService : public Service {
 public:
     using Service::Service;
@@ -16,3 +18,5 @@ public:
        image is the user's disk+data and must never be reformatted. */
     virtual void        EnsureExists()           = 0;
 };
+
+}

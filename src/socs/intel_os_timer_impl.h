@@ -18,6 +18,8 @@
 
 #include "../core/rate_probe.h"
 
+namespace cerfcore {
+
 template <uint32_t kOscrHz>
 class IntelOsTimerBase : public Peripheral {
 public:
@@ -392,3 +394,5 @@ private:
 
     IntelOsTimerCensus census_;
 };
+
+}

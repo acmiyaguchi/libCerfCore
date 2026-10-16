@@ -6,6 +6,8 @@
 #include <cerfcore/state/state_stream.h>
 #include <cerfcore/socs/guest_cpu_reset.h>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(Iop13xxAtuState);
 
 bool Iop13xxAtuState::ShouldRegister() {
@@ -96,4 +98,6 @@ void Iop13xxAtuState::RestoreOutboundState(StateReader& r) {
     r.Read("oiowtvr", oiowtvr_);
     StateReadField field(r);
     for (MemoryWindow& win : oum_) MemoryWindow::Visit(win, field);
+}
+
 }

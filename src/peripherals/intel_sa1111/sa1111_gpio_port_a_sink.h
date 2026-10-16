@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* Board-side consumer of the SA-1111 GPIO port A output pins (the
    PCMCIA/CF power controller hangs off GPIO_A per the PCCR note in
    Developer's Manual §12.6.2). Optional - boards without a consumer
@@ -16,3 +18,5 @@ public:
     /* Driven output levels: DWR & ~DDR. */
     virtual void OnPortAOutputs(uint8_t levels) = 0;
 };
+
+}

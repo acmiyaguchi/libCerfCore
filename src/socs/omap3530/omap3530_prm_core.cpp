@@ -1,5 +1,7 @@
 #include "omap3530_prcm_stub_block.h"
 
+namespace cerfcore {
+
 namespace {
 
 class Omap3530PrmCore : public Omap3530PrmDomainBlock {
@@ -35,3 +37,5 @@ protected:
 }  /* namespace */
 
 REGISTER_SERVICE(Omap3530PrmCore);
+
+}

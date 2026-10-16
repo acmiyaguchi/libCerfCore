@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* Board-side consumer of iPAQ EGPIO latch changes (the option-pack
    power enable lives there). Optional - TryGet'd by the latch. */
 class CompaqIpaqH3000EgpioSink : public Service {
@@ -13,3 +15,5 @@ public:
 
     virtual void OnEgpioChanged(uint32_t latched) = 0;
 };
+
+}

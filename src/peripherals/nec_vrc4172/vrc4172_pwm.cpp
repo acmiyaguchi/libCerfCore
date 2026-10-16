@@ -11,6 +11,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kBase = 0x15003880u;
@@ -92,3 +94,5 @@ private:
 }
 
 REGISTER_SERVICE(Vrc4172Pwm);
+
+}

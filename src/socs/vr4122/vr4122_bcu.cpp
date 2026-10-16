@@ -10,6 +10,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* VR4122 BCU (Bus Control Unit) at 0x0F000000 (VR4131 UM U15350EJ2V0UM Table 7-1;
@@ -75,3 +77,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(Vr4122Bcu);
+
+}

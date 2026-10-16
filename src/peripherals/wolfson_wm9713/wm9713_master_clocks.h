@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Wm9713MasterClocks : public Service {
 public:
     using Service::Service;
@@ -11,3 +13,5 @@ public:
     virtual uint64_t MclkaHz() const = 0;
     virtual uint64_t MclkbHz() const = 0;
 };
+
+}

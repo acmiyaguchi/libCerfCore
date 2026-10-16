@@ -2,6 +2,8 @@
 
 #include <algorithm>
 
+namespace cerfcore {
+
 void DmaBurstFifo::Configure(uint32_t depth, uint32_t threshold, uint32_t burst) {
     depth_     = depth;
     threshold_ = threshold;
@@ -95,4 +97,6 @@ uint64_t DmaBurstFifo::TakesBeforeEmpty() const {
     const uint64_t bursts = BurstsAvailable();
     if (bursts == kUnlimited) return kUnlimited;
     return level_ + LandedIn(bursts);
+}
+
 }

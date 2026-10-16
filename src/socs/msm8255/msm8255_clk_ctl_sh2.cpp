@@ -11,6 +11,8 @@
 #include <atomic>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* Linux arch/arm/mach-msm msm_iomap-7x30.h: MSM_CLK_CTL_SH2_PHYS. */
@@ -107,3 +109,5 @@ private:
 }
 
 REGISTER_SERVICE(Msm8255ClkCtlSh2);
+
+}

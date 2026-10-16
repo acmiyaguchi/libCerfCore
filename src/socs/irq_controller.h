@@ -5,6 +5,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class IrqController : public Service {
 public:
     using Service::Service;
@@ -25,3 +27,5 @@ public:
 
     static uint32_t CERFENGINE_FASTCALL ReadPendingVectorHelper(void* intc);
 };
+
+}

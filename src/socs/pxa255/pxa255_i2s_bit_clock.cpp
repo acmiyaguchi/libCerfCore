@@ -8,6 +8,8 @@
 #include "pxa255_i2s_bit_clock_input.h"
 #include "pxa255_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* Intel PXA255 Developer's Manual page 14-6: with BITCLK an output, SADIV divides the 147.46 MHz PLL clock
@@ -150,3 +152,5 @@ void Pxa255I2sBitClock::Restore(StateReader& r) {
 }
 
 void Pxa255I2sBitClock::PostRestore() { Update(clock_->Cycles()); }
+
+}

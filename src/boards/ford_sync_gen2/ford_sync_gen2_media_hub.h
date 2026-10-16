@@ -2,6 +2,8 @@
 
 #include "../../peripherals/usb/usb_hub.h"
 
+namespace cerfcore {
+
 class FordSyncGen2MediaHub final : public UsbHub {
 public:
     static constexpr int kSdPort = 0;
@@ -13,3 +15,5 @@ public:
     uint32_t StateKind() const override { return kStateKind; }
     void SetMedia(int port, std::unique_ptr<UsbDevice> device);
 };
+
+}

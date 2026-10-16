@@ -8,6 +8,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "hp_jornada_700_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class HpJornada700KeyboardInput : public KeyboardInput {
@@ -62,4 +64,6 @@ void HpJornada700Keyboard::PulseKbdIrqLine() {
     auto& gpio = emu_.Get<Sa11xxGpio>();
     gpio.DriveInputPin(0, false);
     gpio.DriveInputPin(0, true);
+}
+
 }

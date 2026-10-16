@@ -5,6 +5,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Omap3530CmClockControl;
 
 class Omap3530CmCore : public Omap3530CmMcBspGateBlock {
@@ -33,3 +35,5 @@ protected:
 private:
     Omap3530CmClockControl* clock_control_ = nullptr;
 };
+
+}

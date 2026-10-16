@@ -14,6 +14,8 @@
 #include "../core/rate_probe.h"
 #endif
 
+namespace cerfcore {
+
 namespace {
 
 class ArmGuestCycleClock : public EngineCycleClock<cerfengine::ArmCpuState> {
@@ -63,3 +65,5 @@ private:
 }
 
 REGISTER_SERVICE_AS(ArmGuestCycleClock, GuestCycleClock);
+
+}

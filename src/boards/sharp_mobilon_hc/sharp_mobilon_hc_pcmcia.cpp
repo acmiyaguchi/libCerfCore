@@ -5,6 +5,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "sharp_mobilon_hc_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* The IT8368E INT pin reaches multi-function I/O pin 2: the nk.exe OAL interrupt
@@ -30,3 +32,5 @@ public:
 }
 
 REGISTER_SERVICE(SharpMobilonHcPcmcia);
+
+}

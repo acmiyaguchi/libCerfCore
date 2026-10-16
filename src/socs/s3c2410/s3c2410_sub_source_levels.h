@@ -7,6 +7,8 @@
 #include <mutex>
 #include <vector>
 
+namespace cerfcore {
+
 class S3C2410LevelSubSource {
 public:
     virtual ~S3C2410LevelSubSource() = default;
@@ -36,3 +38,5 @@ private:
     std::mutex            mutex_;
     std::vector<Entry>    entries_;
 };
+
+}

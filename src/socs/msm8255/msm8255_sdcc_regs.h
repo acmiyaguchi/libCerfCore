@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace cerf_msm8255_sdcc_detail {
 
 constexpr uint32_t kPower      = 0x000u;
@@ -71,3 +73,5 @@ constexpr uint32_t kMaskWritable  = 0x1FFFFFFFu;
 constexpr uint32_t kUngroundedPowerOn = 0u;
 
 }  // namespace cerf_msm8255_sdcc_detail
+
+}

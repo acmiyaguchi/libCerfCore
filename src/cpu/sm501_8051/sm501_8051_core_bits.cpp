@@ -1,5 +1,7 @@
 #include "sm501_8051_core.h"
 
+namespace cerfcore {
+
 namespace sm501_8051 {
 
 /* Opcodes whose low nibble is 0 to 3, the CJNE family at B4h..BFh, and the
@@ -204,3 +206,5 @@ uint8_t Core::ExecuteBitAndJump(Bus& bus, uint8_t opcode) {
 }
 
 }  // namespace sm501_8051
+
+}

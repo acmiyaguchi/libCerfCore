@@ -13,6 +13,8 @@
 #include "../../socs/pr31x00/pr31500_id.h"
 #include "../../socs/pr31x00/pr31700_id.h"
 
+namespace cerfcore {
+
 REGISTER_SERVICE(Tx39ConfigRegister);
 
 namespace {
@@ -78,4 +80,6 @@ void CERFENGINE_FASTCALL Tx39ConfigRegister::WriteConfig(void* context, uint32_t
        by asserting the INT[5:0], NMI or RESET signals". */
     reg->engine_->Get<cerfengine::MipsInterruptChannel>().HaltCore();
     reg->engine_->Get<cerfengine::MipsExceptionDelivery>().LeaveBlock();
+}
+
 }

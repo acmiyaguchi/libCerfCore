@@ -7,6 +7,8 @@
 #include <span>
 #include <vector>
 
+namespace cerfcore {
+
 namespace cerf::ce1_rom_parse {
 
 constexpr size_t kCe1TocEntrySize  = 0x130;
@@ -48,3 +50,5 @@ bool ResolveCe1Xips(std::span<const uint8_t>      flat,
                     uint32_t&                     out_base_va);
 
 }  /* namespace cerf::ce1_rom_parse */
+
+}

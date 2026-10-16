@@ -6,6 +6,8 @@
 #include <cstddef>
 #include <cstdint>
 
+namespace cerfcore {
+
 class Imx51Uart1;
 
 /* The SYNC2 Bluetooth controller (Broadcom BCM4325) on UART1 = COM1. Answers
@@ -44,3 +46,5 @@ private:
     /* Current chip BD_ADDR (factory default until BTPostLoad's Write_BD_ADDR). */
     uint8_t     bd_addr_[6] = {0x32u, 0x59u, 0x53u, 0x00u, 0xCEu, 0x02u};
 };
+
+}

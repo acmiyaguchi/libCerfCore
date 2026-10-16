@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace host_platform {
 
 struct ProcessMemoryUsage {
@@ -17,5 +19,7 @@ struct ThreadStackUsage {
 
 ProcessMemoryUsage QueryProcessMemory();
 ThreadStackUsage   MeasureThreadStacks();
+
+}
 
 }

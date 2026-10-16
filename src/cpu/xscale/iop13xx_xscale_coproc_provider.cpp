@@ -5,6 +5,8 @@
 #include "../../socs/iop13xx/iop13xx_cp6.h"
 #include "../../socs/iop13xx/iop13xx_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 using cerfengine::ArmCoprocAccess;
@@ -53,3 +55,5 @@ protected:
 }
 
 REGISTER_SERVICE_AS(Iop13xxXscaleCoprocProvider, ArmCoprocProvider);
+
+}

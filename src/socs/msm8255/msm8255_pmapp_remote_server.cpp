@@ -11,6 +11,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kPmappProg = 0x30000060u;
@@ -138,3 +140,5 @@ uint32_t Msm8255PmappRemoteServer::AnswerCall(uint32_t in_pa, uint32_t size,
 }
 
 REGISTER_SERVICE(Msm8255PmappRemoteServer);
+
+}

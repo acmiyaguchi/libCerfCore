@@ -7,6 +7,8 @@
 #include <mutex>
 #include <vector>
 
+namespace cerfcore {
+
 class Sa1111Sbi;
 
 class Sa1111Intc : public Sa1111Unit {
@@ -63,3 +65,5 @@ private:
     uint32_t tstsel_ = 0;
     bool     sleep_  = false;
 };
+
+}

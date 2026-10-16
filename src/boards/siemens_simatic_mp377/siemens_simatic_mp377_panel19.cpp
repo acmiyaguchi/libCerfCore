@@ -4,6 +4,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include "siemens_mp377_19_touch_id.h"
 
+namespace cerfcore {
+
 namespace siemens_simatic_mp377 {
 namespace {
 
@@ -25,3 +27,5 @@ public:
 REGISTER_SERVICE_AS(SiemensSimaticMp377Panel19, SiemensSimaticMp377Panel);
 
 }  // namespace siemens_simatic_mp377
+
+}

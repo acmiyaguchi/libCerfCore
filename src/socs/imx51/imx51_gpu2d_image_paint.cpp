@@ -13,6 +13,8 @@
 #include <algorithm>
 #include <cmath>
 
+namespace cerfcore {
+
 namespace {
 using namespace imx51_g2d_blend;
 using namespace imx51_g2d_regfile;
@@ -159,4 +161,6 @@ void Imx51Gpu2dImagePaint::Composite(const uint32_t (&regs)[0x100]) {
             *dp = BlendMultiPass(regs, src, *dp);
         }
     }
+}
+
 }

@@ -12,6 +12,8 @@
 #include <atomic>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* Unpopulated DRAM above the board's populated top, up to 0x04000000. DRAM is
@@ -73,3 +75,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(Vr41xxDramReservedSpace);
+
+}

@@ -6,6 +6,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 namespace siemens_simatic_mp377 {
 
 template <typename T>
@@ -28,3 +30,5 @@ void ReadSm501VectorState(StateReader& reader, const char* count_name, const cha
 }
 
 } // namespace siemens_mp377
+
+}

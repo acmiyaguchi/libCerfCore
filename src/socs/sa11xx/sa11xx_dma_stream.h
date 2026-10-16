@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <functional>
 
+namespace cerfcore {
+
 class Sa11xxDmaPort;
 class StateReader;
 class StateWriter;
@@ -96,3 +98,5 @@ private:
     uint32_t count_[2]   = {};
     bool     in_flight_[2] = {};
 };
+
+}

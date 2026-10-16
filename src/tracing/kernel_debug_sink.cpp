@@ -6,6 +6,8 @@
 
 #include <cstdio>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(KernelDebugSink);
 
 void KernelDebugSink::EmitLine(std::string_view line,
@@ -46,4 +48,6 @@ void KernelDebugSink::EmitWideStringAt(const TraceContext& c, uint32_t va,
         if (*w >= 0x20 && *w < 0x7F) s.push_back(char(*w));
     }
     EmitLine(s, source);
+}
+
 }

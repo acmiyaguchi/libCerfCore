@@ -20,6 +20,8 @@
 #include <mutex>
 #include <vector>
 
+namespace cerfcore {
+
 class Omap3530PrcmStubBlock : public Peripheral {
 public:
     using Peripheral::Peripheral;
@@ -357,3 +359,5 @@ private:
 
     bool irq_line_high_ = false;
 };
+
+}

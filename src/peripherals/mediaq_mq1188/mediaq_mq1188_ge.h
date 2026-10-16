@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* MQ-1100/1132 (Falcon) instance of the shared MediaQ 2D engine: MQ-1132
    register indices, solid-fill encoding, and Source-FIFO packing only. */
 class MediaQMq1188Ge : public MediaQGe {
@@ -41,3 +43,5 @@ private:
     /* MQ-1132 selects a flat fill via the solid-pattern bit (Reg 4-83 [30]). */
     static constexpr uint32_t kCmdSolidPat = 1u << 30;
 };
+
+}

@@ -5,6 +5,8 @@
 #include <array>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace siemens_simatic_mp377 {
 
 inline constexpr uint32_t kMp377MramBase = 0xD0000000u;
@@ -44,3 +46,5 @@ private:
 };
 
 } // namespace siemens_mp377
+
+}

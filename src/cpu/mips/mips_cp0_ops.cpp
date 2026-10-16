@@ -11,6 +11,8 @@
 #include "mips_core_clock.h"
 #include "mips_tlb_model.h"
 
+namespace cerfcore {
+
 REGISTER_SERVICE(MipsCp0Ops);
 
 namespace {
@@ -152,4 +154,6 @@ void CERFENGINE_FASTCALL MipsCp0Ops::WriteEntryHiR4000(void* ops, uint32_t value
     if ((old & 0xFFu) != (val & 0xFFu)) {
         self->tlb_context_->InvalidateAddressSpace();
     }
+}
+
 }

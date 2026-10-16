@@ -11,6 +11,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include <cerfengine/mips/mips_cpu_state.h>
 
+namespace cerfcore {
+
 namespace {
 
 class MipsExceptionR4000 final : public MipsExceptionModel {
@@ -93,3 +95,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(MipsExceptionR4000, MipsExceptionModel);
+
+}

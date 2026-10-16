@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* Freescale SDMA register map and buffer-descriptor layout, identical on i.MX31
    (MCIMX31RM Ch 40) and i.MX51 (MCIMX51RM Ch 52). Divergent registers (EVT_MIRROR,
    CHNENBL window) belong to the concretes. */
@@ -61,3 +63,5 @@ constexpr uint32_t kCcbBaseBdOff = 4u;
 constexpr uint32_t kMaxBdWalk    = 256u;
 
 }  /* namespace cerf_freescale_sdma_detail */
+
+}

@@ -2,6 +2,8 @@
 
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 namespace {
 
 /* nec_mobilepro_900_ce4_2 SABOOT.NB0 nk.exe: sub_9006D324 (mode, MHz), sub_9007DC4C (cause, state),
@@ -27,3 +29,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(NecMobilepro900SeriesCe4BootArgs, NecMobilepro900SeriesBootArgs);
+
+}

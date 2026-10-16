@@ -2,6 +2,8 @@
 
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 
 uint8_t ClampDelta(int v) {
@@ -111,4 +113,6 @@ void Ps2Mouse::Reset() {
 
 void Ps2Mouse::RaiseData() {
     if (on_data_) on_data_();          /* IRQ raised outside the queue lock */
+}
+
 }

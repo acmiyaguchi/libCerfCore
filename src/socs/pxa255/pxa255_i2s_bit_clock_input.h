@@ -6,6 +6,8 @@
 #include <cstdint>
 #include <functional>
 
+namespace cerfcore {
+
 class Pxa255I2sBitClockInput : public Service {
 public:
     using Service::Service;
@@ -20,3 +22,5 @@ protected:
 private:
     std::function<void(uint64_t)> on_change_ = [](uint64_t) {};
 };
+
+}

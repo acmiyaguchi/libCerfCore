@@ -14,6 +14,8 @@
 #include <cstdio>
 #include <cstring>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(CerfVirtFramebuffer);
 
 bool CerfVirtFramebuffer::ShouldRegister() {
@@ -167,4 +169,6 @@ void CerfVirtFramebuffer::ApplyGuestMode(uint32_t w, uint32_t h) {
     height_ = h;
     LOG(Periph, "[CerfVirtFramebuffer] guest re-moded to %ux%u stride=%u\n",
         width_, height_, Stride());
+}
+
 }

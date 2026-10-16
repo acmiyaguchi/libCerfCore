@@ -3,6 +3,8 @@
 #include <cerfcore/core/log.h>
 #include "../platform/host_process_memory.h"
 
+namespace cerfcore {
+
 MemoryTelemetry::~MemoryTelemetry() {
     {
         std::lock_guard<std::mutex> lk(stop_mutex_);
@@ -55,3 +57,5 @@ void MemoryTelemetry::Sample() {
 }
 
 REGISTER_SERVICE(MemoryTelemetry);
+
+}

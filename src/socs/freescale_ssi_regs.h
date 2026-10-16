@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* MCIMX51RM Table 56-12 SCR, Figure 56-28 SISR, Figure 56-29 SIER, Tables 56-15 / 56-16 STCR / SRCR,
    Figure 56-34 SFCSR, Figure 56-23 SACNT; MCIMX31RM Table 45-6 (pages 45-23 / 45-24): the same bit
    positions. */
@@ -55,6 +57,8 @@ constexpr uint32_t Fifo(uint32_t bit0, uint32_t k) { return bit0 << k; }
 constexpr uint32_t CrFen(uint32_t k) { return kCrFen0 << k; }
 constexpr uint32_t SfcsrField(uint32_t sfcsr, uint32_t field, uint32_t k) {
     return (sfcsr >> (field + 16u * k)) & 0xFu;
+}
+
 }
 
 }

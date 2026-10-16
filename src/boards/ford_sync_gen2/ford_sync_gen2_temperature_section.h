@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 
+namespace cerfcore {
+
 class CerfEmulator;
 class StateWriter;
 class StateReader;
@@ -27,3 +29,5 @@ private:
     uint64_t last_revision_ = UINT64_MAX;
     bool imperial_ = false;
 };
+
+}

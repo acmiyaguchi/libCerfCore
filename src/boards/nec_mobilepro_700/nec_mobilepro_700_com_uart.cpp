@@ -7,6 +7,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* OAL debug serial port, stride-2 16550 (nk.exe sub_9F00282C: probes SCR at 0x1600FFCE with
@@ -45,3 +47,5 @@ protected:
 }  /* namespace */
 
 REGISTER_SERVICE(Vr4102ComUart);
+
+}

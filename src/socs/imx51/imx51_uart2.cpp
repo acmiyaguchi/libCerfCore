@@ -3,6 +3,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include "../irq_controller.h"
 
+namespace cerfcore {
+
 /* MCIMX51RM Table 3-2 (page 3-2): IRQ 32 "UART-2 ORed interrupt". */
 void Imx51Uart2::DriveIrq(bool level) {
     auto& ic = emu_.Get<IrqController>();
@@ -11,3 +13,5 @@ void Imx51Uart2::DriveIrq(bool level) {
 }
 
 REGISTER_SERVICE(Imx51Uart2);
+
+}

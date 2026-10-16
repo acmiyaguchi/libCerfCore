@@ -6,6 +6,8 @@
 #include <cerfcore/core/utf16.h>
 #include <cerfcore/platform/host_file.h>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(FolderShareConfig);
 
 void FolderShareConfig::OnReady() {
@@ -32,4 +34,6 @@ void FolderShareConfig::ApplyFromConfig() {
         root.c_str(), (int)host_platform::HostPathExists(root), name.c_str());
 
     Set(true, std::move(root), std::move(mount));
+}
+
 }

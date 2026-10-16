@@ -11,6 +11,8 @@
 #include <algorithm>
 #include <array>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(Imx51NandImgfsView);
 
 namespace {
@@ -88,4 +90,6 @@ void Imx51NandImgfsView::ReconstructAndWalk() {
         static_cast<unsigned long long>(span / (1024 * 1024)),
         tr.IsFtl() ? "FTL-mapped" : "direct-addressed",
         modules_.size());
+}
+
 }

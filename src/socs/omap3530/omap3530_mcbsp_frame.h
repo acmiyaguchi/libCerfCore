@@ -3,6 +3,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 enum class Omap3530McBspDir : uint8_t { Tx = 0, Rx = 1 };
 
 class Omap3530McBspFrame {
@@ -44,3 +46,5 @@ private:
     uint32_t              data_bits_ = 0;
     bool                  reverse_   = false;
 };
+
+}

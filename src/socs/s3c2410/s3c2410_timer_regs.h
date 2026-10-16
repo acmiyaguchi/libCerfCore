@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace S3C2410TimerRegs {
 
 struct TimerBits {
@@ -64,6 +66,8 @@ inline DecodedReg DecodeReg(uint32_t offset) {
     if (offset == 0x3Cu) return { RegKind::TcntbN, 4 };
     if (offset == 0x40u) return { RegKind::TcntoN, 4 };
     return { RegKind::OutOfRange, 0 };
+}
+
 }
 
 }

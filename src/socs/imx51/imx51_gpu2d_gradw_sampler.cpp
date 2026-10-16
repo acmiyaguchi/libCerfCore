@@ -11,6 +11,8 @@
 #include <algorithm>
 #include <cmath>
 
+namespace cerfcore {
+
 namespace {
 /* Per-channel linear blend of two ARGB8888 texels by frac in [0,1] (round). */
 uint32_t Lerp(uint32_t a, uint32_t b, float f) {
@@ -115,4 +117,6 @@ uint32_t Imx51Gpu2dGradwSampler::Sample(const Gpu2dGradwPaint& p,
        (texel already premult); a non-premult ramp is interpolated independently,
        then premultiplied here for the g12's premultiplied blend ALU. */
     return p.premultiply ? texel : imx51_g2d_blend::PremultArgb(texel);
+}
+
 }

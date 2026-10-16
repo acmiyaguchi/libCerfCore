@@ -17,6 +17,8 @@
 #include "../pxa2xx/pxa2xx_dma.h"
 #include "pxa255_id.h"
 
+namespace cerfcore {
+
 REGISTER_SERVICE(Pxa255Ac97);
 
 namespace {
@@ -301,4 +303,6 @@ void Pxa255Ac97::RestoreState(StateReader& r) {
 void Pxa255Ac97::PostRestore() {
     if (codec_ != nullptr) codec_->PostRestore();
     irq_->PostRestore();
+}
+
 }

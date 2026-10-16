@@ -3,6 +3,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 
@@ -99,3 +101,5 @@ private:
     bool     has_pruned_   = false;
     Result   pruned_last_;
 };
+
+}

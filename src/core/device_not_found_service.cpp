@@ -12,6 +12,8 @@
 
 #include <string>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(DeviceNotFoundService);
 
 bool DeviceNotFoundService::ShouldRegister() { return !IsDevicePresent(); }
@@ -34,4 +36,6 @@ void DeviceNotFoundService::EnsureFound() {
 #endif
 
     CerfFatalExit(CERF_FATAL_USER_ERROR);
+}
+
 }

@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Sed1356PowerSequence : public Service {
 public:
     using Service::Service;
@@ -12,3 +14,5 @@ public:
     virtual bool     LcdDisabledReadsPanelDown() const = 0;
     virtual bool     MemoryControllerPowersDown(uint8_t refresh_reg) const = 0;
 };
+
+}

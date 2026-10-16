@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 
@@ -32,3 +34,5 @@ private:
     uint64_t frozen_  = 0;
     uint64_t base_    = 0;
 };
+
+}

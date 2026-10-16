@@ -2,6 +2,8 @@
 
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 namespace {
 
 /* PC Card socket NMC1110 register, PA 0x0A000000 (PXA255 socket 1). */
@@ -16,3 +18,5 @@ protected:
 }  /* namespace */
 
 REGISTER_SERVICE(NecMobilepro900SeriesL1110Pc);
+
+}

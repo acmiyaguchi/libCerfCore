@@ -11,6 +11,8 @@
 #include <cerfcore/core/log.h>
 #include <cerfcore/host/refresh_rate_service.h>
 
+namespace cerfcore {
+
 namespace {
 
 using CerfVirt::kFbRegWidth;
@@ -96,5 +98,7 @@ private:
 };
 
 REGISTER_SERVICE(CerfVirtFramebufferRegs);
+
+}
 
 }

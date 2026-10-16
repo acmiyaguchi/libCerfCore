@@ -12,6 +12,8 @@
 #include <cstdint>
 #include <memory>
 
+namespace cerfcore {
+
 namespace {
 
 /* MobilePro 700 built-in modem: off-chip stride-1 16550 at ISA-IO 0x17100000,
@@ -79,3 +81,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(Vr4102HardModemUart);
+
+}

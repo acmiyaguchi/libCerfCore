@@ -1,6 +1,8 @@
 #include "../vr41xx/vr41xx_fir_impl.h"
 #include "vr4122_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* VR4122 FIR base 0x0F000840 (NetBSD hpcmips vripreg.h VR4122_FIR_ADDR); guest
@@ -13,3 +15,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE(Vr4122Fir);
+
+}

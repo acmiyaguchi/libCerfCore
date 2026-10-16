@@ -4,6 +4,8 @@
 #include "../../boards/siemens_simpad/siemens_simpad_family_id.h"
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 namespace {
 
 /* SIMpad nCS1 data/FFS bank: two x16 chips 2-way interleaved (32-bit bus). OAL
@@ -28,3 +30,5 @@ protected:
 }  /* namespace */
 
 REGISTER_SERVICE(Intel28F128J3Cs1);
+
+}

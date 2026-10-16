@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace ArmL1PteType {
     constexpr uint32_t kFault   = 0;
     constexpr uint32_t kCoarse  = 1;
@@ -198,4 +200,6 @@ inline uint32_t ArmL2SubpageAp(const ArmL2Pte& pte, uint32_t subpage) {
         case 2:  return pte.small_page.ap2;
         default: return pte.small_page.ap3;
     }
+}
+
 }

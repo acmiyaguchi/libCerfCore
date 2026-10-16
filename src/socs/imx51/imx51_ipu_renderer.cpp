@@ -14,6 +14,8 @@
 
 #include <cstring>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kBppRgb565 = 3u;   /* CPMEM BPP code for 16bpp (ipu-cpmem.c) */
@@ -191,3 +193,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(Imx51IpuRenderer, PanelFrameRenderer);
+
+}

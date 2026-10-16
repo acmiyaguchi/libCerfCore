@@ -6,6 +6,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 /* S3C2410A UM Table 1-4 p. 1-35 "A/D converter": ADCCON 0x58000000,
    ADCTSC 0x58000004, ADCDLY 0x58000008, ADCDAT0 0x5800000C, ADCDAT1
    0x58000010; Acc. Unit W for all five, R/W for the first three and R for
@@ -51,3 +53,5 @@ private:
     uint32_t x_data_   = 0;
     uint32_t y_data_   = 0;
 };
+
+}

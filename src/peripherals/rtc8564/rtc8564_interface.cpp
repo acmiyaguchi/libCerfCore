@@ -11,6 +11,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint8_t kAddressWrite = 0xA2u;
@@ -182,3 +184,5 @@ private:
 REGISTER_SERVICE_AS(Rtc8564Interface, Iop13xxI2cDevice);
 
 } // namespace
+
+}

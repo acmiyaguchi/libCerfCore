@@ -4,6 +4,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "toshiba_gigabeat_s_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class ToshibaGigabeatSSsiExternalClock : public FreescaleSsiExternalClock {
@@ -25,3 +27,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(ToshibaGigabeatSSsiExternalClock, FreescaleSsiExternalClock);
+
+}

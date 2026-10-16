@@ -8,6 +8,8 @@
 
 #include <algorithm>
 
+namespace cerfcore {
+
 namespace {
 
 class MediaQMq200Renderer : public MediaQPanelRenderer<MediaQMq200> {
@@ -122,3 +124,5 @@ private:
 }
 
 REGISTER_SERVICE_AS(MediaQMq200Renderer, PanelFrameRenderer);
+
+}

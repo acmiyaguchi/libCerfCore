@@ -9,6 +9,8 @@
 #include <cstdint>
 #include <string_view>
 
+namespace cerfcore {
+
 struct PhilipsVelo1DramCardProfile {
     std::string_view board_id;
     uint32_t         megabytes;
@@ -44,4 +46,6 @@ inline const PhilipsVelo1DramCardProfile* FindPhilipsVelo1DramCard(std::string_v
         if (p.board_id == board_id) return &p;
     }
     return nullptr;
+}
+
 }

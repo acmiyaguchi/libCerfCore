@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace siemens_simatic_mp377 {
 
 inline constexpr uint32_t kMp377Aspc2Base = 0xD0120000u;
@@ -64,3 +66,5 @@ private:
 };
 
 } // namespace siemens_mp377
+
+}

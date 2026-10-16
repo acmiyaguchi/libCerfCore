@@ -10,6 +10,8 @@
 #include <cstdint>
 #include <string>
 
+namespace cerfcore {
+
 namespace {
 
 class PhilipsNinoKeyboard : public KeyboardInput {
@@ -42,3 +44,5 @@ public:
 }  // namespace
 
 REGISTER_SERVICE(PhilipsNinoKeyboard);
+
+}

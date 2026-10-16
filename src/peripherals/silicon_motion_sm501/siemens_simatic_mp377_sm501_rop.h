@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* SM501 Databook v1.02, section 4, 2D raster operations. */
 inline bool Sm501Rop3Bit(uint8_t rop, bool p, bool s, bool d) {
     const unsigned index = (p ? 4u : 0u) | (s ? 2u : 0u) | (d ? 1u : 0u);
@@ -65,4 +67,6 @@ inline uint16_t Sm501ApplyRasterOp16(uint32_t control, uint16_t source,
 
 inline void Sm501RasterOpPixel16(uint8_t* pixel, uint32_t control, uint16_t source, uint16_t pattern) {
     cerf::le::Put16(pixel, Sm501ApplyRasterOp16(control, source, cerf::le::U16(pixel), pattern));
+}
+
 }

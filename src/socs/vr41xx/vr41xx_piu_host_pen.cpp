@@ -4,6 +4,8 @@
 #include "../../execution/engine_bridge.h"
 #include <cerfengine/host_request_channel.h>
 
+namespace cerfcore {
+
 void Vr41xxPiuHostPen::Attach(std::function<void()> apply) {
     requests_ = &emu_.Get<EngineBridge>().Engine().Get<cerfengine::HostRequestChannel>();
     requests_->RegisterListener(std::move(apply));
@@ -37,4 +39,6 @@ std::optional<Vr41xxPiuPenPoint> Vr41xxPiuHostPen::Take(std::optional<Vr41xxPiuP
     std::optional<Vr41xxPiuPenPoint> p = slot;
     slot.reset();
     return p;
+}
+
 }

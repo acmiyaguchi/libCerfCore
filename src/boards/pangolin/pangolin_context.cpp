@@ -3,6 +3,8 @@
 #include "pangolin_family_id.h"
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 namespace {
 
 class PangolinContext : public BoardContext {
@@ -15,3 +17,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(PangolinContext, BoardContext);
+
+}

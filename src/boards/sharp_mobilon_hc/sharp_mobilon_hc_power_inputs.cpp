@@ -5,6 +5,8 @@
 #include "sharp_mobilon_hc_family_id.h"
 #include "sharp_mobilon_hc_battery.h"
 
+namespace cerfcore {
+
 namespace {
 
 class SharpMobilonHcPowerInputs : public Pr31x00PowerInputs {
@@ -24,3 +26,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(SharpMobilonHcPowerInputs, Pr31x00PowerInputs);
+
+}

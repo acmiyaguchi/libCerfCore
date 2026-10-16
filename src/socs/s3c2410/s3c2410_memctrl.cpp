@@ -7,6 +7,8 @@
 #include "../../peripherals/peripheral_dispatcher.h"
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 
 class S3C2410MemCtrl : public Peripheral {
@@ -60,3 +62,5 @@ void S3C2410MemCtrl::WriteWord(uint32_t addr, uint32_t value) {
 }  /* namespace */
 
 REGISTER_SERVICE(S3C2410MemCtrl);
+
+}

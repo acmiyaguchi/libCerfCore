@@ -5,6 +5,8 @@
 #include <cerfcore/state/state_stream.h>
 #include "imx51_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* MCIMX51RM Figure 7-21 / Table 7-24 CDCR: sw_periph_clk_div_req_status [7] w1c,
@@ -92,4 +94,6 @@ void Imx51CcmDvfs::RestoreState(StateReader& r) {
     r.Read("bus_div", bus_div_);
     arm_held_    = held != 0u;
     bus_divided_ = divided != 0u;
+}
+
 }

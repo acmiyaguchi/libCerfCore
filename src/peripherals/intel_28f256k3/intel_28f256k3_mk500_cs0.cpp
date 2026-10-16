@@ -4,6 +4,8 @@
 #include "../../boards/symbol_hamptons/symbol_hamptons_family_id.h"
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 namespace {
 
 /* symbol_mk500 dump.bin OEMAddressTable 0x00001E80: pa=0x00000000 size 64 MB.
@@ -29,3 +31,5 @@ protected:
 }  /* namespace */
 
 REGISTER_SERVICE(Intel28F256K3Mk500Cs0);
+
+}

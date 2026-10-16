@@ -11,6 +11,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* Falcon main battery: a 1-Wire smart battery the OAL bit-bangs over GPIO73
@@ -146,3 +148,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(AskeyPc3xxBattery);
+
+}

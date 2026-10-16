@@ -11,6 +11,8 @@
 #include <string>
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 /* Reads MUST return a value with top nibble = 0xB or kernel's probe
@@ -71,3 +73,5 @@ void CompaqIpaqH3000Cs5Unwired::WriteWord(uint32_t addr, uint32_t value) {
 }  /* namespace */
 
 REGISTER_SERVICE(CompaqIpaqH3000Cs5Unwired);
+
+}

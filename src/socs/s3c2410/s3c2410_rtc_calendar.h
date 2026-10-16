@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class S3C2410RtcCalendar : public BcdCalendar {
 public:
     static constexpr Field kSec {0x7Fu, 0u, 59u};
@@ -36,3 +38,5 @@ public:
 private:
     void AdvanceOneDay();
 };
+
+}

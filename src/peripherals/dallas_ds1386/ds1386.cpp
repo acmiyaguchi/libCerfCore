@@ -15,6 +15,8 @@
 #include <algorithm>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kBase = 0x1A000000u;
@@ -388,3 +390,5 @@ void Ds1386Rtc::PostRestore() {
 }
 
 REGISTER_SERVICE(Ds1386Rtc);
+
+}

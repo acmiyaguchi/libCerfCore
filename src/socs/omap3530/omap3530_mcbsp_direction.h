@@ -6,6 +6,8 @@
 #include <cstdint>
 #include <deque>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 
@@ -35,3 +37,5 @@ protected:
     Clock* clock_   = nullptr;
     bool   enabled_ = false;
 };
+
+}

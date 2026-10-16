@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* TMPR3911 §17.4.5-§17.4.14: Video Control 5-14 ($038-$05C), REDSEL / GREENSEL / BLUESEL and the
    PATn_m dither patterns. */
 class Pr31x00LcdGrayScale : public Peripheral {
@@ -37,3 +39,5 @@ private:
 
     uint32_t reg_[kRegs] = {};
 };
+
+}

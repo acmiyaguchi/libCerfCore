@@ -8,6 +8,8 @@
 #include <cerfcore/core/log.h>
 #include <cerfcore/host/hw_screen.h>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(CerfLogChannelPeripheral);
 
 namespace {
@@ -83,4 +85,6 @@ void CerfLogChannelPeripheral::AppendChar(uint32_t id, char c) {
     }
     LOG(GuestDriver, "%s%s\n", ChannelTag(id), flush.c_str());
     emu_.Get<HwScreen>().AddLine(ChannelTag(id) + flush);
+}
+
 }

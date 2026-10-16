@@ -10,6 +10,8 @@
 #include "sa11xx_external_clocks.h"
 #include "sa11xx_ssp_regs.h"
 
+namespace cerfcore {
+
 using namespace sa11xx_ssp;
 
 namespace {
@@ -143,3 +145,5 @@ void Sa11xxSspBitClock::Restore(StateReader& r) {
 }
 
 REGISTER_SERVICE(Sa11xxSspBitClock);
+
+}

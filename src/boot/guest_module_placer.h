@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* Decides the runtime VA base for an injected guest-additions module: the
    victim's own vbase when the image fits its fixed slot, or a relocated
    section-1 vbase the kernel will reserve when the image overflows it. */
@@ -21,3 +23,5 @@ public:
        per-process copy at a slot base. Used by both the XIP and IMGFS injectors. */
     uint32_t EffSectionFlags(uint32_t flags) const;
 };
+
+}

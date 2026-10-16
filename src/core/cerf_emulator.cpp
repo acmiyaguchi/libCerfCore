@@ -4,6 +4,8 @@
 
 #include <typeinfo>
 
+namespace cerfcore {
+
 CerfEmulator::CerfEmulator(const CerfConfig& config, int argc, char** argv)
     : config_(config), argc_(argc), argv_(argv)
 {
@@ -30,4 +32,6 @@ void CerfEmulator::Boot() {
 
 void CerfEmulator::WaitForExit() {
     Get<JitRunner>().Join();
+}
+
 }

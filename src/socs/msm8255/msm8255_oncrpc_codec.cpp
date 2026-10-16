@@ -13,6 +13,8 @@
 #include <cstdint>
 #include <typeinfo>
 
+namespace cerfcore {
+
 bool Msm8255OncrpcCodec::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     return bd && bd->GetSocId() == SocId::Msm8255;
@@ -143,3 +145,5 @@ uint32_t Msm8255OncrpcCodec::WriteAcceptedReply(
 }
 
 REGISTER_SERVICE(Msm8255OncrpcCodec);
+
+}

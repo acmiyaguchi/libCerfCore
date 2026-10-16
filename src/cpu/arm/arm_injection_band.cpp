@@ -4,6 +4,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include <cerfcore/cpu/emulated_memory.h>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(ArmInjectionBand);
 
 bool ArmInjectionBand::ShouldRegister() {
@@ -33,4 +35,6 @@ uint8_t* ArmInjectionBand::Serve(uint32_t va, cerfengine::ArmMmuAccess access,
     if (!host) return nullptr;
     served_pa = pa;
     return host;
+}
+
 }

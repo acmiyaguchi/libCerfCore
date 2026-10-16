@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 class Rtl8019;
 class StateWriter;
 class StateReader;
@@ -151,3 +153,5 @@ private:
 
     uint16_t dma_remaining_ = 0u;
 };
+
+}

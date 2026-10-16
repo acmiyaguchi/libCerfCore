@@ -11,6 +11,8 @@
 #include <algorithm>
 #include <cstring>
 
+namespace cerfcore {
+
 namespace {
 
 class CerfVirtFramebufferRenderer : public GuestAdditionsFrameRenderer {
@@ -82,5 +84,7 @@ public:
 };
 
 REGISTER_SERVICE_AS(CerfVirtFramebufferRenderer, GuestAdditionsFrameRenderer);
+
+}
 
 }

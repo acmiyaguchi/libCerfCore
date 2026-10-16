@@ -3,6 +3,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 
@@ -41,3 +43,5 @@ private:
     uint16_t           csr_a_ = 0;
     uint16_t           csr_b_ = 0;
 };
+
+}

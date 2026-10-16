@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <functional>
 
+namespace cerfcore {
+
 class Pxa255ClockManager;
 class Pxa255Gpio;
 class Pxa255I2sBitClockInput;
@@ -64,3 +66,5 @@ private:
     bool                     running_ = false;
     uint32_t                 sadiv_   = 0;
 };
+
+}

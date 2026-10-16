@@ -5,6 +5,8 @@
 #include <cerfcore/execution/jit_runner.h>
 #include <cerfcore/host/notification_stack.h>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(EmulationPause);
 
 bool EmulationPause::UserCanToggle() const {
@@ -58,4 +60,6 @@ void EmulationPause::ShowUserCard(bool shown) {
 uint64_t EmulationPause::AnimationTickMs() const {
     return IsPaused() ? pause_tick_ms_.load(std::memory_order_acquire)
                       : HostSteadyMicros() / 1000;
+}
+
 }

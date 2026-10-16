@@ -13,6 +13,8 @@
 #include <cerfcore/socs/guest_cpu_reset.h>
 #include "../irq_controller.h"
 
+namespace cerfcore {
+
 namespace {
 /* Intel PXA27x Developer's Manual 280000-001 Table 7-40. */
 constexpr uint32_t kLccr0Lcdt   = 1u << 22;
@@ -486,3 +488,5 @@ void Pxa27xLcd::PostRestore() {
 }
 
 REGISTER_SERVICE(Pxa27xLcd);
+
+}

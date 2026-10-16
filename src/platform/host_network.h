@@ -3,6 +3,8 @@
 #include <cstdint>
 #include <memory>
 
+namespace cerfcore {
+
 namespace host_platform {
 
 bool StartNetworking(int& error);
@@ -40,5 +42,7 @@ private:
     struct Entries;
     std::unique_ptr<Entries> entries_;
 };
+
+}
 
 }

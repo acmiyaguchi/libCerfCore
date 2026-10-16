@@ -7,6 +7,8 @@
 #include <variant>
 #include <vector>
 
+namespace cerfcore {
+
 struct WidgetControl;
 
 struct InfoControl {
@@ -75,3 +77,5 @@ struct WidgetControl {
                  SlotControl, GroupControl>
         control;
 };
+
+}

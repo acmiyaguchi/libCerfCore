@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 enum class Imx51Gpu3dPacketSource { Ring, IndirectBuffer };
 
 struct Imx51Gpu3dPacket {
@@ -18,3 +20,5 @@ struct Imx51Gpu3dPacket {
                               Imx51Gpu3dPacketSource source, Imx51Gpu3dPacket& packet);
     bool OperandAddress(uint32_t index, uint64_t& address) const;
 };
+
+}

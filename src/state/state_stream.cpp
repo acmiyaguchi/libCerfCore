@@ -7,6 +7,8 @@
 #include <cstddef>
 #include <cstdio>
 
+namespace cerfcore {
+
 namespace {
 constexpr uint32_t kIoChunk = 0x40000000u;
 
@@ -249,4 +251,6 @@ void StateReader::SeekTo(uint64_t offset) {
         Reject("seek to %llu failed gle=%u", static_cast<unsigned long long>(offset),
                host_platform::LastErrorCode());
     pos_ = offset;
+}
+
 }

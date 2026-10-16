@@ -5,6 +5,8 @@
 #include <algorithm>
 #include <iterator>
 
+namespace cerfcore {
+
 void Wm97xxDigitiser::Sequence::Add(uint8_t tag, uint32_t frames) {
     tags[count]  = tag;
     steps[count] = frames;
@@ -408,4 +410,6 @@ void Wm97xxDigitiser::Restore(StateReader& r) {
     continuous_           = continuous != 0u;
     has_pruned_           = has_pruned != 0u;
     pruned_last_.pen_down = pruned_pen != 0u;
+}
+
 }

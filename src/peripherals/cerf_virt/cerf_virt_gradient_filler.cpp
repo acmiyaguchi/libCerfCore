@@ -8,6 +8,8 @@
 
 #include <vector>
 
+namespace cerfcore {
+
 namespace CerfVirt {
 
 REGISTER_SERVICE(CerfVirtGradientFiller);
@@ -113,6 +115,8 @@ bool CerfVirtGradientFiller::Execute(const CerfGradDescriptor& g) {
     }
     fb_->MarkDirty();
     return true;
+}
+
 }
 
 }

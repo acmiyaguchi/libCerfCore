@@ -3,6 +3,8 @@
 #include "compaq_ipaq_h3000_family_id.h"
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 namespace {
 
 class CompaqIpaqH3000Context : public BoardContext {
@@ -15,3 +17,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(CompaqIpaqH3000Context, BoardContext);
+
+}

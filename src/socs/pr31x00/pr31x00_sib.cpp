@@ -15,6 +15,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* Philips PR31x00 Serial Interface Bus, TMPR3911/3912 ch.13. Subframe 0 carries a
@@ -381,3 +383,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(Pr31x00Sib);
+
+}

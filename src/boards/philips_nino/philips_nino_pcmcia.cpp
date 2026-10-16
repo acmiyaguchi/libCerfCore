@@ -5,6 +5,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "philips_nino_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kIt8368IntMfioPin = 2;
@@ -27,3 +29,5 @@ public:
 }
 
 REGISTER_SERVICE(PhilipsNinoPcmcia);
+
+}

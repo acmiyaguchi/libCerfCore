@@ -3,6 +3,8 @@
 #include <cstdint>
 #include <string>
 
+namespace cerfcore {
+
 namespace host_platform {
 
 enum class FileMode : uint8_t {
@@ -46,5 +48,7 @@ DeleteResult DeleteHostFile(const std::string& path, uint32_t& error);
 bool         ReplaceHostFile(const std::string& from, const std::string& to, bool write_through);
 bool         HostFileExists(const std::string& path);
 bool         HostPathExists(const std::string& path);
+
+}
 
 }

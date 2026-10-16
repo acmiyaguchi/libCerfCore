@@ -6,6 +6,8 @@
 #include <cerfcore/socs/guest_cpu_reset.h>
 #include "../../socs/irq_controller.h"
 
+namespace cerfcore {
+
 namespace {
 
 class SiemensSimaticMp377Rtc8564Wiring final : public Rtc8564Wiring {
@@ -55,3 +57,5 @@ private:
 REGISTER_SERVICE_AS(SiemensSimaticMp377Rtc8564Wiring, Rtc8564Wiring);
 
 } // namespace
+
+}

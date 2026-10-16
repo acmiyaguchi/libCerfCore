@@ -4,6 +4,8 @@
 #include "ipaq_h3660_h3670_id.h"
 #include "ipaq_h37xx_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* handhelds.org bootldr 2.18.01 boot-sa1100.s dram_mdcnfg_64mb: MDCNFG_DRAC0(6), "Have to
@@ -25,3 +27,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(CompaqIpaqH3660Sdram, Sa1110SdramGeometry);
+
+}

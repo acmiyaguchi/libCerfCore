@@ -1,6 +1,8 @@
 #include "imx51_gpu3d_packet.h"
 #include "imx51_gpu3d_regs.h"
 
+namespace cerfcore {
+
 /* NXP linux-imx a1638da9d9fda588979360b33390cf612a256829,
    drivers/mxc/amd-gpu/include/api/gsl_pm4types.h: packet macros and header types. */
 const char* Imx51Gpu3dPacket::Decode(uint32_t header, uint64_t address,
@@ -51,4 +53,6 @@ bool Imx51Gpu3dPacket::OperandAddress(uint32_t index, uint64_t& operand_address)
         return false;
     operand_address = address + (uint64_t(index) + 1u) * 4u;
     return operand_address <= UINT32_MAX;
+}
+
 }

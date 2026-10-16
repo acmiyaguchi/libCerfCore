@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class FrameRenderer : public Service, public FrameSource {
 public:
     using Service::Service;
@@ -24,3 +26,5 @@ public:
 protected:
     LcdContentLatch latch_;
 };
+
+}

@@ -12,6 +12,8 @@
 
 #include <cstring>
 
+namespace cerfcore {
+
 namespace {
 
 /* SA-1100 8bpp dual-panel STN (Dev Man §11.7.1.2 / Fig 11-3): DBAR1 =
@@ -89,3 +91,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(HpJornada820LcdRenderer, PanelFrameRenderer);
+
+}

@@ -12,6 +12,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* Falcon (Askey PC320/PC331) board CPLD at PA 0xA3CC3000 (carved out of DRAM so
@@ -73,3 +75,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(AskeyPc3xxBoardCpld);
+
+}

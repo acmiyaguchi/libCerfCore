@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* IPU CM-Shadow / SRM window @ 0x5F040000 (MCIMX51RM Table 42-1); holds the DP
    synchronous-flow composition registers the guest programs for FG-over-BG. */
 class Imx51IpuSrm : public cerf_imx51_ipu_mem_detail::Imx51IpuInternalMem<0x5F040000u> {
@@ -20,3 +22,5 @@ public:
 
     void WriteWord(uint32_t addr, uint32_t value) override;
 };
+
+}

@@ -5,6 +5,8 @@
 #include <array>
 #include <cstdint>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 
@@ -30,3 +32,5 @@ private:
     uint32_t               field_    = 0;
     std::array<uint8_t, 2> type_{};
 };
+
+}

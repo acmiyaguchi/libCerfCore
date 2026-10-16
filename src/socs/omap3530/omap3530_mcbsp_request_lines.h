@@ -7,6 +7,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class IrqController;
 class StateReader;
 class StateWriter;
@@ -66,3 +68,5 @@ private:
     int                     irq_       = 0;
     bool                    irq_level_ = false;
 };
+
+}

@@ -5,6 +5,8 @@
 #include <string>
 #include <string_view>
 
+namespace cerfcore {
+
 static_assert(sizeof(wchar_t) == sizeof(char16_t));
 
 inline std::wstring Utf8ToWide(const char* utf8) {
@@ -24,4 +26,6 @@ inline const wchar_t* AsWide(const std::u16string& s) {
 
 inline std::u16string WideToUtf16(const std::wstring& w) {
     return std::u16string(w.begin(), w.end());
+}
+
 }

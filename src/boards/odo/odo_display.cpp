@@ -15,6 +15,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kDisplayRegsPa  = 0x10001000u;
@@ -246,3 +248,5 @@ public:
 REGISTER_SERVICE   (OdoDisplayRegs);
 REGISTER_SERVICE   (OdoDisplayDma);
 REGISTER_SERVICE_AS(OdoLcdRenderer, PanelFrameRenderer);
+
+}

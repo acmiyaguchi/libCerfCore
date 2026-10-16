@@ -5,6 +5,8 @@
 #include <cstddef>
 #include <cstdint>
 
+namespace cerfcore {
+
 /* The framebuffer + scanout geometry the Rage XL CRTC currently presents, decoded
    from the Mach64 CRTC registers and read by the FrameRenderer. Implemented by the
    AtiRageXl device; resolved via Get<RageXlDisplay>(). */
@@ -37,3 +39,5 @@ public:
     virtual Frame  CurrentFrame()  const = 0;
     virtual Cursor CurrentCursor() const = 0;
 };
+
+}

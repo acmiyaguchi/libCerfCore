@@ -21,6 +21,8 @@
 #include <cerfcore/state/hibernation.h>
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kSacr0Enb = 1u << 0;
@@ -390,3 +392,5 @@ void Sa1111Sac::PostRestore() {
 }
 
 REGISTER_SERVICE(Sa1111Sac);
+
+}

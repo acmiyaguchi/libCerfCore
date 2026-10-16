@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 struct Gpu2dCopySpec;
 
 /* The g12 direct-2D BitBlt engine: decodes a solid rect fill or a SCOORD1
@@ -32,3 +34,5 @@ private:
     [[noreturn]] void Halt(const uint32_t (&regs)[0x100], const char* why,
                            uint32_t addr, uint32_t data) const;
 };
+
+}

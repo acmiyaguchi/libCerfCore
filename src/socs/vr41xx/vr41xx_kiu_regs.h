@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace cerf_vr41xx_kiu_regs {
 
 /* VR4102 UM Table 21-1, VR4121 UM Table 22-1, VR4111 UM Table 22-1 p459; the
@@ -58,12 +60,37 @@ constexpr uint32_t kT2CntShift  = 5u;
 constexpr uint32_t kT3CntShift  = 10u;
 constexpr uint16_t kWintvlBits  = 0x03FFu;
 
+/* One set of key scan data walks every KSCAN pin, each costing T1CNT + T2CNT + T3CNT, and the
+   sets are separated by the KIUWKI interval (VR4111 UM 22.2.4 p466 / 22.2.5 p467 figures,
+   VR4102 UM p429 / p430, VR4121 UM Figure 22-2 p519 and Figure 22-3 p520). */
+constexpr uint32_t ScanPeriodTicks(uint16_t wks, uint32_t lines) {
+    const uint32_t t1 = wks & kCntBits;
+    const uint32_t t2 = (wks >> kT2CntShift) & kCntBits;
+    const uint32_t t3 = (wks >> kT3CntShift) & kCntBits;
+    return lines * (t1 + t2 + t3 + 3u);
+}
+
 /* SCANLINE LINE[1:0]: 00 twelve pins, 01 ten, 10 eight, 11 SCAN pins are output ports
    (VR4111 UM 22.2.9 p472, VR4102 UM 21.2.9 p434, VR4121 UM 22.2.9 p524). KSCAN[2n] and
    KSCAN[2n+1] land in KIUDATn (22.2.1 p461). */
 constexpr uint16_t kScanLineMask = 0x0003u;
 constexpr uint16_t kScanLineNone = 0x0003u;
 
+constexpr uint32_t ScanLineCount(uint16_t scanline) {
+    switch (scanline & kScanLineMask) {
+        case 0x0000u: return 12u;
+        case 0x0001u: return 10u;
+        case 0x0002u: return 8u;
+        default:      return 0u;
+    }
+}
+
 constexpr uint16_t kGpenMask = 0x0FFFu;
+
+constexpr bool GpenOnScanLines(uint16_t gpen, uint32_t lines) {
+    return (gpen & ((1u << lines) - 1u)) != 0u;
+}
+
+}
 
 }

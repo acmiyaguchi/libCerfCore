@@ -2,6 +2,8 @@
 
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 namespace {
 
 class NullBoardContext : public BoardContext {
@@ -16,3 +18,5 @@ public:
 }
 
 REGISTER_SERVICE_AS_FALLBACK(NullBoardContext, BoardContext);
+
+}

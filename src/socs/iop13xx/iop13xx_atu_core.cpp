@@ -9,6 +9,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kAtuCoreBase = 0xFFDCD000u;
@@ -95,3 +97,5 @@ private:
 REGISTER_SERVICE(Iop13xxAtuCore);
 
 } // namespace
+
+}

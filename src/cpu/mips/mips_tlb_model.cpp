@@ -3,6 +3,8 @@
 #include <cerfengine/mips/mips_cpu_state.h>
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 uint32_t MipsTlbModel::NextRandom(uint32_t first, uint32_t nb) {
     if (nb == 1) {
         return first;
@@ -30,4 +32,6 @@ void MipsTlbModel::SaveState(StateWriter& w) const {
 void MipsTlbModel::RestoreState(StateReader& r) {
     r.Read("lcg_seed", lcg_seed_);
     r.Read("prev_random_idx", prev_random_idx_);
+}
+
 }

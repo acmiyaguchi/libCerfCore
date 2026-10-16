@@ -4,5 +4,9 @@
 
 #include <servicelocator/deferred_service.h>
 
+namespace cerfcore {
+
 template <typename T>
 using DeferredService = servicelocator::DeferredService<CerfEmulator, T>;
+
+}

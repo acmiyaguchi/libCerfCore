@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* CPMEM bitfield positions (word, bit-offset, width) + the value-1 / EBA0<<3
    encodings are the IPUv3 layout from Linux drivers/gpu/ipu-v3/ipu-cpmem.c
    (IPU_FIELD_* macros) + MCIMX51RM Ch 42. */
@@ -30,3 +32,5 @@ Imx51IpuChannelDesc Imx51IpuCpmem::DecodeChannel(uint32_t ch) const {
 }
 
 REGISTER_SERVICE(Imx51IpuCpmem);
+
+}

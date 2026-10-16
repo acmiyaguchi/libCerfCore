@@ -10,6 +10,8 @@
 
 #include <utility>
 
+namespace cerfcore {
+
 namespace mb = omap3530_mcbsp;
 
 template <uint32_t kPort>
@@ -494,3 +496,5 @@ REGISTER_SERVICE(Omap3530McBsp2PortClock);
 REGISTER_SERVICE(Omap3530McBsp3PortClock);
 REGISTER_SERVICE(Omap3530McBsp4PortClock);
 REGISTER_SERVICE(Omap3530McBsp5PortClock);
+
+}

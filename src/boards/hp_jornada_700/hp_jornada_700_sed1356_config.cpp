@@ -4,6 +4,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "hp_jornada_700_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* Jornada 720: EPSON SED1356 / S1D13506 at host-bus PA 0x48000000 (SA-1110
@@ -32,3 +34,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(HpJornada700Sed1356Config, Sed1356Config);
+
+}

@@ -7,6 +7,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include "../../peripherals/peripheral_dispatcher.h"
 
+namespace cerfcore {
+
 namespace siemens_simatic_mp377 {
 
 bool SiemensSimaticMp377SmiBridgeWindow::ShouldRegister() {
@@ -65,3 +67,5 @@ bool SiemensSimaticMp377SmiBridgeWindow::IsSupportedOffset(uint32_t rel) {
 }
 
 } // namespace siemens_mp377
+
+}

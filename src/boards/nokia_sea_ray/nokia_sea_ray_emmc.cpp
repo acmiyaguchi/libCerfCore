@@ -18,6 +18,8 @@
 #include <cstring>
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 namespace ri = cerf::rom_image_parse;
@@ -379,3 +381,5 @@ private:
 }  // namespace
 
 REGISTER_SERVICE_AS(NokiaSeaRayEmmc, MmcCard);
+
+}

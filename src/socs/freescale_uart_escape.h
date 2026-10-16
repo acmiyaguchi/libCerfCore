@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class CerfEmulator;
 class StateReader;
 class StateWriter;
@@ -35,3 +37,5 @@ private:
     uint32_t count_ = 0;
     uint64_t last_  = 0;
 };
+
+}

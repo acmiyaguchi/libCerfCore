@@ -14,6 +14,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 bool Omap3530Intc::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     return bd && bd->GetSocId() == SocId::Omap3530;
@@ -301,3 +303,5 @@ public:
 
 REGISTER_SERVICE_AS(Omap3530Intc, IrqController);
 REGISTER_SERVICE   (Omap3530IntcMmio);
+
+}

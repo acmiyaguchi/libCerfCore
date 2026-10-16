@@ -10,6 +10,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kBase = 0x500FFFC0u;
@@ -82,3 +84,5 @@ void SamsungSmdk2410SpkHeadset::WriteByte(uint32_t addr, uint8_t value) {
 }  /* namespace */
 
 REGISTER_SERVICE(SamsungSmdk2410SpkHeadset);
+
+}

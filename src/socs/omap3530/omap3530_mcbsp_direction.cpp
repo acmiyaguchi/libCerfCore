@@ -7,6 +7,8 @@
 
 #include <vector>
 
+namespace cerfcore {
+
 template <uint32_t kPort>
 bool Omap3530McBspDirection<kPort>::ShouldRegister() {
     return emu_.Get<BoardContext>().GetSocId() == SocId::Omap3530;
@@ -53,3 +55,5 @@ template class Omap3530McBspDirection<2>;
 template class Omap3530McBspDirection<3>;
 template class Omap3530McBspDirection<4>;
 template class Omap3530McBspDirection<5>;
+
+}

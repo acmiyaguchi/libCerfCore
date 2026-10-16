@@ -9,6 +9,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* PXA27x Developer's Manual 280000-001 Table 20-29 (page 20-47): UHC registers
    0x4C00_0000 UHCREV .. 0x4C00_006C UHCHIT. Table 20-3 (page 20-10): OHCI 1.0a. */
 
@@ -303,3 +305,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(Pxa27xUsbHost);
+
+}

@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 /* Shared Win32 VK -> PS/2 Set 2 scancode map. device_code = scancode | extended<<8. */
 
 struct Ps2Set2Entry {
@@ -19,3 +21,5 @@ const Ps2Set2Entry* Ps2Set2Table();
    above (device_code = scancode | extended<<8). Consumed by a board's
    KeyboardMap::OnReady so both the input path and the mapping dialog share it. */
 std::vector<KeyBinding> Ps2Set2KeyBindings();
+
+}

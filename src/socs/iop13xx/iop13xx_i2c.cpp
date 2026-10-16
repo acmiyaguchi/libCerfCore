@@ -12,6 +12,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* Intel 81341 and 81342 I/O Processors Developer's Manual, chapter 14 and
@@ -298,3 +300,5 @@ private:
 REGISTER_SERVICE(Iop13xxI2c);
 
 } // namespace
+
+}

@@ -8,6 +8,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* Siemens P177 coupled-bootloader LCDC handoff (agent_docs/boot_loaders.md):
    the CE display driver inherits an already-running LCDC and never writes
    0x4D000000, so without this preset the controller is dark / screen blank.
@@ -95,3 +97,5 @@ public:
 }  // namespace
 
 REGISTER_SERVICE(SiemensSimaticTp177b4BootloaderLcd);
+
+}

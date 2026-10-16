@@ -16,6 +16,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* MCIMX31RM Ch 32 (Tables 32-23/24/32) USB-OTG, no USB device wired. PORTSC
@@ -405,3 +407,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(Imx31Usbotg);
+
+}

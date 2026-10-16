@@ -11,6 +11,8 @@
 #include <utility>
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 struct ClockRef { uint32_t ccgr; uint32_t cg; };
@@ -114,3 +116,5 @@ private:
 }
 
 REGISTER_SERVICE_AS(Imx51ModuleClocks, FreescaleModuleClocks);
+
+}

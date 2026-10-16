@@ -8,6 +8,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* Intel PXA27x Developer's Manual 280000-001 Table 27-34 (page 27-43):
@@ -113,3 +115,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(Pxa27xQuickCapture);
+
+}

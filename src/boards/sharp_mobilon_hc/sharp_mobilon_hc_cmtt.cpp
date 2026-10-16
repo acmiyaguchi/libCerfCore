@@ -7,6 +7,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kCmdInit  = 0x01200010u;   /* nk.exe sub_91023A40 */
@@ -62,3 +64,5 @@ bool SharpMobilonHcCmtt::ReadReady() const {
 }
 
 REGISTER_SERVICE(SharpMobilonHcCmtt);
+
+}

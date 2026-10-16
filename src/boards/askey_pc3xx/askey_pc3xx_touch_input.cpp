@@ -9,6 +9,8 @@
 #include <algorithm>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* falcon_4220__4_10 nk.exe sub_800F33D4 (OSMR1 branch) reads the word at 0xA3CC3000: 1 raises SYSINTR
@@ -69,3 +71,5 @@ private:
 }  // namespace
 
 REGISTER_SERVICE_AS(AskeyPc3xxTouchInput, TouchInput);
+
+}

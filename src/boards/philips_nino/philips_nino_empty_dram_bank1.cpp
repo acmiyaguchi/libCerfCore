@@ -7,6 +7,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* Table 4.2.1 (TMPR3911.pdf PDF p.103) decodes PA $0200_0000, 32 MB, as DRAM
@@ -57,3 +59,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(PhilipsNinoEmptyDramBank1);
+
+}

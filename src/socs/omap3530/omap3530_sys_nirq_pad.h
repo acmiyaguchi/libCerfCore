@@ -2,6 +2,8 @@
 
 #include <cerfcore/core/service.h>
 
+namespace cerfcore {
+
 class Omap3530SysNirqPad : public Service {
 public:
     using Service::Service;
@@ -16,3 +18,5 @@ private:
 
     bool low_ = false;
 };
+
+}

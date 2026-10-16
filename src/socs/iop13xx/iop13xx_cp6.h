@@ -8,6 +8,9 @@
 #include <mutex>
 
 namespace cerfengine { class ArmJit; }
+
+namespace cerfcore {
+
 class Iop13xxTimers;
 class StateReader;
 class StateWriter;
@@ -59,3 +62,5 @@ private:
     uint32_t intsize_ = 0;
     uint32_t rcsr_ = 0;
 };
+
+}

@@ -10,6 +10,8 @@
 
 #include <cstring>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kOffPanelEnable = 0x0980u;
@@ -205,4 +207,6 @@ void CasioJx670Display::RestoreState(StateReader& r) {
     r.Read("reg_0980", reg_0980_); r.Read("reg_0984", reg_0984_); r.Read("reg_0988", reg_0988_);
     r.Read("reg_098C", reg_098C_); r.Read("reg_0994", reg_0994_); r.Read("reg_099C", reg_099C_);
     size_latch_.RestoreState(r);
+}
+
 }

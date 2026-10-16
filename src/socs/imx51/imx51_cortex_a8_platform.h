@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Imx51CortexA8Platform : public Peripheral {
 public:
     using Peripheral::Peripheral;
@@ -29,3 +31,5 @@ private:
     uint32_t icgc_ = 0u;
     uint32_t amc_  = 0u;
 };
+
+}

@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* MCIMX31RM Table 2-3 SPBA0 layout: CSPI2 at 0x5001_0000, 16 KB. */
@@ -48,3 +50,5 @@ protected:
 }  /* namespace */
 
 REGISTER_SERVICE(Imx31Cspi2);
+
+}

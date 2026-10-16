@@ -3,6 +3,8 @@
 #include "../../socs/sa11xx/sa1110_sdram_geometry.h"
 #include "compaq_ipaq_h3000_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* Samsung K4S281632B datasheet, pin function description: "Row address : RA0 ~
@@ -25,3 +27,5 @@ public:
 }
 
 REGISTER_SERVICE_AS_FALLBACK(CompaqIpaqH3000K4s281632bSdram, Sa1110SdramGeometry);
+
+}

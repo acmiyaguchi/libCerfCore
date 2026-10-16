@@ -9,6 +9,8 @@
 #include <cerfcore/host/pointer_source.h>
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(PointerWidget);
 
 bool PointerWidget::ShouldRegister() {
@@ -101,4 +103,6 @@ void PointerWidget::RestoreWidgetState(StateReader& r) {
     r.Read("user_picked", picked);
     emu_.Get<PointerRouter>().RestoreUserPicked(picked != 0);
     if (auto* options = emu_.TryGet<PointerHostOptions>()) options->RestoreState(r);
+}
+
 }

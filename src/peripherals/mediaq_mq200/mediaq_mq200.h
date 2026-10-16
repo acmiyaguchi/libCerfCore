@@ -14,6 +14,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 class MediaQMq200 : public RasterScanPeripheral, public MediaQGeHost {
 public:
     using RasterScanPeripheral::RasterScanPeripheral;
@@ -107,3 +109,5 @@ private:
     MediaQMq200Gc::ScanTiming gc1_applied_;
     uint32_t                  gc1_held_vcount_ = 0;
 };
+
+}

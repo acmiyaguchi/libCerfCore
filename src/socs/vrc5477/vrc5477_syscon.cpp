@@ -12,6 +12,7 @@
 #include <cstdint>
 #include <cstring>
 
+namespace cerfcore {
 
 namespace {
 
@@ -126,3 +127,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(Vrc5477SysCon);
+
+}

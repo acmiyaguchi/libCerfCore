@@ -3,6 +3,8 @@
 #include "casio_jx670_family_id.h"
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 namespace {
 
 class CasioJx670Context : public BoardContext {
@@ -21,3 +23,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(CasioJx670Context, BoardContext);
+
+}

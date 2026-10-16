@@ -5,6 +5,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include "../pxa2xx/pxa2xx_intc.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* Intel PXA27x Developer's Manual 280000-001 Table 25-2 (page 25-5): IP[29]
@@ -70,3 +72,5 @@ private:
 REGISTER_SERVICE(Pxa27xOsTimer);
 
 }  /* namespace */
+
+}

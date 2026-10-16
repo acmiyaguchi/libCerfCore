@@ -20,6 +20,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kRecordDmaPa    = 0x10040810u;
@@ -275,4 +277,6 @@ void OdoAudioPlayer::PostRestore() {
     out_.BeginAudioOut();
     QueuePage(static_cast<uint32_t>(sample / kPageSamples),
               static_cast<uint32_t>(sample % kPageSamples));
+}
+
 }

@@ -17,6 +17,8 @@
 #include "../tracing/trace_manager.h"
 #include "guest_cycle_clock.h"
 
+namespace cerfcore {
+
 REGISTER_SERVICE_AS(MipsEngineBridge, EngineBridge);
 
 namespace {
@@ -181,4 +183,6 @@ void MipsEngineBridge::DispatchTraceIter() {
 #if CERF_DEV_MODE
     Trace().DispatchRunLoopIterMips(Engine().Get<cerfengine::MipsJit>().CpuState());
 #endif
+}
+
 }

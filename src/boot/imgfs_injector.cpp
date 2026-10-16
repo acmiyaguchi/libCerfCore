@@ -23,6 +23,8 @@
 #include <cstring>
 #include <vector>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(ImgfsInjector);
 
 namespace {
@@ -276,4 +278,6 @@ bool ImgfsInjector::ReplaceVictim(const char* victim_name,
     LOG(GuestAdditions, "[ImgfsInjector] %s injected: slots=%zu hdr=%zu\n",
         victim_name, slots.size(), new_hdr.size());
     return true;
+}
+
 }

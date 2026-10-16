@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Ac97Codec;
 class GuestCycleClock;
 class Pxa2xxAc97Interrupt;
@@ -63,3 +65,5 @@ private:
 
     uint32_t pocr_ = 0, picr_ = 0, mccr_ = 0, gcr_ = 0, mocr_ = 0, micr_ = 0;
 };
+
+}

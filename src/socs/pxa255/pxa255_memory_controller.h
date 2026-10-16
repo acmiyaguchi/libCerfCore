@@ -7,6 +7,8 @@
 #include <functional>
 #include <vector>
 
+namespace cerfcore {
+
 /* PXA255 Memory Controller (§6.13 Table 6-43, base 0x48000000). */
 class Pxa255MemoryController : public Peripheral {
 public:
@@ -41,3 +43,5 @@ private:
     uint64_t published_sdclk2_hz_ = 0;
     std::vector<std::function<void()>> sdclk2_listeners_;
 };
+
+}

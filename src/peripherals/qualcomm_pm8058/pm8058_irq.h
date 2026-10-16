@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 
@@ -59,3 +61,5 @@ private:
     uint8_t shape_guard_[kBlocks]        = {};
     uint8_t unmodeled_[kBlocks]          = {};
 };
+
+}

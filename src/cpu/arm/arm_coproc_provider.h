@@ -5,6 +5,8 @@
 #include <cerfcore/core/service.h>
 #include <cerfengine/arm/arm_system_host.h>
 
+namespace cerfcore {
+
 class ArmCp15Decisions;
 
 class ArmCoprocProvider : public Service {
@@ -33,3 +35,5 @@ protected:
 private:
     ArmCp15Decisions* cp15_ = nullptr;
 };
+
+}

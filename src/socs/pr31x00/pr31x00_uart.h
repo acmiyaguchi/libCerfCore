@@ -14,6 +14,8 @@
 #include <optional>
 #include <string>
 
+namespace cerfcore {
+
 class Pr31x00Clock;
 class SerialCradle;
 
@@ -115,3 +117,5 @@ private:
 
     std::unique_ptr<SerialCradle> cradle_;
 };
+
+}

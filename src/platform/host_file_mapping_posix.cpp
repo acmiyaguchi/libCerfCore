@@ -2,6 +2,8 @@
 
 #include "host_unimplemented.h"
 
+namespace cerfcore {
+
 namespace host_platform {
 
 bool OpenMappedFile(const std::string&, FileMapping&) { NoHostImplementation("OpenMappedFile"); }
@@ -12,5 +14,7 @@ uint8_t* MapFileView(const FileMapping&, uint64_t, size_t) {
 }
 
 void UnmapFileView(uint8_t*) { NoHostImplementation("UnmapFileView"); }
+
+}
 
 }

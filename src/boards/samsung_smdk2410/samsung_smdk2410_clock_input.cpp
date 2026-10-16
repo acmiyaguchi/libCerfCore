@@ -4,6 +4,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "samsung_smdk2410_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* S3C2410A UM p.7-20: the PLL value selection table is tabulated at Input
@@ -24,3 +26,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(SamsungSmdk2410ClockInput, S3C2410ClockInput);
+
+}

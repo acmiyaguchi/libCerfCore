@@ -12,6 +12,8 @@
 
 #include <algorithm>
 
+namespace cerfcore {
+
 void FreescaleSdmaAudioPlayer::OnReady() {
     wiring_ = &emu_.Get<FreescaleSsiSdmaWiring>();
     for (uint32_t ssi = 1u; ssi <= wiring_->SsiCount(); ++ssi) {
@@ -156,4 +158,6 @@ void FreescaleSdmaAudioPlayer::RestoreSinkState(StateReader& r) {
 
 void FreescaleSdmaAudioPlayer::PostRestoreSink() {
     for (auto& s : streams_) s->PostRestore();
+}
+
 }

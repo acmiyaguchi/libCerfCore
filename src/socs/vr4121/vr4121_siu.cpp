@@ -4,6 +4,8 @@
 #include "vr4121_id.h"
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 namespace {
 
 class Vr4121Siu : public Vr41xxSiuResetCsel {
@@ -19,3 +21,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE(Vr4121Siu);
+
+}

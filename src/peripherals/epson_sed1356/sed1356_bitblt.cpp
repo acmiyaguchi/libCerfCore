@@ -6,6 +6,8 @@
 #include <cstring>
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 /* Mono bit-stream order within a data word (Programming Notes §10.2.2
@@ -379,4 +381,6 @@ void Sed1356BitBlt::RestoreState(StateReader& r) {
     for (uint64_t i = 0; i < n; ++i) { uint16_t v = 0; r.Read("in_fifo", v); in_fifo_.push_back(v); }
     r.Read("out_fifo_count", n); out_fifo_.clear();
     for (uint64_t i = 0; i < n; ++i) { uint16_t v = 0; r.Read("out_fifo", v); out_fifo_.push_back(v); }
+}
+
 }

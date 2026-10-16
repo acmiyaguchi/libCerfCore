@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* The IT8368E is on chip select 2, PA $1040_0000: pcmcia.dll sub_14913DC
@@ -35,3 +37,5 @@ protected:
 }
 
 REGISTER_SERVICE(SharpMobilonHcSocketController);
+
+}

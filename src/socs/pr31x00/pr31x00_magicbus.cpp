@@ -9,6 +9,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* Magicbus Control 1 Register, IFR offset $0E0 (TMPR3911 §11.4.1). */
@@ -64,3 +66,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(Pr31x00Magicbus);
+
+}

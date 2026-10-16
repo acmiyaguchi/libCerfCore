@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace vr4121_bcu {
 
 constexpr uint32_t kOffRamSize = 0x06u;
@@ -19,6 +21,8 @@ constexpr uint16_t kRamSizeWmask = 0x7777u;
 
 constexpr uint32_t RamSizeCode(uint16_t ramsize, uint32_t bank) {
     return (ramsize >> (4u * bank)) & 0x7u;
+}
+
 }
 
 }

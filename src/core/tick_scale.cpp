@@ -2,6 +2,8 @@
 
 #include <cerfcore/core/log.h>
 
+namespace cerfcore {
+
 void ExactScale::Set(const WideUint<2>& num, const WideUint<2>& den) {
     num_          = num;
     den_          = den;
@@ -50,4 +52,6 @@ uint64_t ExactScale::RequireDenU64() const {
         CerfFatalExit(CERF_FATAL_RUNTIME_ERROR);
     }
     return den_.w[0];
+}
+
 }

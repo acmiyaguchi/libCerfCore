@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Sa11xxExternalClocks;
 class StateReader;
 class StateWriter;
@@ -56,3 +58,5 @@ private:
     uint32_t mccr0_       = 0;
     uint32_t mccr1_       = 0;
 };
+
+}

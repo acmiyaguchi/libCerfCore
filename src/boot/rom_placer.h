@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 struct ParsedRom;
 
 /* RomPlacer - copies each parsed ROM partition's flat bytes into
@@ -29,3 +31,5 @@ private:
     void PlaceB000FFSections(const ParsedRom& rom, bool volatile_only);
     bool IsVolatilePa(uint32_t pa);
 };
+
+}

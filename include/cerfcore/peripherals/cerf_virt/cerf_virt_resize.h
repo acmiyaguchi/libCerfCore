@@ -5,6 +5,8 @@
 #include <atomic>
 #include <cstdint>
 
+namespace cerfcore {
+
 class CerfVirtResize : public Peripheral {
 public:
     using Peripheral::Peripheral;
@@ -31,3 +33,5 @@ private:
     std::atomic<uint32_t> applied_h_{0};
     std::atomic<uint32_t> applied_gen_{0};
 };
+
+}

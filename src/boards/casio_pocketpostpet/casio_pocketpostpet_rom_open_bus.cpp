@@ -3,6 +3,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include "casio_pocketpostpet_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* ROM Area PA 0x18000000-0x1FFFFFFF; ROMCS banks stack down from 0x1FFFFFFF, top
@@ -34,3 +36,5 @@ protected:
 }  /* namespace */
 
 REGISTER_SERVICE(CasioPocketpostpetRomOpenBus);
+
+}

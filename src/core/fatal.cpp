@@ -7,6 +7,8 @@
 #include <cstdarg>
 #include <cstdio>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(Fatal);
 
 void Fatal::Die(const char* fmt, ...) {
@@ -24,4 +26,6 @@ void Fatal::Die(const char* fmt, ...) {
     LOG(Caution, "%s\n", reason);
 
     CerfFatalExit(CERF_FATAL_RUNTIME_ERROR);
+}
+
 }

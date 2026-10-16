@@ -4,6 +4,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include "ipaq_h31xx_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class CompaqIpaqH31xxStnPanel : public CompaqIpaqH3000Panel {
@@ -22,3 +24,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(CompaqIpaqH31xxStnPanel, CompaqIpaqH3000Panel);
+
+}

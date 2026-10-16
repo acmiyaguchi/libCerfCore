@@ -7,6 +7,8 @@
 #include <functional>
 #include <vector>
 
+namespace cerfcore {
+
 class Omap3530CmClockControl;
 class Omap3530CmCore;
 class Omap3530CmMcBspGateBlock;
@@ -40,3 +42,5 @@ private:
     Omap3530McBspClockPad*             pad_           = nullptr;
     std::vector<std::function<void()>> listeners_;
 };
+
+}

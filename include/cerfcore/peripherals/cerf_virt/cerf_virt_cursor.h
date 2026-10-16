@@ -7,6 +7,8 @@
 #include <mutex>
 #include <vector>
 
+namespace cerfcore {
+
 struct GuestCursorShape {
     bool     visible = false;
     uint8_t  pad[3]  = {};
@@ -51,3 +53,5 @@ private:
     GuestCursorShape      shape_;
     bool                  has_shape_ = false;
 };
+
+}

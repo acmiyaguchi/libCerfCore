@@ -9,6 +9,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kBase = 0x10000000u;
@@ -112,3 +114,5 @@ void Pd6710MemWindow::WriteHalf(uint32_t addr, uint16_t value) {
 }
 
 REGISTER_SERVICE(Pd6710MemWindow);
+
+}

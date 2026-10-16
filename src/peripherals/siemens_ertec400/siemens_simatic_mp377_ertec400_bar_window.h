@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class SiemensSimaticMp377Ertec400BarWindow : public Peripheral {
 public:
     using Peripheral::Peripheral;
@@ -17,3 +19,5 @@ public:
     void WriteHalf(uint32_t address, uint16_t value) override;
     void WriteWord(uint32_t address, uint32_t value) override;
 };
+
+}

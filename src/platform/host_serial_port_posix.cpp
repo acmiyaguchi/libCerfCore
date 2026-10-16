@@ -2,6 +2,8 @@
 
 #include "host_unimplemented.h"
 
+namespace cerfcore {
+
 namespace host_platform {
 
 struct HostSerialPort::Impl {};
@@ -37,5 +39,7 @@ void HostSerialPort::RequestStop() { NoHostImplementation("HostSerialPort::Reque
 bool HostSerialPort::WaitStopped(uint32_t) { NoHostImplementation("HostSerialPort::WaitStopped"); }
 
 std::vector<std::string> EnumerateSerialPorts() { NoHostImplementation("EnumerateSerialPorts"); }
+
+}
 
 }

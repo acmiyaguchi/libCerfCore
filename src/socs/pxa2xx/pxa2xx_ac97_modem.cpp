@@ -4,6 +4,8 @@
 #include "../../peripherals/ac97_codec.h"
 #include "pxa2xx_dma.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* Intel PXA255 Developer's Manual Table 5-5 (page 5-13) and Intel PXA27x Developer's Manual Table 5-10
@@ -30,3 +32,5 @@ void Pxa2xxAc97Modem::Prune(uint64_t settled) { codec_->PruneSlotWords(kModemSlo
 uint16_t Pxa2xxAc97Modem::SlotValue(uint64_t n) { return codec_->SlotWord(kModemSlot, n); }
 
 REGISTER_SERVICE(Pxa2xxAc97Modem);
+
+}

@@ -4,6 +4,8 @@
 #define NOMINMAX
 #include <windows.h>
 
+namespace cerfcore {
+
 namespace host_platform {
 
 int64_t MonotonicTicks() {
@@ -24,6 +26,8 @@ void CpuRelax() {
 
 void LocalCalendarTime(std::time_t t, std::tm& out) {
     localtime_s(&out, &t);
+}
+
 }
 
 }

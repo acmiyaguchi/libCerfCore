@@ -6,6 +6,8 @@
 
 #include "odo_touch_sound.h"
 
+namespace cerfcore {
+
 namespace {
 
 class OdoTouchInput : public TouchInput {
@@ -35,3 +37,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(OdoTouchInput, TouchInput);
+
+}

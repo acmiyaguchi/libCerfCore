@@ -13,6 +13,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* Intel PXA255 Developer's Manual Table 14-3 (page 14-9) SACR0: ENB 0, BCKD 2, RST 3, EFWR 4, STRF 5,
@@ -146,3 +148,5 @@ void Pxa255I2s::WriteSacr0(uint64_t now, uint32_t value) {
 }  // namespace
 
 REGISTER_SERVICE(Pxa255I2s);
+
+}

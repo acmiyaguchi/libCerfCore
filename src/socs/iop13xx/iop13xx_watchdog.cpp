@@ -9,6 +9,8 @@
 #include <cerfcore/socs/guest_cpu_reset.h>
 #include "../irq_controller.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* Intel 81341/81342 Developer's Manual section 12.4.6 (printed p. 819): 1E1E1E1EH then E1E1E1E1H enables or
@@ -214,3 +216,5 @@ void Iop13xxWatchdog::PostRestore() {
 }
 
 REGISTER_SERVICE(Iop13xxWatchdog);
+
+}

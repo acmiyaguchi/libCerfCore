@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <memory>
 
+namespace cerfcore {
+
 /* HP F1252A "HP Palmtop VGA" PC Card - a standard VGA-compatible SVGA
    controller on a 16-bit PC Card that drives an external monitor. Board-
    agnostic: pluggable into any slot via the catalog. On the Jornada 720 the
@@ -75,3 +77,5 @@ private:
 
     uint32_t last_w_ = 0, last_h_ = 0;
 };
+
+}

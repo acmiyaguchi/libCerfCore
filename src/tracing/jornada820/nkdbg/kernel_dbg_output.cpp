@@ -5,6 +5,8 @@
 
 #include <string>
 
+namespace cerfcore {
+
 namespace {
 
 /* CE 2.11 kernel per-char debug writer sub_8005B57C (R0 = char) - the byte sink
@@ -28,3 +30,5 @@ public:
 }  // namespace
 
 REGISTER_SERVICE(HpJornada820KernelDbgOutput);
+
+}

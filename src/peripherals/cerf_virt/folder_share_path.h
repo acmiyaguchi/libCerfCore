@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <string>
 
+namespace cerfcore {
+
 class FolderSharePath : public Service {
 public:
     using Service::Service;
@@ -18,3 +20,5 @@ public:
     static void     FillInfo(CerfVirt::ServerPB& pb, const host_platform::SharedFsInfo& info);
     static void     FillName(CerfVirt::ServerPB& pb, const std::u16string& name);
 };
+
+}

@@ -5,6 +5,8 @@
 
 #include <vector>
 
+namespace cerfcore {
+
 class KeyboardHotkeys : public Service {
 public:
     using Service::Service;
@@ -14,3 +16,5 @@ public:
 
     virtual std::vector<HotkeySection> HotkeySections() = 0;
 };
+
+}

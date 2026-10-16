@@ -12,6 +12,8 @@
 
 #include <algorithm>
 
+namespace cerfcore {
+
 using namespace cerf_freescale_uart;
 
 void FreescaleUartSdma::Bind(FreescaleSdmaChannelHost* host, uint32_t tx_event, uint32_t rx_event,
@@ -241,4 +243,6 @@ void FreescaleUartSdma::Restore(StateReader& r) {
     rx_active_ = rx_active != 0u;
     rx_open_   = rx_open != 0u;
     rx_cont_   = rx_cont != 0u;
+}
+
 }

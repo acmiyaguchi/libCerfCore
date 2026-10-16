@@ -8,6 +8,8 @@
 #include <cstdint>
 #include <optional>
 
+namespace cerfcore {
+
 namespace {
 
 /* casio_cassiopeia_e55 touch.dll sub_14D05DC issues one command scan, PIUCMDREG = 0xCC0, whose
@@ -48,3 +50,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(CasioTomcatTouchPanel, Vr41xxPiuPanel);
+
+}

@@ -11,6 +11,8 @@
 
 #include <algorithm>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint16_t kChannels     = 2u;
@@ -165,3 +167,5 @@ int16_t Tps65950AudioUplink::Sample(uint64_t frame, Channel ch) {
 }
 
 REGISTER_SERVICE(Tps65950AudioUplink);
+
+}

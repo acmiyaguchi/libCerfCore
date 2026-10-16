@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 /* Standard VGA-compatible SVGA controller as found on the HP F1252A "HP
    Palmtop VGA" PC Card (and VGA-register-compatible siblings). The card's
    driver (jornada720 hpvgaout.dll / pcvgaout.dll, reverse-engineered) drives a
@@ -86,3 +88,5 @@ private:
 
     std::vector<uint8_t> fb_;
 };
+
+}

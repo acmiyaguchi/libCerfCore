@@ -11,6 +11,8 @@
 
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 const Sa1111SacDmaChannel::Names kTxNames{
@@ -112,3 +114,5 @@ void Sa1111SacDma::OnRestored() {
 }
 
 REGISTER_SERVICE(Sa1111SacDma);
+
+}

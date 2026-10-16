@@ -9,6 +9,8 @@
 #include "../../socs/pr31x00/pr31x00_intc.h"
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 
 /* SPIRCVINT is Interrupt Status 5 bit 19 (R3912.H INTR_SPIRCVINT under
@@ -145,3 +147,5 @@ void PhilipsVelo1KeyboardEc::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE_AS(PhilipsVelo1KeyboardEc, Pr31x00SpiSlave);
+
+}

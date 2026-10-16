@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class S3C2410TouchCalibration : public Service {
 public:
     using Service::Service;
@@ -23,3 +25,5 @@ protected:
         return (uint16_t)(v + 0.5);
     }
 };
+
+}

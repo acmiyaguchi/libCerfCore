@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 
+namespace cerfcore {
+
 class Vr4121DramDecode : public Service {
 public:
     using Service::Service;
@@ -32,3 +34,5 @@ private:
     std::vector<Chip> chips_;
     uint64_t          signature_ = 0;
 };
+
+}

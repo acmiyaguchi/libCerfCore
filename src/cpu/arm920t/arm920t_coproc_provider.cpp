@@ -5,6 +5,8 @@
 #include "../../socs/s3c2410/s3c2410_id.h"
 #include "../arm/arm_cp15_decisions.h"
 
+namespace cerfcore {
+
 namespace {
 
 using cerfengine::ArmCoprocAccess;
@@ -40,3 +42,5 @@ protected:
 }
 
 REGISTER_SERVICE_AS(Arm920TCoprocProvider, ArmCoprocProvider);
+
+}

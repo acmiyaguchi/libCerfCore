@@ -15,6 +15,8 @@
 #include <cstdint>
 #include <string_view>
 
+namespace cerfcore {
+
 namespace cerf_freescale_wdog_detail {
 
 constexpr uint32_t kSize = 0x00004000u;
@@ -320,5 +322,7 @@ private:
     uint64_t                    restored_phase_ = 0u;
     uint64_t                    restored_den_   = 1u;
 };
+
+}
 
 }

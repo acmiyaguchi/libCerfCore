@@ -14,6 +14,8 @@
 #include <atomic>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace cerf_vr41xx_pmu_detail {
 
 constexpr uint32_t kOffIntReg  = 0x00u;
@@ -256,5 +258,7 @@ protected:
     std::atomic<bool>     hibernating_{false};
     std::atomic<bool>     wake_pending_{false};
 };
+
+}
 
 }

@@ -4,6 +4,8 @@
 #include <cstddef>
 #include <cstdint>
 
+namespace cerfcore {
+
 class EmulatedMemory;
 
 /* Re-probing every frame would un-latch when CE clears the fb to
@@ -34,3 +36,5 @@ private:
     std::atomic<bool>     have_baseline_{false};
     std::atomic<uint64_t> baseline_sig_{0};
 };
+
+}

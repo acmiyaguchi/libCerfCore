@@ -8,6 +8,8 @@
 #include <optional>
 #include <vector>
 
+namespace cerfcore {
+
 struct Vr4121DramWiring {
     bool                    dbus32 = false;
     std::array<uint32_t, 4> bank_chip_bytes{};
@@ -23,3 +25,5 @@ public:
 
     virtual std::vector<Vr41xxBcuBootWrite> KernelEntryWrites() const = 0;
 };
+
+}

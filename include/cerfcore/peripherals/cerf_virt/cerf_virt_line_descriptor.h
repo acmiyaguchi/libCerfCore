@@ -3,6 +3,7 @@
 #include "cerf_virt_blt_descriptor.h"
 
 #if defined(__cplusplus)
+namespace cerfcore {
 namespace CerfVirt {
 #endif
 
@@ -29,5 +30,6 @@ typedef struct CerfLineDescriptor {
 } CerfLineDescriptor;
 
 #if defined(__cplusplus)
+}
 }
 #endif

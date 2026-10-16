@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace host_platform {
 
 class HostEvent {
@@ -18,5 +20,7 @@ public:
 private:
     void* handle_ = nullptr;
 };
+
+}
 
 }

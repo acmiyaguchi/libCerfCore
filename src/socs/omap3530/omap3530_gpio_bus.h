@@ -6,6 +6,8 @@
 #include <cstdint>
 #include <optional>
 
+namespace cerfcore {
+
 class Omap3530GpioBankBase;
 
 class Omap3530GpioBus : public Service {
@@ -31,3 +33,5 @@ private:
     static constexpr uint32_t kBankCount = 6;
     std::array<Omap3530GpioBankBase*, kBankCount> banks_{};
 };
+
+}

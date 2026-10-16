@@ -5,6 +5,8 @@
 #include <cerfcore/core/log.h>
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 
 /* USB 2.0 Spec 11.23.1 (p408): Full-/Low-speed Operating Hub Device
@@ -187,4 +189,6 @@ void UsbHub::RestoreState(StateReader& r) {
 
 void UsbHub::PostRestore() {
     for (auto& p : ports_) p.PostRestore();
+}
+
 }

@@ -16,6 +16,8 @@
 #include <array>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kBase = 0x73F80000u;
@@ -447,4 +449,6 @@ void Imx51Usboh3::ExecutePrime(uint32_t prime_bits) {
     regs_[kOffEndptcomplete >> 2] |= done;
     regs_[kOffUsbsts >> 2] |= kStsUi;
     RefreshDeviceIrq();
+}
+
 }

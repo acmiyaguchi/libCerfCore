@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Vr41xxRtclCensus {
 public:
     enum class Pair { NoGrid, Latched, Banked, Zero, Absorbable };
@@ -33,3 +35,5 @@ private:
     int64_t report_ns_ = 0;
     Channel ch_[2];
 };
+
+}

@@ -5,6 +5,8 @@
 #include <atomic>
 #include <cstdint>
 
+namespace cerfcore {
+
 /* Linux arch/arm/mach-msm gpiomux-v1.h: GPIOMUX_NGPIOS is 182 under
    CONFIG_ARCH_MSM7X30. */
 inline constexpr uint32_t kMsm8255GpioPinCount = 182u;
@@ -225,3 +227,5 @@ private:
     std::atomic<uint32_t> driven_[kBankCount]                     = {};
     std::atomic<uint32_t> status_[kBankCount]                     = {};
 };
+
+}

@@ -5,6 +5,8 @@
 #include <atomic>
 #include <cstdint>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 
@@ -32,3 +34,5 @@ private:
     std::atomic<uint32_t> mdh_granted_khz_[kMsm8255MdhIndexCount] = {};
     std::atomic<uint32_t> mdp_core_granted_hz_{0u};
 };
+
+}

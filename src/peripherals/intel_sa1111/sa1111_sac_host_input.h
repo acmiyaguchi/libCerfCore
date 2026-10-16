@@ -5,6 +5,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Sa1111SacHostInput : public Service {
 public:
     using Service::Service;
@@ -21,3 +23,5 @@ private:
     WaveInFifo mic_;
     uint32_t   rate_ = 0;
 };
+
+}

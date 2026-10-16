@@ -4,6 +4,8 @@
 #include <cerfcore/state/state_stream.h>
 #include "../irq_controller.h"
 
+namespace cerfcore {
+
 void Omap3530McBspRequestLines::InitRequestLines(uint32_t source, Omap3530McBspDir dir, int irq) {
     cycles_  = &emu_.Get<GuestCycleClock>();
     sdma_    = &emu_.Get<Omap3530Sdma>();
@@ -141,4 +143,6 @@ void Omap3530McBspRequestLines::RestoreRequest(StateReader& r) {
     r.Read(rx ? "mcbsp_rx_line_up" : "mcbsp_tx_line_up", line_up);
     request_ = request != 0u;
     line_up_ = line_up != 0u;
+}
+
 }

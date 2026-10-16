@@ -8,6 +8,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* SMSC LAN9115 Ethernet controller (TP177B, S3C2410 nGCS5). Reported present +
    ready so lan9115.dll MiniportInitialize succeeds; an absent model fails its
    chip-rev check and NDIS faults (BVA 0x504D4466). No TX/RX/IRQ - boot needs init
@@ -135,3 +137,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(SmscLan9115);
+
+}

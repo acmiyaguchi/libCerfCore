@@ -3,6 +3,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 
@@ -132,3 +134,5 @@ private:
     std::vector<uint8_t> control_reply_;
     uint32_t control_reply_offset_ = 0;
 };
+
+}

@@ -11,6 +11,8 @@
 
 #include <string>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(CerfVirtColorScheme);
 
 namespace {
@@ -202,4 +204,6 @@ void CerfVirtColorScheme::RestoreState(StateReader& r) {
     r.Read("present", v); present_ = (v != 0u);
     r.Read("count", v); count_ = v;
     for (uint32_t i = 0; i < CerfVirt::kColorSchemeMax; ++i) { r.Read("entries", v); entries_[i] = v; }
+}
+
 }

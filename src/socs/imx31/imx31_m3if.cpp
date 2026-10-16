@@ -8,6 +8,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kM3ifBase = 0xB8003000u;
@@ -73,3 +75,5 @@ void Imx31M3if::WriteWord(uint32_t addr, uint32_t value) {
 }  /* namespace */
 
 REGISTER_SERVICE(Imx31M3if);
+
+}

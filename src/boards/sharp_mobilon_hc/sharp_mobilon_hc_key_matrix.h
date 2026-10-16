@@ -6,6 +6,8 @@
 #include <atomic>
 #include <cstdint>
 
+namespace cerfcore {
+
 /* keybddr.dll matrix scanner at PA 0x6C000000 (sub_14B12E4 maps phys
    0x6C000000; sub_14B166C reads column c at offset (2<<c); sub_14B17D0
    rawcode = col*16+row): read16(off) = OR of columns c where off bit
@@ -32,3 +34,5 @@ private:
 
     std::array<std::atomic<uint16_t>, 8> rows_{};
 };
+
+}

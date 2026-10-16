@@ -5,6 +5,8 @@
 
 #include <algorithm>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kSecMagic    = 0x400D400Du;
@@ -77,4 +79,6 @@ size_t SecContainer::ReadFlash(MappedFile& mf, uint64_t flash_off,
         if (got < remain) break;          /* end of file */
     }
     return copied;
+}
+
 }

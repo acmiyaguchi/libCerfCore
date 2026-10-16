@@ -6,6 +6,8 @@
 
 #include <algorithm>
 
+namespace cerfcore {
+
 void RasterScanPeripheral::AttachScanClock() {
     clock_ = &emu_.Get<GuestCycleClock>();
     event_ = clock_->Add([this] { OnScanEvent(); });
@@ -190,4 +192,6 @@ void RasterScanPeripheral::ResumeScanLocked(uint64_t now) {
     }
     state_ = State::Live;
     ArmLocked();
+}
+
 }

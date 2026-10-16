@@ -4,6 +4,8 @@
 #include <cstdint>
 #include <string>
 
+namespace cerfcore {
+
 namespace host_platform {
 
 struct FileMapping {
@@ -17,5 +19,7 @@ bool     OpenMappedFile(const std::string& path, FileMapping& mapping);
 void     CloseMappedFile(FileMapping& mapping);
 uint8_t* MapFileView(const FileMapping& mapping, uint64_t offset, size_t length);
 void     UnmapFileView(uint8_t* view);
+
+}
 
 }

@@ -2,7 +2,11 @@
 
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 Sa11xxMcpTelecomReceivePath::Sa11xxMcpTelecomReceivePath(CerfEmulator& emu)
     : Sa11xxMcpReceivePath(emu) {}
 
 REGISTER_SERVICE(Sa11xxMcpTelecomReceivePath);
+
+}

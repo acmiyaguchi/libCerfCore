@@ -10,6 +10,8 @@
 
 #include <string>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(SecFlash);
 
 bool SecFlash::ShouldRegister() {
@@ -34,4 +36,6 @@ void SecFlash::OnReady() {
     LOG(Boot, "SecFlash: %s - %u chunks, %.1f MB de-chunked flash\n",
         path.c_str(), sec_.Header().chunk_count,
         double(FlashSize()) / 1024.0 / 1024.0);
+}
+
 }

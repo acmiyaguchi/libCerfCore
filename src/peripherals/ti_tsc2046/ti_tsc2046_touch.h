@@ -6,6 +6,8 @@
 #include <atomic>
 #include <cstdint>
 
+namespace cerfcore {
+
 class Tsc2046Touch : public Service, public McspiSlave {
 public:
     using Service::Service;
@@ -28,3 +30,5 @@ private:
     std::atomic<uint16_t> adc_y_   {0};
     std::atomic<bool>     pen_down_{false};
 };
+
+}

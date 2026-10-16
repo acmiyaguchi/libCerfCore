@@ -4,6 +4,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "nec_mobilepro_900_series_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class NecMobilepro900SeriesI2sBitClockInput : public Pxa255I2sBitClockInput {
@@ -24,3 +26,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(NecMobilepro900SeriesI2sBitClockInput, Pxa255I2sBitClockInput);
+
+}

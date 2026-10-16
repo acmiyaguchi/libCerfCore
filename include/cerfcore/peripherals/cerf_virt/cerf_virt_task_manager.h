@@ -9,6 +9,8 @@
 #include <string>
 #include <vector>
 
+namespace cerfcore {
+
 class CerfVirtTaskManager : public Peripheral {
 public:
     using Peripheral::Peripheral;
@@ -98,3 +100,5 @@ private:
     Snapshot                    snap_;
     std::optional<ActionResult> last_action_;
 };
+
+}

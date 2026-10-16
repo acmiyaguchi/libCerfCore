@@ -6,6 +6,8 @@
 
 #include <cerfengine/byte_order.h>
 
+namespace cerfcore {
+
 namespace cerf {
 
 using cerfengine::ByteWidthMask;
@@ -72,6 +74,8 @@ inline void Append16(std::vector<uint8_t>& out, uint16_t v) {
 inline void Append32(std::vector<uint8_t>& out, uint32_t v) {
     Append16(out, uint16_t(v >> 16));
     Append16(out, uint16_t(v));
+}
+
 }
 
 }

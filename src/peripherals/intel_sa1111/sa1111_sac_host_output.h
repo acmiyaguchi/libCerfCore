@@ -5,6 +5,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Sa1111SacHostOutput : public Service {
 public:
     using Service::Service;
@@ -24,3 +26,5 @@ private:
     uint32_t     rate_   = 0;
     bool         active_ = false;
 };
+
+}

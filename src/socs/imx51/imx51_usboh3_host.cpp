@@ -8,6 +8,8 @@
 #include "../../peripherals/usb/usb_device.h"
 #include "../irq_controller.h"
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kOffUsbcmdRel  = 0x00000140u;
@@ -286,4 +288,6 @@ bool Imx51Usboh3::ExecuteQtd(uint32_t qtd_addr, UsbDevice* dev, uint32_t endpt) 
     }
 
     return retire(residual, false);
+}
+
 }

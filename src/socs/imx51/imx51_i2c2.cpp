@@ -2,6 +2,8 @@
 
 #include "../../peripherals/freescale_mc13892/mc13892_pmic.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* I2C2 @ 0x83FC4000, TZIC source 63 (MCIMX51RM Table 3-2; base from the BSP
@@ -17,3 +19,5 @@ class Imx51I2c2
 }  /* namespace */
 
 REGISTER_SERVICE(Imx51I2c2);
+
+}

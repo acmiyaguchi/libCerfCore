@@ -8,6 +8,8 @@
 #include <cstring>
 #include <vector>
 
+namespace cerfcore {
+
 namespace host_platform {
 
 bool StartNetworking(int& error) {
@@ -90,6 +92,8 @@ int HostPollSet::Revents(int index) const {
 
 int HostPollSet::Wait(int timeout_ms) {
     return WSAPoll(entries_->fds.data(), (ULONG)entries_->fds.size(), timeout_ms);
+}
+
 }
 
 }

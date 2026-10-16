@@ -11,6 +11,8 @@
 #include <cstdint>
 #include <cstring>
 
+namespace cerfcore {
+
 namespace {
 
 /* Intel PXA27x Developer's Manual 280000-001 Table 5-22 (pages 5-51 through
@@ -349,3 +351,5 @@ private:
 }  // namespace
 
 REGISTER_SERVICE_AS(Pxa27xDma, Pxa2xxDma);
+
+}

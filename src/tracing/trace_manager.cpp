@@ -6,6 +6,8 @@
 #include "../execution/engine_bridge.h"
 #include <cerfengine/mips/mips_cpu_state.h>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(TraceManager);
 
 namespace {
@@ -145,3 +147,5 @@ void TraceManager::DispatchRunLoopIterMips(const cerfengine::MipsCpuState* st) {
 }
 
 #endif  /* CERF_DEV_MODE */
+
+}

@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kDramVaBase = 0x80000000u;
@@ -40,3 +42,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(PhilipsNinoPageTableBuilder, PageTableBuilder);
+
+}

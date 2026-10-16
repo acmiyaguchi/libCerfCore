@@ -5,6 +5,8 @@
 
 #include <filesystem>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr char kSeparator = static_cast<char>(std::filesystem::path::preferred_separator);
@@ -41,4 +43,6 @@ bool IsAbsoluteHostPath(const std::string& path) {
 std::string ResolveDeviceFile(const std::string& device_name, const std::string& filename) {
     if (IsAbsoluteHostPath(filename)) return filename;
     return GetDeviceDir(device_name) + filename;
+}
+
 }

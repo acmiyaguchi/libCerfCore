@@ -3,6 +3,8 @@
 #include "../../socs/sa11xx/sa11xx_boot_straps.h"
 #include "ipaq_h31xx_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* Bundle ipaq_h3100_ppc2002, nk.exe start table at 0x80041248: MSC0 0x46944694
@@ -22,3 +24,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(CompaqIpaqH31xxBootStraps, Sa11xxBootStraps);
+
+}

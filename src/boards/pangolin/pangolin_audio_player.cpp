@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* G138 wavedev (sub_1B81E34) points the playback DMA at the SA-1110 SSP (SSDR
@@ -34,3 +36,5 @@ protected:
 }  /* namespace */
 
 REGISTER_SERVICE(PangolinAudioPlayer);
+
+}

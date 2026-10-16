@@ -8,6 +8,8 @@
 #include <cerfcore/host/panel_frame_renderer.h>
 #include "../../lcd/panel_scanout.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* ddi.dll DrvEnablePDEV reports bpp=16 w=320 h=240; nk.exe fill sub_9F0B7D20 @0x9F0B8184
@@ -51,3 +53,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(CasioPocketpostpetRenderer, PanelFrameRenderer);
+
+}

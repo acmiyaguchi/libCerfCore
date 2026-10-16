@@ -8,6 +8,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* WEIM CS4 (PA 0xB4000000, 32 MB) - unidentified Zune 30 peripheral */
@@ -40,3 +42,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE(ToshibaGigabeatSCs4Stub);
+
+}

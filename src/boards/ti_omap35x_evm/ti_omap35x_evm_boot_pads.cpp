@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* SPRUF98Y Table 7-4 (page 775): CONTROL_PADCONF_GPMC_WAIT2[15:0] at 0x4800 20D0. */
@@ -37,3 +39,5 @@ private:
 }
 
 REGISTER_SERVICE(TiOmap35xEvmBootPads);
+
+}

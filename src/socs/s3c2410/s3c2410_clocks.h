@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <functional>
 
+namespace cerfcore {
+
 class S3C2410Clocks : public Service {
 public:
     using Service::Service;
@@ -20,3 +22,5 @@ public:
     virtual uint32_t ReadRegister (uint32_t offset)                 = 0;
     virtual void     WriteRegister(uint32_t offset, uint32_t value) = 0;
 };
+
+}

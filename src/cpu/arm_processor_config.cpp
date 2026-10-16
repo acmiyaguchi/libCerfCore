@@ -4,6 +4,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include "../core/cpu_config.h"
 
+namespace cerfcore {
+
 REGISTER_SERVICE(ArmProcessorConfig);
 
 namespace {
@@ -82,4 +84,6 @@ uint32_t ArmProcessorConfig::Ccsidr(uint32_t csselr) const {
     if (level == 0u) return ind ? ccsidr_l1i_ : ccsidr_l1d_;
     if (level == 1u) return ccsidr_l2_;
     return 0u;
+}
+
 }

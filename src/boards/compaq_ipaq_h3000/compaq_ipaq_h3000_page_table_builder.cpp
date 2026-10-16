@@ -9,6 +9,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t MB(uint32_t mb) { return mb * 0x100000u; }
@@ -111,3 +113,5 @@ std::vector<DramRegion> CompaqIpaqH3000PageTableBuilder::MappedVaSpans() const {
 }  /* namespace */
 
 REGISTER_SERVICE_AS(CompaqIpaqH3000PageTableBuilder, PageTableBuilder);
+
+}

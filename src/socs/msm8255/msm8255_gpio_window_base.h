@@ -18,6 +18,8 @@
 #include <mutex>
 #include <typeinfo>
 
+namespace cerfcore {
+
 namespace cerf_msm8255_gpio_detail {
 
 /* Linux arch/arm/mach-msm gpio_hw.h under CONFIG_ARCH_MSM7X30: the GPIO banks
@@ -192,5 +194,7 @@ private:
     Msm8255GpioBanks<kBankCount> banks_{kBanks};
     MuxType                      mux_{banks_};
 };
+
+}
 
 }

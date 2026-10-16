@@ -9,6 +9,8 @@
 #include <cerfcore/socs/guest_cpu_reset.h>
 #include "../../socs/irq_controller.h"
 
+namespace cerfcore {
+
 namespace siemens_simatic_mp377 {
 
 bool SiemensSimaticMp377PowerFail::ShouldRegister() {
@@ -71,3 +73,5 @@ bool SiemensSimaticMp377PowerFail::PollDirty() {
 REGISTER_SERVICE(SiemensSimaticMp377PowerFail);
 
 } // namespace siemens_mp377
+
+}

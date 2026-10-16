@@ -7,6 +7,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* TX39 CS1 slot 0x10000000, spanning to CS2 at 0x10400000; unpopulated on the
@@ -54,3 +56,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(SharpMobilonHcEmptyCs1);
+
+}

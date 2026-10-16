@@ -17,6 +17,8 @@
 #include <mutex>
 #include <thread>
 
+namespace cerfcore {
+
 class WaveOutSink::Impl {
 public:
     using Clock = std::chrono::steady_clock;
@@ -446,3 +448,5 @@ void WaveOutSink::Play(uint32_t slot, const uint8_t* bytes, uint32_t length) {
     impl_->Play(slot, bytes, length);
 }
 void WaveOutSink::Reset() { impl_->Reset(); }
+
+}

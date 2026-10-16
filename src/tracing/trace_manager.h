@@ -8,8 +8,11 @@
 #include <unordered_map>
 #include <vector>
 
-class CerfEmulator;
 namespace cerfengine { struct MipsCpuState; }
+
+namespace cerfcore {
+
+class CerfEmulator;
 
 /* TraceContext - read-only snapshot the JIT hands to a trace handler. Only the
    active ISA's view is non-null: ARM populates `regs`(`regs[15]`==pc)+`cpsr`
@@ -89,3 +92,5 @@ private:
     std::vector<TraceHandler> iter_handlers_;
 #endif
 };
+
+}

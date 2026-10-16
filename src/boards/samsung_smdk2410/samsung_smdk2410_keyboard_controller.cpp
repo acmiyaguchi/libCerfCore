@@ -12,6 +12,8 @@
 
 #include <iterator>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr int kSpiChannel = 1;
@@ -179,3 +181,5 @@ void SamsungSmdk2410KeyboardController::AcceptHostByteLocked(uint8_t mosi) {
 }
 
 REGISTER_SERVICE(SamsungSmdk2410KeyboardController);
+
+}

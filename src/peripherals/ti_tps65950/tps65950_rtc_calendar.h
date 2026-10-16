@@ -5,6 +5,8 @@
 #include <array>
 #include <cstdint>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 
@@ -65,3 +67,5 @@ private:
 
     Time t_;
 };
+
+}

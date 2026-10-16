@@ -10,6 +10,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* PXA255 Pulse Width Modulator (manual §4.5, Table 4-46/47/48). Two channels
    at 0x40B00000 (PWM0) and 0x40C00000 (PWM1); a concrete supplies MmioBase.
    The three registers are write-only config with NO status register, so
@@ -63,3 +65,5 @@ private:
     enum : uint32_t { kCTRL = 0x00u, kDUTY = 0x04u, kPERVAL = 0x08u };
     uint32_t ctrl_ = 0, duty_ = 0, perval_ = 0;
 };
+
+}

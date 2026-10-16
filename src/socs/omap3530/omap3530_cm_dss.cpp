@@ -3,6 +3,8 @@
 #include <cerfcore/core/fatal.h>
 #include <cerfcore/socs/guest_cpu_reset.h>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kOffFclken = 0x00u;
@@ -114,3 +116,5 @@ void Omap3530CmDss::WriteHalf(uint32_t addr, uint16_t value) {
 }
 
 REGISTER_SERVICE(Omap3530CmDss);
+
+}

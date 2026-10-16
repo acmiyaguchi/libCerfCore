@@ -8,6 +8,8 @@
 #include <cerfcore/host/panel_frame_renderer.h>
 #include "../../lcd/panel_scanout.h"
 
+namespace cerfcore {
+
 namespace {
 
 class IteIt8181Renderer : public PanelFrameRenderer {
@@ -49,3 +51,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(IteIt8181Renderer, PanelFrameRenderer);
+
+}

@@ -10,6 +10,8 @@
 #include <cerfcore/core/log.h>
 #include <cerfcore/cpu/emulated_memory.h>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(GuestStubHost);
 
 bool GuestStubHost::ShouldRegister() {
@@ -90,4 +92,6 @@ GuestStubHostSpan GuestStubHost::Pick(const char* victim_name, uint32_t o32_pa,
                            region.BandSize() - band_next_, false};
     band_next_ = AlignRomPage(band_next_ + foot_bytes);
     return span;
+}
+
 }

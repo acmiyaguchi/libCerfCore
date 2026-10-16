@@ -3,6 +3,8 @@
 #include <cstddef>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace siemens_simatic_mp377 {
 
 struct Sm501LineState {
@@ -34,3 +36,5 @@ struct Sm501LineDirtyRange {
 Sm501LineDirtyRange RasterizeSm501Line(const Sm501LineState& state);
 
 } // namespace siemens_mp377
+
+}

@@ -8,12 +8,13 @@
 #include "../../socs/cycle_anchored_counter.h"
 
 namespace cerfengine { struct MipsCpuState; }
+namespace cerfengine { class MipsTlbContext; }
+
+namespace cerfcore {
 
 class MipsCoreClock;
 class MipsProcessorConfig;
 class MipsTlbModel;
-
-namespace cerfengine { class MipsTlbContext; }
 
 class MipsCp0Ops : public Service {
 public:
@@ -50,3 +51,5 @@ private:
     GuestCycleClock::Event*     compare_event_ = nullptr;
     NarrowCycleAnchoredCounter  count_;
 };
+
+}

@@ -5,6 +5,8 @@
 #include <cstddef>
 #include <cstdint>
 
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 
@@ -33,3 +35,5 @@ private:
     uint8_t tx_seq_[2] = {0u, 0u};  /* per-Cid (33, 34) reliable-data TX seq */
     uint8_t handle_ = 0u;           /* monotonic nonzero TP_OPEN handle assigner */
 };
+
+}

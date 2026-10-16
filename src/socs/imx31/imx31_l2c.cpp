@@ -8,6 +8,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kL2cBase        = 0x30000000u;
@@ -114,3 +116,5 @@ void Imx31L2c::WriteWord(uint32_t addr, uint32_t value) {
 }  /* namespace */
 
 REGISTER_SERVICE(Imx31L2c);
+
+}

@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Pxa2xxDmaPort;
 class StateReader;
 class StateWriter;
@@ -36,3 +38,5 @@ private:
     uint64_t       origin_  = 0;
     uint64_t       end_     = 0;
 };
+
+}

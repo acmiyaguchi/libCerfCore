@@ -11,6 +11,8 @@
 #include <cerfcore/core/log.h>
 #include <cerfcore/socs/guest_cpu_reset.h>
 
+namespace cerfcore {
+
 namespace siemens_simatic_mp377 {
 
 bool SiemensSimaticMp377Sm501Dma::ShouldRegister() {
@@ -244,3 +246,5 @@ SiemensSimaticMp377Sm501Regs& SiemensSimaticMp377Sm501Dma::Registers() const {
 REGISTER_SERVICE(SiemensSimaticMp377Sm501Dma);
 
 } // namespace siemens_mp377
+
+}

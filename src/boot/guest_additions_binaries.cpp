@@ -10,6 +10,8 @@
 #include "pe_image.h"
 #include <cerfcore/boot/rom_parser_service.h>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(GuestAdditionsBinaries);
 
 namespace {
@@ -54,4 +56,6 @@ void GuestAdditionsBinaries::StampWindowBase(std::vector<uint8_t>& image) {
     cerf::le::Put32(image.data() + at, base);
     LOG(GuestAdditions, "base sentinel stamped -> 0x%08X at image offset 0x%zX\n",
         base, at);
+}
+
 }

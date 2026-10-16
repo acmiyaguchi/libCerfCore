@@ -8,6 +8,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kAipsRegionSize  = 0x00001000u;
@@ -91,3 +93,5 @@ public:
 
 REGISTER_SERVICE(Imx31AipsA);
 REGISTER_SERVICE(Imx31AipsB);
+
+}

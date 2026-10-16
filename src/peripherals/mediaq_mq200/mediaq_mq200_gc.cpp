@@ -7,6 +7,8 @@
 
 #include <cstring>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kGcBlockLo      = 0xA000u;
@@ -234,4 +236,6 @@ void MediaQMq200Gc::SaveState(StateWriter& w) const {
 void MediaQMq200Gc::RestoreState(StateReader& r) {
     r.ReadBytes("gc_regs", &regs_[0][0], sizeof(regs_));
     r.ReadBytes("palette", palette_, sizeof(palette_));
+}
+
 }

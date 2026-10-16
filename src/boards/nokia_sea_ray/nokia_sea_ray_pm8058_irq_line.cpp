@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kPmicIrqGpio = 27u;
@@ -31,3 +33,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(NokiaSeaRayPm8058IrqLine, Pm8058IrqLine);
+
+}

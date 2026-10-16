@@ -2,6 +2,8 @@
 
 #include <cerfcore/core/service.h>
 
+namespace cerfcore {
+
 class PcmciaSlot;
 
 class PcmciaAutoInsert : public Service {
@@ -11,3 +13,5 @@ public:
     void InsertDefaultNetworkCard(PcmciaSlot& slot);
     void InsertLaunchCompactFlash(PcmciaSlot& slot);
 };
+
+}

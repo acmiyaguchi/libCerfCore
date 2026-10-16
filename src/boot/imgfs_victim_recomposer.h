@@ -9,6 +9,8 @@
 #include <string>
 #include <vector>
 
+namespace cerfcore {
+
 /* Recompose the cerf_guest stub PE into a replacement for a victim IMGFS module -
    the shared core of both IMGFS injectors (flat-container and NAND), which differ
    only in placement substrate and write sink. */
@@ -28,3 +30,5 @@ public:
                                     size_t                    num_sections,
                                     const std::string&        stub_path);
 };
+
+}

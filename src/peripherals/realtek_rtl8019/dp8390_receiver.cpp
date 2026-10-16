@@ -6,6 +6,8 @@
 
 #include <cstring>
 
+namespace cerfcore {
+
 using namespace dp8390;
 
 namespace {
@@ -157,4 +159,6 @@ bool Dp8390Receiver::OnFrameLocked(const uint8_t* frame, std::size_t len) {
     nic_.rsr_  = status;
     nic_.RaiseIsrLocked(kIsrPrx);
     return true;
+}
+
 }

@@ -1,5 +1,7 @@
 #include "pxa27x_uart16550.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* Intel PXA27x Developer's Manual 280000-001 Table 28-7 (page 28-12): "UART 3 -
@@ -19,3 +21,5 @@ protected:
 }  /* namespace */
 
 REGISTER_SERVICE(Pxa27xStuart);
+
+}

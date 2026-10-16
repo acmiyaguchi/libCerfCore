@@ -18,6 +18,8 @@
 #include <string>
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kPageMask = 0xFFFu;
@@ -99,5 +101,7 @@ private:
 };
 
 REGISTER_SERVICE(CerfVirtGuestBody);
+
+}
 
 }

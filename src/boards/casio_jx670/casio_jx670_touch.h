@@ -10,6 +10,8 @@
 #include <mutex>
 #include <vector>
 
+namespace cerfcore {
+
 class CerfEmulator;
 class StateWriter;
 class StateReader;
@@ -103,3 +105,5 @@ private:
     int                        host_x_       = 0;
     int                        host_y_       = 0;
 };
+
+}

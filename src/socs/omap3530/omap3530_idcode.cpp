@@ -8,6 +8,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kIdcodeBasePa = 0x4830A000u;
@@ -50,3 +52,5 @@ void Omap3530Idcode::WriteWord(uint32_t addr, uint32_t value) {
 }  /* namespace */
 
 REGISTER_SERVICE(Omap3530Idcode);
+
+}

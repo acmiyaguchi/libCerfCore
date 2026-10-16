@@ -5,6 +5,8 @@
 #include <algorithm>
 #include <ctime>
 
+namespace cerfcore {
+
 uint32_t BcdCalendar::ToBcd(uint32_t value) {
     return ((value / 10u) << 4) | (value % 10u);
 }
@@ -87,4 +89,6 @@ BcdCalendar::HostDate BcdCalendar::HostNow() {
     d.year  = static_cast<uint32_t>(lt.tm_year + 1900);
     d.wday  = static_cast<uint32_t>(lt.tm_wday);
     return d;
+}
+
 }

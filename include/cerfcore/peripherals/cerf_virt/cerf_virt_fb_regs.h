@@ -6,6 +6,7 @@ typedef unsigned int uint32_t;
 #include <cstdint>
 #endif
 
+namespace cerfcore {
 namespace CerfVirt {
 
 const uint32_t kFbRegWidth       = 0x00u;
@@ -34,4 +35,5 @@ const uint32_t kFbClearTypeDefault = 0u;
 const uint32_t kFbClearTypeOn      = 1u;
 const uint32_t kFbClearTypeOff     = 2u;
 
+}
 }

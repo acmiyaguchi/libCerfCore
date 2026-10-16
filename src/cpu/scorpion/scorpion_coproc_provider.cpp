@@ -5,6 +5,8 @@
 #include "../../socs/irq_controller.h"
 #include "../../socs/msm8255/msm8255_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 using cerfengine::ArmCoprocAccess;
@@ -42,3 +44,5 @@ protected:
 }
 
 REGISTER_SERVICE_AS(ScorpionCoprocProvider, ArmCoprocProvider);
+
+}

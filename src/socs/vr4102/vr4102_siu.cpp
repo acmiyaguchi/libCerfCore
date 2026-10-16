@@ -7,6 +7,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 class Vr4102Siu : public Vr41xxSiu {
@@ -41,3 +43,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(Vr4102Siu);
+
+}

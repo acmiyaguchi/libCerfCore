@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+namespace cerfcore {
+
 namespace cf_fat {
 
 std::string BaseName(const std::string& path);
@@ -41,3 +43,5 @@ std::vector<FileEntry> CollectEntries(const std::vector<std::string>& files,
                                       uint32_t cluster_bytes);
 
 }  /* namespace cf_fat */
+
+}

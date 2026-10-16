@@ -7,6 +7,8 @@
 #include <cerfengine/mips/mips_cpu_state.h>
 #include "engine_bridge.h"
 
+namespace cerfcore {
+
 namespace {
 
 class MipsGuestCycleClock : public EngineCycleClock<cerfengine::MipsCpuState> {
@@ -33,3 +35,5 @@ private:
 }
 
 REGISTER_SERVICE_AS(MipsGuestCycleClock, GuestCycleClock);
+
+}

@@ -2,6 +2,8 @@
 
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 uint16_t P2FpgaSerial::Read(uint32_t slot_off) {
     std::lock_guard<std::mutex> lk(state_mutex_);
     if (slot_off == kSlotCsrA) return csr_a_;
@@ -41,4 +43,6 @@ void P2FpgaSerial::RestoreState(StateReader& r) {
     std::lock_guard<std::mutex> lk(state_mutex_);
     r.Read("csr_a", csr_a_);
     r.Read("csr_b", csr_b_);
+}
+
 }

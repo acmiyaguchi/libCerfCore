@@ -2,6 +2,8 @@
 
 #include "sa11xx_uart_base.h"
 
+namespace cerfcore {
+
 /* iPaq H3xxx wires MicroP via SP1; MicroP service installs a TX
    listener and pushes RX bytes through Sa11xxUartBase's hooks. */
 
@@ -24,3 +26,5 @@ protected:
     Sa11xxDmaTransmitFifo& TransmitFifo() override;
     Sa11xxDmaReceiveFifo&  ReceiveFifo() override;
 };
+
+}

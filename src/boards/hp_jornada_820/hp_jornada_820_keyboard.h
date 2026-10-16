@@ -6,6 +6,8 @@
 #include <deque>
 #include <mutex>
 
+namespace cerfcore {
+
 /* HP Jornada 820 keyboard state: maps host VKs to the HP matrix scancodes
    (inverse of keybddr.dll's scancode->VK table @ 0x12C16F8), queues them for the
    SSP slave to clock out one-per-read, and signals each by a GPIO0 falling edge
@@ -29,3 +31,5 @@ private:
     std::mutex          mtx_;
     std::deque<uint8_t> pending_;
 };
+
+}

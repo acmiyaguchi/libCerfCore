@@ -15,6 +15,8 @@
 #include <cstdint>
 #include <cstdio>
 
+namespace cerfcore {
+
 namespace {
 
 /* Ford SYNC2 "HIC1:" = software-I2C bit-banged over GPIO4 (SCL=16/SDA=17,
@@ -205,3 +207,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(FordSyncGen2Hic1I2c);
+
+}

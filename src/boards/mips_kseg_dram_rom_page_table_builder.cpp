@@ -1,5 +1,7 @@
 #include "mips_kseg_dram_rom_page_table_builder.h"
 
+namespace cerfcore {
+
 void MipsKsegDramRomPageTableBuilder::OnReady() {
     if (rom_from_entry_xip_) {
         rom_ = PlaceEntryXipRom(dram_.region.va_base, dram_.region.size);
@@ -23,4 +25,6 @@ std::vector<DramRegion> MipsKsegDramRomPageTableBuilder::MappedVaSpans() const {
         { dram_.region.va_base, dram_.region.pa_base, dram_.mapped_span },
         rom_,
     };
+}
+
 }

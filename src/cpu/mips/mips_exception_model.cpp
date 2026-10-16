@@ -4,6 +4,8 @@
 #include <cerfengine/mips/mips_cpu_state.h>
 #include "../mips_processor_config.h"
 
+namespace cerfcore {
+
 void MipsExceptionModel::OnReady() {
     config_ = &emu_.Get<MipsProcessorConfig>();
 }
@@ -32,4 +34,6 @@ void CERFENGINE_FASTCALL MipsExceptionModel::RfeHook(void*, cerfengine::MipsCpuS
        (TMPR39xx-um Fig 6-7). Status bits: IEc<0> KUc<1> IEp<2> KUp<3> IEo<4>
        KUo<5> (TMPR39xx-um §6.2.3). */
     s.cp0_status = (s.cp0_status & ~0xFu) | ((s.cp0_status >> 2) & 0xFu);
+}
+
 }

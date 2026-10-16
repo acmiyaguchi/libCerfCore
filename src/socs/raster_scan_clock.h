@@ -5,6 +5,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 struct RasterFrame {
     static constexpr uint32_t kMaxEdges = 2u;
 
@@ -52,3 +54,5 @@ private:
 
 using RasterScanClock       = BasicRasterScanClock<ExactCounterUnits>;
 using NarrowRasterScanClock = BasicRasterScanClock<NarrowCounterUnits>;
+
+}

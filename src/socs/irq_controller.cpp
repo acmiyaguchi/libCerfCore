@@ -3,6 +3,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include <cerfcore/core/fatal.h>
 
+namespace cerfcore {
+
 uint32_t IrqController::ReadPendingVector() {
     emu_.Get<Fatal>().Die(
         "irq controller: the core read a vectored-interrupt pending vector, "
@@ -17,4 +19,6 @@ void IrqController::PulseIrq(int source_bit) {
 
 uint32_t CERFENGINE_FASTCALL IrqController::ReadPendingVectorHelper(void* intc) {
     return static_cast<IrqController*>(intc)->ReadPendingVector();
+}
+
 }

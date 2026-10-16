@@ -3,6 +3,8 @@
 #include "../freescale_sdma_impl.h"
 #include "imx31_id.h"
 
+namespace cerfcore {
+
 /* MCIMX31RM Table 40-10: SDMA at 0x53FD_4000. Named (not anonymous) so
    Imx31AudioPlayer can register a channel sink on it. */
 class Imx31Sdma
@@ -22,3 +24,5 @@ protected:
 
     bool ReadExtra(uint32_t off, uint32_t& out) override;
 };
+
+}

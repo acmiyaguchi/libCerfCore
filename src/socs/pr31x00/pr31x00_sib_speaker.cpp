@@ -8,6 +8,8 @@
 #include "pr31500_id.h"
 #include "pr31700_id.h"
 
+namespace cerfcore {
+
 bool Pr31x00SibSpeaker::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     if (!bd) return false;
@@ -51,3 +53,5 @@ void Pr31x00SibSpeaker::Flush() {
 }
 
 REGISTER_SERVICE(Pr31x00SibSpeaker);
+
+}

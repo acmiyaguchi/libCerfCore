@@ -8,6 +8,8 @@
 #include <cerfcore/core/fatal.h>
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kMdpCoreClock = 39u;
@@ -218,4 +220,6 @@ void Msm8255ClockRates::RestoreState(StateReader& r) {
     uint32_t hz = kRateUnavailable;
     r.Read("mdp_core_granted_hz", hz);
     mdp_core_granted_hz_.store(hz, std::memory_order_release);
+}
+
 }

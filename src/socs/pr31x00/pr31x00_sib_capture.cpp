@@ -8,6 +8,8 @@
 #include "pr31500_id.h"
 #include "pr31700_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 constexpr size_t kMicFifoBytes = 65536u;
@@ -82,3 +84,5 @@ uint32_t Pr31x00SibCapture::NextHostWord(bool sixteen_bit) {
 }
 
 REGISTER_SERVICE(Pr31x00SibCapture);
+
+}

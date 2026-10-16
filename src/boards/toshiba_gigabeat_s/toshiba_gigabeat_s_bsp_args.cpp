@@ -10,6 +10,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* Bootloader-synthesized BSP_ARGS block at the start of DRAM. The recovery
@@ -67,3 +69,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(ToshibaGigabeatSBspArgs);
+
+}

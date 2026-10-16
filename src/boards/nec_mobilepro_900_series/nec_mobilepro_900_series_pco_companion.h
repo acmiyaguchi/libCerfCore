@@ -14,6 +14,9 @@
 #include <mutex>
 
 namespace cerfengine { class HostRequestChannel; }
+
+namespace cerfcore {
+
 class NecMobilepro900SeriesLed;
 class NecMobilepro900SeriesPicLoader;
 
@@ -98,3 +101,5 @@ private:
     GuestCycleClock::Event* key_event_     = nullptr;
     cerfengine::HostRequestChannel*     host_requests_ = nullptr;
 };
+
+}

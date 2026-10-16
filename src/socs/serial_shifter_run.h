@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 
@@ -26,3 +28,5 @@ private:
     uint64_t run_start_ = 0;
     uint64_t run_loads_ = 0;
 };
+
+}

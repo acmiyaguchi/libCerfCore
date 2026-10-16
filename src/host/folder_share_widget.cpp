@@ -10,6 +10,8 @@
 #include <string>
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 class FolderShareWidget : public Service, public HostWidget {
@@ -59,3 +61,5 @@ private:
 }
 
 REGISTER_SERVICE(FolderShareWidget);
+
+}

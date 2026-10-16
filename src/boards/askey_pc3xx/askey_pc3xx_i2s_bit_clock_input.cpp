@@ -5,6 +5,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "askey_pc3xx_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class AskeyPc3xxI2sBitClockInput : public Pxa255I2sBitClockInput {
@@ -32,3 +34,5 @@ private:
 }
 
 REGISTER_SERVICE_AS(AskeyPc3xxI2sBitClockInput, Pxa255I2sBitClockInput);
+
+}

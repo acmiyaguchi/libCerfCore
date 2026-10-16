@@ -12,6 +12,8 @@
 
 #include <algorithm>
 
+namespace cerfcore {
+
 namespace {
 
 /* TPS65950 TRM SWCU050E page 122: a compensated second lasts (32,768 - COMP_REG)/32,768 seconds of the 32-kHz
@@ -354,3 +356,5 @@ void Tps65950Rtc::PostRestore() {
 }
 
 REGISTER_SERVICE(Tps65950Rtc);
+
+}

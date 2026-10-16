@@ -9,6 +9,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 class Omap3530GpmcCs0Window : public Peripheral {
@@ -57,3 +59,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE(Omap3530GpmcCs0Window);
+
+}

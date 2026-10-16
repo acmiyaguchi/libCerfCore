@@ -5,6 +5,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include <cerfcore/core/fatal.h>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(Msm8255ClockReset);
 
 bool Msm8255ClockReset::ShouldRegister() {
@@ -30,4 +32,6 @@ void Msm8255ClockReset::Reset(uint32_t clock) {
             "msm8255 clock reset: clock %u drives no block this program "
             "resets", clock);
     }
+}
+
 }

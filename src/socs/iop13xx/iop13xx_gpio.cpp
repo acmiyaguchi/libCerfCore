@@ -10,6 +10,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kGpioBase = 0xFFD82480u;
@@ -105,3 +107,5 @@ private:
 REGISTER_SERVICE(Iop13xxGpio);
 
 } // namespace
+
+}

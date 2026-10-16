@@ -2,6 +2,7 @@
 
 #include "cerf_virt_addr_map.h"
 
+namespace cerfcore {
 namespace CerfVirt {
 
 const uint32_t kArMagic   = 0xA070C0DEu;
@@ -14,4 +15,5 @@ const uint32_t kArEntryWchars = 256u;
 const uint32_t kArEntryStride = kArEntryWchars * 2u;
 const uint32_t kArMaxEntries  = (kAutorunSize - kArEntries) / kArEntryStride;
 
+}
 }

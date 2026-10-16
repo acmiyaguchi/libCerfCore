@@ -9,6 +9,8 @@
 #include <array>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* i.MX51 AUDMUX (Digital Audio Multiplexer), MCIMX51RM Ch (base 0x83FD0000,
@@ -60,3 +62,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(Imx51Audmux);
+
+}

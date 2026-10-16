@@ -8,6 +8,8 @@
 #include "imx51_id.h"
 #include <cstring>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(Imx51Gpu3dBlit);
 
 bool Imx51Gpu3dBlit::ShouldRegister() {
@@ -117,4 +119,6 @@ void Imx51Gpu3dBlit::Draw(uint32_t ctrl, uint64_t pa,
     } else {
         HaltUnsupportedAccess("blit 565 source into 8888 dest (expand not modeled)", srcBase, dstBase);
     }
+}
+
 }

@@ -7,6 +7,8 @@
 #include "../../peripherals/peripheral_dispatcher.h"
 #include "omap3530_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 uint32_t ByteSwap(uint32_t value, uint32_t es) {
@@ -57,3 +59,5 @@ void Omap3530DmaElementBus::Write(uint32_t pa, uint32_t es, bool big_endian, uin
 }
 
 REGISTER_SERVICE(Omap3530DmaElementBus);
+
+}

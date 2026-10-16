@@ -6,6 +6,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 class Ucb1x00Codec;
 
 class OdoTouchSound : public Peripheral {
@@ -67,3 +69,5 @@ private:
     OdoPenTimer pen_timer_{emu_, [this] { OnPenTimingPeriod(); },
                                  [this] { return PenTimingPending(); }};
 };
+
+}

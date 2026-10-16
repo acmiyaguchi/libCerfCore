@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class CerfVirtDmaArena : public Service {
 public:
     using Service::Service;
@@ -24,3 +26,5 @@ private:
 
     uint8_t* base_ = nullptr;
 };
+
+}

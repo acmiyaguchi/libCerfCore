@@ -7,6 +7,8 @@
 #include "../../peripherals/peripheral_dispatcher.h"
 #include "omap3530_sdma.h"
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kOffRevision      = 0x00;
@@ -191,4 +193,6 @@ void Omap3530Mcspi1::WriteWord(uint32_t addr, uint32_t value) {
             sdma.RaiseSyncEvent(Omap3530Sdma::kSyncSpi1Tx0 + 2u * ch);
         }
     }
+}
+
 }

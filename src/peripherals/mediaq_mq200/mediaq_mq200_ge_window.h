@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class CerfEmulator;
 class MediaQMq200Ge;
 class StateWriter;
@@ -27,3 +29,5 @@ private:
     MediaQMq200Ge& ge_;
     uint32_t       secondary_[kCommandRegs] = {};
 };
+
+}

@@ -7,6 +7,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* SCC (Security Controller); no public register map, behavior from keyvault.dll.
@@ -48,3 +50,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE(Imx31Scc);
+
+}

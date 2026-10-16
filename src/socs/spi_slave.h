@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 
@@ -17,3 +19,5 @@ public:
 
     virtual uint8_t Exchange(uint8_t mosi) = 0;
 };
+
+}

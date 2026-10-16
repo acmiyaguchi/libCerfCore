@@ -6,6 +6,8 @@
 #include <cerfengine/engine.h>
 #include <cerfengine/guest_engine.h>
 
+namespace cerfcore {
+
 class PageTableBuilder;
 class RateProbe;
 class StateReader;
@@ -60,3 +62,5 @@ private:
     RateProbe*        probe_ = nullptr;
 #endif
 };
+
+}

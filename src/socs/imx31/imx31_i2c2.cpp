@@ -1,5 +1,7 @@
 #include "imx31_i2c_impl.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* MCIMX31RM Table 26-3: I2C2 at 0x43F98000. */
@@ -11,3 +13,5 @@ class Imx31I2c2
 }  /* namespace */
 
 REGISTER_SERVICE(Imx31I2c2);
+
+}

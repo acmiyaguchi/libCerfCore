@@ -6,6 +6,8 @@
 #include <cerfcore/core/device_config.h>
 #include <cerfcore/core/log.h>
 
+namespace cerfcore {
+
 namespace CerfVirt {
 
 REGISTER_SERVICE(CerfVirtLineDrawer);
@@ -107,6 +109,8 @@ bool CerfVirtLineDrawer::Execute(const CerfLineDescriptor& l) {
     }
     fb_->MarkDirty();
     return true;
+}
+
 }
 
 }

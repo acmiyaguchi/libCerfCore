@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* SA-1110 Developer's Manual §11.11.3 UTCR0 (printed 11-114): PE 0, SBS 2, DSS 3, SCE 4; §11.11.5
    UTCR3 (printed 11-117): RXE 0, TXE 1, BRK 2, RIE 3, TIE 4, LBM 5. */
 namespace sa11xx_uart {
@@ -73,4 +75,6 @@ inline uint64_t FrameBits(uint32_t utcr0) {
 inline uint32_t DeviceAddress(uint32_t utdr) {
     return ((utdr >> 28) << 20) | ((utdr & 0x003FFFFCu) >> 2);
 }
+}
+
 }

@@ -8,6 +8,8 @@
 #include "../../peripherals/peripheral_dispatcher.h"
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 
 /* Table 6-5 sheets 1-2 (printed 6-15, 6-16): K2FREE bit 25, APD bit 20, K2DB2 bit 19,
@@ -125,3 +127,5 @@ void Pxa255MemoryController::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE(Pxa255MemoryController);
+
+}

@@ -12,6 +12,8 @@
 
 #include <algorithm>
 
+namespace cerfcore {
+
 namespace {
 using namespace imx51_g2d_regfile;
 constexpr uint32_t kMode  = 0x6Eu;  /* VGV2_MODE: STROKE[8], CAP[5:4], JOIN[7:6], EXPONENTADD[23:18] */
@@ -172,4 +174,6 @@ void Imx51Gpu2dVgFill::Flush(const uint32_t (&regs)[0x100], bool bbox_live) {
     emu_.Get<Imx51Gpu2dStroker>().Stroke(t, RegF(regs, 0x65), RegF(regs, kXf), RegF(regs, kXf + 2u),
                 RegF(regs, kXf + 1u), RegF(regs, kXf + 3u), DeviceScale(regs),
                 (regs[kMode] >> 4) & 3u, (regs[kMode] >> 6) & 3u, RegF(regs, kMiter));
+}
+
 }

@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <deque>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 
@@ -91,3 +93,5 @@ using Omap3530McBsp2Receiver = Omap3530McBspReceiver<2>;
 using Omap3530McBsp3Receiver = Omap3530McBspReceiver<3>;
 using Omap3530McBsp4Receiver = Omap3530McBspReceiver<4>;
 using Omap3530McBsp5Receiver = Omap3530McBspReceiver<5>;
+
+}

@@ -4,6 +4,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "nec_sg2_vr5500_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class NecSg2Vr5500Vr5500BoardClock : public Vr5500BoardClock {
@@ -20,3 +22,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(NecSg2Vr5500Vr5500BoardClock, Vr5500BoardClock);
+
+}

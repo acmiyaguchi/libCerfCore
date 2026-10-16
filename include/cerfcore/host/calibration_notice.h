@@ -2,6 +2,8 @@
 
 #include "../core/service.h"
 
+namespace cerfcore {
+
 class CalibrationNotice : public Service {
 public:
     using Service::Service;
@@ -9,3 +11,5 @@ public:
     virtual void OnCalibrationAppeared() = 0;
     virtual void OnCalibrationDisappeared() = 0;
 };
+
+}

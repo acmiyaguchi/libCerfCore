@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* smartbook_g138_ce4_1 wavedev.dll sub_23C1BBC: SSCR1 ECS, SSCR0 16-bit TI frames with SCR 0,
@@ -37,3 +39,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(PangolinSspClock, Sa11xxGpioClockInput);
+
+}

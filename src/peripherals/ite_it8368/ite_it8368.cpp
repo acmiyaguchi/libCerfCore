@@ -9,6 +9,8 @@
 #include <cerfcore/state/state_stream.h>
 #include "../pcmcia/pcmcia_slot.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* it8368reg.h IT8368_*_REG. */
@@ -478,3 +480,5 @@ void IteIt8368::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE(IteIt8368);
+
+}

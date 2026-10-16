@@ -1,5 +1,7 @@
 #include "s3c2410_rtc_calendar.h"
 
+namespace cerfcore {
+
 bool S3C2410RtcCalendar::Valid() const {
     return Holds(kSec, sec) && Holds(kMin, min) && Holds(kHour, hour) &&
            Holds(kMon, mon) && Holds(kYear, year) && Holds(kDay, day) &&
@@ -46,4 +48,6 @@ uint64_t S3C2410RtcCalendar::SecondsToNextYear() const {
 
 void S3C2410RtcCalendar::AdvanceSeconds(uint64_t secs) {
     for (uint64_t days = AddSeconds(sec, min, hour, secs); days > 0u; --days) AdvanceOneDay();
+}
+
 }

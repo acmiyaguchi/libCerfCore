@@ -4,6 +4,8 @@
 #include <mutex>
 #include <optional>
 
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 
@@ -25,3 +27,5 @@ private:
     mutable std::mutex mutex_;
     Snapshot state_;
 };
+
+}

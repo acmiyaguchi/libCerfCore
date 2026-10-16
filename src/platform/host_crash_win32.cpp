@@ -10,6 +10,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 namespace host_platform {
 
 namespace {
@@ -264,6 +266,8 @@ bool CrashSymbolize(const void* addr, char* out, size_t out_size) {
 
 void CrashInstallUnhandledFilter() {
     SetUnhandledExceptionFilter(CerfTopLevelExceptionFilter);
+}
+
 }
 
 }

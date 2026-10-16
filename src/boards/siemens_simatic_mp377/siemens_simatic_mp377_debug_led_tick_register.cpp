@@ -3,6 +3,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 class SiemensSimaticMp377DebugLedTickRegister final : public SiemensSimaticMp377DebugLedPeripheral {
 public:
@@ -27,3 +29,5 @@ private:
 };
 } // namespace
 REGISTER_SERVICE(SiemensSimaticMp377DebugLedTickRegister);
+
+}

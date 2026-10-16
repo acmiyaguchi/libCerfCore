@@ -10,6 +10,8 @@
 #include <string>
 #include "vr4121_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 using cerf_vr41xx_reg_window_detail::OtherReset;
@@ -179,3 +181,5 @@ private:
 }
 
 REGISTER_SERVICE(Vr4121Bcu);
+
+}

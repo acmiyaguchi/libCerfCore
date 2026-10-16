@@ -7,6 +7,8 @@
 #include <mutex>
 #include <vector>
 
+namespace cerfcore {
+
 class Pxa2xxGpioSerialSlave {
 public:
     virtual ~Pxa2xxGpioSerialSlave() = default;
@@ -115,3 +117,5 @@ private:
     void ApplyEdgesLocked(const uint32_t* before);
     void UpdateIntcLocked();
 };
+
+}

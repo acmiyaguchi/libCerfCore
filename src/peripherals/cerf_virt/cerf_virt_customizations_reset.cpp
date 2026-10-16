@@ -6,6 +6,8 @@
 #include <cerfcore/host/host_presentation.h>
 #include <cerfcore/socs/guest_cpu_reset.h>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(CerfVirtCustomizationsReset);
 
 bool CerfVirtCustomizationsReset::ShouldRegister() {
@@ -36,4 +38,6 @@ void CerfVirtCustomizationsReset::RestoreState(StateReader& r) {
     uint32_t v = 0;
     r.Read("applied", v);
     applied_ = (v != 0u);
+}
+
 }

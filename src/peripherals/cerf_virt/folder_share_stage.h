@@ -5,6 +5,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class FolderShareStage : public Service {
 public:
     using Service::Service;
@@ -20,3 +22,5 @@ public:
 private:
     uint8_t* base_ = nullptr;
 };
+
+}

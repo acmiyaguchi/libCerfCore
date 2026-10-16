@@ -4,6 +4,8 @@
 
 #include <array>
 
+namespace cerfcore {
+
 namespace {
 class SiemensSimaticMp377DebugLedProgressRegisters final : public SiemensSimaticMp377DebugLedPeripheral {
 public:
@@ -26,3 +28,5 @@ private:
 };
 } // namespace
 REGISTER_SERVICE(SiemensSimaticMp377DebugLedProgressRegisters);
+
+}

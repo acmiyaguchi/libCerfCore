@@ -4,6 +4,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "nec_cronos3e_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class NecCronos3eMq200Config : public MediaQMq200Config {
@@ -29,3 +31,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(NecCronos3eMq200Config, MediaQMq200Config);
+
+}

@@ -6,6 +6,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include "../boards/page_table_builder.h"
 
+namespace cerfcore {
+
 namespace {
 
 class XipPlaceBoot : public BootMode {
@@ -39,3 +41,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(XipPlaceBoot, BootMode);
+
+}

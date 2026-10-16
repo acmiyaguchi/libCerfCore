@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 
@@ -27,3 +29,5 @@ public:
     virtual void SaveState(StateWriter& writer) = 0;
     virtual void RestoreState(StateReader& reader) = 0;
 };
+
+}

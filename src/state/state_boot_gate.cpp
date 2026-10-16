@@ -5,6 +5,8 @@
 #include <cerfcore/execution/jit_runner.h>
 #include <cerfcore/state/hibernation.h>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(StateBootGate);
 
 void StateBootGate::OnReady() {
@@ -20,4 +22,6 @@ void StateBootGate::Run() {
         case StateBootMode::Warm:   hib.Restore("", true);  break;
         case StateBootMode::Resume: hib.Restore("", false); break;
     }
+}
+
 }

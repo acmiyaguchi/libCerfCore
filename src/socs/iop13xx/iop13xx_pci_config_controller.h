@@ -9,6 +9,8 @@
 #include <cerfcore/state/state_stream.h>
 #include <cerfcore/socs/guest_cpu_reset.h>
 
+namespace cerfcore {
+
 template <uint32_t kBase, bool kPrimary> class Iop13xxPciConfigController : public Peripheral {
 public:
     using Peripheral::Peripheral;
@@ -91,3 +93,5 @@ private:
     }
     uint32_t occar_ = 0u;
 };
+
+}

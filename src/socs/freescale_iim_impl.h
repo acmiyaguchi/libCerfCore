@@ -10,6 +10,8 @@
 #include <cstdint>
 #include <optional>
 
+namespace cerfcore {
+
 /* Shared core for the Freescale IIM e-fuse box, same IP on i.MX31/i.MX51
    (MCIMX51RM Ch 41). An unblown e-fuse reads 0, so a virtual unprovisioned chip
    reads 0 across its whole fuse shadow. Each concrete owns its base, served
@@ -63,3 +65,5 @@ private:
 };
 
 }  /* namespace cerf_freescale_iim_detail */
+
+}

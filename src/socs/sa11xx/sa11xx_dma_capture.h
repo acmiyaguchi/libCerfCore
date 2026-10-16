@@ -9,6 +9,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Sa11xxDmaCapture : public Service, public Sa11xxDmaReceiveSource {
 public:
     using Service::Service;
@@ -27,3 +29,5 @@ private:
     Sa11xxAudioConfig cfg_{};
     WaveInFifo        mic_;
 };
+
+}

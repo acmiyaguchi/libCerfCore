@@ -7,6 +7,8 @@
 #include <cerfengine/arm/arm_mmu_state.h>
 #include <cerfengine/arm/arm_system_host.h>
 
+namespace cerfcore {
+
 class ArmCp15Registers;
 class ArmInjectionBand;
 class ArmProcessorConfig;
@@ -42,3 +44,5 @@ private:
     ArmInjectionBand*      injection_band_   = nullptr;
     PhysicalAddressMapper* address_mapper_   = nullptr;
 };
+
+}

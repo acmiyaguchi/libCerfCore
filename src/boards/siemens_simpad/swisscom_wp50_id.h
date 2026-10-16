@@ -2,8 +2,12 @@
 
 #include <string_view>
 
+namespace cerfcore {
+
 namespace BoardId {
 
 inline constexpr std::string_view SwisscomWp50 = "swisscom_wp50";
+
+}
 
 }

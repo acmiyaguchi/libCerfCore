@@ -4,6 +4,8 @@
 #include <cstdint>
 #include <functional>
 
+namespace cerfcore {
+
 class SerialEndpoint;
 
 /* Endpoint-facing surface of a serial UART, independent of the concrete engine:
@@ -57,3 +59,5 @@ public:
        UART takes it from the endpoint router on attach (nullptr on detach). */
     virtual void SetEndpoint(SerialEndpoint*) {}
 };
+
+}

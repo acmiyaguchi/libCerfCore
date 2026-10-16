@@ -9,6 +9,8 @@
 #include "../../socs/sa11xx/sa1100_id.h"
 #include "../../socs/sa11xx/sa1110_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class Sa11xxInstructionTiming : public ArmInstructionTimingModel {
@@ -43,3 +45,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(Sa11xxInstructionTiming, ArmInstructionTimingModel);
+
+}

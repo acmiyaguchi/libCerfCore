@@ -7,6 +7,8 @@
 #include <mutex>
 #include <string>
 
+namespace cerfcore {
+
 class CerfLogChannelPeripheral : public Peripheral {
 public:
     using Peripheral::Peripheral;
@@ -32,3 +34,5 @@ private:
     std::mutex  mutex_;
     std::string line_[CerfVirt::kLogChannelCount];
 };
+
+}

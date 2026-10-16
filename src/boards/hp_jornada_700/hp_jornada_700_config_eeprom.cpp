@@ -12,6 +12,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 class HpJornada700ConfigEeprom : public Sa1111SspDevice {
@@ -156,3 +158,5 @@ private:
 }
 
 REGISTER_SERVICE_AS(HpJornada700ConfigEeprom, Sa1111SspDevice);
+
+}

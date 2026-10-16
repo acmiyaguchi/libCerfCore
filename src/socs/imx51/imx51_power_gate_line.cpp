@@ -7,6 +7,8 @@
 
 #include <utility>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(Imx51PowerGateLine);
 
 bool Imx51PowerGateLine::ShouldRegister() {
@@ -30,4 +32,6 @@ void Imx51PowerGateLine::PowerDown(Imx51PowerGatedBlock block) {
                               "registered for it", static_cast<unsigned>(block));
     }
     slot();
+}
+
 }

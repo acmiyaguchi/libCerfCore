@@ -5,6 +5,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include <cerfcore/core/fatal.h>
 
+namespace cerfcore {
+
 bool Msm8255GpioBus::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     return bd && bd->GetSocId() == SocId::Msm8255;
@@ -49,3 +51,5 @@ void Msm8255GpioBus::RedriveOwnedPinsLocked(Msm8255GpioWindow* window) {
 }
 
 REGISTER_SERVICE(Msm8255GpioBus);
+
+}

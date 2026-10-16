@@ -1,6 +1,8 @@
 #include "msm8255_sdcc_data_path.h"
 #include "msm8255_sdcc_slots.h"
 
+namespace cerfcore {
+
 namespace {
 
 namespace sdcc = cerf_msm8255_sdcc_detail;
@@ -17,3 +19,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(Msm8255Sdcc2DataPath, Msm8255Sdcc2DataPathBase);
+
+}

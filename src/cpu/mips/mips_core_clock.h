@@ -7,6 +7,8 @@
 #include <cerfcore/core/service.h>
 #include "../../execution/guest_cycle_clock.h"
 
+namespace cerfcore {
+
 class MipsCoreClock : public Service {
 public:
     using Service::Service;
@@ -21,3 +23,5 @@ public:
 private:
     std::vector<std::function<void()>> count_rate_listeners_;
 };
+
+}

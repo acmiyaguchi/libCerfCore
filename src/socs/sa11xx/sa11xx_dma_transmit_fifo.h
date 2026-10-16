@@ -7,6 +7,8 @@
 #include <deque>
 #include <vector>
 
+namespace cerfcore {
+
 class EmulatedMemory;
 class Sa11xxDma;
 class Sa11xxDmaPort;
@@ -57,3 +59,5 @@ private:
     uint64_t             pulled_  = 0;
     uint16_t             shifter_ = 0;
 };
+
+}

@@ -3,6 +3,8 @@
 #include <cerfcore/core/service.h>
 #include "../../host/battery_widget.h"
 
+namespace cerfcore {
+
 /* Holds the Jornada's battery charge model + status-bar widget. The MCU's
    GetBatteryData handler reads FillPercent() to synthesize the main-battery
    ADC the CE battery driver expects. */
@@ -23,3 +25,5 @@ private:
 
     BatteryWidget battery_;
 };
+
+}

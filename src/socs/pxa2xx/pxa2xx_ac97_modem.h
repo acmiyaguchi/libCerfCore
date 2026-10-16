@@ -5,6 +5,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Pxa2xxAc97Modem : public Pxa2xxAc97InFifo, public Pxa2xxSlotSource {
 public:
     using Pxa2xxAc97InFifo::Pxa2xxAc97InFifo;
@@ -23,3 +25,5 @@ protected:
     void              OnRun() override {}
     void              OnWrite(uint64_t) override {}
 };
+
+}

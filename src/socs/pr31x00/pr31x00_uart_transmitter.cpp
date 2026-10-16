@@ -11,6 +11,8 @@
 #include <utility>
 #include <vector>
 
+namespace cerfcore {
+
 bool Pr31x00UartTransmitter::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     if (!bd) return false;
@@ -148,3 +150,5 @@ void Pr31x00UartTransmitter::RestoreState(uint32_t port, StateReader& r) {
 }
 
 REGISTER_SERVICE(Pr31x00UartTransmitter);
+
+}

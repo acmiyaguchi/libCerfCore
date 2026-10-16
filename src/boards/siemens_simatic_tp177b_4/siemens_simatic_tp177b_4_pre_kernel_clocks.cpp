@@ -4,6 +4,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "siemens_simatic_tp177b_4_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kMpllCon = 0x000A1031u;
@@ -29,3 +31,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(SiemensSimaticTp177b4PreKernelClocks, S3C2410PreKernelClocks);
+
+}

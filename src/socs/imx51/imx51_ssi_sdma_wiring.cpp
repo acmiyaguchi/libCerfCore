@@ -10,6 +10,8 @@
 #include "imx51_ssi2.h"
 #include "imx51_ssi3.h"
 
+namespace cerfcore {
+
 namespace {
 
 class Imx51SsiSdmaWiring : public FreescaleSsiSdmaWiring {
@@ -70,3 +72,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(Imx51SsiSdmaWiring, FreescaleSsiSdmaWiring);
+
+}

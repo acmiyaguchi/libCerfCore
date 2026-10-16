@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 
@@ -34,3 +36,5 @@ private:
     uint64_t from_      = 0;
     uint16_t ubrc_      = 4;
 };
+
+}

@@ -5,6 +5,8 @@
 #include <cerfcore/state/state_stream.h>
 #include "pxa255_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* Intel PXA255 Developer's Manual Table 14-6 (page 14-11) SACR1: DREC 3, DRPL 4; section 14.6.2 (page 14-10):
@@ -77,4 +79,6 @@ void Pxa255I2sFifoResetSync::Restore(StateReader& r) {
     r.Read("i2s_rx_assert_bit", rx_.assert_bit);
     tx_.pending = tx_pending != 0u;
     rx_.pending = rx_pending != 0u;
+}
+
 }

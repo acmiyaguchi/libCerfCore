@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* Linux ucb1x00.h UCB_ADC_INP_TSPX .. UCB_ADC_INP_AD3: ADC_CR INP[4:2] selects
    TSPX(0) TSMX(1) TSPY(2) TSMY(3) AD0(4) AD1(5) AD2(6) AD3(7). */
 class Ucb1x00Board : public Service {
@@ -26,3 +28,5 @@ public:
     enum class SocResetReach { Never, Unknown };
     virtual SocResetReach CodecSocResetReach() const = 0;
 };
+
+}

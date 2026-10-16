@@ -18,6 +18,8 @@
 #include <cstring>
 #include <mutex>
 
+namespace cerfcore {
+
 bool CasioPocketpostpetAsic::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     return bd && bd->GetBoardFamilyId() == BoardFamilyId::CasioPocketpostpet;
@@ -438,3 +440,5 @@ void CasioPocketpostpetAsic::PostRestore() {
 }
 
 REGISTER_SERVICE(CasioPocketpostpetAsic);
+
+}

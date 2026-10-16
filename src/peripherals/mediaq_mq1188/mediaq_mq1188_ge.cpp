@@ -2,6 +2,8 @@
 
 #include <cerfcore/core/log.h>
 
+namespace cerfcore {
+
 const MediaQGe::Layout& MediaQMq1188Ge::Lyt() const {
     /* fg=GE07, bg=GE08, pat_fg=GE12, src_stride=GE09; GE0AR stride[9:0],
        GE0BR base[19:0] (Reg 4-93..4-98). */
@@ -67,4 +69,6 @@ uint32_t MediaQMq1188Ge::ExpectedSourceDwords() const {
     const uint32_t start_px = (reg_[kGe09SrcStride] >> 4) & 1u;
     const uint32_t dwords_per_row = (start_px + ((start_px + w) & 1u) + w) / 2u;
     return dwords_per_row * h;
+}
+
 }

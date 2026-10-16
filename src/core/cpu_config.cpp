@@ -12,6 +12,8 @@
 
 #include <algorithm>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(CpuConfig);
 
 namespace {
@@ -91,4 +93,6 @@ void CpuConfig::MissingValue(std::string_view id) const {
 void CpuConfig::UnmappedEnum(std::string_view id, const std::string& value) const {
     CfgFatal(Origin(id), "cpu_config." + std::string(id) + " '" + value +
                          "' is unknown to this build");
+}
+
 }

@@ -7,6 +7,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Imx31Ipu : public RasterScanPeripheral {
 public:
     using RasterScanPeripheral::RasterScanPeripheral;
@@ -75,3 +77,5 @@ private:
     bool     bg_in_frame_     = false;
     Imx31SdcTimingRegs latched_sdc_;
 };
+
+}

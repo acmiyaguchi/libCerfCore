@@ -8,6 +8,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* Intel PXA27x Developer's Manual 280000-001 Table 6-44 (page 6-85) "Memory
@@ -97,3 +99,5 @@ void Pxa27xMemoryController::RestoreState(StateReader& r) {
 }  /* namespace */
 
 REGISTER_SERVICE(Pxa27xMemoryController);
+
+}

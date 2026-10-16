@@ -11,6 +11,8 @@
 #include "sa11xx_dma.h"
 #include "sa11xx_dma_port.h"
 
+namespace cerfcore {
+
 bool Sa11xxDmaTransmitFifo::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     return bd && (bd->GetSocId() == SocId::Sa1110 || bd->GetSocId() == SocId::Sa1100);
@@ -92,4 +94,6 @@ void Sa11xxDmaTransmitFifo::Restore(StateReader& r) {
     }
     fifo_.Restore(level, moved);
     fifo_.SetSupply(0u);
+}
+
 }

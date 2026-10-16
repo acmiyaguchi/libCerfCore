@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 enum class PanelPixelFormat : uint8_t {
     kGray2MsbInverted,
     kRgb565Le,
@@ -24,3 +26,5 @@ public:
 private:
     PanelPixelFormat format_;
 };
+
+}

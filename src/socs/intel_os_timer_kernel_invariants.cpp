@@ -8,6 +8,8 @@
 #include "sa11xx/sa1100_id.h"
 #include "sa11xx/sa1110_id.h"
 
+namespace cerfcore {
+
 bool IntelOsTimerKernelInvariants::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     if (bd == nullptr) return false;
@@ -187,3 +189,5 @@ void IntelOsTimerKernelInvariants::Restore(StateReader& r) {
 }
 
 REGISTER_SERVICE(IntelOsTimerKernelInvariants);
+
+}

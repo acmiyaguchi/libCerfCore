@@ -6,6 +6,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "nec_mobilepro_900_series_family_id.h"
 
+namespace cerfcore {
+
 REGISTER_SERVICE(NecMobilepro900SeriesLed);
 
 namespace {
@@ -55,4 +57,6 @@ bool NecMobilepro900SeriesLed::PollDirty() {
     drawn_blinking_ = blinking;
     drawn_lit_      = lit;
     return true;
+}
+
 }

@@ -16,6 +16,8 @@
 #include <cstdio>
 #include <cstring>
 
+namespace cerfcore {
+
 namespace {
 
 /* SA-1110 §11.7.1.2: in active TFT 16-bpp mode (PBS=2, PAS=1), the
@@ -215,3 +217,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(CompaqIpaqH3000LcdRenderer, PanelFrameRenderer);
+
+}

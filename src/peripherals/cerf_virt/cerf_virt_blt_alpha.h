@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace CerfVirt {
 
 const uint32_t kBltAlphaSrcNeg  = 0x0040u;
@@ -150,5 +152,7 @@ struct BltAlpha {
                     out & 0xFFu, (out >> 24) & 0xFFu);
     }
 };
+
+}
 
 }

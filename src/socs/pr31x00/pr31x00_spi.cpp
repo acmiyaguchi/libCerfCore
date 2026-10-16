@@ -11,6 +11,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kBase = 0x10C00160u;
@@ -125,3 +127,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(Pr31x00Spi);
+
+}

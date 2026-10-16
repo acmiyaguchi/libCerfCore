@@ -11,6 +11,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* VR41xx AIU (Audio Interface Unit), 0x0B000160-0x0B00017F (VR4111 UM Table 6-10 p170 /
@@ -111,3 +113,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(Vr41xxAiu);
+
+}

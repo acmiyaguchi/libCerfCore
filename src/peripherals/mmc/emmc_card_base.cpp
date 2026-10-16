@@ -6,6 +6,8 @@
 #include <cerfcore/socs/guest_cpu_reset.h>
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 using namespace cerf_mmc;
 
 namespace {
@@ -464,4 +466,6 @@ void EmmcCardBase::RestoreState(StateReader& r) {
     }
     state_ = static_cast<MmcState>(state);
     rca_   = static_cast<uint16_t>(rca);
+}
+
 }

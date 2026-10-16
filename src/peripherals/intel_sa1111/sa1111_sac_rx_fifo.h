@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 
@@ -38,3 +40,5 @@ private:
     uint32_t level0_  = 0;
     bool     overrun_ = false;
 };
+
+}

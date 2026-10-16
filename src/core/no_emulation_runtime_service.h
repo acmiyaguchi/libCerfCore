@@ -2,6 +2,8 @@
 
 #include <cerfcore/core/service.h>
 
+namespace cerfcore {
+
 class NoEmulationRuntimeService : public Service {
 public:
     using Service::Service;
@@ -13,3 +15,5 @@ public:
 private:
     bool checked_ = false;
 };
+
+}

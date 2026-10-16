@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Sa1111SacFrameClock;
 class Sa1111SacHostInput;
 class Sa1111SacRxFifo;
@@ -48,3 +50,5 @@ private:
     uint64_t             floor_pos_   = 0;
     uint64_t             floor_cycle_ = 0;
 };
+
+}

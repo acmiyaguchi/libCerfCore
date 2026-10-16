@@ -11,6 +11,8 @@
 #include <array>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 class SiemensSimaticMp377PowerReset : public Peripheral {
@@ -107,3 +109,5 @@ private:
 } // namespace
 
 REGISTER_SERVICE(SiemensSimaticMp377PowerReset);
+
+}

@@ -8,6 +8,8 @@
 #include <atomic>
 #include <cstdint>
 
+namespace cerfcore {
+
 class Pxa27xPowerManager : public Peripheral,
                            public DeepSleepWaker,
                            public ResetCauseLatch,
@@ -63,3 +65,5 @@ private:
     std::atomic<uint32_t> wake_edges_{0u};
     std::atomic<bool>     asleep_{false};
 };
+
+}

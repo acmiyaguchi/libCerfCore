@@ -7,6 +7,8 @@
 #include "../../peripherals/peripheral_dispatcher.h"
 #include <cerfcore/cpu/emulated_memory.h>
 
+namespace cerfcore {
+
 namespace {
 
 /* SA-1110 Developer's Manual §2.4 Figure 2-3 and SA-1100 Technical
@@ -41,3 +43,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE(Sa11xxZeroBank);
+
+}

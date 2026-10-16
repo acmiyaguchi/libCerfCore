@@ -5,6 +5,8 @@
 
 #include <algorithm>
 
+namespace cerfcore {
+
 using namespace sa11xx_dma;
 
 namespace {
@@ -235,4 +237,6 @@ void Sa11xxDmaStream::Restore(StateReader& r) {
     active_  = active != 0u;
     chained_ = chained != 0u;
     cur_b_   = buffer_b != 0u;
+}
+
 }

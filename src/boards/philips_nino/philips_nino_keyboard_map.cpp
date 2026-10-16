@@ -6,6 +6,8 @@
 
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 /* Button source pins are keybddr.dll's keymap dword_18C4048 (scan sub_18C16CC):
@@ -38,3 +40,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(PhilipsNinoKeyboardMap, KeyboardMap);
+
+}

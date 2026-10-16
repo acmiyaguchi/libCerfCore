@@ -16,6 +16,8 @@
 #include <atomic>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* Linux arch/arm/mach-msm msm_iomap-7x30.h:
@@ -93,3 +95,5 @@ private:
 }
 
 REGISTER_SERVICE(Msm8255Gcc);
+
+}

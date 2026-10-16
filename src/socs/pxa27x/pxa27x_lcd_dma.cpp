@@ -8,6 +8,8 @@
 #include <cerfcore/cpu/emulated_memory.h>
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 constexpr uint32_t kDmaBase = 0x200u;
 constexpr uint32_t kDmaEnd  = 0x270u;
@@ -204,3 +206,5 @@ void Pxa27xLcdDma::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE(Pxa27xLcdDma);
+
+}

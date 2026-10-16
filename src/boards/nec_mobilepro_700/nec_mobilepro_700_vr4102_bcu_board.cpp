@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 class NecMobilePro700Vr4102BcuBoard : public Vr4102BcuBoard {
@@ -32,3 +34,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(NecMobilePro700Vr4102BcuBoard, Vr4102BcuBoard);
+
+}

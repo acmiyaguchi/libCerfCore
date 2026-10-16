@@ -2,10 +2,14 @@
 
 #include "host_unimplemented.h"
 
+namespace cerfcore {
+
 namespace host_platform {
 
 IcmpEchoResult SendIcmpEcho(uint32_t, const uint8_t*, size_t, uint32_t) {
     NoHostImplementation("SendIcmpEcho");
+}
+
 }
 
 }

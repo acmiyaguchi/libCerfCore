@@ -8,6 +8,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include <cerfcore/core/fatal.h>
 
+namespace cerfcore {
+
 bool SiemensSimaticMp377Ertec400Fdb::ShouldRegister() {
     auto* board = emu_.TryGet<BoardContext>();
     return board && board->GetBoardFamilyId() == BoardFamilyId::SiemensSimaticMp377;
@@ -134,3 +136,5 @@ void SiemensSimaticMp377Ertec400Fdb::Publish(uint32_t parameter) {
 }
 
 REGISTER_SERVICE(SiemensSimaticMp377Ertec400Fdb);
+
+}

@@ -14,6 +14,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* MCIMX51RM Table 22-1 register summary and Table 22-2 DP_CTL. */
@@ -307,4 +309,6 @@ void Imx51Dpll::RestoreState(StateReader& r) {
     lock_        = static_cast<Lock>(lock);
     restarted_   = restarted != 0u;
     load_wanted_ = wanted != 0u;
+}
+
 }

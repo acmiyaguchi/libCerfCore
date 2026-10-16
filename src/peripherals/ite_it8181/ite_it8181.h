@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 /* ITE IT8181 VGA/LCD controller (NetBSD hpcmips ite8181reg.h; guest ddi.dll). */
 class IteIt8181 : public Peripheral {
 public:
@@ -53,3 +55,5 @@ private:
     bool     fb_written_      = false;
     DisplaySizeLatch size_latch_;
 };
+
+}

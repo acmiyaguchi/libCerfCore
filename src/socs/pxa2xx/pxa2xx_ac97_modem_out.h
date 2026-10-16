@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Pxa2xxAc97ModemOut : public Pxa2xxAc97OutFifo {
 public:
     using Pxa2xxAc97OutFifo::Pxa2xxAc97OutFifo;
@@ -18,3 +20,5 @@ protected:
     void           OnDmaStopped() override {}
     void           OnRestored() override {}
 };
+
+}

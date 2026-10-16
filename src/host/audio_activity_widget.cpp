@@ -3,6 +3,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include <cerfcore/host/host_widget_registry.h>
 
+namespace cerfcore {
+
 void AudioActivityWidget::NotePresent() {
     if (registered_) return;
     registered_ = true;
@@ -10,3 +12,5 @@ void AudioActivityWidget::NotePresent() {
 }
 
 REGISTER_SERVICE(AudioActivityWidget);
+
+}

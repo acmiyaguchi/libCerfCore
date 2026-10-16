@@ -12,6 +12,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* Linux arch/arm/mach-msm msm_iomap-7x30.h:
@@ -355,3 +357,5 @@ void Msm8255Smem::PublishItem(uint32_t id, uint32_t off, uint32_t size,
 }
 
 REGISTER_SERVICE(Msm8255Smem);
+
+}

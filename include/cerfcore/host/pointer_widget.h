@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 
+namespace cerfcore {
+
 class PointerSource;
 
 class PointerWidget : public Service, public HostWidget {
@@ -28,3 +30,5 @@ public:
 private:
     const PointerSource* drawn_source_ = nullptr;
 };
+
+}

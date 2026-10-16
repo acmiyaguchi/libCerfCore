@@ -8,6 +8,8 @@
 #include <string>
 #include <vector>
 
+namespace cerfcore {
+
 class CompactFlashInsertEntry : public Service {
 public:
     using Service::Service;
@@ -21,3 +23,5 @@ private:
     uint32_t PayloadMb(const std::vector<std::string>& files) const;
     uint32_t PromptSizeMb(uint32_t min_mb) const;
 };
+
+}

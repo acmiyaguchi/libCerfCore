@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 
@@ -23,3 +25,5 @@ public:
 private:
     bool port_announced_ = false;
 };
+
+}

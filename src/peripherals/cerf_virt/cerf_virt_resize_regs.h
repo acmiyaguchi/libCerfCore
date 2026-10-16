@@ -6,6 +6,7 @@ typedef unsigned int uint32_t;
 #include <cstdint>
 #endif
 
+namespace cerfcore {
 namespace CerfVirt {
 
 const uint32_t kRszWantW   = 0x00u;
@@ -17,4 +18,5 @@ const uint32_t kRszAppliedW   = 0x10u;
 const uint32_t kRszAppliedH   = 0x14u;
 const uint32_t kRszAppliedGen = 0x18u;
 
+}
 }

@@ -5,6 +5,8 @@
 
 #include <functional>
 
+namespace cerfcore {
+
 class ShutdownHost : public Service {
 public:
     using Service::Service;
@@ -16,3 +18,5 @@ public:
     virtual void BeginTeardown() = 0;
     virtual void CancelTeardown() = 0;
 };
+
+}

@@ -9,6 +9,8 @@
 
 #include <utility>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kPortscPhcd     = 1u << 23;
@@ -80,4 +82,6 @@ bool Imx51UsbTransceiverClocks::UtmiPhyClockRuns(uint32_t portsc, uint32_t phy_c
        60-5 Utmi_on_clock: "available even if suspend is asserted". */
     const bool suspend = (portsc & kPortscPhcd) != 0u || (phy_ctrl0 & kPhyCtrl0SuspendM) == 0u;
     return !suspend || (phy_ctrl0 & kPhyCtrl0UtmiOnClock) != 0u;
+}
+
 }

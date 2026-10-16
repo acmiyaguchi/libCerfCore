@@ -9,6 +9,8 @@
 #include <mutex>
 #include <string>
 
+namespace cerfcore {
+
 /* Thread-safe shared state for guest-additions folder sharing. The host UI
    (FolderShareWidget, UI thread) writes it; the FolderSharing peripheral and
    server (JIT thread) read it. Generation bumps on every change so the guest's
@@ -47,3 +49,5 @@ private:
     std::string           host_root_;
     std::u16string        mount_point_;
 };
+
+}

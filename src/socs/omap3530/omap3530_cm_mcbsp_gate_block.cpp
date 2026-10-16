@@ -4,6 +4,8 @@
 
 #include <utility>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kOffFclken = 0x00u;
@@ -67,4 +69,6 @@ void Omap3530CmMcBspGateBlock::RegisterClockListener(std::function<void()> fn) {
 
 void Omap3530CmMcBspGateBlock::NotifyClock() {
     for (auto& fn : clock_listeners_) fn();
+}
+
 }

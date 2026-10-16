@@ -6,6 +6,8 @@
 #include <cerfcore/core/fatal.h>
 #include <cerfcore/core/log.h>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(S3C2410EintSource);
 
 bool S3C2410EintSource::ShouldRegister() {
@@ -44,4 +46,6 @@ void S3C2410EintSource::RegisterUnmaskListener(std::function<void(uint32_t)> fn)
 
 void S3C2410EintSource::NotifyUnmasked(uint32_t unmasked_intmsk) {
     for (auto& fn : unmask_listeners_) fn(unmasked_intmsk);
+}
+
 }

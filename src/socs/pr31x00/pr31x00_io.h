@@ -7,6 +7,8 @@
 #include <functional>
 #include <vector>
 
+namespace cerfcore {
+
 /* Philips PR31x00 I/O Module, TMPR3911/3912 ch.9. Registers $180-$198. */
 class Pr31x00Io : public Peripheral {
 public:
@@ -69,3 +71,5 @@ private:
     std::vector<MfioOutObserver> mfio_out_observers_;
     std::vector<IoOutObserver>   io_out_observers_;
 };
+
+}

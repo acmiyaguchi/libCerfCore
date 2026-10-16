@@ -4,6 +4,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "imx51_id.h"
 
+namespace cerfcore {
+
 /* MCIMX51RM Table 2-2: UART3 at 0x7000_C000 (SPBA0). SBOOT brings it up as its
    serial console (the UCR2.SRST-poll init at Bootloader.bin 0x8FF061EC). Named
    (not anonymous) so Imx51Sdma can resolve it to bind its DMA-request events. */
@@ -16,3 +18,5 @@ public:
 protected:
     void DriveIrq(bool level) override;
 };
+
+}

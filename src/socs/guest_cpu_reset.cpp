@@ -5,6 +5,8 @@
 #include <cerfcore/core/log.h>
 #include "../execution/engine_bridge.h"
 
+namespace cerfcore {
+
 REGISTER_SERVICE(GuestCpuReset);
 
 void GuestCpuReset::SetCauseLatch(ResetCauseLatch* latch) {
@@ -77,4 +79,6 @@ void GuestCpuReset::OnResetDelivered() {
     emu_.Get<GuestColdBoot>().ExecuteIfPending();
     line_held_ = false;
     for (auto& fn : release_listeners_) fn();
+}
+
 }

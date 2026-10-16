@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class CerfEmulator;
 class StateReader;
 class StateWriter;
@@ -86,3 +88,5 @@ private:
     Channel              ch_[2];
     bool                 dma_ = false;
 };
+
+}

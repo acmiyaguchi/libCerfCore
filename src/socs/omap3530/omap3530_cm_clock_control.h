@@ -7,6 +7,8 @@
 #include <functional>
 #include <vector>
 
+namespace cerfcore {
+
 class Omap3530CmClockControl : public Omap3530PrcmStubBlock {
 public:
     using Omap3530PrcmStubBlock::Omap3530PrcmStubBlock;
@@ -42,3 +44,5 @@ private:
     uint64_t osc_hz_ = 0;
     std::vector<std::function<void()>> rate_listeners_;
 };
+
+}

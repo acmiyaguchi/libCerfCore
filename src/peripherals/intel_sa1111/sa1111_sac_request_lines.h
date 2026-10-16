@@ -6,6 +6,8 @@
 #include <cstdint>
 #include <functional>
 
+namespace cerfcore {
+
 class Sa1111Intc;
 class Sa1111SacFrameClock;
 class Sa1111SacL3;
@@ -82,3 +84,5 @@ private:
     std::function<void(uint64_t now)> on_edge_;
     Levels             pub_;
 };
+
+}

@@ -9,6 +9,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "hp_jornada_700_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* Virtual panel raw-ADC characteristic (10-bit, linear across the surface).
@@ -147,4 +149,6 @@ void HpJornada700Touch::PostRestore() {
     if (!pen_down_) return;
     pen_down_ = false;
     DrivePenLine(false);
+}
+
 }

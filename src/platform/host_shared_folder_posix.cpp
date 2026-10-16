@@ -2,6 +2,8 @@
 
 #include "host_unimplemented.h"
 
+namespace cerfcore {
+
 namespace host_platform {
 
 SharedPathResult ResolveSharedPath(const std::string&, std::u16string_view, std::u16string&) {
@@ -63,6 +65,8 @@ SharedFsStatus SharedFsFile::TruncateAt(uint64_t) {
 }
 SharedFsStatus SharedFsFile::Info(SharedFsInfo&) {
     NoHostImplementation("SharedFsFile::Info");
+}
+
 }
 
 }

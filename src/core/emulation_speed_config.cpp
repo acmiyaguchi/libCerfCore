@@ -11,6 +11,8 @@
 #include <cmath>
 #include <numeric>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(EmulationSpeedConfig);
 
 namespace {
@@ -54,4 +56,6 @@ void EmulationSpeedConfig::Load(const std::string& path) {
     if (root.is_null()) return;
     throttle_ = ReadMultiplier(root, kThrottleKey, true, path, throttle_);
     cpu_rate_ = ReadMultiplier(root, kCpuRateKey, false, path, cpu_rate_);
+}
+
 }

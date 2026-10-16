@@ -5,6 +5,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 
@@ -41,3 +43,5 @@ private:
     uint16_t clksp_       = 0;
     uint16_t strap_vtdiv_ = 0;
 };
+
+}

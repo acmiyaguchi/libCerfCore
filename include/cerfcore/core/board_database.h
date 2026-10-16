@@ -10,6 +10,8 @@
 #include <string_view>
 #include <vector>
 
+namespace cerfcore {
+
 using CpuArch = cerfengine::Isa;
 
 CpuArch ParseCpuArch(const std::string& value, const std::string& path,
@@ -72,3 +74,5 @@ private:
     std::string              ga_shared_folder_mount_point_;
     std::vector<std::string> ga_video_driver_names_;
 };
+
+}

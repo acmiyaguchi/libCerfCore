@@ -3,6 +3,8 @@
 #include <cerfcore/core/device_config.h>
 #include <cerfcore/core/log.h>
 
+namespace cerfcore {
+
 bool NullNetworkBackend::ShouldRegister() {
     return !emu_.Get<DeviceConfig>().network_enabled;
 }
@@ -23,3 +25,5 @@ cerf::inet::MacAddress NullNetworkBackend::GuestMacAddress() const {
 }
 
 REGISTER_SERVICE_AS(NullNetworkBackend, NetworkBackend);
+
+}

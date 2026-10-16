@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace cerf_freescale_gpt_detail {
 
 /* The GPTCNT sequence from a base value: MCIMX31RM 34.1.2 and Table 34-6 FRR,
@@ -81,5 +83,7 @@ private:
     bool     free_run_;
     uint32_t ocr1_;
 };
+
+}
 
 }

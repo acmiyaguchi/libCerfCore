@@ -8,6 +8,8 @@
 #include "../../peripherals/peripheral_dispatcher.h"
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 
 /* SA-1110 Dev Man §11.9.2-11.9.4: the Serial Port 1 GPCLK block (0x80020000)
@@ -126,3 +128,5 @@ void Sa11xxSp1Gpclk::RestoreState(StateReader& r) {
 }  /* namespace */
 
 REGISTER_SERVICE(Sa11xxSp1Gpclk);
+
+}

@@ -8,6 +8,8 @@
 
 #include <string>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint64_t kNsPerSec   = 1000000000u;
@@ -188,4 +190,6 @@ void StoppableOscillatorTicks::Restore(StateReader& r, const char* prefix) {
     stopped_at_   = clock_->Cycles();
     stopped_span_ = 0u;
     OscillatorTicks::Restore(r, prefix);
+}
+
 }

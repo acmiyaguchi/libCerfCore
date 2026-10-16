@@ -9,6 +9,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 class Cs4297aCodec;
 
 namespace siemens_simatic_mp377 {
@@ -188,3 +190,5 @@ private:
 };
 
 } // namespace siemens_mp377
+
+}

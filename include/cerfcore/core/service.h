@@ -2,6 +2,8 @@
 
 #include <servicelocator/service.h>
 
+namespace cerfcore {
+
 class CerfEmulator;
 
 class Service : public servicelocator::Service {
@@ -11,3 +13,5 @@ protected:
 public:
     explicit Service(CerfEmulator& emu) : emu_(emu) {}
 };
+
+}

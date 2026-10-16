@@ -9,6 +9,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kSpbaBase     = 0x5003C000u;
@@ -104,3 +106,5 @@ void Imx31Spba::RestoreState(StateReader& r) {
 }  /* namespace */
 
 REGISTER_SERVICE(Imx31Spba);
+
+}

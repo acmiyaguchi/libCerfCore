@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 
@@ -29,3 +31,5 @@ public:
        bytes into `dst`, returns the count (0 = zero-length packet). */
     virtual uint32_t OnDeviceOut(uint32_t ep, uint8_t* dst, uint32_t max) = 0;
 };
+
+}

@@ -10,6 +10,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 /* MCIMX51RM Figure 60-88 / 60-89 (dQH), Figure 60-90 (dTD). */
@@ -118,4 +120,6 @@ void Imx51UsbDeviceTransfers::TransferDtdBuffers(const uint32_t pages[5], uint8_
         cursor += chunk;
         left   -= chunk;
     }
+}
+
 }

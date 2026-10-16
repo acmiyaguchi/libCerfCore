@@ -6,6 +6,8 @@
 
 #include <cstring>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kFpBlockLo = 0xE000u;
@@ -112,4 +114,6 @@ void MediaQMq200Fp::SaveState(StateWriter& w) const {
 
 void MediaQMq200Fp::RestoreState(StateReader& r) {
     r.ReadBytes("fp_regs", regs_, sizeof(regs_));
+}
+
 }

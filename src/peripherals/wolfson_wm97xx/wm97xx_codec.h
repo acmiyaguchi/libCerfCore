@@ -11,6 +11,8 @@
 
 namespace cerfengine { class HostRequestChannel; }
 
+namespace cerfcore {
+
 class Wm97xxCodec : public Ac97Codec {
 public:
     using Ac97Codec::Ac97Codec;
@@ -75,3 +77,5 @@ private:
     std::mutex                edge_mtx_;
     std::vector<bool>         edges_;
 };
+
+}

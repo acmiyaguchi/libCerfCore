@@ -8,6 +8,8 @@
 #include <cstdint>
 #include <cstring>
 
+namespace cerfcore {
+
 template <typename Chip>
 class MediaQPanelRenderer : public PanelFrameRenderer {
 public:
@@ -75,3 +77,5 @@ private:
         return FromPalette(lcd_pixel::PackedIndexMsbFirst(line, x, bpp));
     }
 };
+
+}

@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 class Pr31x00UartB : public Pr31x00Uart {
@@ -26,3 +28,5 @@ protected:
 }  /* namespace */
 
 REGISTER_SERVICE(Pr31x00UartB);
+
+}

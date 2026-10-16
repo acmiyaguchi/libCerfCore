@@ -9,8 +9,11 @@
 #include <cstdint>
 #include <mutex>
 
-class MipsCoreClock;
 namespace cerfengine { class MipsInterruptChannel; }
+
+namespace cerfcore {
+
+class MipsCoreClock;
 
 /* NEC VR41xx RTC, VR4102 UM ch.16 == VR4111 UM ch.17 == VR4121 UM ch.17 (VR4102 Table 16-1,
    VR4111 Table 17-1 p372, VR4121 Table 17-1); RTC1 block 0x0B0000C0, RTC2 block 0x0B0001C0. */
@@ -113,3 +116,5 @@ private:
 
     Vr41xxRtclRephase rephase_;
 };
+
+}

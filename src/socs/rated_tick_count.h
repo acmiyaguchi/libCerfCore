@@ -5,6 +5,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 struct TickPosition {
     uint64_t ticks     = 0;
     uint64_t phase     = 0;
@@ -45,3 +47,5 @@ private:
 
 using RatedTickCount       = BasicRatedTickCount<ExactCounterUnits>;
 using NarrowRatedTickCount = BasicRatedTickCount<NarrowCounterUnits>;
+
+}

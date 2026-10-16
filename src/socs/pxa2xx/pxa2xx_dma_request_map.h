@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Pxa2xxDmaPort;
 
 class Pxa2xxDmaRequestMap : public Peripheral {
@@ -28,3 +30,5 @@ protected:
 private:
     Pxa2xxDmaPort* ports_[kMaxRequests] = {};
 };
+
+}

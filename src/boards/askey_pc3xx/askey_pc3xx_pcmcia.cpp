@@ -8,6 +8,8 @@
 #include "../../peripherals/pcmcia/pcmcia_space_router.h"
 #include "../../socs/pxa255/pxa255_gpio.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* Pin map from the ROM PCMCIA PDD (pcmcia.dll status read sub_18C21A4):
@@ -60,3 +62,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(AskeyPc3xxPcmcia);
+
+}

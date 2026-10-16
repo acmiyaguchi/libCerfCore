@@ -11,6 +11,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace cerf_imx31_i2c_detail {
 
 /* MCIMX31RM Table 26-3/26-4 (Ch 26 I2C). 16-bit registers, 16 KB window. */
@@ -104,3 +106,5 @@ private:
 };
 
 }  /* namespace cerf_imx31_i2c_detail */
+
+}

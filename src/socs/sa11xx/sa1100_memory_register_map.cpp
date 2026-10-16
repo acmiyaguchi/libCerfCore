@@ -5,6 +5,8 @@
 #include <cerfcore/boards/board_context.h>
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kMdcnfg = 0x00u / 4u;
@@ -32,3 +34,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(Sa1100MemoryRegisterMap, Sa11xxMemoryRegisterMap);
+
+}

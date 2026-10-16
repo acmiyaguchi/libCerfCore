@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Twl4030;
 
 class Tps65950AudioDownlink : public Service {
@@ -44,3 +46,5 @@ private:
     int64_t  digital_[4]   = {};
     int64_t  weight_[2][4] = {};
 };
+
+}

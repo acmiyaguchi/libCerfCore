@@ -7,6 +7,8 @@
 #include <functional>
 #include <vector>
 
+namespace cerfcore {
+
 class Pxa255ClockManager : public Peripheral {
 public:
     using Peripheral::Peripheral;
@@ -67,3 +69,5 @@ private:
     std::vector<std::function<void()>> memory_clock_listeners_;
     std::vector<std::function<void(uint32_t)>> cken_listeners_;
 };
+
+}

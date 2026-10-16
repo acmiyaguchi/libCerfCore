@@ -19,6 +19,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kOffRtcCon  = 0x40u;
@@ -471,3 +473,5 @@ void S3C2410Rtc::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE(S3C2410Rtc);
+
+}

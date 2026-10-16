@@ -6,6 +6,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include "../../socs/irq_controller.h"
 
+namespace cerfcore {
+
 namespace {
 
 class SiemensSimaticMp377GpioInput final : public Iop13xxGpioInput {
@@ -25,3 +27,5 @@ public:
 REGISTER_SERVICE_AS(SiemensSimaticMp377GpioInput, Iop13xxGpioInput);
 
 } // namespace
+
+}

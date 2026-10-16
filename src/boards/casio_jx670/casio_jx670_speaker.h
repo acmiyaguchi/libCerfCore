@@ -5,6 +5,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class AudioActivityWidget;
 class EmulatedMemory;
 
@@ -27,3 +29,5 @@ private:
     EmulatedMemory*      mem_      = nullptr;
     AudioActivityWidget* activity_ = nullptr;
 };
+
+}

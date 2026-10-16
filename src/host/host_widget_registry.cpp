@@ -7,6 +7,8 @@
 #include <algorithm>
 #include <string>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(HostWidgetRegistry);
 
 void HostWidgetRegistry::Register(HostWidget* w) {
@@ -65,4 +67,6 @@ void HostWidgetRegistry::RestoreState(StateReader& r) {
         ordered[target]->RestoreWidgetState(r);
         r.LeaveFrame();
     }
+}
+
 }

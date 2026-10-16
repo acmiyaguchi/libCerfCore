@@ -10,6 +10,8 @@
 #include <mutex>
 #include <string>
 
+namespace cerfcore {
+
 class NetworkBackend : public Service {
 public:
     using Service::Service;
@@ -53,3 +55,5 @@ private:
     bool                           configured_mac_taken_ = false;
     uint8_t                        next_ordinal_ = 1;
 };
+
+}

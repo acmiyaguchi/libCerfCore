@@ -5,6 +5,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 constexpr uint8_t kImaMemChannelParam = 0x1u;
 }
@@ -148,3 +150,5 @@ void Imx31IpuCpm::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE(Imx31IpuCpm);
+
+}

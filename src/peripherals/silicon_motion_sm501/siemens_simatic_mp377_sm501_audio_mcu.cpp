@@ -10,6 +10,8 @@
 #include "../../socs/irq_controller.h"
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace siemens_simatic_mp377 {
 namespace {
 
@@ -419,3 +421,5 @@ void SiemensSimaticMp377Sm501AudioMcu::ClearProtocolInterrupt() {
 REGISTER_SERVICE(SiemensSimaticMp377Sm501AudioMcu);
 
 } // namespace siemens_mp377
+
+}

@@ -9,6 +9,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* CHI Control Register, IFR offset $1D8 (TMPR3911 §7.4.1). */
@@ -62,3 +64,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(Pr31x00Chi);
+
+}

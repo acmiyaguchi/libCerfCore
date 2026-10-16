@@ -9,6 +9,8 @@
 #include <string>
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 struct KeyEntry { const char* label; uint8_t vk; };
@@ -89,3 +91,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(HpJornada700KeyboardHotkeys, KeyboardHotkeys);
+
+}

@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace siemens_simatic_mp377 {
 
 /* SM501 Databook v1.02, PCI Configuration Space Header, BAR0 and BAR1. */
@@ -66,3 +68,5 @@ inline constexpr uint32_t kSmiBridgeBase = 0xC4800028u;
 inline constexpr uint32_t kSmiBridgeEnd = kSmiBridgeBase + kSmiBridgeWindowBytes;
 
 } // namespace siemens_mp377
+
+}

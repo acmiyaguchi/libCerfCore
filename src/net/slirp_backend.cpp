@@ -28,6 +28,8 @@
 #include <cstring>
 #include <limits>
 
+namespace cerfcore {
+
 /* SlirpTimer - what we hand back to libslirp from timer_new. libslirp
    treats it as opaque. We store the callback + arm time. The poll loop
    walks the timer list each iteration and fires anything whose expire
@@ -418,3 +420,5 @@ void SlirpBackend::PollLoop() {
 }
 
 REGISTER_SERVICE_AS(SlirpBackend, NetworkBackend);
+
+}

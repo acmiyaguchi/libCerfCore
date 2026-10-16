@@ -7,6 +7,8 @@
 #include "tps65950_gain.h"
 #include "twl4030.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* TPS65950 TRM SWCU050E Table 14-15 (page 728) CODEC_MODE OPT_MODE [0]; Table 14-16 (page 728) OPTION ARXR2_EN
@@ -252,3 +254,5 @@ void Tps65950AudioDownlink::Mix(const int32_t (&sdr)[4], int16_t& left, int16_t&
 }
 
 REGISTER_SERVICE(Tps65950AudioDownlink);
+
+}

@@ -3,6 +3,8 @@
 #include "philips_velo_1_family_id.h"
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 namespace {
 
 class PhilipsVelo1Context : public BoardContext {
@@ -15,3 +17,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(PhilipsVelo1Context, BoardContext);
+
+}

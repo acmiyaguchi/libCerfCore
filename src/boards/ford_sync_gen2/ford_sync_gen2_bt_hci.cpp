@@ -10,6 +10,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint8_t kH4Event        = 0x04u;  /* H4 event packet type indicator */
@@ -164,3 +166,5 @@ void FordSyncGen2BtHci::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE(FordSyncGen2BtHci);
+
+}

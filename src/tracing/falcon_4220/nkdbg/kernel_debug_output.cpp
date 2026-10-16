@@ -3,6 +3,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include "bundle.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* nk.exe OEMWriteDebugString sub_800E7770 (R0 = wide string): this OAL wires no
@@ -25,3 +27,5 @@ public:
 }  // namespace
 
 REGISTER_SERVICE(Falcon4220KernelDebugOutput);
+
+}

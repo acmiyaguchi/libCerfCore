@@ -3,6 +3,8 @@
 #include <cstddef>
 #include <string_view>
 
+namespace cerfcore {
+
 namespace cerf {
 
 constexpr char AsciiLower(char c) {
@@ -15,6 +17,8 @@ constexpr bool AsciiEqualIgnoreCase(std::string_view a, std::string_view b) {
         if (AsciiLower(a[i]) != AsciiLower(b[i])) return false;
     }
     return true;
+}
+
 }
 
 }

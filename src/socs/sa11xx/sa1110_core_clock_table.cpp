@@ -4,6 +4,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include "sa1110_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class Sa1110CoreClockTable : public Sa11xxCoreClockTable {
@@ -22,3 +24,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(Sa1110CoreClockTable, Sa11xxCoreClockTable);
+
+}

@@ -3,6 +3,8 @@
 #include "../../core/service.h"
 #include "../../state/state_stream.h"
 
+namespace cerfcore {
+
 class CerfVirtCustomizationsReset : public Service {
 public:
     using Service::Service;
@@ -19,3 +21,5 @@ public:
 private:
     bool applied_ = false;
 };
+
+}

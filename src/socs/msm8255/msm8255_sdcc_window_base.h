@@ -20,6 +20,8 @@
 #include <atomic>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace cerf_msm8255_sdcc_detail {
 
 template <uint32_t kBase, uint32_t kSize, uint32_t kResetClock,
@@ -296,3 +298,5 @@ private:
 };
 
 }  // namespace cerf_msm8255_sdcc_detail
+
+}

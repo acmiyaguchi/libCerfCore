@@ -3,6 +3,8 @@
 #include <cstdint>
 #include <string>
 
+namespace cerfcore {
+
 /* Non-Service mixin (HostWidget shape): a Service-derived input base adds it
    without making emu_ ambiguous. Kind picks how HostCanvasInput transforms host
    mouse messages for the active source. */
@@ -19,3 +21,5 @@ public:
     virtual PointerKind    Kind()             const = 0;
     virtual bool           SourceReady()      const { return true; }
 };
+
+}

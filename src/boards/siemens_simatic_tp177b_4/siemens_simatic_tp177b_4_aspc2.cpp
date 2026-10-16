@@ -8,6 +8,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* Siemens TP177B Profibus/MPI controller (ASPC2/CP5611-class) on nGCS1, modeled
    absent. The S7 driver (S7pbhmix.dll S7T_Init -> sub_33330C0) maps DPRAM
    @0x08040000 + regs @0x08020000, RAM-tests with pattern 0, gates on reg[0x0B]>=4;
@@ -45,3 +47,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE(SiemensSimaticTp177b4Aspc2);
+
+}

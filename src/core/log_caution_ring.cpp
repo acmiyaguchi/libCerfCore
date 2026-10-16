@@ -7,6 +7,8 @@
 #include <cstdio>
 #include <cstring>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr size_t CAUTION_RING_LINES = 12;
@@ -55,4 +57,6 @@ void Log::CopyRecentCautionsPostFreeze(char* out, size_t out_size) {
     }
 
     if (owned) log_detail::LogMutex().unlock();
+}
+
 }

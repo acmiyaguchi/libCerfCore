@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class EmulatedMemory;
 class PeripheralDispatcher;
 
@@ -21,3 +23,5 @@ private:
     EmulatedMemory*       mem_  = nullptr;
     PeripheralDispatcher* disp_ = nullptr;
 };
+
+}

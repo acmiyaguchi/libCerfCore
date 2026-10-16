@@ -3,6 +3,8 @@
 #include "siemens_simpad_family_id.h"
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 namespace {
 
 class SiemensSimpadContext : public BoardContext {
@@ -15,3 +17,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(SiemensSimpadContext, BoardContext);
+
+}

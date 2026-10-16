@@ -1,6 +1,8 @@
 #include "../vr41xx/vr41xx_core_clock_impl.h"
 #include "vr4102_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* VR4102 UM 10.2.8 p245 PClock = (18.432 MHz/CLKSP) x 32, TClock = x 16; CLKSEL rows Table 2-5
@@ -19,3 +21,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(Vr4102CoreClock, MipsCoreClock);
+
+}

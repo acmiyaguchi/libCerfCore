@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* IsEnabled() fatals on any ENVID=1 mode CERF doesn't model (a
    PNRMODE/BPPMODE/FRM565 outside 16bpp 5:6:5-direct and 8bpp
    palettized-with-565-entries) - silently accepting renders wrong
@@ -64,3 +66,5 @@ private:
     uint32_t ctrl_[kCtrlCount] = {};
     uint32_t pal_ [kPalCount]  = {};
 };
+
+}

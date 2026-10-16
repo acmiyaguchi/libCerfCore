@@ -9,6 +9,8 @@
 #include "../../boards/siemens_simpad/siemens_simpad_family_id.h"
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 bool Ucb1x00TouchPanel::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     if (!bd) return false;
@@ -36,3 +38,5 @@ void Ucb1x00TouchPanel::SetPen(bool down, int x, int y) {
 }
 
 REGISTER_SERVICE_AS(Ucb1x00TouchPanel, TouchInput);
+
+}

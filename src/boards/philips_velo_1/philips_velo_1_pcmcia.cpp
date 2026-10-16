@@ -6,6 +6,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "philips_velo_1_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* CRDDET1 and CRDDET2 are the two card-detect pins of one 16-bit PC Card socket
@@ -34,3 +36,5 @@ public:
 }
 
 REGISTER_SERVICE(PhilipsVelo1Pcmcia);
+
+}

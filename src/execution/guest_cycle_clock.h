@@ -17,6 +17,8 @@
 #include <atomic>
 #endif
 
+namespace cerfcore {
+
 class VirtualClock;
 
 class GuestCycleClock : public cerfengine::ClockHost, public Service {
@@ -140,3 +142,5 @@ private:
     std::atomic<int64_t> stat_lag_published_ns_{0};
 #endif
 };
+
+}

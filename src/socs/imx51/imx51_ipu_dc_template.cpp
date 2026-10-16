@@ -1,5 +1,7 @@
 #include "imx51_ipu_internal_mem.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* DC template memory @ 0x5F080000, MCIMX51RM Table 42-1 (the Display Controller's
@@ -11,3 +13,5 @@ class Imx51IpuDcTemplate : public cerf_imx51_ipu_mem_detail::Imx51IpuInternalMem
 }  /* namespace */
 
 REGISTER_SERVICE(Imx51IpuDcTemplate);
+
+}

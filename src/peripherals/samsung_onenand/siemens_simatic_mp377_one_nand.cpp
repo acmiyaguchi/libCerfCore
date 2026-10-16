@@ -14,6 +14,8 @@
 #include <cstring>
 #include <vector>
 
+namespace cerfcore {
+
 /* MP377 mainboard markings: two KFG1G16U2D; Samsung KFG1G16U2B-DIB6
    specification rev. 1.2, sections 2.8.3/2.8.13; siemens_mp377_v1040
    TFFS3.dll sub_2BD27B0/sub_2BD2C14/sub_2BD3260. */
@@ -431,3 +433,5 @@ private:
 } /* namespace */
 
 REGISTER_SERVICE(SiemensSimaticMp377OneNand);
+
+}

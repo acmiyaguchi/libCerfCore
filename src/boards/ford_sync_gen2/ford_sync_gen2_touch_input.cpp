@@ -11,6 +11,8 @@
 #include <cmath>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* TSC2003 PENIRQ is wired to GPIO1.1, active-low (touch_tsc2003.dll TSCTouchInit
@@ -157,3 +159,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(FordSyncGen2TouchInput, TouchInput);
+
+}

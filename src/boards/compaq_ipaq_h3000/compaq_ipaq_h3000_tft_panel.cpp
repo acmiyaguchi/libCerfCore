@@ -4,6 +4,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include "compaq_ipaq_h3000_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class CompaqIpaqH3000TftPanel : public CompaqIpaqH3000Panel {
@@ -23,3 +25,5 @@ public:
 }
 
 REGISTER_SERVICE_AS_FALLBACK(CompaqIpaqH3000TftPanel, CompaqIpaqH3000Panel);
+
+}

@@ -4,6 +4,8 @@
 #include <cerfcore/socs/guest_cpu_reset.h>
 #include "omap3530_board_clock_setup.h"
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kOffClksrcCtrl = 0x70u;
@@ -124,3 +126,5 @@ private:
 }
 
 REGISTER_SERVICE(Omap3530PrmGlobal);
+
+}

@@ -8,6 +8,8 @@
 
 #include <algorithm>
 
+namespace cerfcore {
+
 namespace {
 
 /* Cirrus Logic WM9713L Rev 4.0 Table 3 (page 22): 44h SEXT[6:4] 14:12, CLKSRC 7 "1 = External clock",
@@ -64,3 +66,5 @@ void Wm9713Clocks::Save(StateWriter& w) const { w.Write<uint32_t>("wm9713_pager"
 void Wm9713Clocks::Restore(StateReader& r) { r.Read("wm9713_pager", pager_); }
 
 REGISTER_SERVICE(Wm9713Clocks);
+
+}

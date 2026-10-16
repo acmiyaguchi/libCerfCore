@@ -6,6 +6,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "hp_jornada_700_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 Sa1111Sbi::Mbgnt ToSbi(Sa11xxTestUnit::Mbgnt pin) {
@@ -41,3 +43,5 @@ public:
 }
 
 REGISTER_SERVICE(HpJornada700Sa1111HostPins);
+
+}

@@ -7,6 +7,8 @@
 #include <cerfcore/state/state_stream.h>
 #include <vector>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(Imx51Gpu3dContext);
 
 bool Imx51Gpu3dContext::ShouldRegister() {
@@ -76,3 +78,5 @@ void Imx51Gpu3dContext::RestoreState(StateReader& reader) {
     for (Bank& bank : banks_) Bank::Visit(bank, field);
 }
 void Imx51Gpu3dContext::PowerOnReset() { banks_ = {}; }
+
+}

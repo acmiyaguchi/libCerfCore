@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class MediaQMq200Config : public Service {
 public:
     using Service::Service;
@@ -15,3 +17,5 @@ public:
     /* MQ-200 Data Book Table 5-95: DC01R[5:0] bus interface mode. */
     virtual uint32_t BusInterfaceMode() const = 0;
 };
+
+}

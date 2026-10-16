@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 struct IntelOsTimerCensus {
     void OnOsmr0Read(bool masked_pair, bool oscr_pending, bool ossr_set, bool masked_now) {
         if (masked_pair) {
@@ -93,3 +95,5 @@ struct IntelOsTimerCensus {
     uint32_t osmr0_writes          = 0;
     uint32_t tick_acks             = 0;
 };
+
+}

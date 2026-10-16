@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <cstring>
 
+namespace cerfcore {
+
 static std::atomic<bool> g_emergency_started{false};
 static std::atomic<Log::CrashPresenter> g_crash_presenter{nullptr};
 
@@ -99,4 +101,6 @@ void CerfFatalExit(int code) {
 #endif
 
     host_platform::ExitProcessNow(code);
+}
+
 }

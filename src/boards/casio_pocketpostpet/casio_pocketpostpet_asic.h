@@ -8,6 +8,8 @@
 #include <mutex>
 #include <vector>
 
+namespace cerfcore {
+
 /* Casio multifunction ASIC in the "LCD/High-Speed System Bus Area
    0x0A000000-0x0AFFFFFF" (VR4121 UM Figure 6-8). Registers from nk.exe StartUp
    0x9F0B5BC4, sub_9F0B6E78, sub_9F0B7D20, sub_9F0B7DE0, ISR 0x9F0BA2C4, and the
@@ -175,3 +177,5 @@ private:
        sub_1331FE0 read @0x133222C / sub_1331D20). */
     uint16_t reg_0B1E_ = 0;
 };
+
+}

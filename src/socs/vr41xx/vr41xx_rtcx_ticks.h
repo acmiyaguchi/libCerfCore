@@ -5,8 +5,11 @@
 #include <cstdint>
 #include <functional>
 
-class CerfEmulator;
 namespace cerfengine { class MipsInterruptChannel; }
+
+namespace cerfcore {
+
+class CerfEmulator;
 
 enum class Vr41xxRtcxDomain { RtcIcuPmu, Peripheral };
 
@@ -31,3 +34,5 @@ private:
     const Vr41xxRtcxDomain domain_;
     cerfengine::MipsInterruptChannel*  channel_ = nullptr;
 };
+
+}

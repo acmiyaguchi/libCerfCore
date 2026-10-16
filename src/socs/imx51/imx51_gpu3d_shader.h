@@ -6,6 +6,8 @@
 #include <unordered_map>
 #include <vector>
 
+namespace cerfcore {
+
 using Imx51Gpu3dVec4 = std::array<float, 4>;
 struct Imx51Gpu3dMemoryExport { Imx51Gpu3dVec4 address, data; };
 struct Imx51Gpu3dShaderState {
@@ -43,3 +45,5 @@ private:
     uint32_t Register(const std::unordered_map<uint32_t, uint32_t>& registers, uint32_t index);
     [[noreturn]] void Reject(const char* reason, uint32_t value);
 };
+
+}

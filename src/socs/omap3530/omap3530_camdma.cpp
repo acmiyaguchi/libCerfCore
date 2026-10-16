@@ -4,6 +4,8 @@
 #include "omap3530_id.h"
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 namespace {
 
 class Omap3530CamDma : public Omap3530SdmaBase {
@@ -28,3 +30,5 @@ protected:
 }  /* namespace */
 
 REGISTER_SERVICE(Omap3530CamDma);
+
+}

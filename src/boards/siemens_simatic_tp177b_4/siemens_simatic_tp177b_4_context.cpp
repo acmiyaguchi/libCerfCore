@@ -3,6 +3,8 @@
 #include "siemens_simatic_tp177b_4_family_id.h"
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 namespace {
 
 class SiemensSimaticTp177b4Context : public BoardContext {
@@ -15,3 +17,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(SiemensSimaticTp177b4Context, BoardContext);
+
+}

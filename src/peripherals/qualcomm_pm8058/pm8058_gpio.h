@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 
@@ -38,3 +40,5 @@ private:
     uint8_t bank_data_[kGpios][kBanks] = {};
     uint8_t read_bank_[kGpios]         = {};
 };
+
+}

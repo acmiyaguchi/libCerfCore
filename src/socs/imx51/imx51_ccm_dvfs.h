@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <functional>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 
@@ -36,3 +38,5 @@ private:
     bool     bus_divided_ = false;
     uint64_t bus_div_     = 1;
 };
+
+}

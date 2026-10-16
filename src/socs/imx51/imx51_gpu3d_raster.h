@@ -1,6 +1,9 @@
 #pragma once
 #include <cerfcore/core/service.h>
 #include "imx51_gpu3d_shader.h"
+
+namespace cerfcore {
+
 class Imx51Gpu3dRaster : public Service {
 public:
     using Service::Service;
@@ -25,3 +28,5 @@ private:
     uint32_t gmem_binding_ = 0xFFFFFFFFu;
     uint32_t gmem_pitch_ = 0;
 };
+
+}

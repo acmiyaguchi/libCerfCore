@@ -11,6 +11,8 @@
 #include <cerfcore/state/state_stream.h>
 #include "sa11xx_intc.h"
 
+namespace cerfcore {
+
 bool Sa11xxGpio::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     return bd && (bd->GetSocId() == SocId::Sa1110 || bd->GetSocId() == SocId::Sa1100);
@@ -210,3 +212,5 @@ void Sa11xxGpio::PostRestore() {
 }
 
 REGISTER_SERVICE(Sa11xxGpio);
+
+}

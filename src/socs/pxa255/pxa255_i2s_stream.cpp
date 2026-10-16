@@ -12,6 +12,8 @@
 #include "pxa255_i2s_interrupt.h"
 #include "pxa255_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* Intel PXA255 Developer's Manual Table 14-3 (page 14-9) SACR0: reset 0x7700, BCKD 2, RST 3, EFWR 4, STRF 5;
@@ -493,3 +495,5 @@ void Pxa255I2sStream::Restore(StateReader& r) {
 }
 
 REGISTER_SERVICE(Pxa255I2sStream);
+
+}

@@ -1,6 +1,8 @@
 #include "imx51_gpu3d_shader.h"
 #include <algorithm>
 
+namespace cerfcore {
+
 /* Mesa e97ad748 src/freedreno/ir2/instr-a2xx.h: instr_cf_exec_t,
    instr_cf_jmp_call_t; disasm-a2xx.c: disasm_a2xx; ir2_assemble.c: CF address fixups. */
 void Imx51Gpu3dShader::Run(std::span<const uint32_t> program, bool pixel,
@@ -249,4 +251,6 @@ void Imx51Gpu3dShader::RunInvocations(std::span<const uint32_t> program, bool pi
             cursor.sequence >>= 2;
         }
     }
+}
+
 }

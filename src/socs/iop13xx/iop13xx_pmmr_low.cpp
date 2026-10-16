@@ -2,6 +2,9 @@
 #include "iop13xx_pmmr_guard.h"
 #include "../irq_controller.h"
 #include <cerfcore/state/state_stream.h>
+
+namespace cerfcore {
+
 namespace {
 class Iop13xxPmmrLow final : public Iop13xxPmmrRange<0xFFD80000u, 0x00002340u> {
 public:
@@ -13,3 +16,5 @@ public:
 };
 } // namespace
 REGISTER_SERVICE(Iop13xxPmmrLow);
+
+}

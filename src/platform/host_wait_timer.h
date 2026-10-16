@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace host_platform {
 
 class HostWaitTimer {
@@ -23,5 +25,7 @@ public:
 private:
     void* handle_ = nullptr;
 };
+
+}
 
 }

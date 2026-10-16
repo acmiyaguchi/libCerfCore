@@ -13,6 +13,8 @@
 #include <cmath>
 #include <vector>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(Imx51Gpu3dDraw);
 
 bool Imx51Gpu3dDraw::ShouldRegister() {
@@ -281,4 +283,6 @@ void Imx51Gpu3dDraw::Draw(const Imx51Gpu3dPacket& packet,
         const std::array<Imx51Gpu3dShaderState, 3> triangle{vertices[a], vertices[b], vertices[i]};
         emu_.Get<Imx51Gpu3dRaster>().Triangle(triangle, registers, pixel_program, mmu);
     }
+}
+
 }

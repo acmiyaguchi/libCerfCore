@@ -5,6 +5,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "ti_omap35x_evm_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class TiOmap35xEvmMcBspWiring : public Omap3530McBspWiring {
@@ -25,3 +27,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(TiOmap35xEvmMcBspWiring, Omap3530McBspWiring);
+
+}

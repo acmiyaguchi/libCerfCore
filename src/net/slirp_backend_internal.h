@@ -7,7 +7,11 @@
 #include <cstddef>
 #include <cstdint>
 
+namespace cerfcore {
+
 /* Classify a raw Ethernet frame into a short ASCII tag for [NET]
    log lines. Output is always NUL-terminated within `out_len`. */
 void ClassifyFrame(const uint8_t* frame, std::size_t len,
                    char* out, std::size_t out_len);
+
+}

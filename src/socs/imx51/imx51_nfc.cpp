@@ -14,6 +14,8 @@
 #include <array>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kIpBase = 0x83FDB000u;
@@ -412,4 +414,6 @@ void Imx51Nfc::RestoreState(StateReader& r) {
     r.Read("addr_idx", addr_idx_);
     r.Read("seq_data_off", seq_data_off_);
     r.Read("seq_cache_off", seq_cache_off_);
+}
+
 }

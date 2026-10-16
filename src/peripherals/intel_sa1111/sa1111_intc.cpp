@@ -8,6 +8,8 @@
 #include "sa1111_sbi.h"
 #include "sa1111_system_controller.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* SA-1111 Developer's Manual Table 3-3 note 1: "All reserved bits are read back as zero."
@@ -249,3 +251,5 @@ void Sa1111Intc::PostRestore() {
 }
 
 REGISTER_SERVICE(Sa1111Intc);
+
+}

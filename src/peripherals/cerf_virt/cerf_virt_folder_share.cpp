@@ -18,6 +18,8 @@
 
 #include <string>
 
+namespace cerfcore {
+
 using namespace CerfVirt;
 
 namespace {
@@ -157,5 +159,7 @@ private:
 };
 
 REGISTER_SERVICE(CerfVirtFolderShare);
+
+}
 
 }

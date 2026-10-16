@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 
@@ -56,3 +58,5 @@ private:
     Keys     keys_;
     uint32_t regs_[kRegs] = {};
 };
+
+}

@@ -9,6 +9,8 @@
 #include <mutex>
 #include <vector>
 
+namespace cerfcore {
+
 class VirtualClock : public Service {
 public:
     using Service::Service;
@@ -41,3 +43,5 @@ private:
     std::mutex                         notify_mtx_;
     std::vector<std::function<void()>> notify_;
 };
+
+}

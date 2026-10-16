@@ -6,6 +6,8 @@
 #include <cerfcore/core/device_config.h>
 #include "../../core/host_file_bytes.h"
 
+namespace cerfcore {
+
 void CasioDictionaryRomWindow::OnReady() {
     const DeviceConfig& cfg = emu_.Get<DeviceConfig>();
     if (!cfg.rom_ce_dictionary.empty()) {
@@ -47,4 +49,6 @@ void CasioDictionaryRomWindow::WriteHalf(uint32_t addr, uint16_t value) {
 void CasioDictionaryRomWindow::WriteWord(uint32_t addr, uint32_t value) {
     if (!data_.empty()) return;
     OpenBusWindow::WriteWord(addr, value);
+}
+
 }

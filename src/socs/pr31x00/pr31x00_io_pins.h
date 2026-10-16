@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <optional>
 
+namespace cerfcore {
+
 /* Board wiring behind the PR31x00's 7 general purpose I/O pins (TMPR3911/3912
    ch.9). IODIN reports the logic state of a pin whether or not the chip drives
    it (§9.3.1), so for an input pin that state is a property of the board. */
@@ -20,3 +22,5 @@ public:
        wires no MFIO input, so a read of one halts under FATAL-FIRST. */
     virtual std::optional<uint32_t> MfioDin() const { return std::nullopt; }
 };
+
+}

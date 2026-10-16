@@ -5,6 +5,8 @@
 #include "imx31_ccm.h"
 #include "imx31_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* MCIMX31RM Table 31-11 RFDIV: "The input clock is ipg_perclk"; section 31.1 (page 31-3) the BRM clock
@@ -35,3 +37,5 @@ private:
 }
 
 REGISTER_SERVICE_AS(Imx31UartClocks, FreescaleUartClocks);
+
+}

@@ -6,6 +6,8 @@
 #include <array>
 #include <cstdint>
 
+namespace cerfcore {
+
 class CerfVirtColorScheme : public Peripheral {
 public:
     using Peripheral::Peripheral;
@@ -28,3 +30,5 @@ private:
     uint32_t count_ = 0;
     bool present_ = false;
 };
+
+}

@@ -9,6 +9,8 @@
 
 #include <algorithm>
 
+namespace cerfcore {
+
 namespace cerf::ce1_rom_parse {
 
 using cerf::le::U32;
@@ -165,3 +167,5 @@ bool ResolveCe1Xips(std::span<const uint8_t>      flat,
 }
 
 }  /* namespace cerf::ce1_rom_parse */
+
+}

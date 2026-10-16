@@ -3,6 +3,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include "bundle.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* SL4 nk.exe nulls OEMWriteDebugString (final emit is nullsub_3), so no serial
@@ -25,3 +27,5 @@ public:
 }  // namespace
 
 REGISTER_SERVICE(SiemensSimpadOemDebugPrint);
+
+}

@@ -4,6 +4,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "pangolin_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class PangolinMq200Config : public MediaQMq200Config {
@@ -26,3 +28,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(PangolinMq200Config, MediaQMq200Config);
+
+}

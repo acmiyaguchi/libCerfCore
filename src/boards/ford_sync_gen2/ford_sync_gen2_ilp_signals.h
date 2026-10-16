@@ -8,6 +8,8 @@
 #include <vector>
 #include <initializer_list>
 
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 
@@ -67,3 +69,5 @@ private:
     std::size_t           cycle_ = 0u;
     std::vector<uint32_t> logged_ungrounded_;
 };
+
+}

@@ -8,6 +8,8 @@
 
 #include <cwchar>
 
+namespace cerfcore {
+
 namespace host_platform {
 
 static_assert(sizeof(wchar_t) == sizeof(char16_t));
@@ -273,6 +275,8 @@ SharedFsStatus SharedFsFile::Info(SharedFsInfo& info) {
     FillInfo(info, fi.dwFileAttributes, fi.nFileSizeHigh, fi.nFileSizeLow,
              fi.ftLastWriteTime, fi.ftCreationTime);
     return {};
+}
+
 }
 
 }

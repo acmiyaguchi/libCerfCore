@@ -3,6 +3,8 @@
 #include "ti_omap35x_evm_family_id.h"
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 namespace {
 
 class TiOmap35xEvmContext : public BoardContext {
@@ -15,3 +17,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(TiOmap35xEvmContext, BoardContext);
+
+}

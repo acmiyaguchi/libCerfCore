@@ -10,6 +10,8 @@
 #include "../pxa27x/pxa270_id.h"
 #include "pxa2xx_ac97_bit_clock.h"
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kRegPowerdown  = 0x26u;
@@ -436,3 +438,5 @@ void Pxa2xxAc97Link::Restore(StateReader& r) {
 }
 
 REGISTER_SERVICE(Pxa2xxAc97Link);
+
+}

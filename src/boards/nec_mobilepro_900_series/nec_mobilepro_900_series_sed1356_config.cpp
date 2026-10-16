@@ -5,6 +5,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "nec_mobilepro_900_series_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* NEC P530: EPSON S1D13806 at PA 0x0C000000 (PXA255 static CS), 1.25 MB
@@ -39,3 +41,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(NecMobilepro900SeriesSed1356Config, Sed1356Config);
+
+}

@@ -9,6 +9,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kBase = 0x10C00038u;
@@ -159,3 +161,5 @@ void Pr31x00LcdGrayScale::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE(Pr31x00LcdGrayScale);
+
+}

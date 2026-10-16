@@ -4,6 +4,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "symbol_hamptons_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class SymbolHamptonsCodecClocks : public Wm9713MasterClocks {
@@ -24,3 +26,5 @@ public:
 }  // namespace
 
 REGISTER_SERVICE_AS(SymbolHamptonsCodecClocks, Wm9713MasterClocks);
+
+}

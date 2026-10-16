@@ -3,6 +3,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include <cerfcore/core/fatal.h>
 
+namespace cerfcore {
+
 namespace {
 
 /* Intel PXA255 Developer's Manual Table 5-8 (page 5-20) DRCMR: MAPVLD bit 7, CHLNUM; Intel PXA27x
@@ -57,4 +59,6 @@ uint32_t Pxa2xxDmaRequestMap::SoleRequestOfLocked(uint32_t ch) {
 void Pxa2xxDmaRequestMap::DieTwoRequests(uint32_t ch, uint32_t a, uint32_t b) {
     emu_.Get<Fatal>().Die("Pxa2xxDma ch%u: DMA requests %u and %u both map to the channel; not modelled", ch, a,
                           b);
+}
+
 }

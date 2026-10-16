@@ -1,6 +1,8 @@
 #include "../vr41xx/vr41xx_core_clock_impl.h"
 #include "vr4111_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* VR4111 UM 11.2.8 p273 PClock = (18.432 MHz/CLKSP) x 64; CLKSEL rows Table 1-19 p57 (MasterOut
@@ -19,3 +21,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(Vr4111CoreClock, MipsCoreClock);
+
+}

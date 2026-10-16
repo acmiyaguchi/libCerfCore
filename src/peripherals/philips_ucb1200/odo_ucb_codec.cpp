@@ -7,6 +7,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint16_t kAdcCrPollBits = 0x0C00u;
@@ -47,3 +49,5 @@ protected:
 }
 
 REGISTER_SERVICE_AS(OdoUcbCodec, Ucb1x00Codec);
+
+}

@@ -3,6 +3,8 @@
 #include "imx31_avic.h"
 #include "imx31_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* EPIT1 @ 0x53F94000; AVIC source 28 (MCIMX31RM Table 2-3, p190). */
@@ -18,3 +20,5 @@ class Imx31Epit1 : public cerf_freescale_epit_detail::FreescaleEpitBase<
 }  /* namespace */
 
 REGISTER_SERVICE(Imx31Epit1);
+
+}

@@ -7,6 +7,8 @@
 #include <functional>
 #include <vector>
 
+namespace cerfcore {
+
 /* Philips PR31x00 IR Module, TMPR3911/3912 ch.10. */
 class Pr31x00Ir : public Peripheral {
 public:
@@ -44,3 +46,5 @@ private:
 
     std::vector<RxPwrObserver> rxpwr_observers_;
 };
+
+}

@@ -6,6 +6,8 @@
 #include "imx51_id.h"
 #include "imx51_iomuxc.h"
 
+namespace cerfcore {
+
 namespace {
 
 using cerf_freescale_wdog_detail::FreescaleWdogBase;
@@ -279,3 +281,5 @@ private:
 }
 
 REGISTER_SERVICE(Imx51Wdog1);
+
+}

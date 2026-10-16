@@ -4,6 +4,8 @@
 
 #include <cstring>
 
+namespace cerfcore {
+
 namespace cerf::ce_imgfs_xpress {
 
 namespace {
@@ -87,6 +89,8 @@ std::vector<uint8_t> Decompress(const uint8_t* src,
         }
     }
     return std::vector<uint8_t>(dst.begin(), dst.begin() + di);
+}
+
 }
 
 }

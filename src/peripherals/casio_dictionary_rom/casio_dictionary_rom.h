@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 /* VR4111 UM Table 6-7 p.167; casio_cassiopeia_e55 dic2.dll DicAlloc @0x13D0CE4
    maps PA 0x1E000000 / 0x800000 (KSEG1 0xBE000000). */
 class CasioDictionaryRomWindow : public OpenBusWindow {
@@ -27,3 +29,5 @@ public:
 private:
     std::vector<uint8_t> data_;
 };
+
+}

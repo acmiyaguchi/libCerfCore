@@ -4,6 +4,8 @@
 #include <cerfcore/host/touch_input.h>
 #include "casio_jx670_companion.h"
 
+namespace cerfcore {
+
 namespace {
 
 class CasioJx670TouchInput : public TouchInput {
@@ -32,3 +34,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(CasioJx670TouchInput, TouchInput);
+
+}

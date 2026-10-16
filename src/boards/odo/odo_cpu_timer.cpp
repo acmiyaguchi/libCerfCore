@@ -14,6 +14,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kCpuTimerPaBase = 0x10000400u;
@@ -255,3 +257,5 @@ private:
 }
 
 REGISTER_SERVICE(OdoCpuTimer);
+
+}

@@ -6,6 +6,8 @@
 #include "hp_jornada_820_family_id.h"
 #include "../../peripherals/peripheral_dispatcher.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* Jornada 820 board POST/progress latch on SA-1100 nCS2 (PA 0x12000000).
@@ -45,3 +47,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(HpJornada820PostLatch);
+
+}

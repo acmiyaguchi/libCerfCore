@@ -6,6 +6,8 @@
 #include <utility>
 #include <vector>
 
+namespace cerfcore {
+
 struct BundledUsbMedia {
     std::string file;
     std::string name;
@@ -150,3 +152,5 @@ struct DeviceConfig : public Service {
        guest-additions display fills the host screen. Read from cerf.json. */
     bool adopt_guest_additions_resolution_for_host_screen = false;
 };
+
+}

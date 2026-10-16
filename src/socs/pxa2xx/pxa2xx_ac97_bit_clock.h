@@ -7,6 +7,8 @@
 #include <functional>
 #include <vector>
 
+namespace cerfcore {
+
 class Ac97Codec;
 class StateReader;
 class StateWriter;
@@ -53,3 +55,5 @@ private:
     bool unit_clock_   = true;
     bool internal_     = false;
 };
+
+}

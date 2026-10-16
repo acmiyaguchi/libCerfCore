@@ -6,6 +6,8 @@
 #include <cerfcore/host/relative_mouse_input.h>
 #include <cerfcore/host/touch_input.h>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(PointerRouter);
 
 void PointerRouter::OnReady() {
@@ -88,4 +90,6 @@ void PointerRouter::RearmAutoSelect() {
     std::lock_guard<std::mutex> lk(mtx_);
     user_picked_ = false;
     SelectAutoLocked();
+}
+
 }

@@ -6,6 +6,9 @@
 #include <cerfengine/mips/mips_system_host.h>
 
 namespace cerfengine { struct MipsCpuState; }
+
+namespace cerfcore {
+
 class MipsProcessorConfig;
 
 class MipsExceptionModel : public Service {
@@ -23,3 +26,5 @@ protected:
 private:
     MipsProcessorConfig* config_ = nullptr;
 };
+
+}

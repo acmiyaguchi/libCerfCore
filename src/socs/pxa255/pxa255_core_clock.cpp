@@ -4,6 +4,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include "pxa255_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class Pxa255CoreClock : public ArmCoreClock {
@@ -24,3 +26,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(Pxa255CoreClock, ArmCoreClock);
+
+}

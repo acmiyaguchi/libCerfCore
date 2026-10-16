@@ -17,6 +17,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 namespace cerf_msm8255_sdcc_detail {
 
 template <uint32_t kBase, uint32_t kResetClock, uint32_t kCrci>
@@ -316,3 +318,5 @@ private:
 };
 
 }  // namespace cerf_msm8255_sdcc_detail
+
+}

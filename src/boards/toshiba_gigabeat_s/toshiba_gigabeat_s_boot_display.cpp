@@ -8,6 +8,8 @@
 #include <cerfcore/socs/guest_cpu_reset.h>
 #include "../../socs/imx31/imx31_ipu.h"
 
+namespace cerfcore {
+
 namespace {
 
 class ToshibaGigabeatSBootDisplay : public Service {
@@ -36,3 +38,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(ToshibaGigabeatSBootDisplay);
+
+}

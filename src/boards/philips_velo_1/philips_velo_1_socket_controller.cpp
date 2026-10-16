@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* The M-Module's IT8368E sits on chip select 2, PA $1040_0000 (Table 4.2.1,
@@ -53,3 +55,5 @@ protected:
 }
 
 REGISTER_SERVICE(PhilipsVelo1SocketController);
+
+}

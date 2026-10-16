@@ -9,6 +9,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* casio_cassiopeia_e55 serial.dll sub_14A2228 @0x14A2370/@0x14A2380. */
@@ -161,3 +163,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(CasioTomcatModemSocket);
+
+}

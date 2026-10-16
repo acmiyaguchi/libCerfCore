@@ -2,6 +2,8 @@
 
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 namespace {
 
 /* Static CS2 board device (PA 0x08000000, OAT VA 0x88000000) - trueffs.dll probes
@@ -17,3 +19,5 @@ protected:
 }  /* namespace */
 
 REGISTER_SERVICE(NecMobilepro900SeriesCs2Window);
+
+}

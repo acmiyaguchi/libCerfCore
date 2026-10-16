@@ -8,6 +8,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kRowShift = 8u;
@@ -35,3 +37,5 @@ public:
 }
 
 REGISTER_SERVICE(NokiaSeaRayKeyboardInput);
+
+}

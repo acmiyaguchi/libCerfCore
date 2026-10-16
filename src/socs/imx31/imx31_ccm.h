@@ -14,6 +14,8 @@
 #include <functional>
 #include <vector>
 
+namespace cerfcore {
+
 class Imx31ClockInput;
 
 /* MCIMX31RM Table 3-1: AP Clock Controller at 0x53F8_0000. */
@@ -93,3 +95,5 @@ private:
         return true;
     }
 };
+
+}

@@ -5,6 +5,8 @@
 #include "hp_jornada_820_family_id.h"
 #include "hp_jornada_820_companion_asic.h"
 
+namespace cerfcore {
+
 namespace {
 
 class HpJornada820RelativeMouse : public RelativeMouseInput {
@@ -26,3 +28,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(HpJornada820RelativeMouse, RelativeMouseInput);
+
+}

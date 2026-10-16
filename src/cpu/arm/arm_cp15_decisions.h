@@ -3,6 +3,8 @@
 #include <cerfcore/core/service.h>
 #include <cerfengine/arm/arm_system_host.h>
 
+namespace cerfcore {
+
 class ArmCp15Registers;
 class ArmProcessorConfig;
 
@@ -30,3 +32,5 @@ private:
     ArmCp15Registers*   regs_   = nullptr;
     ArmProcessorConfig* config_ = nullptr;
 };
+
+}

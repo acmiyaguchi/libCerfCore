@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* VR4131 UM U15350EJ2V0UM Table 18-1 p343: DSIU = 16550 registers DSIURB..DSIUSC at
    0x0F000820-0x0F000827 (NetBSD vripreg.h VR4122_DSIU_ADDR); its reset bit lives in the
    SIU's SIURESET 0x0F000809 D1 (18.2.13 p357). */
@@ -38,3 +40,5 @@ protected:
     const char* Name()      const override { return "DSIU"; }
     void SetInterruptLine(bool pending) override;
 };
+
+}

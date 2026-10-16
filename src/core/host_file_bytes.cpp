@@ -8,6 +8,8 @@
 #include <fstream>
 #include <system_error>
 
+namespace cerfcore {
+
 bool TryReadHostFileBytes(const std::string& path, std::vector<uint8_t>& out) {
     std::ifstream f(HostFsPath(path), std::ios::binary | std::ios::ate);
     if (!f.is_open()) return false;
@@ -44,4 +46,6 @@ bool HostFileNonEmpty(const std::string& path) {
     if (!std::filesystem::is_regular_file(p, ec) || ec) return false;
     const auto size = std::filesystem::file_size(p, ec);
     return !ec && size != 0;
+}
+
 }

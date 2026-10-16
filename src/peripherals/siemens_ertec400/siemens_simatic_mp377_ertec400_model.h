@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <unordered_map>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 
@@ -83,3 +85,5 @@ private:
     uint32_t cyclic_control_ = 0;
     uint32_t multicast_port_mask_ = 0;
 };
+
+}

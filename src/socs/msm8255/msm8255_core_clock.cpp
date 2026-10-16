@@ -4,6 +4,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include "msm8255_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class Msm8255CoreClock : public ArmCoreClock {
@@ -22,3 +24,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(Msm8255CoreClock, ArmCoreClock);
+
+}

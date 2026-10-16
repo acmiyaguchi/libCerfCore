@@ -2,6 +2,8 @@
 
 #include <cerfcore/peripherals/peripheral_base.h>
 
+namespace cerfcore {
+
 /* NEC VR41xx GIU (General Purpose I/O Unit): the GPIO direction/data registers plus
    the Level-2 GPIO interrupt block, whose output the ICU takes as GIUINTLREG/
    GIUINTHREG (VR4121 UM ch.19, VR4102 UM ch.18, VR4131 UM ch.14). */
@@ -14,3 +16,5 @@ public:
 
     virtual bool GetPinLevel(int pin) = 0;
 };
+
+}

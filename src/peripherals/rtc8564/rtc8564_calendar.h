@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 
@@ -72,3 +74,5 @@ private:
     uint64_t                   cpu_hz_        = 1;
     bool                       alarm_latched_ = false;
 };
+
+}

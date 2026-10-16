@@ -4,6 +4,8 @@
 #include <cstdint>
 #include "vr4122_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 using cerf_vr41xx_reg_window_detail::ReadKind;
@@ -36,3 +38,5 @@ protected:
 }
 
 REGISTER_SERVICE_AS(Vr4122Cmu, Vr41xxCmu);
+
+}

@@ -9,6 +9,8 @@
 #include <string>
 #include <unordered_map>
 
+namespace cerfcore {
+
 class Imx51NandStore : public Service, public HostWidget {
 public:
     using Service::Service;
@@ -62,3 +64,5 @@ private:
     uint64_t  device_pages_ = 0;
     std::unordered_map<uint64_t, std::array<uint8_t, kPageStride>> read_overlay_;
 };
+
+}

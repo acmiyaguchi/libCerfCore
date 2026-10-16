@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Sa1110SdramGeometry : public Service {
 public:
     using Service::Service;
@@ -12,3 +14,5 @@ public:
     virtual uint32_t ColumnBits() const = 0;
     virtual uint32_t BankBits() const = 0;
 };
+
+}

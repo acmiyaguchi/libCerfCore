@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 struct EmmcCsdFields {
     uint8_t  csd_structure;
     uint8_t  spec_vers;
@@ -29,3 +31,5 @@ struct EmmcCsdFields {
 void EncodeEmmcCid(const SdCardCid& cid, uint32_t out[4]);
 
 void EncodeEmmcCsd(const EmmcCsdFields& csd, uint32_t out[4]);
+
+}

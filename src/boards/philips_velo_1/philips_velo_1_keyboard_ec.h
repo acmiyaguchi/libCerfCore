@@ -6,6 +6,8 @@
 #include <deque>
 #include <mutex>
 
+namespace cerfcore {
+
 class PhilipsVelo1KeyboardEc : public Pr31x00SpiSlave {
 public:
     using Pr31x00SpiSlave::Pr31x00SpiSlave;
@@ -30,3 +32,5 @@ private:
     std::deque<uint8_t> tx_;
     bool enabled_ = false;
 };
+
+}

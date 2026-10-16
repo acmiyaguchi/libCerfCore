@@ -13,6 +13,8 @@
 
 #include <cstring>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(Mc13783);
 
 namespace {
@@ -430,4 +432,6 @@ uint32_t Mc13783::SpiExchange(uint32_t cmd) {
     LOG(Periph, "[MC13783] READ  reg=%u (0x%02X) value=0x%06X\n",
         addr, addr, value);
     return value;
+}
+
 }

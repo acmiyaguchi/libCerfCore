@@ -8,6 +8,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kDramPaBase = 0x00000000u;
@@ -39,3 +41,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(NecSg2Vr5500PageTableBuilder, PageTableBuilder);
+
+}

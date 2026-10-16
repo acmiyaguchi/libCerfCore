@@ -9,6 +9,8 @@
 
 #include <cmath>
 
+namespace cerfcore {
+
 namespace {
 
 /* GPIO inputs battery.dll reads from the CPU_GPIO block (PXA255 Dev Manual
@@ -84,3 +86,5 @@ void NecMobilepro900SeriesBattery::DriveState() {
 }
 
 REGISTER_SERVICE(NecMobilepro900SeriesBattery);
+
+}

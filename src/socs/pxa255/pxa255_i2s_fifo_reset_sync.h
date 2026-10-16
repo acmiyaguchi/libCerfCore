@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 
@@ -35,3 +37,5 @@ private:
     Pending tx_;
     Pending rx_;
 };
+
+}

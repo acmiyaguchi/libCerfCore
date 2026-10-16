@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace siemens_simatic_mp377 {
 
 /* siemens_mp377_v1040 bspio.dll HWI_PNIO_GetInfo: family 4 variants
@@ -49,3 +51,5 @@ inline constexpr uint32_t Mp377PanelHeight(SiemensSimaticMp377PanelProfile p) {
 }
 
 } // namespace siemens_mp377
+
+}

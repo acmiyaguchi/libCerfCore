@@ -7,6 +7,7 @@ typedef unsigned int uint32_t;
 #include <cstdint>
 #endif
 
+namespace cerfcore {
 namespace CerfVirt {
 
 const uint32_t kBaseMagic = 0xCEF0BA5Eu;
@@ -107,6 +108,7 @@ const uint32_t kFramebufferMemSize   = 0x02000000u;
 const uint32_t kDmaPartOwnerPid    = 0x0Cu;
 const uint32_t kDmaPartHdrSize     = 0x40u;
 
+}
 }
 
 #ifdef CERF_VIRT_GUEST

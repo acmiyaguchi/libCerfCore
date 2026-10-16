@@ -16,6 +16,8 @@
 #include <thread>
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr UINT kMsgOpen = WM_USER + 0x10u;
@@ -282,3 +284,5 @@ void WaveInFifo::Request(uint32_t sample_rate_hz, uint16_t channels, uint16_t bi
 }
 void WaveInFifo::Clear() { impl_->Clear(); }
 size_t WaveInFifo::Take(uint8_t* dst, size_t bytes) { return impl_->Take(dst, bytes); }
+
+}

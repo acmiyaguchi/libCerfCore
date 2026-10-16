@@ -13,6 +13,8 @@
 
 #include <cstring>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(CerfVirtCursor);
 
 bool CerfVirtCursor::ShouldRegister() {
@@ -104,4 +106,6 @@ bool CerfVirtCursor::GetShape(GuestCursorShape& out) {
     if (!has_shape_) return false;
     out = shape_;
     return true;
+}
+
 }

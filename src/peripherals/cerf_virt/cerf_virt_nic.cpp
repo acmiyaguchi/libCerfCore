@@ -22,6 +22,8 @@
 #include <mutex>
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 const uint32_t kMaxFrame = CerfVirt::kNicSlotSize - CerfVirt::kNicSlotPayloadOff;
@@ -216,3 +218,5 @@ private:
 }
 
 REGISTER_SERVICE(CerfVirtNic);
+
+}

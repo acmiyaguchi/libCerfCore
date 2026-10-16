@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Sa1111SacHostOutput;
 class Sa1111SacTxStream;
 
@@ -38,3 +40,5 @@ private:
     Sa1111SacTxStream*   stream_ = nullptr;
     Sa1111SacHostOutput* host_   = nullptr;
 };
+
+}

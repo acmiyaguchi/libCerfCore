@@ -14,6 +14,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kBase = 0x10C00028u;
@@ -438,3 +440,5 @@ void Pr31x00Lcd::PostRestore() {
 }
 
 REGISTER_SERVICE(Pr31x00Lcd);
+
+}

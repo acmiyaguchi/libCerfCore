@@ -7,6 +7,8 @@
 #include <cerfcore/core/fatal.h>
 #include <cerfcore/core/log.h>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(Omap3530GpioBus);
 
 bool Omap3530GpioBus::ShouldRegister() {
@@ -39,4 +41,6 @@ std::optional<bool> Omap3530GpioBus::DrivenLevel(uint32_t absolute_pin) {
         emu_.Get<Fatal>().Die("Omap3530GpioBus: no GPIO bank holds pin %u", absolute_pin);
     }
     return banks_[bank_index]->DrivenLevel(absolute_pin % 32u);
+}
+
 }

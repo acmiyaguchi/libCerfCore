@@ -6,6 +6,8 @@
 #include <cstdint>
 #include <functional>
 
+namespace cerfcore {
+
 enum class Imx51PowerGatedBlock : uint8_t { kVpu, kGpu3d, kGpu2d };
 
 class Imx51PowerGateLine : public Service {
@@ -20,3 +22,5 @@ public:
 private:
     std::array<std::function<void()>, 3> blocks_{};
 };
+
+}

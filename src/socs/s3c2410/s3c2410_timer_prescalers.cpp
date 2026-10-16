@@ -11,6 +11,8 @@
 
 #include <algorithm>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(S3C2410TimerPrescalers);
 
 using S3C2410TimerRegs::Prescaler;
@@ -153,4 +155,6 @@ void S3C2410TimerPrescalers::RestoreState(StateReader& r, uint32_t tcfg0, uint64
         grp.load_cycle = ahead != 0u ? now + ahead : 0u;
         grp.load_ticks = ahead != 0u ? grp.held.ticks - 1u : 0u;
     }
+}
+
 }

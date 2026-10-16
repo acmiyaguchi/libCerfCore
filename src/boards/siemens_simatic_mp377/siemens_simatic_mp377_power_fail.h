@@ -7,6 +7,8 @@
 #include <string>
 #include <vector>
 
+namespace cerfcore {
+
 namespace siemens_simatic_mp377 {
 
 /* siemens_mp377_v1040, PowerFail.dll: initialization 0x02951988-0x02951A24;
@@ -35,3 +37,5 @@ private:
 };
 
 } // namespace siemens_mp377
+
+}

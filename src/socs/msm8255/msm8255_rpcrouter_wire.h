@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* Linux arch/arm/mach-msm smd_rpcrouter.h: struct rr_header. */
 inline constexpr uint32_t kHdrVersionOff   = 0u;
 inline constexpr uint32_t kHdrTypeOff      = 4u;
@@ -80,3 +82,5 @@ inline constexpr uint32_t kReplyAcceptStatOff = 20u;
 inline constexpr uint32_t kReplyResultsOff    = 24u;
 
 constexpr uint32_t Be32(uint32_t v) { return cerf::ByteSwap32(v); }
+
+}

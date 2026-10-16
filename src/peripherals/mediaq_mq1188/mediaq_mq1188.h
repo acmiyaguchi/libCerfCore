@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 /* MediaQ MQ-1100/1132 ("MQ1188" on Falcon PC3xx, PXA255 static CS2, aperture
    PA 0x08000000). Ref: MediaQ doc 12-00026 Rev D, Ch.4. The 512 KB aperture
    is frame-buffer SRAM except an 8 KB register window at +0x40000 (Table 4-1
@@ -93,3 +95,5 @@ private:
     DisplayModeLatch mode_latch_;
     MediaQMq1188Ge ge_{*this};
 };
+
+}

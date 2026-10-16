@@ -4,6 +4,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "siemens_simpad_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class SiemensSimpadMq200Config : public MediaQMq200Config {
@@ -27,3 +29,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(SiemensSimpadMq200Config, MediaQMq200Config);
+
+}

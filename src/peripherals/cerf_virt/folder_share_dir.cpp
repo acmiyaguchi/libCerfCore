@@ -9,6 +9,8 @@
 
 #include <string>
 
+namespace cerfcore {
+
 using namespace CerfVirt;
 using host_platform::SharedFsError;
 using host_platform::SharedFsInfo;
@@ -181,4 +183,6 @@ uint16_t FolderShareDir::GetInfo(ServerPB& pb) {
     FolderSharePath::FillInfo(pb, info);
     FolderSharePath::FillName(pb, name);
     return kErrorNoError;
+}
+
 }

@@ -10,6 +10,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kBase = 0x15001080u;
@@ -140,4 +142,6 @@ void Vrc4172Gpio::PostRestore() {
     std::lock_guard<std::mutex> lk(mtx_);
     giu_asserted_ = (intst_ & inten_) != 0;
     emu_.Get<Vr41xxGiu>().SetPinLevel(kGiuIntPin, giu_asserted_);
+}
+
 }

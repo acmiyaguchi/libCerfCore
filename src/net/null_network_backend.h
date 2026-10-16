@@ -2,6 +2,8 @@
 
 #include "network_backend.h"
 
+namespace cerfcore {
+
 class NullNetworkBackend : public NetworkBackend {
 public:
     using NetworkBackend::NetworkBackend;
@@ -15,3 +17,5 @@ private:
     cerf::inet::MacAddress guest_mac_{};
     bool tx_logged_once_ = false;
 };
+
+}

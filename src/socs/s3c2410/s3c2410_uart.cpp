@@ -11,6 +11,8 @@
 #include <cstdint>
 #include <string>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr int      kUartCount   = 3;
@@ -104,3 +106,5 @@ void S3C2410Uart::EmitTxByte(int uart_idx, uint8_t ch) {
 }  /* namespace */
 
 REGISTER_SERVICE(S3C2410Uart);
+
+}

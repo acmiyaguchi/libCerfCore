@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 
@@ -35,3 +37,5 @@ private:
     uint64_t next_     = kNever;
     uint64_t taken_    = 0;
 };
+
+}

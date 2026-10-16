@@ -11,6 +11,8 @@
 #include <utility>
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 struct ModuleGate {
@@ -79,3 +81,5 @@ private:
 }
 
 REGISTER_SERVICE_AS(Imx31ModuleClocks, FreescaleModuleClocks);
+
+}

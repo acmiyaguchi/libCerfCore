@@ -6,6 +6,7 @@ typedef unsigned int   uint32_t;
 #include <cstdint>
 #endif
 
+namespace cerfcore {
 namespace CerfVirt {
 
 const uint32_t kGpeCmdDescVa = 0x000u;
@@ -19,4 +20,5 @@ const uint32_t kGpeStatusBusy  = 1u;
 const uint32_t kGpeStatusDone  = 2u;
 const uint32_t kGpeStatusError = 0x80000000u;
 
+}
 }

@@ -14,6 +14,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 bool Imx51Tzic::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     return bd && bd->GetSocId() == SocId::Imx51;
@@ -247,3 +249,5 @@ public:
 
 REGISTER_SERVICE_AS(Imx51Tzic, IrqController);
 REGISTER_SERVICE   (Imx51TzicMmio);
+
+}

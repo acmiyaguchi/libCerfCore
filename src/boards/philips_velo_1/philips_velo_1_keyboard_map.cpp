@@ -5,6 +5,8 @@
 
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 /* device_code = scancode; inverse of keybddr sub_1F3C830's scancode->VK table
@@ -59,3 +61,5 @@ public:
 }  // namespace
 
 REGISTER_SERVICE_AS(PhilipsVelo1KeyboardMap, KeyboardMap);
+
+}

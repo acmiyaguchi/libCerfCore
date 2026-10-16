@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <memory>
 
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 
@@ -40,3 +42,5 @@ private:
     uint16_t socket_a1c0_ = 0;
     uint16_t socket_a1c4_ = 0;
 };
+
+}

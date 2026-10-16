@@ -3,6 +3,8 @@
 #include <cstdarg>
 #include <cstddef>
 
+namespace cerfcore {
+
 namespace host_platform {
 
 void CrashFreezeOtherThreads();
@@ -13,5 +15,7 @@ void CrashDumpOtherThreads();
 void CrashPrintNativeStack(const char* tag);
 bool CrashSymbolize(const void* addr, char* out, size_t out_size);
 void CrashInstallUnhandledFilter();
+
+}
 
 }

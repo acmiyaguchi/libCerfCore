@@ -8,6 +8,8 @@
 #include <cstdint>
 #include <deque>
 
+namespace cerfcore {
+
 class Ac97Codec;
 class EmulatedMemory;
 class GuestCycleClock;
@@ -86,3 +88,5 @@ private:
     bool                 eoc_         = false;
     std::deque<uint16_t> held_;
 };
+
+}

@@ -13,6 +13,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kBase = 0x10C001C0u;
@@ -230,4 +232,6 @@ void Pr31x00Clock::RestoreState(StateReader& r) {
 
 void Pr31x00Clock::PostRestore() {
     SetCoreRate(config_->ReducedFrequency());
+}
+
 }

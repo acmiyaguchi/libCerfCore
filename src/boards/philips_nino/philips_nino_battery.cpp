@@ -5,6 +5,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "philips_nino_family_id.h"
 
+namespace cerfcore {
+
 bool PhilipsNinoBattery::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     return bd && bd->GetBoardFamilyId() == BoardFamilyId::PhilipsNino;
@@ -15,3 +17,5 @@ void PhilipsNinoBattery::OnReady() {
 }
 
 REGISTER_SERVICE(PhilipsNinoBattery);
+
+}

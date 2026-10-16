@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* KIUSCANREP STPREP[5:0] 000000 is RFU (VR4121 UM 22.2.2 p514). Figure 22-5 p525 carries the
@@ -36,3 +38,5 @@ protected:
 }
 
 REGISTER_SERVICE_AS(Vr4121Kiu, Vr41xxKiu);
+
+}

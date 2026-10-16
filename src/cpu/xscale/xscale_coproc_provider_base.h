@@ -5,6 +5,8 @@
 #include "../arm/arm_coproc_provider.h"
 #include <cerfengine/calling_convention.h>
 
+namespace cerfcore {
+
 class XscaleCoprocProviderBase : public ArmCoprocProvider {
 public:
     using ArmCoprocProvider::ArmCoprocProvider;
@@ -26,3 +28,5 @@ protected:
 private:
     static void CERFENGINE_FASTCALL EnterDeepSleepHook(void* self);
 };
+
+}

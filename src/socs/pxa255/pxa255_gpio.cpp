@@ -5,6 +5,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include <cerfcore/socs/guest_cpu_reset.h>
 
+namespace cerfcore {
+
 bool Pxa255Gpio::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     return bd && bd->GetSocId() == SocId::Pxa255;
@@ -20,3 +22,5 @@ void Pxa255Gpio::OnReady() {
 }
 
 REGISTER_SERVICE(Pxa255Gpio);
+
+}

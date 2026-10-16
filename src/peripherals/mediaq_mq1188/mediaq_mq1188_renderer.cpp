@@ -6,6 +6,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "../../boards/askey_pc3xx/askey_pc3xx_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class MediaQMq1188Renderer : public MediaQPanelRenderer<MediaQMq1188> {
@@ -21,3 +23,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(MediaQMq1188Renderer, PanelFrameRenderer);
+
+}

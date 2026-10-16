@@ -4,6 +4,8 @@
 
 #include <algorithm>
 
+namespace cerfcore {
+
 using namespace cerf_freescale_uart;
 
 void FreescaleUartTransmitter::Reset() {
@@ -224,4 +226,6 @@ void FreescaleUartTransmitter::Restore(StateReader& r) {
     txfe_         = txfe != 0u;
     burst_        = burst != 0u;
     brk_seen_     = brk_seen != 0u;
+}
+
 }

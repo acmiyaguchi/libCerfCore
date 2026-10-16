@@ -1,6 +1,8 @@
 #include "../vr41xx/vr41xx_fir_impl.h"
 #include "vr4102_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* VR4102 FIR base, Internal I/O Space 1 0x0C000040-0x0C000075 (VR4102 UM Table 26-1 p498). */
@@ -12,3 +14,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE(Vr4102Fir);
+
+}

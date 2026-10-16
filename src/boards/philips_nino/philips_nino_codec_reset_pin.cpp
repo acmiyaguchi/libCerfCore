@@ -7,6 +7,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* philips_nino_300 sib.dll sub_18D1824 pulses MFIODOUT bit 19 high, low, high before
@@ -36,3 +38,5 @@ public:
 }
 
 REGISTER_SERVICE(PhilipsNinoCodecResetPin);
+
+}

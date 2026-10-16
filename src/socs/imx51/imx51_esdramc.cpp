@@ -9,6 +9,8 @@
 #include <array>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* i.MX51 Enhanced SDRAM Controller (ESDRAMC), MCIMX51RM Rev.1 Ch.30, register
@@ -64,3 +66,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(Imx51Esdramc);
+
+}

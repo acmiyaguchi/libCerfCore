@@ -1,5 +1,7 @@
 #include "raster_scan_clock.h"
 
+namespace cerfcore {
+
 template <class Units>
 bool BasicRasterScanClock<Units>::FrameValid(const Frame& frame) {
     if (frame.ticks == 0u || frame.edges == 0u || frame.edges > Frame::kMaxEdges) return false;
@@ -49,3 +51,5 @@ bool BasicRasterScanClock<Units>::EdgeCycle(uint64_t edge, uint64_t& cycle) cons
 
 template class BasicRasterScanClock<ExactCounterUnits>;
 template class BasicRasterScanClock<NarrowCounterUnits>;
+
+}

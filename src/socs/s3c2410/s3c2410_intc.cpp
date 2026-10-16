@@ -17,6 +17,8 @@
 #include <bit>
 #include <mutex>
 
+namespace cerfcore {
+
 namespace {
 
 class S3C2410Intc : public IrqController {
@@ -357,3 +359,5 @@ public:
 
 REGISTER_SERVICE_AS(S3C2410Intc,    IrqController);
 REGISTER_SERVICE   (S3C2410IntcMmio);
+
+}

@@ -5,10 +5,13 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 struct Gpu2dGradwPaint;
 class Imx51Gpu2dGradwSampler;
+class Imx51Gpu2dPixelBlend;
 
 /* One FLUSH's fill target, decoded by the peripheral from the g12 register file
    (G2D_BASE0/CFG0/SCISSORX/Y + VGV1_SCISSORX/Y + VGV1_CFG1 + G2D_COLOR). */
@@ -58,6 +61,7 @@ public:
     using Service::Service;
 
     bool ShouldRegister() override;
+    void OnReady() override;
 
     void MoveTo(float x, float y, bool closed);
     void LineTo(float x, float y);
@@ -69,13 +73,7 @@ public:
     void SaveState(StateWriter& w) const;
     void RestoreState(StateReader& r);
 
-    /* Pixel/blend/coverage back-end shared with the stroker (Imx51Gpu2dStroker),
-       which resolves this service and hands it the stroke outline - a service
-       collaborator, never a second copy (duplicating the blend ALU is banned). */
     [[noreturn]] void HaltFill(const char* why, float a, float b) const;
-    void     ValidateBlendProg(uint32_t prog) const;
-    static bool BlendProgRefsDest(uint32_t prog);  /* prog reads DEST -> per-pixel */
-    uint32_t BlendPixel(const Gpu2dFillTarget& t, uint32_t src, uint32_t dst, float cov) const;
     /* Coverage-fill closed contours (arbitrary edges) under t.even_odd/nonzero
        winding at the g12's VGSPAN 1/16 vertical resolution + exact horizontal
        overlap - the stroke outline and flattened-curve fills. */
@@ -89,7 +87,6 @@ public:
     void ClearPath() { pts_.clear(); starts_.clear(); closed_.clear(); }
 
 private:
-    [[noreturn]] void HaltBlend(const char* why, uint32_t prog) const;
     /* Byte address of dest pixel (x,y) per t.dest_565 (row stride = stride_dw
        4-byte words); FATAL if unbacked. */
     uint8_t* DestHost(const Gpu2dFillTarget& t, int32_t x, int32_t y);
@@ -112,4 +109,8 @@ private:
     std::vector<float>    pts_;
     std::vector<uint32_t> starts_;
     std::vector<uint8_t>  closed_;
+
+    const Imx51Gpu2dPixelBlend* blend_ = nullptr;
 };
+
+}

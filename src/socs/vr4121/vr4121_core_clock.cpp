@@ -1,6 +1,8 @@
 #include "../vr41xx/vr41xx_core_clock_impl.h"
 #include "vr4121_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* VR4121 UM 11.2.10 p291 PClock = (18.432 MHz/CLKSP) x 64, TClock = PClock/DIVT; CLKSEL rows
@@ -19,3 +21,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(Vr4121CoreClock, MipsCoreClock);
+
+}

@@ -7,6 +7,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* Linux sa11xx-uda1341 driver, sa11xx_uda1341_set_audio_clock(): GPIO 13:12 "00: 12.288 MHz",
@@ -55,3 +57,5 @@ private:
 }
 
 REGISTER_SERVICE_AS(CompaqIpaqH3000SspClock, Sa11xxGpioClockInput);
+
+}

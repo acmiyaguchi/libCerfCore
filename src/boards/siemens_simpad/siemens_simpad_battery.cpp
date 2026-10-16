@@ -5,6 +5,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "siemens_simpad_family_id.h"
 
+namespace cerfcore {
+
 bool SiemensSimpadBattery::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     return bd && bd->GetBoardFamilyId() == BoardFamilyId::SiemensSimpad;
@@ -15,3 +17,5 @@ void SiemensSimpadBattery::OnReady() {
 }
 
 REGISTER_SERVICE(SiemensSimpadBattery);
+
+}

@@ -7,6 +7,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* VR4121 DSU (Deadman's Switch Unit), UM Table 18-1: DSUCNTREG@0x0B0000E0 R/W,
@@ -52,3 +54,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE(Vr4121Dsu);
+
+}

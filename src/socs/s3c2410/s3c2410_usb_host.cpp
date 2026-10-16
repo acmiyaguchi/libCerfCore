@@ -9,6 +9,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* S3C2410 USB host: standard OpenHCI Rev 1.0a at PA 0x49000000 (S3C2410A manual
    Table 12-1; two port-status regs => NDP=2). No USB devices are emulated: a
    passive register file, ports disconnected, no interrupt raised - the OHCD's
@@ -115,3 +117,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(S3C2410UsbHost);
+
+}

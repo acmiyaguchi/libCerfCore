@@ -13,6 +13,8 @@
 
 #include <cstring>
 
+namespace cerfcore {
+
 namespace {
 
 /* The gray modes vary a pixel's duty cycle over frames so the monochrome panel
@@ -87,3 +89,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(Pr31x00LcdRenderer, PanelFrameRenderer);
+
+}

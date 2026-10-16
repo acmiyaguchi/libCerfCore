@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* GRADW paint input decoded from the g12 register file. The paint colour at a
    dest pixel is the fmt7 texel at the (OUTX,OUTY) the GRADW ISA program computes. */
 struct Gpu2dGradwPaint {
@@ -34,3 +36,5 @@ private:
                      float& outx, float& outy) const;
     uint32_t Fetch(const Gpu2dGradwPaint& p, int32_t tx, int32_t ty) const;  /* fmt7 texel, clamp/repeat */
 };
+
+}

@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class CerfEmulator;
 class StateWriter;
 class StateReader;
@@ -35,3 +37,5 @@ private:
     uint32_t mask_    = 0;
     uint32_t status_  = 0;
 };
+
+}

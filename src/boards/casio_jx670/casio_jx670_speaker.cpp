@@ -9,6 +9,8 @@
 
 #include <vector>
 
+namespace cerfcore {
+
 bool CasioJx670Speaker::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     return bd && bd->GetBoardFamilyId() == BoardFamilyId::CasioJx670;
@@ -43,3 +45,5 @@ void CasioJx670Speaker::QueueBlock(uint32_t va, uint32_t length) {
 }
 
 REGISTER_SERVICE(CasioJx670Speaker);
+
+}

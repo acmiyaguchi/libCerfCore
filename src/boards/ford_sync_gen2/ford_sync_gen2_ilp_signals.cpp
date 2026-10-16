@@ -14,6 +14,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(FordSyncGen2IlpSignals);
 
 namespace {
@@ -328,4 +330,6 @@ void FordSyncGen2IlpSignals::MarkPublished(uint32_t sigid) {
 
 bool FordSyncGen2IlpSignals::IsComposite(uint32_t sigid) const {
     return CompositeGroup(sigid) != 0;
+}
+
 }

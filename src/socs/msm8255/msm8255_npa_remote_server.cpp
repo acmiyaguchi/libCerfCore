@@ -16,6 +16,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kNpaProg   = 0x300000A4u;
@@ -439,3 +441,5 @@ void Msm8255NpaRemoteServer::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE(Msm8255NpaRemoteServer);
+
+}

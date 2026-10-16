@@ -5,6 +5,8 @@
 #include <functional>
 #include <vector>
 
+namespace cerfcore {
+
 /* Async-HDLC framing for PPP per RFC 1662: Flag Sequence 0x7e, Control
    Escape 0x7d, escaped octet exclusive-or'd with 0x20. */
 class PppHdlc {
@@ -38,3 +40,5 @@ private:
     bool in_frame_  = false;
     bool in_escape_ = false;
 };
+
+}

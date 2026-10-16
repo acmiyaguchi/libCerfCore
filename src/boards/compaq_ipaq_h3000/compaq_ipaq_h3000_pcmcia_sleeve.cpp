@@ -8,6 +8,8 @@
 #include "../../peripherals/pcmcia/pcmcia_space_router.h"
 #include "../../socs/sa11xx/sa11xx_gpio.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* iPAQ H36xx dual-PCMCIA sleeve, pin map per the ROM PCMCIA PDD's
@@ -87,3 +89,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(CompaqIpaqH3000PcmciaSleeve, CompaqIpaqH3000EgpioSink);
+
+}

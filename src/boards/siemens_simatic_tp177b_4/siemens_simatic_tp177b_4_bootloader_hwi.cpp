@@ -12,6 +12,8 @@
 #include <cstdint>
 #include <cstring>
 
+namespace cerfcore {
+
 /* Siemens P177 coupled-bootloader HW-info handoff. CERF skips the P177
    bootloader (agent_docs/boot_loaders.md), so without this synthesised 128-byte
    block + flash-0x20 pointer the OAL parser (nk.exe sub_8304579C, oemhwinf.c)
@@ -86,3 +88,5 @@ private:
 }  // namespace
 
 REGISTER_SERVICE(SiemensSimaticTp177b4BootloaderHwi);
+
+}

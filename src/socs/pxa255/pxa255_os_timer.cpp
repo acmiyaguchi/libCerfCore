@@ -5,6 +5,8 @@
 #include "pxa255_id.h"
 #include "../pxa2xx/pxa2xx_intc.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* PXA255 ICPR Table 4-35: IS26..29 = OS Timer match 0..3. */
@@ -41,3 +43,5 @@ protected:
 REGISTER_SERVICE(Pxa255OsTimer);
 
 }  /* namespace */
+
+}

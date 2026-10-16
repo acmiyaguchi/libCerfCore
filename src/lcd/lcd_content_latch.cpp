@@ -3,6 +3,8 @@
 #include <cerfcore/core/log.h>
 #include <cerfcore/cpu/emulated_memory.h>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr size_t kProbeStride = 251;
@@ -68,4 +70,6 @@ void LcdContentLatch::Rearm() {
     rearmed_.store(true, std::memory_order_release);
     latched_.store(false, std::memory_order_release);
     LOG(Lcd, "content latch: rearmed (guest reset)\n");
+}
+
 }

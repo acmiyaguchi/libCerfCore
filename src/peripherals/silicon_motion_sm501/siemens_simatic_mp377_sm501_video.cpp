@@ -8,6 +8,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include <cerfcore/core/log.h>
 
+namespace cerfcore {
+
 namespace siemens_simatic_mp377 {
 
 bool SiemensSimaticMp377Sm501Video::ShouldRegister() {
@@ -122,3 +124,5 @@ void SiemensSimaticMp377Sm501Video::RestoreState(StateReader& r) {
 REGISTER_SERVICE(SiemensSimaticMp377Sm501Video);
 
 } // namespace siemens_mp377
+
+}

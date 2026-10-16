@@ -8,6 +8,8 @@
 #include <cerfcore/cpu/emulated_memory.h>
 #include "../../execution/engine_bridge.h"
 
+namespace cerfcore {
+
 REGISTER_SERVICE(FolderShareStage);
 
 bool FolderShareStage::ShouldRegister() {
@@ -36,4 +38,6 @@ CerfVirt::ServerPB* FolderShareStage::Pb() {
 
 uint8_t* FolderShareStage::IoBuf() {
     return base_ + CerfVirt::kFsStageIoOff;
+}
+
 }

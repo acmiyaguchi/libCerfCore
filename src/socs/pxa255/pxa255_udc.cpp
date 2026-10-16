@@ -8,6 +8,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* PXA255 USB Device Controller (§12, base 0x40600000), modeled disconnected: no
@@ -114,3 +116,5 @@ void Pxa255Udc::RestoreState(StateReader& r) {
 }  /* namespace */
 
 REGISTER_SERVICE(Pxa255Udc);
+
+}

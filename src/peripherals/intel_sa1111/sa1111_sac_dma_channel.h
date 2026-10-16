@@ -8,6 +8,8 @@
 #include <cstdint>
 #include <functional>
 
+namespace cerfcore {
+
 class Sa1111SacRequestLines;
 class Sa1111SystemController;
 class StateReader;
@@ -85,3 +87,5 @@ private:
     GuestCycleClock::Event*                    done_ev_   = nullptr;
     Sa1111SacRequestLines*                     lines_     = nullptr;
 };
+
+}

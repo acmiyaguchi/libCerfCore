@@ -18,6 +18,7 @@
 #include <mutex>
 #include <optional>
 
+namespace cerfcore {
 
 namespace {
 
@@ -338,3 +339,5 @@ private:
 REGISTER_SERVICE(TiCardbusBridge);
 
 }  /* namespace */
+
+}

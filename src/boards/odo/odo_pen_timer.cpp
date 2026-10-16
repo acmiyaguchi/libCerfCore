@@ -4,6 +4,8 @@
 #include <cerfcore/core/fatal.h>
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr GuestCycleClock::Rate kPenTimingRate{200u, 1u};
@@ -89,4 +91,6 @@ void OdoPenTimer::RestoreState(StateReader& r) {
                     grid_.PlaceAt(now, RatedTickCount::Position{0u, phase, phase_den}),
                 "the restored pen timing grid");
     ArmNext(now);
+}
+
 }

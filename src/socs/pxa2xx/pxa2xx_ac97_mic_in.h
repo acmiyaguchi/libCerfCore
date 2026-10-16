@@ -8,6 +8,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 class Pxa2xxAc97MicIn : public Pxa2xxAc97InFifo, public Pxa2xxSlotSource {
 public:
     using Pxa2xxAc97InFifo::Pxa2xxAc97InFifo;
@@ -45,3 +47,5 @@ private:
     Pxa2xxFrameSlotLaw adc_{Ac97Codec::kFrameRateHz};
     std::vector<Span>  spans_;
 };
+
+}

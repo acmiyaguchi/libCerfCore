@@ -5,6 +5,8 @@
 #include <atomic>
 #include <cstdint>
 
+namespace cerfcore {
+
 /* SIMpad SL4 keypad: 6 buttons on UCB1300 IO_DATA (reg 0) bits 0..5, ACTIVE-LOW
    (released=1, pressed=0). The CE4 PDD keyucb1x00.cpp polls + inverts them
    (keybddr.dll sub_13221BC: ~iodata & 0x3F); presenting them active-high makes
@@ -28,3 +30,5 @@ public:
 private:
     std::atomic<uint8_t> pressed_{0};
 };
+
+}

@@ -8,6 +8,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* KPP KPDR[3:0] = HW_REV (nk.exe IOCTL 0x01011070 bit-reverses it); undriven 0
@@ -39,3 +41,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE(FordSyncGen2BootStraps);
+
+}

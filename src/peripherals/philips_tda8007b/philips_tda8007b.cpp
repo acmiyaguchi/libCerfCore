@@ -9,6 +9,8 @@
 #include <array>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* Philips TDA8007B smart-card IC (SIMpad SL4 nCS4, PA 0x40000000): 16 byte
@@ -61,3 +63,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(PhilipsTda8007b);
+
+}

@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class CerfEmulator;
 class MediaQMq200Power;
 class StateWriter;
@@ -85,3 +87,5 @@ private:
     uint32_t regs_[2][kRegsPerGc] = {};
     uint32_t palette_[256]        = {};
 };
+
+}

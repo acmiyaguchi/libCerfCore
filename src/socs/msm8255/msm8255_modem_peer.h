@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class IrqController;
 
 class Msm8255ModemPeer : public Service {
@@ -33,3 +35,5 @@ private:
 
     IrqController* irq_ = nullptr;
 };
+
+}

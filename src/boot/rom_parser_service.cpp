@@ -20,6 +20,8 @@
 
 #include <cstring>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(RomParserService);
 
 namespace {
@@ -425,4 +427,6 @@ void RomParserService::OnReady() {
         loaded_.size() > 1 ? ", +extensions" : "");
 
     ok_ = true;
+}
+
 }

@@ -5,6 +5,8 @@
 #include "../../boards/hp_jornada_700/hp_jornada_700_family_id.h"
 #include "../../execution/guest_cycle_clock.h"
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint16_t kChannels       = 2u;
@@ -54,3 +56,5 @@ void Sa1111SacHostOutput::Drop() {
 }
 
 REGISTER_SERVICE(Sa1111SacHostOutput);
+
+}

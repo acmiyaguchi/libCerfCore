@@ -5,6 +5,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* SDMA AP interrupt = AVIC source 34 (MCIMX31RM Table 2-3). */
@@ -29,3 +31,5 @@ bool Imx31Sdma::ReadExtra(uint32_t off, uint32_t& out) {
 }
 
 REGISTER_SERVICE(Imx31Sdma);
+
+}

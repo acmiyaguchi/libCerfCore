@@ -9,6 +9,8 @@
 #include <cerfcore/state/emulation_freeze.h>
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint8_t FCR_COR_SRESET = 0x80;
@@ -176,4 +178,6 @@ void SerialPcCard::PostRestore() {
 void SerialPcCard::WriteIo16(uint32_t offset, uint16_t value) {
     WriteIo8(offset, (uint8_t)(value & 0xFFu));
     WriteIo8(offset + 1u, (uint8_t)(value >> 8));
+}
+
 }

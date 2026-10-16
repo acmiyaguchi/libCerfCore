@@ -5,6 +5,8 @@
 #include <numeric>
 #include <string>
 
+namespace cerfcore {
+
 void CounterPhase::Save(StateWriter& w, const char* prefix) const {
     const std::string p(prefix);
     w.WriteBytes((p + "_num").c_str(), num.w, sizeof(num.w));
@@ -130,3 +132,5 @@ void BasicCycleAnchoredCounter<Units>::PlaceAnchor(uint64_t cycle, uint32_t coun
 
 template class BasicCycleAnchoredCounter<ExactCounterUnits>;
 template class BasicCycleAnchoredCounter<NarrowCounterUnits>;
+
+}

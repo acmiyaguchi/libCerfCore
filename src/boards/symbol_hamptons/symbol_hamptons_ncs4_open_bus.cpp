@@ -3,6 +3,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include "symbol_hamptons_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* Intel PXA27x Developer's Manual 280000-001 Figure 6-11 (page 6-71):
@@ -26,3 +28,5 @@ protected:
 }  /* namespace */
 
 REGISTER_SERVICE(SymbolHamptonsNCs4OpenBus);
+
+}

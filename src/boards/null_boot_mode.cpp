@@ -3,6 +3,8 @@
 #include <cerfcore/boards/board_context.h>
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 namespace {
 
 class NullBootMode : public BootMode {
@@ -21,3 +23,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(NullBootMode, BootMode);
+
+}

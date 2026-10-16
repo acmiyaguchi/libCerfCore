@@ -3,6 +3,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include <cerfcore/peripherals/peripheral_base.h>
 
+namespace cerfcore {
+
 class Iop13xxPmmrGuard : public Peripheral {
 public:
     using Peripheral::Peripheral;
@@ -22,3 +24,5 @@ public:
     uint32_t MmioBase() const override { return kBase; }
     uint32_t MmioSize() const override { return kSize; }
 };
+
+}

@@ -9,6 +9,8 @@
 #include <array>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* NEC P530 board embedded controller (PA 0x0D000000): command/response MCU
@@ -82,3 +84,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(NecMobilepro900SeriesBoardEc);
+
+}

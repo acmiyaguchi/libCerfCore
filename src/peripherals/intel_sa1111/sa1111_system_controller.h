@@ -8,6 +8,8 @@
 #include <functional>
 #include <vector>
 
+namespace cerfcore {
+
 class Sa11xxTestUnit;
 
 class Sa1111SystemController : public Sa1111Unit {
@@ -50,3 +52,5 @@ private:
     std::vector<std::function<void()>> clock_listeners_;
     uint32_t regs_[9] = {};
 };
+
+}

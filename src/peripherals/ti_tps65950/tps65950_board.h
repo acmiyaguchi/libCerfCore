@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 struct Tps65950BootStraps {
     bool boot0 = false;
     bool boot1 = false;
@@ -18,3 +20,5 @@ public:
     virtual void               DriveInt1(bool asserted) = 0;
     virtual bool               MsecureHigh()            = 0;
 };
+
+}

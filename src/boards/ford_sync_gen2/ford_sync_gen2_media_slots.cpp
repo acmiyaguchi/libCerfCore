@@ -17,6 +17,8 @@
 #include <atomic>
 #include <optional>
 
+namespace cerfcore {
+
 namespace {
 class FordSyncGen2MediaSlots : public Service {
 public:
@@ -166,3 +168,5 @@ private:
 };
 }
 REGISTER_SERVICE(FordSyncGen2MediaSlots);
+
+}

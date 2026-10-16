@@ -8,6 +8,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 /* Siemens P177 BSP OEMAddressTable, read verbatim from nk.exe's
    g_oalAddressTable at VA 0x83008C58 (walked by startup MMU setup
    sub_83008ED0). */
@@ -113,3 +115,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(SiemensSimaticTp177b4PageTableBuilder, PageTableBuilder);
+
+}

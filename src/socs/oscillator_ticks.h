@@ -5,6 +5,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class CerfEmulator;
 class GuestDeepSleep;
 class StateReader;
@@ -85,3 +87,5 @@ private:
     uint64_t stopped_at_   = 0;
     uint64_t stopped_span_ = 0;
 };
+
+}

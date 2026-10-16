@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 class Sa1111SacFrameClock;
 class StateReader;
 class StateWriter;
@@ -111,3 +113,5 @@ private:
     Sa1111Sbi::BusGrant grant_ = Sa1111Sbi::BusGrant::Stalled;
     bool     stalled_request_ = false;
 };
+
+}

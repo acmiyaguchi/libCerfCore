@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 class RasterScanPeripheral : public Peripheral {
 public:
     using Peripheral::Peripheral;
@@ -64,3 +66,5 @@ private:
     State    state_       = State::Stopped;
     State    restored_    = State::Stopped;
 };
+
+}

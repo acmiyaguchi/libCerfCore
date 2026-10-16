@@ -3,6 +3,8 @@
 #include <cerfcore/core/service.h>
 #include "../../host/battery_widget.h"
 
+namespace cerfcore {
+
 /* Owns the host battery widget for the Philips Nino 300 and exposes its state to
    the UCB1200 board seam (the main-battery AD0 sample gwes reads) and the IO[5]
    AC-line pin. */
@@ -18,3 +20,5 @@ public:
 private:
     BatteryWidget battery_;
 };
+
+}

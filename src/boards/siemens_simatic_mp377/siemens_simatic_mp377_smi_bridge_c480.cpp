@@ -2,6 +2,8 @@
 #include "siemens_simatic_mp377_smi_bridge_c480.h"
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 namespace siemens_simatic_mp377 {
 
 uint32_t SiemensSimaticMp377SmiBridgeC480::MmioBase() const {
@@ -27,3 +29,5 @@ void SiemensSimaticMp377SmiBridgeC480::PostRestore() {
 REGISTER_SERVICE(SiemensSimaticMp377SmiBridgeC480);
 
 } // namespace siemens_mp377
+
+}

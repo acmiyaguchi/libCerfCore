@@ -4,6 +4,8 @@
 
 #include <shared_mutex>
 
+namespace cerfcore {
+
 /* Freezes peripheral worker threads for a consistent hibernation snapshot.
    Lock-order invariant (deadlocks if violated): the freeze lock is taken BEFORE
    any peripheral mutex, and a worker never holds WorkerSection across a
@@ -33,3 +35,5 @@ public:
 private:
     std::shared_mutex mtx_;
 };
+
+}

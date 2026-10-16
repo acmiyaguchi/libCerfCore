@@ -1,5 +1,7 @@
 #include "pxa255_uart16550.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* PXA255 STUART - standard UART, used by the IrDA driver for SIR (base
@@ -18,3 +20,5 @@ protected:
 }  /* namespace */
 
 REGISTER_SERVICE(Pxa255Stuart);
+
+}

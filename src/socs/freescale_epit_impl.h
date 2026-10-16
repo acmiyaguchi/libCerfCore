@@ -16,6 +16,8 @@
 #include <cstdint>
 #include <string_view>
 
+namespace cerfcore {
+
 namespace cerf_freescale_epit_detail {
 
 constexpr uint32_t kEpitSize = 0x00004000u;
@@ -463,5 +465,7 @@ private:
     GuestCycleClock::Rate ratio_core_{0u, 1u};
     GuestCycleClock::Rate ratio_tick_{0u, 1u};
 };
+
+}
 
 }

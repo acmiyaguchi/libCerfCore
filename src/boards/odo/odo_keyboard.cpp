@@ -15,6 +15,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kKeyboardPaBase    = 0x1000C000u;
@@ -226,3 +228,5 @@ public:
 
 REGISTER_SERVICE(OdoKeyboard);
 REGISTER_SERVICE(OdoKeyboardInput);
+
+}

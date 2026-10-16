@@ -9,6 +9,8 @@
 #include <functional>
 #include <vector>
 
+namespace cerfcore {
+
 class Imx51ClockInput;
 class Imx51CcmDvfs;
 class Imx51CcmStatus;
@@ -79,3 +81,5 @@ private:
     std::vector<std::function<void()>> gate_listeners_;
     std::array<uint32_t, kSize / 4>    regs_{};
 };
+
+}

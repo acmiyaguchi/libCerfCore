@@ -5,6 +5,8 @@
 #include <span>
 #include <string>
 
+namespace cerfcore {
+
 namespace cerf {
 
 inline std::string ReadAsciiZ(std::span<const uint8_t> bytes, size_t off) {
@@ -14,6 +16,8 @@ inline std::string ReadAsciiZ(std::span<const uint8_t> bytes, size_t off) {
         ++off;
     }
     return s;
+}
+
 }
 
 }

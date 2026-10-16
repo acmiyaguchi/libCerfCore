@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 struct Tps65950RegValue {
     uint8_t sub;
     uint8_t value;
@@ -72,6 +74,8 @@ inline constexpr Tps65950RegValue kMc021PowerOn[] = {
    page 243: PMC_RESET "resets all power-management blocks except the backup domain". */
 constexpr bool InBackupDomain(uint8_t sub) {
     return sub <= 0x2Du || (sub >= 0x36u && sub <= 0x3Bu) || (sub >= 0x3Du && sub <= 0x43u);
+}
+
 }
 
 }

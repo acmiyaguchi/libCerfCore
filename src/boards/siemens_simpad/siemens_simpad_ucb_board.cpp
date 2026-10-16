@@ -12,6 +12,8 @@
 #include <cstdint>
 #include <cstdlib>
 
+namespace cerfcore {
+
 namespace {
 
 /* simpad_sl4_ce4_10 touch.dll sub_1311F40 takes a sub_13119DC pressure reading of
@@ -112,3 +114,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(SiemensSimpadUcbBoard, Ucb1x00Board);
+
+}

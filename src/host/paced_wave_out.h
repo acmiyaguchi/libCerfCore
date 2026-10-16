@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 class PacedWaveOut {
 public:
     static constexpr uint32_t kMaxBlock = 0x2000u;
@@ -83,3 +85,5 @@ private:
     std::atomic<uint16_t> fmt_channels_{0};
     std::atomic<uint16_t> fmt_bits_{0};
 };
+
+}

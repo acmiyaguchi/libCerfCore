@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 class Sed1356PowerSequence;
 class StateReader;
 class StateWriter;
@@ -30,3 +32,5 @@ private:
     std::mutex                  mtx_;
     State                       state_ = State::Down;
 };
+
+}

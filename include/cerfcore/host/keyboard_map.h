@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 /* Single source of truth for one board's host-key -> guest mapping, read by both
    the board's KeyboardInput (input path) and KeyboardMappingDialog (the replica).
    device_code is opaque: each KeyboardMap concrete and its matching KeyboardInput
@@ -45,3 +47,5 @@ public:
         return false;
     }
 };
+
+}

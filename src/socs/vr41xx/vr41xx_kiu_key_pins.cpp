@@ -8,6 +8,8 @@
 #include "../vr4111/vr4111_id.h"
 #include "../vr4121/vr4121_id.h"
 
+namespace cerfcore {
+
 bool Vr41xxKiuKeyPins::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     if (!bd) return false;
@@ -47,3 +49,5 @@ void Vr41xxKiuKeyPins::Clear() {
 }
 
 REGISTER_SERVICE(Vr41xxKiuKeyPins);
+
+}

@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace siemens_simatic_mp377 {
 
 /* SM501 MMCC Databook v1.02, Tables 2-1, 4-1, 5-1 and 16-1. */
@@ -95,3 +97,5 @@ inline bool Sm501IsPlainRegister(uint32_t off) {
 }
 
 } // namespace siemens_mp377
+
+}

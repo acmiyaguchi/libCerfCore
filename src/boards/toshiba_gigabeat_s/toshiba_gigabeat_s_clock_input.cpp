@@ -4,6 +4,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "toshiba_gigabeat_s_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class ToshibaGigabeatSClockInput : public Imx31ClockInput {
@@ -25,3 +27,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(ToshibaGigabeatSClockInput, Imx31ClockInput);
+
+}

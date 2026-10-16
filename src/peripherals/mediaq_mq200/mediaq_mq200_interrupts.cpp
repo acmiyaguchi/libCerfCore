@@ -4,6 +4,8 @@
 #include <cerfcore/core/fatal.h>
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kInBlockLo = 0x8000u;
@@ -76,4 +78,6 @@ void MediaQMq200Interrupts::RestoreState(StateReader& r) {
     r.Read("in00", control_);
     r.Read("in01", mask_);
     r.Read("in02", status_);
+}
+
 }

@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 
+namespace cerfcore {
+
 class PointerSource;
 
 class PointerRouter : public Service {
@@ -36,3 +38,5 @@ private:
     PointerSource*              active_ = nullptr;
     bool                        user_picked_ = false;
 };
+
+}

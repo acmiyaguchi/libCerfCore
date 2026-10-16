@@ -6,6 +6,9 @@
 #include <mutex>
 
 namespace cerfengine { class ArmJit; }
+
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 
@@ -98,3 +101,5 @@ private:
     uint32_t idle_        = 0;
     uint32_t threshold_   = 0xFFu;
 };
+
+}

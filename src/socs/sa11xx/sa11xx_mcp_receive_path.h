@@ -8,6 +8,8 @@
 #include <deque>
 #include <vector>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 
@@ -68,3 +70,5 @@ private:
     bool     looped_     = false;
     bool     loop_armed_ = false;
 };
+
+}

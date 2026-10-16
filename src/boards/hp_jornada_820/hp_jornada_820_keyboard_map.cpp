@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 /* Win32 VK -> HP Jornada 820 matrix scancode (0 = none). device_code IS the
@@ -55,3 +57,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(HpJornada820KeyboardMap, KeyboardMap);
+
+}

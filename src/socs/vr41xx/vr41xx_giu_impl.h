@@ -14,6 +14,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 namespace cerf_vr41xx_giu_detail {
 
 /* VR4121 UM Table 1-9 == VR4102 UM Table 18-2. */
@@ -360,3 +362,5 @@ private:
 };
 
 }  /* namespace cerf_vr41xx_giu_detail */
+
+}

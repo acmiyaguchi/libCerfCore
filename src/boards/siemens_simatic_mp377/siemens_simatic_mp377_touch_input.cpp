@@ -5,6 +5,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include <cerfcore/host/touch_input.h>
 
+namespace cerfcore {
+
 namespace {
 
 class SiemensSimaticMp377TouchInput : public TouchInput {
@@ -35,3 +37,5 @@ private:
 } // namespace
 
 REGISTER_SERVICE_AS(SiemensSimaticMp377TouchInput, TouchInput);
+
+}

@@ -15,6 +15,8 @@
 #include <deque>
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 /* HP doc §4.2: both directions are bit-reversed within each byte ("to send
@@ -291,3 +293,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(HpJornada700Mcu, Sa11xxSspDevice);
+
+}

@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* A producer of guest-surface frames for CanvasPresenter - the minimal
    surface the presentation core needs to draw one window's content.
 
@@ -23,3 +25,5 @@ public:
                             uint32_t  width,
                             uint32_t  height) = 0;
 };
+
+}

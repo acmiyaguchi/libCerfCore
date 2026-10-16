@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace cerf_vr41xx_piu_detail {
 
 /* VR4121 UM Table 20-1 == VR4102 UM Table 19-1. */
@@ -40,6 +42,11 @@ enum : uint16_t {
     kScanStart = 0x0040, kScanStop = 0x0080, kAtStart = 0x0100, kAtStop = 0x0200,
     kCntStored  = 0x033Eu,
 };
+
+constexpr uint16_t CntReadValue(bool penstp, bool penstc, uint16_t state, uint16_t cnt_cfg) {
+    return static_cast<uint16_t>((penstp ? 0x4000u : 0u) | (penstc ? 0x2000u : 0u) |
+                                 (static_cast<uint32_t>(state) << 10) | (cnt_cfg & kCntStored));
+}
 
 /* PIUASCNREG D1 TPPSCAN "0: ADIN(2:0)/AUDIOIN as A/D port", D0 ADPSSTART "1: Start ADPortScan"
    (VR4121 UM 20.3.6, VR4102 UM 19.3.6). */
@@ -81,3 +88,5 @@ struct Vr41xxPiuModel {
 };
 
 }  /* namespace cerf_vr41xx_piu_detail */
+
+}

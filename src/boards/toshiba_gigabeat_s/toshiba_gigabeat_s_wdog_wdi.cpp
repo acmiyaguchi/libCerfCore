@@ -4,6 +4,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "toshiba_gigabeat_s_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* zune_keel EBoot.bin nk.exe sub_880673BC: sets the MC13783 alarm 3 s ahead, clears TODAM (register 4 =
@@ -23,3 +25,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(ToshibaGigabeatSWdogWdi, Imx31WdogPin);
+
+}

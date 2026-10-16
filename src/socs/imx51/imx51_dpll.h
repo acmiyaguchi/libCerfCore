@@ -6,6 +6,8 @@
 #include <array>
 #include <cstdint>
 
+namespace cerfcore {
+
 class Imx51Dpll : public Peripheral {
 public:
     using Peripheral::Peripheral;
@@ -66,3 +68,5 @@ private:
     bool restarted_   = false;
     bool load_wanted_ = false;
 };
+
+}

@@ -12,6 +12,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace siemens_simatic_mp377 {
 
 bool SiemensSimaticMp377Sm501Fb::ShouldRegister() {
@@ -126,3 +128,5 @@ void SiemensSimaticMp377Sm501Fb::NoteWrite(uint32_t) {
 REGISTER_SERVICE(SiemensSimaticMp377Sm501Fb);
 
 } // namespace siemens_mp377
+
+}

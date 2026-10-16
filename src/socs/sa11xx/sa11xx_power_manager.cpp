@@ -17,6 +17,8 @@
 #include "sa11xx_intc.h"
 #include "sa11xx_rtc.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* SA-1110 Dev Man §8.1: a 3.6864-MHz crystal feeds the CPU PLL. §8.2
@@ -236,3 +238,5 @@ void Sa11xxPowerManager::RestoreState(StateReader& r) {
 }  /* namespace */
 
 REGISTER_SERVICE(Sa11xxPowerManager);
+
+}

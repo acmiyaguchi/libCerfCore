@@ -5,6 +5,8 @@
 #include <chrono>
 #include <thread>
 
+namespace cerfcore {
+
 namespace {
 std::atomic<int> g_run_timeout_seconds{0};
 }
@@ -22,4 +24,6 @@ void RunTimeout::Start(int seconds) {
 
 bool RunTimeout::IsActive() {
     return g_run_timeout_seconds.load(std::memory_order_acquire) > 0;
+}
+
 }

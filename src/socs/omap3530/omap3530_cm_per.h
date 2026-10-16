@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Omap3530CmPer : public Omap3530CmMcBspGateBlock {
 public:
     using Omap3530CmMcBspGateBlock::Omap3530CmMcBspGateBlock;
@@ -19,3 +21,5 @@ protected:
     uint32_t McBspMask() const override;
     bool     LoadResetLocked() override;
 };
+
+}

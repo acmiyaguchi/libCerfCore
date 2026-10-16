@@ -8,6 +8,8 @@
 
 #include <cstddef>
 
+namespace cerfcore {
+
 namespace {
 constexpr uint8_t kStsOutputBufFull = 0x01;
 constexpr uint8_t kStsInputBufFull  = 0x02;   /* always 0 here: writes complete synchronously */
@@ -181,4 +183,6 @@ void I8042Controller::RestoreState(StateReader& r) {
     for (uint32_t i = 0; i < n; ++i) { uint8_t b = 0; r.Read("ctrl_resp", b); ctrl_resp_.push_back(b); }
     kbd_.RestoreState(r);
     mouse_.RestoreState(r);
+}
+
 }

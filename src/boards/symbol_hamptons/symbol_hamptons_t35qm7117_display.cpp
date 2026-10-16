@@ -4,6 +4,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include "symbol_hamptons_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class SymbolHamptonsT35qm7117Display : public SymbolHamptonsDisplay {
@@ -22,3 +24,5 @@ public:
 }  // namespace
 
 REGISTER_SERVICE_AS_FALLBACK(SymbolHamptonsT35qm7117Display, SymbolHamptonsDisplay);
+
+}

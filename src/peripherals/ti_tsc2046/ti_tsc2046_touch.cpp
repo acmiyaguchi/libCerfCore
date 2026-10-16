@@ -5,6 +5,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include <cerfcore/core/log.h>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(Tsc2046Touch);
 
 bool Tsc2046Touch::ShouldRegister() {
@@ -51,4 +53,6 @@ uint32_t Tsc2046Touch::Transfer(uint32_t out_word, uint32_t wl_bits) {
     default:  adc = 0; break;
     }
     return static_cast<uint32_t>(adc & 0x0FFFu) << 3;
+}
+
 }

@@ -14,6 +14,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint16_t kPanelWidth  = 480u;
@@ -393,3 +395,5 @@ private:
 }
 
 REGISTER_SERVICE_AS(NokiaSeaRayMddiPanel, Msm8255MddiClient);
+
+}

@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 
@@ -46,3 +48,5 @@ private:
     bool     bbox_live_      = false;  /* VGV2_BBOX written; FLUSH superset gate applies */
     uint32_t vg_regs_[0x100] = {};  /* g12 config/geometry register file */
 };
+
+}

@@ -5,6 +5,8 @@
 
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 const std::vector<KeyBinding> kBindings = {
@@ -31,3 +33,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(NokiaSeaRayKeyboardMap, KeyboardMap);
+
+}

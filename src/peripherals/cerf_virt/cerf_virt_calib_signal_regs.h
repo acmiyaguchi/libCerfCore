@@ -6,6 +6,7 @@ typedef unsigned int uint32_t;
 #include <cstdint>
 #endif
 
+namespace cerfcore {
 namespace CerfVirt {
 
 const uint32_t kCalSigEvent = 0x00u;
@@ -13,4 +14,5 @@ const uint32_t kCalSigEvent = 0x00u;
 const uint32_t kCalSigAppeared    = 1u;
 const uint32_t kCalSigDisappeared = 2u;
 
+}
 }

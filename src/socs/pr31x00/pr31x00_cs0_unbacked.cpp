@@ -10,6 +10,8 @@
 #include <cstdint>
 #include <string_view>
 
+namespace cerfcore {
+
 namespace {
 
 /* TMPR3911 §4.2.1 p4-3: CS0, the boot ROM chip select, "is mapped starting at address $11000000".
@@ -44,3 +46,5 @@ public:
 }
 
 REGISTER_SERVICE(Pr31x00Cs0Unbacked);
+
+}

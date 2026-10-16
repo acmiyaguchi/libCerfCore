@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <functional>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 
@@ -43,3 +45,5 @@ private:
     std::function<void(uint32_t)> raise_;
     Request req_[kRequests];
 };
+
+}

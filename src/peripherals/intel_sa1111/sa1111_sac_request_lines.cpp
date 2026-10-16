@@ -9,6 +9,8 @@
 #include "sa1111_sac_rx_fifo.h"
 #include "sa1111_sac_tx_stream.h"
 
+namespace cerfcore {
+
 bool Sa1111SacRequestLines::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     return bd && bd->GetBoardFamilyId() == BoardFamilyId::HpJornada700;
@@ -136,3 +138,5 @@ void Sa1111SacRequestLines::Publish(uint64_t now, const Inputs& in) {
 }
 
 REGISTER_SERVICE(Sa1111SacRequestLines);
+
+}

@@ -11,6 +11,8 @@
 #include <cerfcore/socs/guest_cpu_reset.h>
 #include "../irq_controller.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* Intel 81341/81342 Developer's Manual Table 496 (printed p. 814): TMRx tc
@@ -432,3 +434,5 @@ void Iop13xxTimers::PostRestore() {
 }
 
 REGISTER_SERVICE(Iop13xxTimers);
+
+}

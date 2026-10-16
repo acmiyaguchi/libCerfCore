@@ -23,6 +23,8 @@
 
 #include "vr41xx_piu_regs.h"
 
+namespace cerfcore {
+
 namespace cerf_vr41xx_piu_detail {
 
 
@@ -94,18 +96,8 @@ public:
         std::lock_guard<std::mutex> lk(mtx_);
         AdvanceLocked();
         switch (addr - M.base) {
-            /* D14 PENSTP "previous touch panel contact state" exists only on the VR4102
-               (UM 19.3.1); the VR4121's D15:14 are RFU, "0 is returned after a read"
-               (UM 20.3.1). */
-            case kOffCnt: {
-                uint16_t v = static_cast<uint16_t>((penstc_ ? 0x2000u : 0u) |
-                                                   (static_cast<uint32_t>(state_) << 10) |
-                                                   (cnt_cfg_ & kCntStored));
-                if constexpr (M.has_penstp) {
-                    if (pen_prev_) v |= 0x4000u;
-                }
-                return v;
-            }
+            case kOffCnt:
+                return CntReadValue(M.has_penstp && pen_prev_, penstc_, state_, cnt_cfg_);
             case kOffInt:  return intreg_;
             case kOffSivl: return sivl_;
             case kOffStbl: return stbl_;
@@ -495,3 +487,5 @@ private:
 };
 
 }  /* namespace cerf_vr41xx_piu_detail */
+
+}

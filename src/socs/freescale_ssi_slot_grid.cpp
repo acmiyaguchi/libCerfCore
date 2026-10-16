@@ -7,6 +7,8 @@
 #include <bit>
 #include <string>
 
+namespace cerfcore {
+
 namespace ssi = cerf_freescale_ssi;
 
 bool FreescaleSsiFrameShape::Known() const {
@@ -159,4 +161,6 @@ void FreescaleSsiSlotGrid::Restore(StateReader& r, const char* prefix) {
     r.Read((p + "period").c_str(), shape_.period);
     ticks_.Restore(r, prefix);
     on_ = on != 0u;
+}
+
 }

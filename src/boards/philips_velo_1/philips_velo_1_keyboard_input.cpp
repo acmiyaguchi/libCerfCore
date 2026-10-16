@@ -8,6 +8,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 class PhilipsVelo1KeyboardInput : public KeyboardInput {
@@ -33,3 +35,5 @@ public:
 }  // namespace
 
 REGISTER_SERVICE(PhilipsVelo1KeyboardInput);
+
+}

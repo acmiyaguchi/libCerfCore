@@ -5,6 +5,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* Dilates the rasterizer's accumulated stroke centerline into an outline
    (segment offset-quads unioned per-vertex with the cap/join geometry) and
    coverage-fills it via the rasterizer. Modeled under an isotropic transform:
@@ -23,3 +25,5 @@ public:
                 float xf_c, float xf_d, float exp_scale, uint32_t cap, uint32_t join,
                 float miter_thresh);
 };
+
+}

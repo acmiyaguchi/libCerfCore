@@ -8,6 +8,8 @@
 #include <cstdint>
 #include <memory>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 
@@ -73,3 +75,5 @@ private:
     GuestCycleClock* clock_ = nullptr;
     Pr31x00Intc*     intc_  = nullptr;
 };
+
+}

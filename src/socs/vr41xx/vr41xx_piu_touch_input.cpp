@@ -12,6 +12,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* PADDATA(9:0) is the A/D converter's 10-bit sampling data (VR4111 UM 20.3.9, VR4121 UM
@@ -60,3 +62,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(Vr41xxPiuTouchInput, TouchInput);
+
+}

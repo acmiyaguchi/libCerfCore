@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace cerf_msm8255_hw_revision {
 
 constexpr uint32_t kNumber = 0x270u;
@@ -36,3 +38,5 @@ constexpr bool Read(uint32_t off, uint32_t& value) {
 }
 
 }  // namespace cerf_msm8255_hw_revision
+
+}

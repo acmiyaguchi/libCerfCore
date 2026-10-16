@@ -5,6 +5,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* NFC AXI register window page 1 (RM Table 45-4/45-5): spare buffers + the
@@ -38,3 +40,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(Imx51NfcAxiWindow);
+
+}

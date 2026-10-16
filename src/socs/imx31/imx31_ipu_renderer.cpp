@@ -13,6 +13,8 @@
 
 #include <cstring>
 
+namespace cerfcore {
+
 namespace {
 
 bool IsRgb565(const Imx31Ipu::ChannelFormat& f) {
@@ -101,3 +103,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(Imx31IpuRenderer, PanelFrameRenderer);
+
+}

@@ -2,6 +2,8 @@
 
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 void Ps2Keyboard::WriteCommand(uint8_t cmd) {
     /* Command ACKs/responses are read by polling during driver init; only the
        scancode stream is interrupt-driven, so commands never raise the IRQ. */
@@ -88,4 +90,6 @@ void Ps2Keyboard::Reset() {
 
 void Ps2Keyboard::RaiseData() {
     if (on_data_) on_data_();          /* IRQ raised outside the queue lock */
+}
+
 }

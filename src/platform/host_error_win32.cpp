@@ -6,6 +6,8 @@
 
 #include <cerfcore/platform/wide_text_win32.h>
 
+namespace cerfcore {
+
 namespace host_platform {
 
 uint32_t LastErrorCode() {
@@ -24,6 +26,8 @@ std::string ErrorText(uint32_t code) {
         text.pop_back();
     const std::string code_text = "Windows error " + std::to_string(code);
     return text.empty() ? code_text : WideToUtf8(text) + " (" + code_text + ")";
+}
+
 }
 
 }

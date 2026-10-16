@@ -8,6 +8,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* i.MX51 boot ROM (PA 0x0): the OAL reads the silicon rev at 0x48, MMU off
@@ -54,3 +56,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(Imx51BootRom);
+
+}

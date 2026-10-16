@@ -17,6 +17,8 @@
 #include <system_error>
 #include <thread>
 
+namespace cerfcore {
+
 #if CERF_DEV_MODE
 std::atomic<uint64_t> Log::detail::enabled_mask{Log::MASK_ALL};
 #else
@@ -456,4 +458,6 @@ void Log::Print(Cat cat, const char* fmt, ...) {
             g_flush_giveup.fetch_add(1, std::memory_order_relaxed);
         }
     }
+}
+
 }

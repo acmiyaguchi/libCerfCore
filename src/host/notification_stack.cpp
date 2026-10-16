@@ -5,6 +5,8 @@
 
 #include <algorithm>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(NotificationStack);
 
 void NotificationStack::Show(NotificationId id, NotificationKind kind, std::string text) {
@@ -53,4 +55,6 @@ uint64_t NotificationStack::Snapshot(std::vector<NotificationCard>& out) const {
     std::lock_guard<std::mutex> lk(mtx_);
     out = cards_;
     return gen_.load(std::memory_order_acquire);
+}
+
 }

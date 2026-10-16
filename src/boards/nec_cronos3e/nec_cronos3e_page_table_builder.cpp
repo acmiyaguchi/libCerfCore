@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* DRAM space PA 0x00000000-0x07FFFFFF (VR4121 UM Table 6-6). */
@@ -29,3 +31,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(NecCronos3ePageTableBuilder, PageTableBuilder);
+
+}

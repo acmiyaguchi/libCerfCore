@@ -3,6 +3,8 @@
 #include "../../socs/sa11xx/sa11xx_boot_straps.h"
 #include "pangolin_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* Bundle smartbook_g138_ce4_1, nk.exe memory controller setup: MSC0 0x4B954B90
@@ -22,3 +24,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(PangolinBootStraps, Sa11xxBootStraps);
+
+}

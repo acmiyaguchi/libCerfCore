@@ -8,6 +8,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* PXA270 Developer's Manual chapter 12, USB Client Controller. */
@@ -244,3 +246,5 @@ void Pxa27xUdc::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE(Pxa27xUdc);
+
+}

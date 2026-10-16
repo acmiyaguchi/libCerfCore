@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace siemens_simatic_mp377 {
 
 constexpr uint32_t kErtec400PciSelect = 0x40007000u;
@@ -149,3 +151,5 @@ constexpr uint32_t kErtecBar3WindowEnd = kErtecBar3End;
 constexpr uint32_t kErtecBar3WindowSize = kErtecBar3WindowEnd - kErtecBar3WindowBase;
 
 } /* namespace siemens_mp377 */
+
+}

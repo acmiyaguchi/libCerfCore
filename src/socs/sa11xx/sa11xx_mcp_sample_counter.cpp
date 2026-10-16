@@ -4,6 +4,8 @@
 
 #include <algorithm>
 
+namespace cerfcore {
+
 void Sa11xxMcpSampleCounter::Reset() {
     counting_ = false;
     stop_     = kNever;
@@ -111,4 +113,6 @@ void Sa11xxMcpSampleCounter::Restore(StateReader& r) {
     r.Read("counter_next", next_);
     r.Read("counter_taken", taken_);
     counting_ = counting != 0u;
+}
+
 }

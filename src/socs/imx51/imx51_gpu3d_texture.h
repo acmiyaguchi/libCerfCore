@@ -1,6 +1,9 @@
 #pragma once
 #include <cerfcore/core/service.h>
 #include "imx51_gpu3d_shader.h"
+
+namespace cerfcore {
+
 class Imx51Gpu3dTexture : public Service {
 public:
     using Service::Service;
@@ -10,3 +13,5 @@ public:
         std::array<uint32_t,3> instruction, const Imx51Gpu3dVec4* dx = nullptr, const Imx51Gpu3dVec4* dy = nullptr,
         float register_lod = 0);
 };
+
+}

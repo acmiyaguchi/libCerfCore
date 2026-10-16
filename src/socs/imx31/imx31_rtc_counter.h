@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 
@@ -56,3 +58,5 @@ private:
     uint64_t alarm_total_  = 0;
     uint8_t  sw_           = 0;
 };
+
+}

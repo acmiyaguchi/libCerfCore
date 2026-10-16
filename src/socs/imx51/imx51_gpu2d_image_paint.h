@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* The g12 GRADW image-paint compositor (tiled-rect emitter sub_41C6338C): a rect
    fill whose per-pixel SOURCE is a GRADW texture sample, composited over BASE0 by
    the multi-pass blend program. Reads the command engine's register file. */
@@ -25,3 +27,5 @@ private:
     [[noreturn]] void Halt(const uint32_t (&regs)[0x100], const char* why,
                            uint32_t addr, uint32_t data) const;
 };
+
+}

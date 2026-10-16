@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 
+namespace cerfcore {
+
 /* Builds a FAT32 disk image from a set of host files, placed in the root
    directory. The image is real FAT32 (validated by CE's own FAT driver
    mounting it), sized to the larger of the requested capacity, the file
@@ -24,3 +26,5 @@ public:
                const std::vector<std::string>& files,
                uint32_t data_mb);
 };
+
+}

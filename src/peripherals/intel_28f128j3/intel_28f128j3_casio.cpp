@@ -4,6 +4,8 @@
 #include "../../boards/casio_pocketpostpet/casio_pocketpostpet_family_id.h"
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 namespace {
 
 /* Casio Toricomail ROM: one x16 28F128J3 at PA 0x1F000000 (VR4121 ROMCS, 16 MB).
@@ -28,3 +30,5 @@ protected:
 }  /* namespace */
 
 REGISTER_SERVICE(Intel28F128J3Casio);
+
+}

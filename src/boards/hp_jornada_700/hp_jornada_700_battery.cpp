@@ -6,6 +6,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "hp_jornada_700_family_id.h"
 
+namespace cerfcore {
+
 bool HpJornada700Battery::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     return bd && bd->GetBoardFamilyId() == BoardFamilyId::HpJornada700;
@@ -25,3 +27,5 @@ void HpJornada700Battery::DriveAcPins() {
 }
 
 REGISTER_SERVICE(HpJornada700Battery);
+
+}

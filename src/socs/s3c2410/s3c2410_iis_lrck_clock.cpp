@@ -4,6 +4,8 @@
 
 #include <numeric>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint64_t kMaxScale = 0xFFFFFFFFull;
@@ -107,4 +109,6 @@ void S3C2410IisLrckClock::Restore(StateReader& r, uint64_t now, uint64_t cpu_hz,
         r.Reject("drain phase since %llu rem %llu is not one the drain produces",
                  static_cast<unsigned long long>(restore_since_),
                  static_cast<unsigned long long>(restore_rem_));
+}
+
 }

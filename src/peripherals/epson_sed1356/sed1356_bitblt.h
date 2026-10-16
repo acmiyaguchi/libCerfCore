@@ -4,6 +4,8 @@
 #include <deque>
 #include <vector>
 
+namespace cerfcore {
+
 class Sed1356;
 class StateWriter;
 class StateReader;
@@ -84,3 +86,5 @@ private:
     std::vector<uint16_t> in_fifo_;
     std::deque<uint16_t>  out_fifo_;
 };
+
+}

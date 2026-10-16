@@ -7,6 +7,8 @@
 #include <cstddef>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* The DiskOnChip G3 is the Falcon's CS0 boot device: registry WindowBase=0 and
@@ -29,3 +31,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(AskeyPc3xxDocG3, MsystemsDocG3Base);
+
+}

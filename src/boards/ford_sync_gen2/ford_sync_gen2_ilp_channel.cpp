@@ -10,6 +10,8 @@
 #include <algorithm>
 #include <utility>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(FordSyncGen2IlpChannel);
 
 namespace {
@@ -247,4 +249,6 @@ void FordSyncGen2IlpChannel::RestoreState(StateReader& r) {
         device->restore(r);
     }
     Refresh(true);
+}
+
 }

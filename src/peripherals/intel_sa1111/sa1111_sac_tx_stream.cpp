@@ -10,6 +10,8 @@
 
 #include <algorithm>
 
+namespace cerfcore {
+
 bool Sa1111SacTxStream::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     return bd && bd->GetBoardFamilyId() == BoardFamilyId::HpJornada700;
@@ -381,3 +383,5 @@ void Sa1111SacTxStream::Restore(StateReader& r, uint64_t now) {
 }
 
 REGISTER_SERVICE(Sa1111SacTxStream);
+
+}

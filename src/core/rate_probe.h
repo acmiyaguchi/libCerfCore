@@ -13,6 +13,8 @@
 #include <vector>
 #endif
 
+namespace cerfcore {
+
 class RateProbe : public Service {
 public:
     using Service::Service;
@@ -138,3 +140,5 @@ private:
     uint32_t                           sd_fired_       = 0;
 #endif
 };
+
+}

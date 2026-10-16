@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* The IT8368E sits on chip select 2, PA $1040_0000 (Table 4.2.1, TMPR3911.pdf
@@ -34,3 +36,5 @@ protected:
 }
 
 REGISTER_SERVICE(PhilipsNinoSocketController);
+
+}

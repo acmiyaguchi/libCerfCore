@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* MCIMX31RM Table 2-3: interrupt 52, GPIO1 module. */
@@ -18,3 +20,5 @@ void Imx31Gpio1::DrivePortIrqLine(bool asserted) {
 }
 
 REGISTER_SERVICE(Imx31Gpio1);
+
+}

@@ -8,6 +8,8 @@
 #include <fstream>
 #include <string>
 
+namespace cerfcore {
+
 [[noreturn]] inline void CfgFatal(const std::string& path,
                                   const std::string& msg) {
     LOG(Caution, "FATAL: '%s' %s\n", path.c_str(), msg.c_str());
@@ -94,4 +96,6 @@ inline bool CfgReadOptBool(const nlohmann::json& obj, const char* key,
     if (!v.is_boolean())
         CfgFatal(path, ctx + "." + key + " must be a boolean");
     return v.get<bool>();
+}
+
 }

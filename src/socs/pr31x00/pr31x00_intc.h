@@ -9,6 +9,8 @@
 
 namespace cerfengine { class MipsJit; }
 
+namespace cerfcore {
+
 class Pr31x00IntcTimedSource {
 public:
     virtual void Settle()                = 0;
@@ -98,3 +100,5 @@ private:
     void     UpdateTimedPathsLocked(bool force);
     void RecomputeLocked();
 };
+
+}

@@ -7,6 +7,8 @@
 #include "../../peripherals/peripheral_dispatcher.h"
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 constexpr uint32_t kAtuOutboundBase = 0xFFDCD300u;
 constexpr uint32_t kAtuOutboundSize = 0x00000030u;
@@ -81,3 +83,5 @@ private:
 
 REGISTER_SERVICE(Iop13xxAtuOutbound);
 } // namespace
+
+}

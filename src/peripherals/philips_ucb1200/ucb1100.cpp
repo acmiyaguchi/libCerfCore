@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* NetBSD hpcmips ucb1200reg.h UCB1100_ID 0x1003 (version 3, device 0, supplier 1).
@@ -38,3 +40,5 @@ protected:
 }
 
 REGISTER_SERVICE_AS(Ucb1100, Ucb1x00Codec);
+
+}

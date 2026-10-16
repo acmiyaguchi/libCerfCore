@@ -7,6 +7,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* Linux arch/arm/mach-msm msm_iomap-7x30.h: MSM_ACC_PHYS, MSM_ACC_SIZE. */
@@ -51,3 +53,5 @@ public:
 }
 
 REGISTER_SERVICE(Msm8255Acc);
+
+}

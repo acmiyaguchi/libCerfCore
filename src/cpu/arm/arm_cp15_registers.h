@@ -7,6 +7,8 @@
 #include <cerfengine/arm/arm_mmu_state.h>
 #include <cerfengine/arm/arm_system_host.h>
 
+namespace cerfcore {
+
 class ArmProcessorConfig;
 
 union ArmDfsr {
@@ -119,3 +121,5 @@ private:
     bool     pending_aux_     = false;
     uint32_t pending_aux_value_ = 0;
 };
+
+}

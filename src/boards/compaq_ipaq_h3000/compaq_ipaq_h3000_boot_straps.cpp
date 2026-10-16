@@ -3,6 +3,8 @@
 #include "../../socs/sa11xx/sa11xx_boot_straps.h"
 #include "compaq_ipaq_h3000_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* handhelds.org bootldr 2.18.01: btflash.c btflash_init "flash being 16 bit wide -->
@@ -24,3 +26,5 @@ public:
 }
 
 REGISTER_SERVICE_AS_FALLBACK(CompaqIpaqH3000BootStraps, Sa11xxBootStraps);
+
+}

@@ -10,6 +10,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "casio_tomcat_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kWindowBase = 0x1400E000u;
@@ -130,3 +132,5 @@ void CasioTomcatPcCard::RestoreState(StateReader& r) {
 void CasioTomcatPcCard::PostRestore() { slot0_.PostRestoreSlot(); }
 
 REGISTER_SERVICE(CasioTomcatPcCard);
+
+}

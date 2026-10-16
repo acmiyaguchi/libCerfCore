@@ -4,6 +4,8 @@
 #include "imx31_id.h"
 #include "imx31_wdog_pin.h"
 
+namespace cerfcore {
+
 namespace {
 
 using cerf_freescale_wdog_detail::FreescaleWdogBase;
@@ -128,3 +130,5 @@ private:
 }
 
 REGISTER_SERVICE(Imx31Wdog);
+
+}

@@ -8,6 +8,8 @@
 #include <mutex>
 #include <vector>
 
+namespace cerfcore {
+
 class Omap3530SyscPadconf : public Peripheral {
 public:
     using Peripheral::Peripheral;
@@ -55,3 +57,5 @@ private:
     bool                               devconf_changed_ = false;
     bool                               pads_reset_      = false;
 };
+
+}

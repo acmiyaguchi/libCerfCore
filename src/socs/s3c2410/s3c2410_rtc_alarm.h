@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class S3C2410RtcAlarm {
 public:
     uint32_t rtcalm = 0;
@@ -24,3 +26,5 @@ private:
     uint32_t Mismatch(const S3C2410RtcCalendar& c) const;
     bool     Reachable() const;
 };
+
+}

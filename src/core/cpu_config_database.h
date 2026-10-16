@@ -11,6 +11,8 @@
 #include <string_view>
 #include <vector>
 
+namespace cerfcore {
+
 enum class CpuConfigParamType { Boolean, Integer, Hex, Enum };
 
 struct CpuConfigParam {
@@ -55,3 +57,5 @@ private:
     std::vector<CpuConfigParam> params_;
     std::vector<Preset>         presets_;
 };
+
+}

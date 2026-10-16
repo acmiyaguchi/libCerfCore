@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 struct MipsKsegDram {
     DramRegion region;
     uint32_t   decode_span;
@@ -33,3 +35,5 @@ private:
     DramRegion         rom_;
     const bool         rom_from_entry_xip_;
 };
+
+}

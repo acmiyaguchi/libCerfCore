@@ -16,6 +16,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 using namespace S3C2410TimerRegs;
@@ -387,3 +389,5 @@ void S3C2410Timer::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE(S3C2410Timer);
+
+}

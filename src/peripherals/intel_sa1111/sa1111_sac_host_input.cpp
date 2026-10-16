@@ -8,6 +8,8 @@
 
 #include <cstring>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint16_t kChannels      = 2u;
@@ -45,3 +47,5 @@ void Sa1111SacHostInput::Take(uint8_t* dst, uint32_t words) {
 void Sa1111SacHostInput::Clear() { mic_.Clear(); }
 
 REGISTER_SERVICE(Sa1111SacHostInput);
+
+}

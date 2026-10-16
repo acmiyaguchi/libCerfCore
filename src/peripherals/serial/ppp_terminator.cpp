@@ -11,6 +11,8 @@
 #include <algorithm>
 #include <cstring>
 
+namespace cerfcore {
+
 /* PPP Protocol field hex c021 = Link Control Protocol (RFC 1661), hex 8021
    = IP Control Protocol (RFC 1332). */
 namespace {
@@ -404,4 +406,6 @@ void PppTerminator::BuildGratuitousArp(std::vector<uint8_t>& out) const {
     const uint8_t no_target_mac[kEthMacSize] = {};
     AppendArpFrame(out, gw_mac_.data(), guest_mac_.data(), kArpOperRequest,
                    no_target_mac, kGuestIp);
+}
+
 }

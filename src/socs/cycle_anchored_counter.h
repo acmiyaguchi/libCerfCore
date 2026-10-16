@@ -5,6 +5,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 
@@ -157,3 +159,5 @@ private:
 
 using CycleAnchoredCounter       = BasicCycleAnchoredCounter<ExactCounterUnits>;
 using NarrowCycleAnchoredCounter = BasicCycleAnchoredCounter<NarrowCounterUnits>;
+
+}

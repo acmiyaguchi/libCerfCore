@@ -10,6 +10,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* ISA-MEM system bus: VR4121 UM Table 6-6 p173 and VR4111 UM Table 6-6 p166 both give
@@ -75,3 +77,5 @@ private:
 }
 
 REGISTER_SERVICE(CasioHostLink);
+
+}

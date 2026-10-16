@@ -4,6 +4,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "nec_sg2_vr5500_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* kRelMouseLeft/Right (0x1/0x2) match Ps2Mouse::kButtonLeft/Right, so the button
@@ -25,3 +27,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(NecSg2Vr5500Mouse, RelativeMouseInput);
+
+}

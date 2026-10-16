@@ -9,6 +9,8 @@
 #include <memory>
 #include <mutex>
 
+namespace cerfcore {
+
 class Pr31x00UartDma;
 class StateReader;
 class StateWriter;
@@ -67,3 +69,5 @@ private:
 
     Pr31x00UartDma* dma_ = nullptr;
 };
+
+}

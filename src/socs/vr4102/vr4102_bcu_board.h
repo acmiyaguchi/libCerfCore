@@ -5,9 +5,13 @@
 
 #include <vector>
 
+namespace cerfcore {
+
 class Vr4102BcuBoard : public Service {
 public:
     using Service::Service;
 
     virtual std::vector<Vr41xxBcuBootWrite> KernelEntryWrites() const = 0;
 };
+
+}

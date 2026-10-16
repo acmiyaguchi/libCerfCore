@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* SA-1100 MCP audio transmit DMA: DA[31:8]=0x818002 (MCDR0 port 0x80060008),
@@ -35,3 +37,5 @@ protected:
 }  /* namespace */
 
 REGISTER_SERVICE(HpJornada820AudioPlayer);
+
+}

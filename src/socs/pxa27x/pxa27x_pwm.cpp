@@ -8,6 +8,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* Intel PXA27x Developer's Manual 280000-001 Table 23-5 (page 23-10) "PWM
@@ -97,3 +99,5 @@ public:
 
 REGISTER_SERVICE(Pxa27xPwm02);
 REGISTER_SERVICE(Pxa27xPwm13);
+
+}

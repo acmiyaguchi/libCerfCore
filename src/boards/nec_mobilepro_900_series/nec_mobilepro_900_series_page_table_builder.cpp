@@ -8,6 +8,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t MB(uint32_t mb) { return mb * 0x100000u; }
@@ -132,3 +134,5 @@ std::vector<DramRegion> NecMobilepro900SeriesPageTableBuilder::MappedVaSpans() c
 }  /* namespace */
 
 REGISTER_SERVICE_AS(NecMobilepro900SeriesPageTableBuilder, PageTableBuilder);
+
+}

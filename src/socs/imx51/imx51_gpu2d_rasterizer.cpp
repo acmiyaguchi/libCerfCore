@@ -7,14 +7,16 @@
 #include "imx51_id.h"
 #include <cerfcore/cpu/emulated_memory.h>
 #include <cerfcore/state/state_stream.h>
-#include "imx51_gpu2d_blend.h"
 #include "imx51_gpu2d_gradw_sampler.h"
+#include "imx51_gpu2d_pixel_blend.h"
 #include <cerfcore/lcd/lcd_pixel_expand.h>
 
 #include <algorithm>
 #include <cmath>
 #include <cstdint>
 #include <vector>
+
+namespace cerfcore {
 
 REGISTER_SERVICE(Imx51Gpu2dRasterizer);
 
@@ -23,13 +25,12 @@ bool Imx51Gpu2dRasterizer::ShouldRegister() {
     return bd && bd->GetSocId() == SocId::Imx51;
 }
 
-void Imx51Gpu2dRasterizer::HaltFill(const char* why, float a, float b) const {
-    LOG(Caution, "[GPU2D-RAST] %s (%.4f, %.4f) - not modeled\n", why, a, b);
-    CerfFatalExit(CERF_FATAL_RUNTIME_ERROR);
+void Imx51Gpu2dRasterizer::OnReady() {
+    blend_ = &emu_.Get<Imx51Gpu2dPixelBlend>();
 }
 
-void Imx51Gpu2dRasterizer::HaltBlend(const char* why, uint32_t prog) const {
-    LOG(Caution, "[GPU2D-RAST] %s prog=0x%08X - not modeled\n", why, prog);
+void Imx51Gpu2dRasterizer::HaltFill(const char* why, float a, float b) const {
+    LOG(Caution, "[GPU2D-RAST] %s (%.4f, %.4f) - not modeled\n", why, a, b);
     CerfFatalExit(CERF_FATAL_RUNTIME_ERROR);
 }
 
@@ -44,82 +45,6 @@ void Imx51Gpu2dRasterizer::LineTo(float x, float y) {
     if (starts_.empty()) HaltFill("LINETO before any MOVETO", x, y);
     pts_.push_back(x);
     pts_.push_back(y);
-}
-
-using namespace imx51_g2d_blend;
-
-bool Imx51Gpu2dRasterizer::BlendProgRefsDest(uint32_t prog) {
-    for (uint32_t i = 0; i < 4u; ++i)
-        if (!Const(prog, i) && Src(prog, i) == kSrcDest) return true;
-    return false;
-}
-
-/* Per-path gate on a single blend micro-op: ADD over constants or ZERO/SOURCE/DEST
-   selectors with the single-pass TEMP0 output is modeled; every other decoded
-   field value halts. */
-void Imx51Gpu2dRasterizer::ValidateBlendProg(uint32_t prog) const {
-    if (Operation(prog) != 0u)  /* G2D_BLENDOP_ADD (vgenums_z160.h:181-186) */
-        HaltBlend("blend OPERATION SUB/MIN/MAX", prog);
-    if (Dst(prog, 0) != 1u || Dst(prog, 1) != 0u || Dst(prog, 2) != 0u)
-        HaltBlend("blend multi-TEMP routing", prog);
-    for (uint32_t i = 0; i < 4u; ++i) {
-        if (!Const(prog, i) && Src(prog, i) > kSrcDest)  /* IMAGE/TEMP0-2 */
-            HaltBlend("blend IMAGE/TEMP operand", prog);
-    }
-}
-
-/* out = (opA*opB) + (opC*opD) per channel; operand = SRC selector value with
-   optional alpha-replicate (AR) and inversion (INV = 1-x). Form verified against
-   the shipped encoder programs: g2d_BlendSrc_over (sub_41C92FAC) assembles
-   C0 = SOURCE*1 + DEST*(1-SOURCE.a) = premultiplied source-over. */
-uint32_t Imx51Gpu2dRasterizer::BlendPixel(const Gpu2dFillTarget& t, uint32_t src,
-                                          uint32_t dst, float cov) const {
-    /* SOURCE = "Paint with coverage alpha applied" (vgenums_z160.h:197): the
-       premultiplied paint scaled by the pixel's box-filter path coverage
-       before the ALU (the HW edge resolution is VGSPAN.COVERAGE[4] 1/16
-       steps; exact area here). */
-    if (cov < 1.0f) {
-        auto cv = [cov](uint32_t ch) {
-            return static_cast<uint32_t>(static_cast<float>(ch) * cov + 0.5f);
-        };
-        src = (cv(src >> 24) << 24) | (cv((src >> 16) & 0xFFu) << 16)
-            | (cv((src >> 8) & 0xFFu) << 8) | cv(src & 0xFFu);
-    }
-    if (t.premult_dst)  /* straight-alpha dest: premultiply the DEST operand */
-        dst = PremultArgb(dst);
-    const uint32_t inputs[] = {0u, src, dst};
-    auto chan = [&](uint32_t prog, uint32_t shift) -> uint32_t {
-        auto operand = [&](uint32_t i) -> uint32_t {
-            return Operand(prog, i, shift, inputs, t.blend_const);
-        };
-        const uint32_t sum = Mul(operand(0), operand(1)) + Mul(operand(2), operand(3));
-        return std::min(sum, 255u);
-    };
-    uint32_t a, r, g, b;
-    if (t.color_transform) {
-        const uint32_t alpha[] = {t.prog_a, t.prog_a1}, color[] = {t.prog_c, t.prog_c1};
-        const uint32_t out = AddProgram(alpha, 2u, color, 2u, t.blend_const, src, dst);
-        a = out >> 24;
-        r = (out >> 16) & 0xFFu;
-        g = (out >> 8) & 0xFFu;
-        b = out & 0xFFu;
-    } else {
-        a = chan(t.prog_a, 24u);
-        r = chan(t.prog_c, 16u);
-        g = chan(t.prog_c, 8u);
-        b = chan(t.prog_c, 0u);
-    }
-    if (t.oo_alpha && a != 255u) {  /* one-over-alpha: un-premultiply the result */
-        if (a == 0u) {
-            if (r | g | b)
-                HaltBlend("OOALPHA divide on zero-alpha nonzero color", t.prog_c);
-        } else {
-            r = UnpremultChannel(r, a);
-            g = UnpremultChannel(g, a);
-            b = UnpremultChannel(b, a);
-        }
-    }
-    return (a << 24) | (r << 16) | (g << 8) | b;
 }
 
 /* gpuaddr==physical (GPU MMU disabled); row byte stride = stride_dw 4-byte words,
@@ -172,7 +97,8 @@ void Imx51Gpu2dRasterizer::FillRow(const Gpu2dFillTarget& t, int32_t y, int32_t 
     if (x0 > x1) return;
     for (int32_t x = x0; x <= x1; ++x) {
         if (per_pixel)
-            StoreDest(t, x, y, BlendPixel(t, PaintSrc(t, samp, x, y), LoadDest(t, x, y), 1.0f));
+            StoreDest(t, x, y,
+                      blend_->BlendPixel(t, PaintSrc(t, samp, x, y), LoadDest(t, x, y), 1.0f));
         else
             StoreDest(t, x, y, const_px);
     }
@@ -211,11 +137,12 @@ void Imx51Gpu2dRasterizer::Flush(const Gpu2dFillTarget& t) {
     bool     per_pixel = t.paint != nullptr;
     if (t.blend) {
         if (!t.color_transform) {
-            ValidateBlendProg(t.prog_a);
-            ValidateBlendProg(t.prog_c);
+            blend_->ValidateBlendProg(t.prog_a);
+            blend_->ValidateBlendProg(t.prog_c);
         }
-        per_pixel = per_pixel || t.color_transform || BlendProgRefsDest(t.prog_a) || BlendProgRefsDest(t.prog_c);
-        if (!per_pixel) const_px = BlendPixel(t, t.argb, 0u, 1.0f);
+        per_pixel = per_pixel || t.color_transform || blend_->BlendProgRefsDest(t.prog_a) ||
+                    blend_->BlendProgRefsDest(t.prog_c);
+        if (!per_pixel) const_px = blend_->BlendPixel(t, t.argb, 0u, 1.0f);
     }
 
     if (has_diagonal) {  /* general-edge path: one contour per subpath, implicitly closed */
@@ -375,14 +302,16 @@ void Imx51Gpu2dRasterizer::FlushCoverage(const Gpu2dFillTarget& t,
             const int32_t x = t.clip_l + ix;
             if (c >= 1.0f - 1.0f / 512.0f) {
                 if (per_pixel)
-                    StoreDest(t, x, y, BlendPixel(t, PaintSrc(t, samp, x, y), LoadDest(t, x, y), 1.0f));
+                    StoreDest(t, x, y, blend_->BlendPixel(t, PaintSrc(t, samp, x, y),
+                                                          LoadDest(t, x, y), 1.0f));
                 else
                     StoreDest(t, x, y, const_px);
                 continue;
             }
             if (!t.blend)  /* partial coverage composes only through the blender */
                 HaltFill("partial coverage with blender disabled", c, static_cast<float>(x));
-            StoreDest(t, x, y, BlendPixel(t, PaintSrc(t, samp, x, y), LoadDest(t, x, y), c));
+            StoreDest(t, x, y,
+                      blend_->BlendPixel(t, PaintSrc(t, samp, x, y), LoadDest(t, x, y), c));
         }
     }
 }
@@ -455,14 +384,16 @@ void Imx51Gpu2dRasterizer::FillContours(const Gpu2dFillTarget& t,
             const int32_t x = t.clip_l + ix;
             if (c >= 1.0f - 1.0f / 512.0f) {
                 if (per_pixel)
-                    StoreDest(t, x, y, BlendPixel(t, PaintSrc(t, samp, x, y), LoadDest(t, x, y), 1.0f));
+                    StoreDest(t, x, y, blend_->BlendPixel(t, PaintSrc(t, samp, x, y),
+                                                          LoadDest(t, x, y), 1.0f));
                 else
                     StoreDest(t, x, y, const_px);
                 continue;
             }
             if (!t.blend)
                 HaltFill("stroke partial coverage with blender disabled", c, static_cast<float>(x));
-            StoreDest(t, x, y, BlendPixel(t, PaintSrc(t, samp, x, y), LoadDest(t, x, y), c));
+            StoreDest(t, x, y,
+                      blend_->BlendPixel(t, PaintSrc(t, samp, x, y), LoadDest(t, x, y), c));
         }
     }
 }
@@ -496,4 +427,6 @@ void Imx51Gpu2dRasterizer::RestoreState(StateReader& r) {
     for (uint32_t i = 0; i < ns; ++i) r.Read("starts", starts_[i]);
     closed_.resize(ns);
     for (uint32_t i = 0; i < ns; ++i) r.Read("closed", closed_[i]);
+}
+
 }

@@ -4,9 +4,13 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Pr31x00ClockCrystal : public Service {
 public:
     using Service::Service;
 
     virtual uint64_t FinHz() const = 0;
 };
+
+}

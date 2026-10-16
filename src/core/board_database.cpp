@@ -7,6 +7,8 @@
 
 #include <nlohmann/json.hpp>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(BoardDatabase);
 
 namespace {
@@ -161,4 +163,6 @@ const DbSocFamily& BoardDatabase::SocFamily(std::string_view id) const {
         if (f.id == id) return f;
     CfgFatal(DbJsonPath(),
              "soc family '" + std::string(id) + "' is not in soc_families[]");
+}
+
 }

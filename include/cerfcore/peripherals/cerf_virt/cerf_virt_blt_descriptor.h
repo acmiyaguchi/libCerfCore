@@ -10,6 +10,7 @@ typedef unsigned char  uint8_t;
 #endif
 
 #if defined(__cplusplus)
+namespace cerfcore {
 namespace CerfVirt {
 #endif
 
@@ -97,5 +98,6 @@ typedef struct CerfBltDescriptor {
 } CerfBltDescriptor;
 
 #if defined(__cplusplus)
+}
 }
 #endif

@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 class Msm8255RpcServer;
 
 class Msm8255RpcServerRegistry : public Service {
@@ -20,3 +22,5 @@ public:
 private:
     std::vector<Msm8255RpcServer*> servers_;
 };
+
+}

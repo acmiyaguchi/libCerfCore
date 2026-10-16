@@ -5,6 +5,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "casio_jx670_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* GIUPIODL D9/D10/D11 = GPIO9/10/11 (VR4131 UM U15350EJ2V0UM 14.2.3). nk_main_kernel.exe
@@ -30,3 +32,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE(CasioJx670PowerGpio);
+
+}

@@ -7,6 +7,8 @@
 #include "../pxa255/pxa255_id.h"
 #include "../pxa27x/pxa270_id.h"
 
+namespace cerfcore {
+
 REGISTER_SERVICE(Pxa2xxAc97Interrupt);
 
 namespace {
@@ -67,4 +69,6 @@ void Pxa2xxAc97Interrupt::PostRestore() {
     line_ = false;
     intc_->DeAssertIrq(kIntcAc97);
     Refresh();
+}
+
 }

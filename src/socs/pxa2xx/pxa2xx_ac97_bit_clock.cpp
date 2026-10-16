@@ -7,6 +7,8 @@
 #include "../pxa255/pxa255_id.h"
 #include "../pxa27x/pxa270_id.h"
 
+namespace cerfcore {
+
 REGISTER_SERVICE(Pxa2xxAc97BitClock);
 
 bool Pxa2xxAc97BitClock::ShouldRegister() {
@@ -90,4 +92,6 @@ void Pxa2xxAc97BitClock::Restore(StateReader& r) {
     codec_bitclk_ = bitclk != 0u;
     unit_clock_   = unit != 0u;
     internal_     = internal != 0u;
+}
+
 }

@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 
@@ -39,3 +41,5 @@ public:
     virtual uint32_t IoRead(uint32_t /*pci_io*/, unsigned /*size*/) { return 0xFFFFFFFFu; }
     virtual void     IoWrite(uint32_t /*pci_io*/, uint32_t /*value*/, unsigned /*size*/) {}
 };
+
+}

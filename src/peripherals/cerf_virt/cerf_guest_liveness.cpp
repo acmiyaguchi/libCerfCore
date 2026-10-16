@@ -8,6 +8,8 @@
 #include <cerfcore/socs/guest_cpu_reset.h>
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(CerfGuestLiveness);
 
 bool CerfGuestLiveness::ShouldRegister() {
@@ -45,4 +47,6 @@ void CerfGuestLiveness::Clear() {
         "the stock sources until the driver body is fetched again\n");
     emu_.Get<KeyboardRouter>().RearmAutoSelect();
     emu_.Get<PointerRouter>().RearmAutoSelect();
+}
+
 }

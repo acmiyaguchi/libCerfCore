@@ -5,6 +5,8 @@
 #include "vr5500_board_clock.h"
 #include "vr5500_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint64_t kPClockPerCountTick = 2u;
@@ -27,3 +29,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(Vr5500CoreClock, MipsCoreClock);
+
+}

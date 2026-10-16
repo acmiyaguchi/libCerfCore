@@ -10,6 +10,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 class Sa11xxDmaAudioPlayer : public Service, public Sa11xxDmaTransmitObserver {
 public:
     using Service::Service;
@@ -38,3 +40,5 @@ private:
     uint32_t             rate_   = 0;
     bool                 active_ = false;
 };
+
+}

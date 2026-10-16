@@ -9,6 +9,8 @@
 #include <cerfcore/state/state_stream.h>
 #include "hp_jornada_820_pcmcia.h"
 
+namespace cerfcore {
+
 namespace {
 /* GlidePad IRQ = SA-1100 GPIO14: runtime-proven the only edge GPIO whose pulse
    wakes glidepad.dll's InterruptInitialize(29) thread sub_12B1EFC. Other values
@@ -108,3 +110,5 @@ void HpJornada820CompanionAsic::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE(HpJornada820CompanionAsic);
+
+}

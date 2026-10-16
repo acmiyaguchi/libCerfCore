@@ -14,6 +14,8 @@
 #include <mutex>
 #include <string>
 
+namespace cerfcore {
+
 namespace cerf_vr41xx_dsiu_detail {
 
 /* VR4121 UM Table 23-1 == VR4102 UM Table 22-1. */
@@ -217,3 +219,5 @@ private:
 };
 
 }  /* namespace cerf_vr41xx_dsiu_detail */
+
+}

@@ -16,6 +16,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace cerf_imx51_ssi_detail {
 
 constexpr uint32_t kSize = 0x00004000u;   /* AIPS slot, MCIMX51RM Table 2-1 */
@@ -123,5 +125,7 @@ private:
     bool                    clocked_       = true;
     bool                    ssi_clk_on_    = true;
 };
+
+}
 
 }

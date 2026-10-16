@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 struct Omap3530DpllFreqSelBand {
     uint32_t sel;
     uint64_t lo_hz;
@@ -43,4 +45,6 @@ inline const char* Omap3530DpllClkoutX2(uint64_t fref_hz, uint32_t en, uint32_t 
     num = fref_hz * 2u * m;
     den = n + 1u;
     return nullptr;
+}
+
 }

@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <functional>
 
+namespace cerfcore {
+
 class GuestCpuReset;
 class Sa11xxExternalClocks;
 class StateReader;
@@ -54,3 +56,5 @@ private:
     bool     started_ = false;
     bool     clocked_ = false;
 };
+
+}

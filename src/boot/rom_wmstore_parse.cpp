@@ -6,6 +6,8 @@
 #include <cstring>
 #include <string>
 
+namespace cerfcore {
+
 namespace cerf::rom_image_parse {
 
 namespace {
@@ -167,3 +169,5 @@ bool EscoEraseRange(std::span<const uint8_t> raw, EscoRange& out) {
 }
 
 }  /* namespace cerf::rom_image_parse */
+
+}

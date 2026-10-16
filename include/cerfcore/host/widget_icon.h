@@ -4,6 +4,8 @@
 #include <string>
 #include <variant>
 
+namespace cerfcore {
+
 struct WidgetRgb {
     uint8_t r = 0;
     uint8_t g = 0;
@@ -50,3 +52,5 @@ struct FolderIcon {
 
 using WidgetIcon = std::variant<ResourceIcon, ChipIcon, HardDiskIcon, LedIcon, LedGridIcon,
                                 PowerInputIcon, BatteryIcon, FolderIcon>;
+
+}

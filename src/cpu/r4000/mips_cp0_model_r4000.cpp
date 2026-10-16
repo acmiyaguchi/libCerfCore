@@ -14,6 +14,8 @@
 #include "../mips/mips_cp0_ops.h"
 #include "../mips_processor_config.h"
 
+namespace cerfcore {
+
 namespace {
 
 int32_t RegOffset(uint32_t rd) {
@@ -99,3 +101,5 @@ private:
 }
 
 REGISTER_SERVICE_AS(MipsCp0ModelR4000, MipsCp0Model);
+
+}

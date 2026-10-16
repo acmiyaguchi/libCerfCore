@@ -3,6 +3,8 @@
 #include <cerfcore/core/service.h>
 #include "../../host/battery_widget.h"
 
+namespace cerfcore {
+
 class PhilipsVelo1Battery : public Service {
 public:
     explicit PhilipsVelo1Battery(CerfEmulator& e) : Service(e) {}
@@ -14,3 +16,5 @@ public:
 private:
     BatteryWidget battery_;
 };
+
+}

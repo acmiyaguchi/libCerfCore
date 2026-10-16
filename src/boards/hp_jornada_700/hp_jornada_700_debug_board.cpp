@@ -6,6 +6,8 @@
 #include "hp_jornada_700_family_id.h"
 #include "../../peripherals/peripheral_dispatcher.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* Absent Jornada 720 debug board (CL-CD1284) at PA 0x1A000000: reads
@@ -51,3 +53,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(HpJornada700DebugBoard);
+
+}

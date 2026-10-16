@@ -11,6 +11,8 @@
 #include <array>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace cerf_imx51_ipu_mem_detail {
 
 /* i.MX51 IPUv3EX internal-memory windows (MCIMX51RM Ch 42 Table 42-1): 128 KB
@@ -66,3 +68,5 @@ protected:
 };
 
 }  /* namespace cerf_imx51_ipu_mem_detail */
+
+}

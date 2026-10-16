@@ -4,6 +4,8 @@
 #include "omap3530_board_clock_setup.h"
 #include "omap3530_cm_clock_control.h"
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kOffClkselCore = 0x40u;
@@ -127,3 +129,5 @@ GuestCycleClock::Rate Omap3530CmCore::L4Iclk() const {
 }
 
 REGISTER_SERVICE(Omap3530CmCore);
+
+}

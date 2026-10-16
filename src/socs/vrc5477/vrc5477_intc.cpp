@@ -10,6 +10,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 enum : uint32_t {
     kINTCTRL0 = 0x00, kINTCTRL1 = 0x04, kINTCTRL2 = 0x08, kINTCTRL3 = 0x0C,
@@ -134,4 +136,6 @@ void Vrc5477Intc::RestoreState(StateReader& r) {
 void Vrc5477Intc::Renotify() {
     std::lock_guard<std::mutex> lk(state_mtx_);
     NotifyLocked();
+}
+
 }

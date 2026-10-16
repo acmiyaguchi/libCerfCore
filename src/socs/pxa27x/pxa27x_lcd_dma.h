@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 
@@ -58,3 +60,5 @@ private:
     uint32_t ldcmd_[kChannels] = {};
     uint32_t fbr_  [kChannels] = {};
 };
+
+}

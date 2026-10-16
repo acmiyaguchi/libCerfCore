@@ -15,6 +15,8 @@
 #include <array>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* i.MX51 NAND mask-ROM boot: the position-independent first-stage stub runs in
@@ -112,3 +114,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(Imx51NandBootloaderBoot, BootMode);
+
+}

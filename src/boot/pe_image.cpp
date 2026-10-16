@@ -5,6 +5,8 @@
 
 #include <cstring>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint16_t kDosMagic       = 0x5A4D;       /* 'MZ' */
@@ -128,4 +130,6 @@ uint32_t PeImage::RvaToFileOff(uint32_t rva) const {
     if (i < 0) return kNoFileOff;
     const Section& s = sections_[size_t(i)];
     return s.pe_file_off + (rva - s.rva);
+}
+
 }

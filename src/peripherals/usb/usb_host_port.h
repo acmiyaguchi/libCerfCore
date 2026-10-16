@@ -6,6 +6,8 @@
 #include <memory>
 #include <functional>
 
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 
@@ -40,3 +42,5 @@ private:
     Factory                   factory_;
     bool                      requires_device_ = false;
 };
+
+}

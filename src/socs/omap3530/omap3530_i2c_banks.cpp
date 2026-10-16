@@ -4,6 +4,8 @@
 #include "../../peripherals/ti_tps65950/twl4030.h"
 #include "omap3530_sdma.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* I2C1 - talks to the TWL4030 PMIC. Dispatch hooks routed to the
@@ -92,3 +94,5 @@ public:
 REGISTER_SERVICE(Omap3530I2c1);
 REGISTER_SERVICE(Omap3530I2c2);
 REGISTER_SERVICE(Omap3530I2c3);
+
+}

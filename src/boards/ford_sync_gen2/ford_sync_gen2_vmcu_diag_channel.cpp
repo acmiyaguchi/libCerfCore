@@ -9,6 +9,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 bool FordSyncGen2VmcuDiagChannel::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     return bd && bd->GetBoardFamilyId() == BoardFamilyId::FordSyncGen2;
@@ -81,3 +83,5 @@ void FordSyncGen2VmcuDiagChannel::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE(FordSyncGen2VmcuDiagChannel);
+
+}

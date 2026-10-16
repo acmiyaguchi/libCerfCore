@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class UsbDeviceHost;
 
 class Imx51UsbDeviceTransfers : public Service {
@@ -24,3 +26,5 @@ private:
 
     UsbDeviceHost* host_ = nullptr;
 };
+
+}

@@ -6,6 +6,8 @@
 #include <cstdint>
 #include <deque>
 
+namespace cerfcore {
+
 class Pr31x00SibCodec;
 
 class Pr31x00SibCapture : public Service {
@@ -30,3 +32,5 @@ private:
     std::deque<uint32_t> ahead_;
     uint64_t             ahead_tick_ = 0;
 };
+
+}

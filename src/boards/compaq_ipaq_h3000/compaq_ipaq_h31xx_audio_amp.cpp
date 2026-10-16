@@ -9,6 +9,8 @@
 #include <atomic>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* GPIO_H3100_AUD_ON = GPIO 6: Linux v2.6.14 include/asm-arm/arch-sa1100/
@@ -45,3 +47,5 @@ private:
 }
 
 REGISTER_SERVICE_AS(CompaqIpaqH31xxAudioAmp, CompaqIpaqH3000AudioAmp);
+
+}

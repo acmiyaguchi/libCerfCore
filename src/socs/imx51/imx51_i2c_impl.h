@@ -14,6 +14,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace cerf_imx51_i2c_detail {
 
 /* i.MX51 I2C controller - Freescale I2C v1 (register offsets + bit semantics:
@@ -188,3 +190,5 @@ private:
 };
 
 }  /* namespace cerf_imx51_i2c_detail */
+
+}

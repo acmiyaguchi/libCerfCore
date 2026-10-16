@@ -3,6 +3,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 class PeImage;
 
 namespace cerf::ce_image_relocator {
@@ -17,5 +19,7 @@ void ApplyRelocations(std::vector<uint8_t>&         bytes,
                       int32_t                       code_delta,
                       uint32_t&                     out_patched,
                       uint32_t&                     out_unhandled);
+
+}
 
 }

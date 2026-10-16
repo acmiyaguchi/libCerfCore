@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class FreescaleSsiExternalClock : public Service {
 public:
     using Service::Service;
@@ -15,3 +17,5 @@ public:
 
     FreescaleSsiFrameShape Shape(uint32_t ssi) const;
 };
+
+}

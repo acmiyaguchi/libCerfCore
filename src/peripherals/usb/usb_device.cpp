@@ -6,6 +6,8 @@
 #include <algorithm>
 #include <cstring>
 
+namespace cerfcore {
+
 namespace {
 
 /* USB 2.0 Spec Figure 9-4 (p254): D0 Self Powered, D1 Remote Wakeup. */
@@ -160,4 +162,6 @@ void UsbDevice::RestoreState(StateReader& r) {
     UsbState::ReadBuffer(r, "control_reply_size", "control_reply", control_reply_, 65535);
     r.Read("control_reply_offset", control_reply_offset_);
     UsbState::Require(r, control_reply_offset_ <= control_reply_.size(), "invalid control reply");
+}
+
 }

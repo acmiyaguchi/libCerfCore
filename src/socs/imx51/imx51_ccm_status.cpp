@@ -8,6 +8,8 @@
 #include "imx51_gpio1.h"
 #include "imx51_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* MCIMX51RM Table 7-6 CCR. */
@@ -218,4 +220,6 @@ void Imx51CcmStatus::RestoreState(StateReader& r) {
 void Imx51CcmStatus::PostRestore() {
     std::lock_guard<std::mutex> lk(mu_);
     DriveLocked();
+}
+
 }

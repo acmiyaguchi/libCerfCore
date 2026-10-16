@@ -10,8 +10,10 @@
 #include <vector>
 
 struct Slirp;
-struct SlirpCb;      /* libslirp callback vtable; heap-allocated so the
-                        pointer libslirp stores stays valid for our lifetime */
+struct SlirpCb;
+
+namespace cerfcore {
+
 struct SlirpTimer;
 
 class SlirpBackend : public NetworkBackend {
@@ -76,3 +78,5 @@ private:
     std::mutex timers_mutex_;
     std::vector<std::unique_ptr<SlirpTimer>> timers_;
 };
+
+}

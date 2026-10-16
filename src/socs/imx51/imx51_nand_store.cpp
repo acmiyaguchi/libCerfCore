@@ -14,6 +14,8 @@
 #include <array>
 #include <cstring>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(Imx51NandStore);
 
 std::string Imx51NandStore::ImagePath() const {
@@ -181,4 +183,6 @@ void Imx51NandStore::SetReadOverlayPage(uint64_t page_index, const uint8_t* main
         buf[kMainBytes + 0x183u] = static_cast<uint8_t>(new_ck & 0xFF);
         buf[kMainBytes + 0x1C2u] = static_cast<uint8_t>((new_ck >> 8) & 0xFF);
     }
+}
+
 }

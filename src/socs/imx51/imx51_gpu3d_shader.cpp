@@ -10,6 +10,8 @@
 #include <cmath>
 #include <limits>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(Imx51Gpu3dShader);
 bool Imx51Gpu3dShader::ShouldRegister() {
     auto* board = emu_.TryGet<BoardContext>();
@@ -398,4 +400,6 @@ void Imx51Gpu3dShader::Fetch(std::array<uint32_t, 3> w,
         else if (swizzle == 4u || swizzle == 5u) dest[i] = swizzle == 5u ? 1.0f : 0.0f;
         else if (swizzle != 7u) Reject("fetch destination swizzle", swizzle);
     }
+}
+
 }

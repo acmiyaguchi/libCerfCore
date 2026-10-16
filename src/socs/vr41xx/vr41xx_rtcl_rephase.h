@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <optional>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 
@@ -42,3 +44,5 @@ private:
     uint64_t pending_grid_[2]  = {0u, 0u};
     uint64_t banked_period_[2] = {kNoPeriod, kNoPeriod};
 };
+
+}

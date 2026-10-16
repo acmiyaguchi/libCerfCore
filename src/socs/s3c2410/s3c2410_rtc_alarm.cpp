@@ -1,5 +1,7 @@
 #include "s3c2410_rtc_alarm.h"
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kAlmEn   = 1u << 6;
@@ -76,4 +78,6 @@ void S3C2410RtcAlarm::Reset() {
     date   = 0x01u;
     mon    = 0x01u;
     year   = 0;
+}
+
 }

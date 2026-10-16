@@ -9,6 +9,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kOffMpllCon = 0x04u;
@@ -47,3 +49,5 @@ private:
 }
 
 REGISTER_SERVICE(S3C2410PreKernelClockSetup);
+
+}

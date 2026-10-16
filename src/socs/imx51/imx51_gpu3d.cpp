@@ -19,6 +19,8 @@
 #include <cstring>
 #include <unordered_map>
 
+namespace cerfcore {
+
 namespace {
 
 using namespace imx51_gpu3d_regs;
@@ -450,3 +452,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(Imx51Gpu3d);
+
+}

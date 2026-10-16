@@ -8,6 +8,8 @@
 #include <algorithm>
 #include <cstring>
 
+namespace cerfcore {
+
 namespace cerf::ce_imgfs_walker {
 
 namespace {
@@ -260,6 +262,8 @@ std::vector<ImgfsModule> CollectModules(std::span<const uint8_t> raw,
         i = j;
     }
     return mods;
+}
+
 }
 
 }

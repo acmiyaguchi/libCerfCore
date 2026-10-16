@@ -9,6 +9,8 @@
 #include "sa1110_id.h"
 #include "sa11xx_gpio.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* SA-1110 Developer's Manual App. D.1: TUCR bit 10 MR. SA-1100 TRM §10.8 (printed 10-31): "Test
@@ -117,3 +119,5 @@ void Sa11xxTestUnit::Restore(StateReader& r) {
 }
 
 REGISTER_SERVICE(Sa11xxTestUnit);
+
+}

@@ -12,6 +12,8 @@
 #include <vector>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* i.MX51 IPUv3EX display controller (MCIMX51RM Ch 42). Register region = IPU base
@@ -114,3 +116,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(Imx51Ipu);
+
+}

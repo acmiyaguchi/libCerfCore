@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 
+namespace cerfcore {
+
 class GuestAdditionsWidget : public Service, public HostWidget {
 public:
     using Service::Service;
@@ -27,3 +29,5 @@ private:
 
     bool last_drawn_on_ = false;
 };
+
+}

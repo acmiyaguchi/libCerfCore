@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* NEC VR41xx ICU. Level-2 xxxINTREG & MxxxINTREG collapse into one SYSINT1/2REG bit;
    SYSINTnREG & MSYSINTnREG drives Int0..Int3 / NMI (VR4121 UM 15.1, VR4102 UM 14.1).
    Two MMIO windows, 0x0B000080 and 0x0B000200 (VR4121 UM Table 15-1, VR4102 UM
@@ -26,3 +28,5 @@ public:
     virtual void SetKiuSource(uint16_t bits) = 0;
     virtual void SetDsiuSource(uint16_t bits) = 0;
 };
+
+}

@@ -13,6 +13,8 @@
 #include <cerfcore/state/state_stream.h>
 #include <cerfcore/socs/guest_cpu_reset.h>
 
+namespace cerfcore {
+
 namespace {
 
 /* IPU_CONF enables, MCIMX31RM Fig 44-8 / Table 44-17. SDC_EN bit 4, DI_EN bit 6.
@@ -465,3 +467,5 @@ void Imx31Ipu::PostRestore() {
 }
 
 REGISTER_SERVICE(Imx31Ipu);
+
+}

@@ -10,6 +10,8 @@
 
 #include <utility>
 
+namespace cerfcore {
+
 bool Pr31x00UartModemLines::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     if (!bd) return false;
@@ -122,3 +124,5 @@ void Pr31x00UartModemLines::RestoreState(uint32_t port, StateReader& r) {
 }
 
 REGISTER_SERVICE(Pr31x00UartModemLines);
+
+}

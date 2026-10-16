@@ -11,6 +11,8 @@
 #include <algorithm>
 #include <iterator>
 
+namespace cerfcore {
+
 namespace {
 
 /* SA-1111 GPIO A/B/C (Dev Man Table 10-7, base 0x40001000), 8-bit
@@ -123,3 +125,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(Sa1111Gpio);
+
+}

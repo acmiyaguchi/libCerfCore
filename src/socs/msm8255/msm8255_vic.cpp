@@ -15,6 +15,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 namespace {
 
 /* Linux arch/arm/mach-msm msm_iomap-7x30.h:
@@ -415,3 +417,5 @@ private:
 
 REGISTER_SERVICE_AS(Msm8255Vic, IrqController);
 REGISTER_SERVICE   (Msm8255VicMmio);
+
+}

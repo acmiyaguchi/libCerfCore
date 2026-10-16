@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class CerfVirtNicStage : public Service {
 public:
     using Service::Service;
@@ -19,3 +21,5 @@ public:
 private:
     uint8_t* base_ = nullptr;
 };
+
+}

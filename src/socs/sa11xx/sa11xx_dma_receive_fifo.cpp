@@ -13,6 +13,8 @@
 
 #include <vector>
 
+namespace cerfcore {
+
 bool Sa11xxDmaReceiveFifo::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     return bd && (bd->GetSocId() == SocId::Sa1110 || bd->GetSocId() == SocId::Sa1100);
@@ -178,4 +180,6 @@ void Sa11xxDmaReceiveFifo::Restore(StateReader& r) {
     overrun_ = overrun != 0u;
     fifo_.Restore(free, moved);
     fifo_.SetSupply(0u);
+}
+
 }

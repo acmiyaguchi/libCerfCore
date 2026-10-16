@@ -10,6 +10,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kBspArgsPa            = 0x30020000u;
@@ -59,3 +61,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(SamsungSmdk2410BspArgs);
+
+}

@@ -5,6 +5,10 @@
 
 #include <typeinfo>
 
+namespace cerfcore {
+
 DramRegion PageTableBuilder::EntryXipRomRegion() const {
     emu_.Get<Fatal>().Die("%s declares no entry-XIP ROM region", typeid(*this).name());
+}
+
 }

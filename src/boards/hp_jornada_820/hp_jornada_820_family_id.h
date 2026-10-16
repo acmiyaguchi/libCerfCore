@@ -2,8 +2,12 @@
 
 #include <string_view>
 
+namespace cerfcore {
+
 namespace BoardFamilyId {
 
 inline constexpr std::string_view HpJornada820 = "hp_jornada_820";
+
+}
 
 }

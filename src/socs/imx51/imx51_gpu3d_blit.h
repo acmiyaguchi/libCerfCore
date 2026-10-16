@@ -3,6 +3,8 @@
 #include <cstdint>
 #include <unordered_map>
 
+namespace cerfcore {
+
 class Imx51Gpu3dBlit : public Service {
 public:
     using Service::Service;
@@ -15,3 +17,5 @@ private:
     static float AsFloat(uint32_t value);
     [[noreturn]] void HaltUnsupportedAccess(const char* op, uint32_t address, uint64_t value) const;
 };
+
+}

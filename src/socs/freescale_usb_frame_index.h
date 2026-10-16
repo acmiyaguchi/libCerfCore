@@ -6,6 +6,8 @@
 #include <array>
 #include <cstdint>
 
+namespace cerfcore {
+
 class CerfEmulator;
 class StateReader;
 class StateWriter;
@@ -63,3 +65,5 @@ private:
     std::array<uint32_t, kCores> latched_{};
     std::array<uint32_t, kCores> prelude_age_{};
 };
+
+}

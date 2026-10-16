@@ -5,6 +5,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include "../../socs/irq_controller.h"
 
+namespace cerfcore {
+
 namespace {
 
 constexpr int kEint3SourceBit = 3;
@@ -26,3 +28,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(SamsungSmdk2410Pd6710ManagementIrqLine, Pd6710ManagementIrqLine);
+
+}

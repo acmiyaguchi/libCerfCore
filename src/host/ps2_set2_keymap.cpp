@@ -1,5 +1,7 @@
 #include "ps2_set2_keymap.h"
 
+namespace cerfcore {
+
 namespace {
 
 constexpr Ps2Set2Entry P(uint8_t sc) { return { sc, false }; }
@@ -100,4 +102,6 @@ std::vector<KeyBinding> Ps2Set2KeyBindings() {
         bindings.push_back({ static_cast<uint8_t>(vk), code, nullptr, 0, 0 });
     }
     return bindings;
+}
+
 }

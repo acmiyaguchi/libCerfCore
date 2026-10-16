@@ -8,6 +8,8 @@
 #include <cerfcore/core/device_config.h>
 #include <cerfcore/host/calibration_notice.h>
 
+namespace cerfcore {
+
 namespace {
 
 class CerfVirtCalibSignal : public Peripheral {
@@ -45,5 +47,7 @@ public:
 };
 
 REGISTER_SERVICE(CerfVirtCalibSignal);
+
+}
 
 }

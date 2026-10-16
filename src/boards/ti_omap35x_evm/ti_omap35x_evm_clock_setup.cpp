@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint64_t kOscSysClkHz = 26000000ull;
@@ -74,3 +76,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(TiOmap35xEvmClockSetup, Omap3530BoardClockSetup);
+
+}

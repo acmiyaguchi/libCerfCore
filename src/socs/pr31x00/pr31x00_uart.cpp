@@ -19,6 +19,8 @@
 #include <cstdint>
 #include <utility>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kOffCtl1     = 0x00u;   /* $0B0 UARTA, $0C8 UARTB */
@@ -421,4 +423,6 @@ void Pr31x00Uart::PostRestore() {
     }
     ApplyClockState();
     if (cradle_) cradle_->PostRestore();
+}
+
 }

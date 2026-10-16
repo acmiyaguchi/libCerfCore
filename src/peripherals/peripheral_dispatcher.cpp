@@ -10,6 +10,8 @@
 #include <algorithm>
 #include <typeinfo>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(PeripheralDispatcher);
 
 std::vector<Peripheral*> PeripheralDispatcher::RegisteredPeripherals() const {
@@ -297,17 +299,6 @@ void PeripheralDispatcher::WriteSlow(uint32_t addr, uint32_t value, MmioWidth wi
     WriteSlowImpl<false>(addr, value, width, nullptr);
 }
 
-uint32_t CERFENGINE_FASTCALL cerfengine::host::MmioReadSlow(void* context, uint32_t pa,
-                                                            MmioWidth width, MmioRoute& route) {
-    return static_cast<PeripheralDispatcher*>(context)->ReadSlowImpl<true>(pa, width, &route);
-}
-
-void CERFENGINE_FASTCALL cerfengine::host::MmioWriteSlow(void* context, uint32_t pa,
-                                                         uint32_t value, MmioWidth width,
-                                                         MmioRoute& route) {
-    static_cast<PeripheralDispatcher*>(context)->WriteSlowImpl<true>(pa, value, width, &route);
-}
-
 void PeripheralDispatcher::HaltBadWidth(uint32_t width) {
     LOG(Caution, "PeripheralDispatcher: unmodeled MMIO width %u\n", width);
     CerfFatalExit(CERF_FATAL_RUNTIME_ERROR);
@@ -354,17 +345,32 @@ CERF_FORCEINLINE void PeripheralDispatcher::WriteDwordRouted(uint32_t addr, uint
     emu_.Get<EmulatedMemory>().WriteDword(addr, value);
 }
 
+}
+
+uint32_t CERFENGINE_FASTCALL cerfengine::host::MmioReadSlow(void* context, uint32_t pa,
+                                                            MmioWidth width, MmioRoute& route) {
+    return static_cast<cerfcore::PeripheralDispatcher*>(context)->ReadSlowImpl<true>(pa, width,
+                                                                                      &route);
+}
+
+void CERFENGINE_FASTCALL cerfengine::host::MmioWriteSlow(void* context, uint32_t pa,
+                                                         uint32_t value, MmioWidth width,
+                                                         MmioRoute& route) {
+    static_cast<cerfcore::PeripheralDispatcher*>(context)->WriteSlowImpl<true>(pa, value, width,
+                                                                                &route);
+}
+
 bool CERFENGINE_FASTCALL cerfengine::host::MmioFindRoute(void* context, uint32_t pa,
                                                          MmioRoute& route) {
-    return static_cast<const PeripheralDispatcher*>(context)->FindRoute(pa, route);
+    return static_cast<const cerfcore::PeripheralDispatcher*>(context)->FindRoute(pa, route);
 }
 
 uint64_t CERFENGINE_FASTCALL cerfengine::host::MmioReadDword(void* context, uint32_t pa) {
-    return static_cast<PeripheralDispatcher*>(context)->ReadDwordRouted(pa);
+    return static_cast<cerfcore::PeripheralDispatcher*>(context)->ReadDwordRouted(pa);
 }
 
 void CERFENGINE_FASTCALL cerfengine::host::MmioWriteDword(void* context, uint32_t pa,
                                                           uint64_t value) {
-    static_cast<PeripheralDispatcher*>(context)->WriteDwordRouted(pa, value);
+    static_cast<cerfcore::PeripheralDispatcher*>(context)->WriteDwordRouted(pa, value);
 }
 

@@ -2,6 +2,8 @@
 
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 void SerialShifterRun::Reset() {
     running_   = false;
     run_start_ = 0u;
@@ -47,4 +49,6 @@ void SerialShifterRun::Restore(StateReader& r) {
     r.Read("run_start_half_tick", run_start_);
     r.Read("run_loads", run_loads_);
     running_ = running != 0u;
+}
+
 }

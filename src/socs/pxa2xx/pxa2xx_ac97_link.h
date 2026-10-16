@@ -8,6 +8,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 class Pxa2xxAc97BitClock;
 class StateReader;
 class StateWriter;
@@ -127,3 +129,5 @@ private:
     uint64_t gpi_frame_     = 0;
     uint16_t gpio_shadow_   = 0;
 };
+
+}

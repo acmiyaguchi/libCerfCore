@@ -5,6 +5,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* NEC MobilePro 900 (P530) two-socket PCMCIA: CF (PXA255 socket 0) + PC Card
    (socket 1), card I/O via PcmciaSpaceRouter, NMC1110 power/reset glue + GPIO
    sense lines. Owns both slots; the L1110 register windows forward here. */
@@ -32,3 +34,5 @@ private:
     PcmciaSlot slot0_;   /* CF      (PXA255 socket 0, PA 0x20000000) */
     PcmciaSlot slot1_;   /* PC Card (PXA255 socket 1, PA 0x30000000) */
 };
+
+}

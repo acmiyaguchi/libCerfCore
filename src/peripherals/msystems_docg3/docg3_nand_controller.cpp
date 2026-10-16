@@ -13,6 +13,8 @@
 #include <cstring>
 #include <vector>
 
+namespace cerfcore {
+
 /* M-Systems DiskOnChip G3 NAND controller (register/command map from the Linux
    mtd docg3 driver). The Falcon OAL probe (nk.exe sub_800F3FFC) sets READADDRESS
    to 0x1000 then reads CHIPID, accepting 0x200 (DOC_CHIPID_G3); that read gates
@@ -301,3 +303,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(MsystemsDocG3);
+
+}

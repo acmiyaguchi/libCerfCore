@@ -7,6 +7,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* SIMpad CS3 read-only status register (nCS3 @ PA 0x18000000). PDCardSetAdapter
@@ -36,3 +38,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE(SiemensSimpadCs3Status);
+
+}

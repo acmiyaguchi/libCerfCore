@@ -11,6 +11,8 @@
 #include "../vr5500/vr5500_id.h"
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 /* QEMU MIPS r4k_* (tlb_helper.c). */
 
 namespace {
@@ -230,3 +232,5 @@ private:
 }  // namespace
 
 REGISTER_SERVICE_AS(MipsMmuR4000, MipsTlbModel);
+
+}

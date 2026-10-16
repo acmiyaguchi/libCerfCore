@@ -7,6 +7,8 @@
 #include "sa1111_reset_line.h"
 #include "sa1111_system_controller.h"
 
+namespace cerfcore {
+
 bool Sa1111Sbi::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     return bd && bd->GetBoardFamilyId() == BoardFamilyId::HpJornada700;
@@ -108,3 +110,5 @@ void Sa1111Sbi::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE(Sa1111Sbi);
+
+}

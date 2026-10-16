@@ -8,6 +8,8 @@
 
 #include <utility>
 
+namespace cerfcore {
+
 namespace {
 constexpr uint32_t kReadTimeoutMs  = 50;
 constexpr uint32_t kWriteTimeoutMs = 2000;
@@ -253,4 +255,6 @@ void HostSerialForward::WriterLoop() {
         }
         local.clear();
     }
+}
+
 }

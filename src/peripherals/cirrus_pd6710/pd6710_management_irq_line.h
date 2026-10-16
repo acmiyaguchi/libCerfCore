@@ -2,6 +2,8 @@
 
 #include <cerfcore/core/service.h>
 
+namespace cerfcore {
+
 class Pd6710ManagementIrqLine : public Service {
 public:
     using Service::Service;
@@ -9,3 +11,5 @@ public:
 
     virtual void Pulse() = 0;
 };
+
+}

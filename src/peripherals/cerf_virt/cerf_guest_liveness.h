@@ -4,6 +4,8 @@
 
 #include <atomic>
 
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 
@@ -26,3 +28,5 @@ private:
 
     std::atomic<bool> alive_{false};
 };
+
+}

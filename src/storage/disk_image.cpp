@@ -5,6 +5,8 @@
 #include <cerfcore/core/log.h>
 #include "../platform/host_error.h"
 
+namespace cerfcore {
+
 bool DiskImage::Open(const std::string& path, uint64_t size_bytes, bool create_if_missing) {
     const auto mode = create_if_missing ? host_platform::FileMode::kReadWriteAlways
                                         : host_platform::FileMode::kReadWriteExisting;
@@ -59,4 +61,6 @@ bool DiskImage::WriteSectors(uint64_t lba, uint32_t count, const void* src) {
 bool DiskImage::PunchHole(uint64_t lba, uint32_t count) {
     if (!file_.IsOpen() || lba + count > sector_count_) return false;
     return file_.ZeroRange(lba * kSectorSize, (lba + count) * kSectorSize);
+}
+
 }

@@ -6,6 +6,8 @@
 
 #include <string>
 
+namespace cerfcore {
+
 namespace {
 
 /* nk.exe sub_9F431FA4 ($a0 = char) is OEMWriteDebugByte. It gates on OEM global
@@ -34,3 +36,5 @@ public:
 }  // namespace
 
 REGISTER_SERVICE(NinoKernelDbgOutput);
+
+}

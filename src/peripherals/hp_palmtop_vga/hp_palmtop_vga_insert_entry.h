@@ -4,9 +4,13 @@
 #include <cerfcore/host/widget_control.h>
 #include "../pcmcia/pcmcia_card_catalog.h"
 
+namespace cerfcore {
+
 class HpPalmtopVgaInsertEntry : public Service {
 public:
     using Service::Service;
 
     SlotEntry BuildInsertEntry(PcmciaCardCatalog::CardInserter inserter);
 };
+
+}

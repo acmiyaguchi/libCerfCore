@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* IO[5] external power sense, active high. sib.dll sub_18D2F74 reads IO_CTL and takes
@@ -46,3 +48,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(PhilipsNinoIoPins, Pr31x00IoPins);
+
+}

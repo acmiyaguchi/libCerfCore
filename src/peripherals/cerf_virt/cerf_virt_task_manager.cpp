@@ -11,6 +11,8 @@
 
 #include <cstring>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(CerfVirtTaskManager);
 
 using namespace CerfVirt;
@@ -235,4 +237,6 @@ void CerfVirtTaskManager::ConsumeResponseLocked() {
 
     in_flight_ = false;
     PublishNextLocked();
+}
+
 }

@@ -4,6 +4,8 @@
 #include <cerfcore/core/fatal.h>
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint64_t kMicroframesPerSecond = 8000u;
@@ -226,4 +228,6 @@ void FreescaleUsbFrameIndex::Restore(StateReader& r) {
         mark_[c]        = now;
         prelude_age_[c] = prelude_age[c];
     }
+}
+
 }

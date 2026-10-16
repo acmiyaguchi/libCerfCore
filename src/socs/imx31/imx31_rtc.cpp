@@ -15,6 +15,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kBase = 0x53FD8000u;
@@ -317,3 +319,5 @@ void Imx31Rtc::PostRestore() {
 }
 
 REGISTER_SERVICE(Imx31Rtc);
+
+}

@@ -5,6 +5,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "siemens_simatic_mp377_family_id.h"
 
+namespace cerfcore {
+
 bool SiemensSimaticMp377DebugLedPeripheral::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     return bd && bd->GetBoardFamilyId() == BoardFamilyId::SiemensSimaticMp377;
@@ -36,4 +38,6 @@ void SiemensSimaticMp377DebugLedPeripheral::WriteHalf(uint32_t addr, uint16_t va
 
 void SiemensSimaticMp377DebugLedPeripheral::WriteWord(uint32_t addr, uint32_t value) {
     HaltUnsupportedAccess("MP377 debug LED word write", addr, value);
+}
+
 }

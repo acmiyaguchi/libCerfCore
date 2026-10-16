@@ -11,6 +11,8 @@
 #include <cmath>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* WM9713L datasheet (Cirrus Logic, Rev 4.0) page 122, register 7Ah bits 11:0
@@ -68,3 +70,5 @@ private:
 }  // namespace
 
 REGISTER_SERVICE_AS(SymbolHamptonsTouchInput, TouchInput);
+
+}

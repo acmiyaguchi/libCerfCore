@@ -7,6 +7,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* Siemens TP177B board CPLD on the S3C2410 nGCS4 bank (RE: nk.exe). */
 namespace {
 
@@ -45,3 +47,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE(SiemensSimaticTp177b4Cpld);
+
+}

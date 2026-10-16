@@ -7,6 +7,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include <cerfcore/core/device_config.h>
 
+namespace cerfcore {
+
 namespace {
 
 class CerfVirtPalette : public Peripheral {
@@ -44,5 +46,7 @@ private:
 };
 
 REGISTER_SERVICE(CerfVirtPalette);
+
+}
 
 }

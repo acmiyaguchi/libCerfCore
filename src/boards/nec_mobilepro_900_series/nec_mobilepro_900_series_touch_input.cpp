@@ -6,6 +6,8 @@
 #include "nec_mobilepro_900_series_family_id.h"
 #include "nec_mobilepro_900_series_pco_companion.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* nec_mobilepro_900_hpc2000 XIP.BIN default.reg HARDWARE\DEVICEMAP\TOUCH CalibrationData
@@ -61,3 +63,5 @@ private:
 }
 
 REGISTER_SERVICE_AS(NecMobilepro900SeriesTouchInput, TouchInput);
+
+}

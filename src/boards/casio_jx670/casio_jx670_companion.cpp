@@ -8,6 +8,8 @@
 #include "../../socs/vr41xx/vr41xx_giu.h"
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(CasioJx670Companion);
 
 namespace {
@@ -462,4 +464,6 @@ void CasioJx670Companion::PostRestore() {
     modem_.PostRestore();
     touch_.PostRestore();
     UpdateIrqLine();
+}
+
 }

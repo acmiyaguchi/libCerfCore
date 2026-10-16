@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Sa11xxDmaPort {
 public:
     virtual ~Sa11xxDmaPort() = default;
@@ -20,3 +22,5 @@ public:
     virtual bool     LoopedBack() const { return false; }
     virtual bool     FillReceived(uint32_t, uint32_t) { return false; }
 };
+
+}

@@ -7,6 +7,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kBase = 0x500F5000u;
@@ -51,3 +53,5 @@ public:
 }
 
 REGISTER_SERVICE(SamsungSmdk2410EmulatorServices);
+
+}

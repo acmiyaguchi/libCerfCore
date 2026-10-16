@@ -8,6 +8,8 @@
 #include <mutex>
 #include <vector>
 
+namespace cerfcore {
+
 class Sa11xxDmaReceiveFifo;
 class Sa11xxDmaTransmitFifo;
 class Sa11xxExternalClocks;
@@ -91,3 +93,5 @@ private:
                off == 0x1C || off == 0x20;
     }
 };
+
+}

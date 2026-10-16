@@ -5,6 +5,8 @@
 #include <algorithm>
 #include <string>
 
+namespace cerfcore {
+
 void FreescaleSsiTimeline::Reset() {
     data_    = 0u;
     network_ = two_ch_ = enabled_ = run_ = false;
@@ -256,4 +258,6 @@ void FreescaleSsiTimeline::Restore(StateReader& r, const char* prefix) {
     frame_done_ = frame_done != 0u;
     network_    = network != 0u;
     two_ch_     = two_ch != 0u;
+}
+
 }

@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class DmaBurstFifo {
 public:
     static constexpr uint64_t kUnlimited = UINT64_MAX;
@@ -48,3 +50,5 @@ private:
     uint64_t moved_     = 0;
     uint64_t supply_    = 0;
 };
+
+}

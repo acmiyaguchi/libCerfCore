@@ -22,6 +22,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 namespace siemens_simatic_mp377 {
 
 class SiemensSimaticMp377Sm501Blitter;
@@ -84,3 +86,5 @@ inline bool Sm501IsAc97SharedRegister(uint32_t offset) {
 }
 
 } // namespace siemens_mp377
+
+}

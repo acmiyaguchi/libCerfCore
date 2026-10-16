@@ -4,6 +4,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "casio_tomcat_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class CasioTomcatClockStrap : public Vr41xxClockStrap {
@@ -20,3 +22,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(CasioTomcatClockStrap, Vr41xxClockStrap);
+
+}

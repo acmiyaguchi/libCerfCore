@@ -11,6 +11,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 using siemens_simatic_mp377::kMp377Aspc2RamPa;
@@ -121,3 +123,5 @@ std::vector<DramRegion> SiemensSimaticMp377PageTableBuilder::MappedVaSpans() con
 } /* namespace */
 
 REGISTER_SERVICE_AS(SiemensSimaticMp377PageTableBuilder, PageTableBuilder);
+
+}

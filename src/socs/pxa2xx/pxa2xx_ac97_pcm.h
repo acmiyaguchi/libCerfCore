@@ -6,6 +6,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 class Pxa2xxAc97BitClock;
 
 class Pxa2xxAc97Pcm : public Pxa2xxAc97OutFifo {
@@ -36,3 +38,5 @@ private:
     std::vector<uint8_t> block_;
     std::vector<uint8_t> masked_;
 };
+
+}

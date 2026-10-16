@@ -10,6 +10,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 class S3C2410AdcTouchInput : public TouchInput {
@@ -48,3 +50,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(S3C2410AdcTouchInput, TouchInput);
+
+}

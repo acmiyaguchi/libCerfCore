@@ -2,6 +2,8 @@
 
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 bool Vr41xxRtcLatch::Write(uint32_t half, uint16_t value) {
     const uint32_t shift = half * 16u;
     value_    = ((value_ & ~(0xFFFFull << shift)) | (uint64_t{value} << shift)) & mask_;
@@ -24,4 +26,6 @@ void Vr41xxRtcLatch::Save(StateWriter& w, const char* value_name, const char* wr
 void Vr41xxRtcLatch::Restore(StateReader& r, const char* value_name, const char* written_name) {
     r.Read(value_name, value_);
     r.Read(written_name, written_);
+}
+
 }

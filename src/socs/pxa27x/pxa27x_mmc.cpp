@@ -9,6 +9,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* Intel PXA27x Developer's Manual 280000-001 Table 15-28 (page 15-44) "MMC
@@ -288,3 +290,5 @@ void Pxa27xMmc::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE(Pxa27xMmc);
+
+}

@@ -17,6 +17,8 @@
 #include <algorithm>
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 using namespace sa11xx_mcp;
@@ -341,4 +343,6 @@ void Sa11xxMcpChannel::Restore(StateReader& r) {
     tx_->Restore(r);
     rx_->Restore(r);
     underrun_ = underrun != 0u;
+}
+
 }

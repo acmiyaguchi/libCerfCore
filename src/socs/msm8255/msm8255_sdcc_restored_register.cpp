@@ -2,6 +2,8 @@
 
 #include "msm8255_sdcc_regs.h"
 
+namespace cerfcore {
+
 namespace cerf_msm8255_sdcc_detail {
 
 uint32_t ReadRestoredRegister(StateReader& r, const char* name, uint32_t writable,
@@ -17,3 +19,5 @@ uint32_t ReadRestoredRegister(StateReader& r, const char* name, uint32_t writabl
 }
 
 }  // namespace cerf_msm8255_sdcc_detail
+
+}

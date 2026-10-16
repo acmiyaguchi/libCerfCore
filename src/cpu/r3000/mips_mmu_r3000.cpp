@@ -8,6 +8,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include <cerfengine/mips/mips_cpu_state.h>
 
+namespace cerfcore {
+
 /* TX39/H TLB: 32 entries, one 4-KB page each. TMPR3911.pdf Figure 3.3.6 (PDF
    p.96) and Figures 3.3.8 / 3.3.9 (PDF p.99). */
 namespace {
@@ -143,3 +145,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(MipsMmuR3000, MipsTlbModel);
+
+}

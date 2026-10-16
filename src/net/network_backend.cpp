@@ -9,6 +9,8 @@
 
 #include <cstring>
 
+namespace cerfcore {
+
 cerf::inet::MacAddress NetworkBackend::ConfiguredGuestMac() const {
     const std::string& s = emu_.Get<DeviceConfig>().network_mac;
     cerf::inet::MacAddress out{};
@@ -81,4 +83,6 @@ void NetworkBackend::DispatchFrame(const uint8_t* frame, std::size_t len) {
         Receiver& r = entry.second;
         if (r.cb) r.cb(frame, len);
     }
+}
+
 }

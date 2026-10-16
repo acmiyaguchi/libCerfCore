@@ -15,6 +15,8 @@
 #include <cerfcore/state/emulation_freeze.h>
 #include "ipv4_packet.h"
 
+namespace cerfcore {
+
 namespace {
 
 using cerf::be::Put16;
@@ -138,4 +140,6 @@ void SlirpBackend::JoinIcmpThreads() {
     }
     for (auto& e : live)
         if (e.thread.joinable()) e.thread.join();
+}
+
 }

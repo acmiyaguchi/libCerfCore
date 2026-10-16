@@ -5,6 +5,8 @@
 #include <cerfcore/core/log.h>
 #include "../../peripherals/ac97_codec.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* Intel PXA255 Developer's Manual Table 5-5 (page 5-13): AC97 audio receive FIFO 0x4050_0040 on DRCMR
@@ -53,3 +55,5 @@ void Pxa2xxAc97PcmIn::Restore(StateReader& r) {
 }
 
 REGISTER_SERVICE(Pxa2xxAc97PcmIn);
+
+}

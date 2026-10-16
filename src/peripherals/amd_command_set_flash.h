@@ -8,6 +8,8 @@
 #include <string>
 #include <vector>
 
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 
@@ -64,3 +66,5 @@ private:
     bool     bypass_       = false;   /* unlock-bypass mode active */
     uint32_t cached_word0_ = 0u;      /* flash word0 saved across autoselect */
 };
+
+}

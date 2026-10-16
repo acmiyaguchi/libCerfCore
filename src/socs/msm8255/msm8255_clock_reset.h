@@ -6,6 +6,8 @@
 #include <functional>
 #include <vector>
 
+namespace cerfcore {
+
 class Msm8255ClockReset : public Service {
 public:
     using Service::Service;
@@ -23,3 +25,5 @@ private:
 
     std::vector<Listener> listeners_;
 };
+
+}

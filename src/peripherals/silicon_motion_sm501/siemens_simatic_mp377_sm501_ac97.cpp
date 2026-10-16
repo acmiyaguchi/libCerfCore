@@ -10,6 +10,8 @@
 #include "../cirrus_cs4297a/cs4297a_codec.h"
 #include <cerfcore/socs/guest_cpu_reset.h>
 
+namespace cerfcore {
+
 namespace siemens_simatic_mp377 {
 namespace {
 
@@ -488,3 +490,5 @@ void SiemensSimaticMp377Sm501Ac97::PostRestore() {
 REGISTER_SERVICE(SiemensSimaticMp377Sm501Ac97);
 
 } // namespace siemens_mp377
+
+}

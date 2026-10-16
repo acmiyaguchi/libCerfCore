@@ -9,6 +9,8 @@
 #include <cstdint>
 #include <string>
 
+namespace cerfcore {
+
 namespace {
 
 /* casio_cassiopeia_e55 keybddr.dll sub_14E37C4 @0x14E37C4 folds GIUPIODH D13/D15/D14 and
@@ -44,3 +46,5 @@ public:
 }
 
 REGISTER_SERVICE(CasioTomcatKeyboard);
+
+}

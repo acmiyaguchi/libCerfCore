@@ -18,6 +18,8 @@
 #include <cmath>
 #include <cstring>
 
+namespace cerfcore {
+
 namespace {
 using namespace imx51_g2d_regfile;
 
@@ -484,4 +486,6 @@ void Imx51Gpu2dCommandEngine::PowerOnReset() {
     cur_x_ = cur_y_ = 0.0f;
     bbox_live_ = false;
     std::fill(std::begin(vg_regs_), std::end(vg_regs_), 0u);
+}
+
 }

@@ -15,6 +15,8 @@
 
 #include <atomic>
 
+namespace cerfcore {
+
 namespace {
 
 /* SA-1110 Dev Man §9.6.1: RSRR +0x0 bit 0 SWR=1 triggers chip
@@ -152,3 +154,5 @@ void Sa11xxResetController::RestoreState(StateReader& r) {
 }  /* namespace */
 
 REGISTER_SERVICE(Sa11xxResetController);
+
+}

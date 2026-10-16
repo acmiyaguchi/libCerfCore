@@ -7,6 +7,8 @@
 
 namespace cerfengine { class HostRequestChannel; }
 
+namespace cerfcore {
+
 class Vr41xxKiuKeyPins : public Service {
 public:
     using Service::Service;
@@ -26,3 +28,5 @@ private:
     bool                dirty_ = false;
     cerfengine::HostRequestChannel* host_requests_ = nullptr;
 };
+
+}

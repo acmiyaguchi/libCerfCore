@@ -3,6 +3,8 @@
 #include <cstddef>
 #include <cstdint>
 
+namespace cerfcore {
+
 class MappedFile;
 
 /* Header of a Ford `.sec` update package (little-endian, first 0x40 bytes).
@@ -54,3 +56,5 @@ private:
     SecHeader hdr_   {};
     bool      valid_ = false;
 };
+
+}

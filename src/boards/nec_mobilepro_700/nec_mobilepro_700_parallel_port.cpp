@@ -9,6 +9,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* MobilePro 700 OAL host-link parallel port (nk.exe OEMParallelPortSendByte
@@ -71,3 +73,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(NecMobilePro700ParallelPort);
+
+}

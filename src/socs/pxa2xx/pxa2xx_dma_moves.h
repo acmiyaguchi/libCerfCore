@@ -6,6 +6,8 @@
 #include <cstdint>
 #include <thread>
 
+namespace cerfcore {
+
 class Pxa2xxDmaMoves : public Pxa2xxDma {
 public:
     using Pxa2xxDma::Pxa2xxDma;
@@ -72,3 +74,5 @@ private:
     uint8_t  staged_[kMaxChannels][kStageBytes] = {};
     std::atomic<std::thread::id> access_thread_{};
 };
+
+}

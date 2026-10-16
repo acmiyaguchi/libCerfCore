@@ -10,6 +10,8 @@
 #include <atomic>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* VR4111 UM 11.4.6 p284, illegal access notification for 0x09FF FFFF to 0x0400 0000;
@@ -52,3 +54,5 @@ private:
 }
 
 REGISTER_SERVICE(Vr4111IllegalAccess);
+
+}

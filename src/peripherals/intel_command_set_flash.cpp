@@ -7,6 +7,8 @@
 
 #include <cstring>
 
+namespace cerfcore {
+
 void IntelCommandSetFlash::OnReady() {
     (void)emu_.Get<EmulatedMemory>().Translate(MmioBase());
     block_locked_.assign(NumBlocks(), 0u);
@@ -204,4 +206,6 @@ void IntelCommandSetFlash::RestoreState(StateReader& r) {
         shadow_.push_back({a, b});
     }
     r.ReadBytes("block_locked", block_locked_.data(), block_locked_.size());
+}
+
 }

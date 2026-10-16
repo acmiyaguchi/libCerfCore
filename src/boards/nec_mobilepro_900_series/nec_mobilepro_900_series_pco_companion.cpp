@@ -17,6 +17,8 @@
 #include <algorithm>
 #include <utility>
 
+namespace cerfcore {
+
 namespace {
 
 using KeyMatrix = NecMobilepro900SeriesPcoCompanion::KeyMatrix;
@@ -412,4 +414,6 @@ void NecMobilepro900SeriesPcoCompanion::RestoreState(StateReader& r) {
 
 void NecMobilepro900SeriesPcoCompanion::PostRestore() {
     SendPenUp();
+}
+
 }

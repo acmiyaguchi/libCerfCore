@@ -13,6 +13,8 @@
 #include <algorithm>
 #include <iterator>
 
+namespace cerfcore {
+
 namespace {
 
 /* Linux drivers/rtc/rtc-pm8xxx.c: PM8xxx_RTC_ENABLE BIT(7),
@@ -272,3 +274,5 @@ void Pm8058Rtc::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE(Pm8058Rtc);
+
+}

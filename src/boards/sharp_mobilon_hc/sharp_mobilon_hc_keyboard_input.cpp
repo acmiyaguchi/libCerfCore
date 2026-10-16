@@ -9,6 +9,8 @@
 #include <cstdint>
 #include <string>
 
+namespace cerfcore {
+
 namespace {
 
 class SharpMobilonHcKeyboardInput : public KeyboardInput {
@@ -35,3 +37,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE(SharpMobilonHcKeyboardInput);
+
+}

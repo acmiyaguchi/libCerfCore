@@ -2,6 +2,8 @@
 #include <cerfcore/core/service.h>
 #include <cstdint>
 
+namespace cerfcore {
+
 class Imx51Gpu3dMemory : public Service {
 public:
     using Service::Service;
@@ -14,3 +16,5 @@ public:
 private:
     uint8_t* MemorySpan(uint64_t pa, uint64_t size, bool write, uint32_t mmu_config);
 };
+
+}

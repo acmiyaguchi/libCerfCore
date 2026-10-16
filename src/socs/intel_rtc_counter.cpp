@@ -8,6 +8,8 @@
 #include "../execution/engine_bridge.h"
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 
 /* SA-1110 Dev Man §9.3.5.2 and PXA255 Dev Man §4.3.3.2: the trim interval is
@@ -304,4 +306,6 @@ void IntelRtcCounter::Restore(StateReader& r) {
     total_seen_ = now.total;
     park_seen_  = now.park;
     park_ticks_ = 0u;
+}
+
 }

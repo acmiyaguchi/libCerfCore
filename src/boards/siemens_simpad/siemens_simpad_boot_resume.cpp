@@ -8,6 +8,8 @@
 #include <cerfengine/arm/arm_cpu.h>
 #include "../../peripherals/peripheral_dispatcher.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* SIMpad's kernel stores its sleep-resume vector in PSPR (power mgr +0x08;
@@ -37,3 +39,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE(SiemensSimpadBootResume);
+
+}

@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kDramVaBase = 0x80000000u;
@@ -74,3 +76,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(SharpMobilonHcPageTableBuilder, PageTableBuilder);
+
+}

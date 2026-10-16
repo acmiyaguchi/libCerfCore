@@ -22,6 +22,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 struct RegWrite {
@@ -386,3 +388,5 @@ private:
 }
 
 REGISTER_SERVICE(NecMobilepro900SeriesSaboot);
+
+}

@@ -8,6 +8,8 @@
 #include <memory>
 #include <unordered_map>
 
+namespace cerfcore {
+
 class FolderShareDir : public Service {
 public:
     using Service::Service;
@@ -34,3 +36,5 @@ private:
     uint16_t GetInfo(CerfVirt::ServerPB& pb);
     uint16_t CloseFind(CerfVirt::ServerPB& pb);
 };
+
+}

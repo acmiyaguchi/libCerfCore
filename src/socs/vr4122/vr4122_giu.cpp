@@ -3,6 +3,8 @@
 #include <cstdint>
 #include "vr4122_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 using cerf_vr41xx_giu_detail::Vr41xxGiuBase;
@@ -99,3 +101,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(Vr4122Giu, Vr41xxGiu);
+
+}

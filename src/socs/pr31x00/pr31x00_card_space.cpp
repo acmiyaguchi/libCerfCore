@@ -8,6 +8,8 @@
 #include <cerfcore/state/state_stream.h>
 #include "pr31x00_biu.h"
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint8_t  kFloat8  = 0xFFu;
@@ -165,3 +167,5 @@ void Pr31x00CardSpace::PostRestore() {
 }
 
 REGISTER_SERVICE(Pr31x00CardSpace);
+
+}

@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 class CasioPocketpostpetVr4121BcuBoard : public Vr4121BcuBoard {
@@ -41,3 +43,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(CasioPocketpostpetVr4121BcuBoard, Vr4121BcuBoard);
+
+}

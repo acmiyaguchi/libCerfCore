@@ -12,6 +12,8 @@
 #include <unordered_map>
 #include <vector>
 
+namespace cerfcore {
+
 using MmioWidth = cerfengine::MmioWidth;
 
 class PeripheralDispatcher : public Service {
@@ -144,3 +146,5 @@ private:
 
     const Entry* LookupEntry(uint32_t addr) const;
 };
+
+}

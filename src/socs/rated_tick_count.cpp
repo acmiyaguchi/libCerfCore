@@ -1,5 +1,7 @@
 #include "rated_tick_count.h"
 
+namespace cerfcore {
+
 template <class Units>
 bool BasicRatedTickCount<Units>::SetRate(GuestCycleClock::Rate core, GuestCycleClock::Rate tick) {
     return ctr_.SetRate(core, tick);
@@ -43,3 +45,5 @@ bool BasicRatedTickCount<Units>::AddTicks(uint64_t ticks) {
 
 template class BasicRatedTickCount<ExactCounterUnits>;
 template class BasicRatedTickCount<NarrowCounterUnits>;
+
+}

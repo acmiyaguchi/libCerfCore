@@ -2,6 +2,8 @@
 
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 
 /* TPS65950 TRM SWCU050E page 121: seconds and minutes 0-59, hours 00-23 or 1-12 in AM/PM mode, days per month,
@@ -162,4 +164,6 @@ void Tps65950RtcCalendar::Save(StateWriter& w) {
 void Tps65950RtcCalendar::Restore(StateReader& r) {
     StateReadField field(r);
     Time::Visit(t_, field);
+}
+
 }

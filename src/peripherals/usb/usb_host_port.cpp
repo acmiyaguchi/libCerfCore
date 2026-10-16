@@ -3,6 +3,8 @@
 #include <cerfcore/state/state_stream.h>
 #include "usb_state.h"
 
+namespace cerfcore {
+
 void UsbHostPort::Attach(std::unique_ptr<UsbDevice> device) {
     device_ = std::move(device);
     host_.OnPortConnectChanged(port_index_);
@@ -38,4 +40,6 @@ void UsbHostPort::RestoreState(StateReader& r) {
 
 void UsbHostPort::PostRestore() {
     if (device_) device_->PostRestore();
+}
+
 }

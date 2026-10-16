@@ -5,6 +5,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include "../../socs/s3c2410/s3c2410_eint_source.h"
 
+namespace cerfcore {
+
 namespace {
 
 constexpr int kPd6710CardEintNumber = 8;
@@ -33,3 +35,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(SamsungSmdk2410Pd6710CardIrqLine, Pd6710CardIrqLine);
+
+}

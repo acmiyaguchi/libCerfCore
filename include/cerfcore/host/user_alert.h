@@ -6,6 +6,8 @@
 #include <functional>
 #include <string>
 
+namespace cerfcore {
+
 enum class AlertLevel : uint8_t { kError, kWarning };
 
 enum class AlertPlacement : uint8_t { kStandalone, kTopmost, kOverWindow };
@@ -19,3 +21,5 @@ public:
     virtual void Post(AlertLevel level, const std::string& title, const std::string& text,
                       std::function<void()> after) = 0;
 };
+
+}

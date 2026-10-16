@@ -5,6 +5,8 @@
 
 #include <algorithm>
 
+namespace cerfcore {
+
 using sa11xx_mcp::kFrameTicks;
 using sa11xx_mcp::kSubframe0Ticks;
 
@@ -168,4 +170,6 @@ void Sa11xxMcpReceiveSchedule::Restore(StateReader& r) {
         r.Read("rx_segment_k_hi", s.k_hi);
     }
     open_ = open != 0u;
+}
+
 }

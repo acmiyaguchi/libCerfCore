@@ -11,6 +11,8 @@
 
 #include <algorithm>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kCc00R         = 0x2000u;
@@ -463,3 +465,5 @@ void MediaQMq200::PostRestore() {
 }
 
 REGISTER_SERVICE(MediaQMq200);
+
+}

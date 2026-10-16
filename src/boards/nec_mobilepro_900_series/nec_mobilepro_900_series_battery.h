@@ -5,6 +5,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* NEC P530 main-battery model + status-bar widget: drives the GPIO/PCO inputs
    battery.dll reads (wired in the .cpp) from the widget's charge/AC state. */
 class NecMobilepro900SeriesBattery : public Service {
@@ -24,3 +26,5 @@ private:
 
     BatteryWidget battery_;
 };
+
+}

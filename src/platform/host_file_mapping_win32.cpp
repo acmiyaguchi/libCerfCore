@@ -6,6 +6,8 @@
 
 #include <cerfcore/platform/wide_text_win32.h>
 
+namespace cerfcore {
+
 namespace host_platform {
 
 bool OpenMappedFile(const std::string& path, FileMapping& mapping) {
@@ -43,6 +45,8 @@ uint8_t* MapFileView(const FileMapping& mapping, uint64_t offset, size_t length)
 
 void UnmapFileView(uint8_t* view) {
     UnmapViewOfFile(view);
+}
+
 }
 
 }

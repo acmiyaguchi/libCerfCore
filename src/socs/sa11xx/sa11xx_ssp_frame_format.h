@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 struct Sa11xxSspFrameFormat {
     uint64_t period    = 2;
     uint64_t push_cont = 4;
@@ -12,3 +14,5 @@ struct Sa11xxSspFrameFormat {
 
     static Sa11xxSspFrameFormat Of(uint32_t sscr0, uint32_t sscr1);
 };
+
+}

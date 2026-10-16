@@ -4,6 +4,8 @@
 
 #include <cerfcore/core/service.h>
 
+namespace cerfcore {
+
 /* ARM DDI 0406C.c B3.5: whether a VMSAv7 implementation supports Supersections
    is IMPLEMENTATION DEFINED, and the extended base address in descriptor
    bits[8:5, 23:20] is a further option on top. */
@@ -136,3 +138,5 @@ private:
     bool vfp_                          = false;
     bool neon_                         = false;
 };
+
+}

@@ -17,6 +17,8 @@
 
 #include <iterator>
 
+namespace cerfcore {
+
 namespace {
 constexpr uint8_t kTwlAddr_USB         = 0x48;
 constexpr uint8_t kTwlAddr_AUDIO_INTBR = 0x49;
@@ -276,3 +278,5 @@ int Twl4030::AddrIndex(uint8_t slave_addr) {
 }
 
 REGISTER_SERVICE(Twl4030);
+
+}

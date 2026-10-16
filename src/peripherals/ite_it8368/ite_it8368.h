@@ -6,6 +6,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 class PcmciaSlot;
 class StateReader;
 class StateWriter;
@@ -90,3 +92,5 @@ private:
     bool     rst_asserted_ = false;
     bool     card_irq_     = false;
 };
+
+}

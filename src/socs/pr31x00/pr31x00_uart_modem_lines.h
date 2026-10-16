@@ -9,6 +9,8 @@
 #include <memory>
 #include <mutex>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 
@@ -54,3 +56,5 @@ private:
     std::array<std::unique_ptr<Channel>, kPorts> ch_;
     uint32_t                                     count_ = 0;
 };
+
+}

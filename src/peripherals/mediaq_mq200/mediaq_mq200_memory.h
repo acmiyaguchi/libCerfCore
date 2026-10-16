@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class CerfEmulator;
 class MediaQMq200Power;
 class StateWriter;
@@ -38,3 +40,5 @@ private:
     uint32_t mm03_ = 0;
     uint32_t mm04_ = 0;
 };
+
+}

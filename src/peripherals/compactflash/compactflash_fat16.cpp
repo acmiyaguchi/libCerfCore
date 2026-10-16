@@ -13,6 +13,8 @@
 #include <cstring>
 #include <vector>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(CompactFlashFat16Builder);
 
 namespace {
@@ -155,4 +157,6 @@ bool CompactFlashFat16Builder::Build(const std::string& out_path,
     else LOG(Cerf, "[CF] FAT16 image built: %u sectors, %u data clusters, %zu file(s)\n",
              total_sectors, data_clusters, entries.size());
     return ok;
+}
+
 }

@@ -2,6 +2,8 @@
 
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 void S3C2410IisTxFifo::Reset() {
     Clear();
     fifo_.fill(0u);
@@ -49,4 +51,6 @@ void S3C2410IisTxFifo::Restore(StateReader& r) {
     r.ReadBytes("tx_fifo", fifo_.data(), sizeof(fifo_));
     if (count_ > kDepth || head_ >= kDepth)
         r.Reject("transmit FIFO count %u head %u past depth %u", count_, head_, kDepth);
+}
+
 }

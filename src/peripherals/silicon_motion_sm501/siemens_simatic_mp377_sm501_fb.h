@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 namespace siemens_simatic_mp377 {
 
 class SiemensSimaticMp377Sm501Fb : public Peripheral {
@@ -43,3 +45,5 @@ private:
 };
 
 } // namespace siemens_mp377
+
+}

@@ -9,6 +9,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include "../peripheral_dispatcher.h"
 
+namespace cerfcore {
+
 namespace {
 
 bool IsBar3(uint32_t address) {
@@ -227,4 +229,6 @@ void SiemensSimaticMp377Ertec400BarWindow::WriteWord(uint32_t address, uint32_t 
     }
     if (SiemensSimaticMp377Ertec400Model::IsWriteOnlyRegister(offset)) { model.SetWord(offset, value); return; }
     HaltUnsupportedAccess("ERTEC400 write lacks explicit semantics", address, value);
+}
+
 }

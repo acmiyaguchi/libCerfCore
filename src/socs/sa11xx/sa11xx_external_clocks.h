@@ -8,6 +8,8 @@
 #include <functional>
 #include <vector>
 
+namespace cerfcore {
+
 class Sa11xxGpio;
 class Sa11xxGpioClockInput;
 
@@ -41,3 +43,5 @@ private:
     std::array<PinClock, kPinCount>    clocks_{};
     std::vector<std::function<void()>> listeners_;
 };
+
+}

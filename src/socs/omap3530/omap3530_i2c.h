@@ -12,6 +12,8 @@
 #include <deque>
 #include <mutex>
 
+namespace cerfcore {
+
 /* OMAP3530 I2C controller bank. I2C1/2/3 share this register + transaction
    model; concrete subclasses supply MmioBase and route slave dispatch
    (I2C1 -> TWL4030 PMIC). */
@@ -135,3 +137,5 @@ private:
     uint16_t actoa_   = 0;
     uint16_t sblock_  = 0;
 };
+
+}

@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Omap3530CmMpu : public Omap3530PrcmStubBlock {
 public:
     using Omap3530PrcmStubBlock::Omap3530PrcmStubBlock;
@@ -34,3 +36,5 @@ private:
 
     uint64_t osc_hz_ = 0;
 };
+
+}

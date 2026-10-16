@@ -32,6 +32,8 @@
 #include <string>
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kImgScnMemShared = 0x10000000u;
@@ -419,3 +421,5 @@ bool GuestAdditionsInjector::Replace(const char* victim_name,
 }  /* namespace */
 
 REGISTER_SERVICE(GuestAdditionsInjector);
+
+}

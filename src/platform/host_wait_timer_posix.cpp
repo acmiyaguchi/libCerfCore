@@ -2,6 +2,8 @@
 
 #include "host_unimplemented.h"
 
+namespace cerfcore {
+
 namespace host_platform {
 
 HostWaitTimer::~HostWaitTimer() {
@@ -16,5 +18,7 @@ bool HostWaitTimer::Arm(int64_t) { NoHostImplementation("HostWaitTimer::Arm"); }
 void HostWaitTimer::Wait() { NoHostImplementation("HostWaitTimer::Wait"); }
 bool HostWaitTimer::WaitOrEvent(void*) { NoHostImplementation("HostWaitTimer::WaitOrEvent"); }
 void HostWaitTimer::Cancel() { NoHostImplementation("HostWaitTimer::Cancel"); }
+
+}
 
 }

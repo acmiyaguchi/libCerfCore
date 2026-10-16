@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 
+namespace cerfcore {
+
 /* Full staged paths of the guest-additions CE binaries for the current guest
    CPU. The body + stub DLL names are owned here; the only per-guest variable is
    the ce_apps build-output arch directory (arm / arm_thumb / mips). */
@@ -21,3 +23,5 @@ public:
 private:
     std::string ArchDir();
 };
+
+}

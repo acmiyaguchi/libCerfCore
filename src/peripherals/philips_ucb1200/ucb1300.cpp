@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* Linux ucb1x00.h UCB_ID_1300 0x1005. NetBSD hpcmips ucb1200reg.h UCB1300_ID records
@@ -39,3 +41,5 @@ protected:
 }
 
 REGISTER_SERVICE_AS(Ucb1300, Ucb1x00Codec);
+
+}

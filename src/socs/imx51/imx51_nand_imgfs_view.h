@@ -6,6 +6,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 /* Parses the runtime IMGFS ("AppFS" ShadowROM) volume read back from the
    guest-provisioned Sync2 NAND. The volume is direct-addressed (non-FTL), so
    IMGFS logical byte L == index L into Volume() - overlay math relies on this. */
@@ -38,3 +40,5 @@ private:
     std::vector<uint8_t> vol_;
     std::vector<cerf::ce_imgfs_walker::ImgfsModule> modules_;
 };
+
+}

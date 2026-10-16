@@ -17,6 +17,8 @@
 #include <cstddef>
 #include <iterator>
 
+namespace cerfcore {
+
 bool Iop13xxCp6::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     return bd && bd->GetSocId() == SocId::Iop13xx;
@@ -246,3 +248,5 @@ void Iop13xxCp6::PostRestoreState() {
 }
 
 REGISTER_SERVICE_AS(Iop13xxCp6, IrqController);
+
+}

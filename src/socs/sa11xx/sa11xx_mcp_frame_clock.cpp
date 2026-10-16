@@ -10,6 +10,8 @@
 #include "sa11xx_external_clocks.h"
 #include "sa11xx_mcp_regs.h"
 
+namespace cerfcore {
+
 using namespace sa11xx_mcp;
 
 namespace {
@@ -173,3 +175,5 @@ void Sa11xxMcpFrameClock::Restore(StateReader& r) {
 }
 
 REGISTER_SERVICE(Sa11xxMcpFrameClock);
+
+}

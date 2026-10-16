@@ -5,6 +5,8 @@
 #include "../../execution/engine_bridge.h"
 #include <cerfengine/host_request_channel.h>
 
+namespace cerfcore {
+
 namespace {
 
 uint16_t MapAxis(int v, int v_max, uint16_t lo, uint16_t hi) {
@@ -119,4 +121,6 @@ void GuestClockTouchInput::OnSampleEvent() {
     next_sample_ = samples_.TicksAt(clock_->Cycles()) + 1u;
     OnSample();
     if (sampling_) ArmNextSample();
+}
+
 }

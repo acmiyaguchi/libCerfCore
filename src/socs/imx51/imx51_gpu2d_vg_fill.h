@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* The g12 VGV2 path-fill dispatch: gates the register file for a modeled VG FLUSH,
    builds the fill target, and hands the accumulated path to the rasterizer (fill)
    or the stroker (stroke). Reads the command engine's register file. */
@@ -20,3 +22,5 @@ private:
     [[noreturn]] void Halt(const uint32_t (&regs)[0x100], const char* why,
                            uint32_t addr, uint32_t data) const;
 };
+
+}

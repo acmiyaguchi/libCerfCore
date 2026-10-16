@@ -5,6 +5,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* Cirrus CS4297A Datasheet DS318PP6. */
 class Cs4297aCodec final : public Service {
 public:
@@ -29,3 +31,5 @@ private:
 
     uint16_t registers_[128]{};
 };
+
+}

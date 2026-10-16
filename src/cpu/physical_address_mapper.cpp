@@ -2,6 +2,8 @@
 
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 namespace {
 
 class IdentityPhysicalAddressMapper final : public PhysicalAddressMapper {
@@ -19,3 +21,5 @@ public:
 REGISTER_SERVICE_AS_FALLBACK(IdentityPhysicalAddressMapper, PhysicalAddressMapper);
 
 } // namespace
+
+}

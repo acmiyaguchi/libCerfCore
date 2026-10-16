@@ -9,6 +9,8 @@
 #include <mutex>
 #include <vector>
 
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 
@@ -79,3 +81,5 @@ private:
     bool               irq_out_    = false;
     std::atomic<bool>  pen_down_{false};
 };
+
+}

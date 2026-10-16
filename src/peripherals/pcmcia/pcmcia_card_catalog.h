@@ -8,6 +8,8 @@
 #include <string>
 #include <vector>
 
+namespace cerfcore {
+
 /* The set of PC Card types CERF can insert into any slot at runtime.
    Slot "Insert card" menus list Entries(); the chosen id goes through
    Create(). */
@@ -34,3 +36,5 @@ public:
 private:
     std::vector<Entry> entries_;
 };
+
+}

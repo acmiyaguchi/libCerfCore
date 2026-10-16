@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Pxa2xxSlotSource {
 public:
     virtual ~Pxa2xxSlotSource() = default;
@@ -10,3 +12,5 @@ public:
     virtual bool     FrameOfSlot(uint64_t slot, uint64_t& frame) const = 0;
     virtual void     Prune(uint64_t settled) = 0;
 };
+
+}

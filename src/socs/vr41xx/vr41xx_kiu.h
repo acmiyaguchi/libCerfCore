@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 class Vr41xxKiuKeyPins;
 
 /* KIUSCANREP STPREP[5:0] 000000 is "64 times" on the VR4102 (UM 21.2.2 p425) and RFU on the
@@ -127,13 +129,12 @@ private:
     void ArmEventLocked();
     void UpdateLocked();
     void ApplyHostKeysLocked();
-    uint32_t ScanLineCountLocked() const;
-    bool GpenOnScanLinesLocked(uint32_t lines) const;
     uint32_t ScanLinesLocked();
-    uint32_t ScanPeriodTicksFor(uint32_t lines) const;
     uint32_t ScanPeriodTicksLocked();
     uint32_t StpRepCountLocked() const;
     void PublishCausesLocked();
     void ApplyResetLocked();
     void RequireTclockIfTimedLocked(const char* operation);
 };
+
+}

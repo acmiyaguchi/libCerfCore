@@ -5,6 +5,8 @@
 #include "imx51_ccm.h"
 #include "imx51_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* MCIMX51RM Figure 7-42 (page 7-89): the three UARTs take UART_CLK_ROOT; Table 59-12 RFDIV: "The
@@ -32,3 +34,5 @@ private:
 }
 
 REGISTER_SERVICE_AS(Imx51UartClocks, FreescaleUartClocks);
+
+}

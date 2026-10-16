@@ -18,6 +18,8 @@
 #include <utility>
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 class FreescaleSdmaSsiReceive : public Service, public FreescaleSdmaChannelSink {
@@ -117,3 +119,5 @@ private:
 }
 
 REGISTER_SERVICE(FreescaleSdmaSsiReceive);
+
+}

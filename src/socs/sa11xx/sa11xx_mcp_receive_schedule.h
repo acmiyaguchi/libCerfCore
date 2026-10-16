@@ -3,6 +3,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 
@@ -45,3 +47,5 @@ private:
     uint64_t             base_   = 0;
     std::vector<Segment> segments_;
 };
+
+}

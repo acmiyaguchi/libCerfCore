@@ -3,6 +3,8 @@
 #include "nec_cronos3e_family_id.h"
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 namespace {
 
 class NecCronos3eContext : public BoardContext {
@@ -15,3 +17,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(NecCronos3eContext, BoardContext);
+
+}

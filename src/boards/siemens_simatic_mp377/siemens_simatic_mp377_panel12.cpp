@@ -4,6 +4,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include "siemens_simatic_mp377_family_id.h"
 
+namespace cerfcore {
+
 namespace siemens_simatic_mp377 {
 namespace {
 
@@ -26,3 +28,5 @@ public:
 REGISTER_SERVICE_AS_FALLBACK(SiemensSimaticMp377Panel12, SiemensSimaticMp377Panel);
 
 }  // namespace siemens_simatic_mp377
+
+}

@@ -8,6 +8,8 @@
 #include "sa11xx_gpio.h"
 #include "sa11xx_gpio_clock_input.h"
 
+namespace cerfcore {
+
 REGISTER_SERVICE(Sa11xxExternalClocks);
 
 bool Sa11xxExternalClocks::ShouldRegister() {
@@ -58,4 +60,6 @@ void Sa11xxExternalClocks::RegisterChangeListener(std::function<void()> fn) {
 
 void Sa11xxExternalClocks::NotifyChange() {
     for (auto& fn : listeners_) fn();
+}
+
 }

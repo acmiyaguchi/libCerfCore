@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* MCIMX31RM Table 24-4 CSPI Register Summary (offsets from the port's base). */
@@ -93,4 +95,6 @@ void Imx31CspiEngine::RunHeldExchange() {
 
 void Imx31CspiEngine::DropHeldExchange() {
     conreg_ &= ~kConregXch;
+}
+
 }

@@ -4,7 +4,11 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class UartEndpoint : public UartLineDevice {
 public:
     virtual void OnGuestTx(uint8_t byte) = 0;
 };
+
+}

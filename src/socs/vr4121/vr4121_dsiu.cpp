@@ -3,6 +3,8 @@
 #include <cstdint>
 #include "vr4121_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 using cerf_vr41xx_dsiu_detail::Vr41xxDsiuBase;
@@ -26,3 +28,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE(Vr4121Dsiu);
+
+}

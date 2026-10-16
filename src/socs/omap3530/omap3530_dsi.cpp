@@ -10,6 +10,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kBasePa     = 0x4804FC00u;
@@ -164,3 +166,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(Omap3530Dsi);
+
+}

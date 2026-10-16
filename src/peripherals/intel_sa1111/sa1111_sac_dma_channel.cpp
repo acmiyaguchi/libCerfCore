@@ -10,6 +10,8 @@
 
 #include <algorithm>
 
+namespace cerfcore {
+
 Sa1111SacDmaChannel::Sa1111SacDmaChannel(CerfEmulator& emu, const Names& names)
     : Service(emu), ctl_(names.keys), names_(names) {}
 
@@ -172,4 +174,6 @@ void Sa1111SacDmaChannel::PostRestore() {
     ApplyGrant(now, sysc_->DmaGrant());
     OnRestored();
     ArmDone(now);
+}
+
 }

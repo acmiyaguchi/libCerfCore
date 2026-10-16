@@ -8,6 +8,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kMaxBase     = 0x43F04000u;
@@ -100,3 +102,5 @@ void Imx31Max::WriteWord(uint32_t addr, uint32_t value) {
 }  /* namespace */
 
 REGISTER_SERVICE(Imx31Max);
+
+}

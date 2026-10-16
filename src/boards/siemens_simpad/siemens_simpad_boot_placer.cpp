@@ -12,6 +12,8 @@
 #include <cstdint>
 #include <span>
 
+namespace cerfcore {
+
 namespace {
 
 class SiemensSimpadBootPlacer : public BoardBootPlacer {
@@ -54,3 +56,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(SiemensSimpadBootPlacer, BoardBootPlacer);
+
+}

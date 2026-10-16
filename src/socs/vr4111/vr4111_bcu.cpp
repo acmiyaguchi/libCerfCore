@@ -5,6 +5,8 @@
 #include <cstdint>
 #include "vr4111_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 using cerf_vr41xx_reg_window_detail::OtherReset;
@@ -113,3 +115,5 @@ protected:
 }
 
 REGISTER_SERVICE(Vr4111Bcu);
+
+}

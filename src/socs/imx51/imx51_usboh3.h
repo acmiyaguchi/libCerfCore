@@ -10,6 +10,8 @@
 #include <mutex>
 #include <vector>
 
+namespace cerfcore {
+
 class Imx51UsbDeviceTransfers;
 class Imx51UsbTransceiverClocks;
 class UsbDeviceHost;
@@ -97,3 +99,5 @@ private:
     FreescaleUsbFrameIndex  frame_index_{emu_};
     bool                    frames_running_ = false;
 };
+
+}

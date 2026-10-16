@@ -10,6 +10,8 @@
 #include <cerfcore/core/fatal.h>
 #include <cerfcore/core/log.h>
 
+namespace cerfcore {
+
 namespace CerfVirt {
 
 REGISTER_SERVICE(CerfVirtBlitter);
@@ -454,6 +456,8 @@ bool CerfVirtBlitter::BlendAAText(const CerfBltDescriptor& d, Surface& dst,
     }
     fb_->MarkDirty();
     return true;
+}
+
 }
 
 }

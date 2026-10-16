@@ -8,6 +8,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 class NecMobilePro700KeyboardInput : public KeyboardInput {
@@ -31,3 +33,5 @@ public:
 }  // namespace
 
 REGISTER_SERVICE(NecMobilePro700KeyboardInput);
+
+}

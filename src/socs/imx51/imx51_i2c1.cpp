@@ -1,5 +1,7 @@
 #include "imx51_i2c_impl.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* I2C1 @ 0x83FC8000, TZIC source 62 (MCIMX51RM Table 3-2; base from the BSP
@@ -12,3 +14,5 @@ class Imx51I2c1
 }  /* namespace */
 
 REGISTER_SERVICE(Imx51I2c1);
+
+}

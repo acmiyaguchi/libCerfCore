@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* MCIMX51RM Table 59-5, Figures 59-3 to 59-18; MCIMX31RM Figure 31-9 (UFCR at 0x90, the same fields). */
 namespace cerf_freescale_uart {
 
@@ -246,6 +248,8 @@ inline bool InterruptAsserted(const uint32_t (&ctrl)[kCtrlCount], uint32_t usr1,
         }
     }
     return false;
+}
+
 }
 
 }

@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 
@@ -25,3 +27,5 @@ private:
        (companion 0xA118). */
     uint32_t ctrl_a118_ = 0;
 };
+
+}

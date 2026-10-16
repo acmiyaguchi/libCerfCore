@@ -7,6 +7,8 @@
 #include <cerfengine/mips/mips_system_host.h>
 #include "engine_bridge.h"
 
+namespace cerfcore {
+
 class MipsEngineBridge : public EngineBridge, public cerfengine::MipsSystemHost {
 public:
     using EngineBridge::EngineBridge;
@@ -36,3 +38,5 @@ private:
     std::vector<std::function<void()>> post_reset_listeners_;
     std::vector<std::function<void()>> restore_listeners_;
 };
+
+}

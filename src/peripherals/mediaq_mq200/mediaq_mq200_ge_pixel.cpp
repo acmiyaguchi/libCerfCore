@@ -2,6 +2,8 @@
 
 #include <cerfcore/core/byte_order.h>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kClipStrideLowBits = 0xFu;
@@ -71,4 +73,6 @@ void MediaQMq200Ge::Pixel::Put(int x, int y, uint32_t p, uint32_t s) {
     const uint32_t out = Rop3(rop_, p, s, d) & mask_;
     if (dest_trans_ && ((((out ^ key_) & compare_mask_) == 0u) != dest_trans_not_equal_)) return;
     cerf::le::PutN(px, (d & ~write_mask_) | (out & write_mask_), bpp_);
+}
+
 }

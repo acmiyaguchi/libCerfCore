@@ -10,6 +10,8 @@
 #include <type_traits>
 #include <vector>
 
+namespace cerfcore {
+
 #pragma pack(push, 1)
 struct StateFieldTag {
     uint8_t  kind;
@@ -234,4 +236,6 @@ constexpr bool StateVisitCoversAllBytes(Visit visit) {
     StateFieldBytes mark(true);
     visit(s, mark);
     return mark.once && mark.bytes == sizeof(T);
+}
+
 }

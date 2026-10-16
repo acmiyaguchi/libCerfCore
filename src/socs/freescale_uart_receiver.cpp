@@ -5,6 +5,8 @@
 #include <algorithm>
 #include <vector>
 
+namespace cerfcore {
+
 using namespace cerf_freescale_uart;
 
 void FreescaleUartReceiver::Reset(bool drop_line) {
@@ -383,4 +385,6 @@ void FreescaleUartReceiver::Restore(StateReader& r) {
     r.Read("rx_line_free", line_free_);
     r.Read("rx_anchor", anchor_);
     r.Read("rx_idle_from", idle_from_);
+}
+
 }

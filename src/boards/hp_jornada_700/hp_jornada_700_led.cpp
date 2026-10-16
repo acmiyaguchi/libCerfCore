@@ -7,6 +7,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "hp_jornada_700_family_id.h"
 
+namespace cerfcore {
+
 REGISTER_SERVICE(HpJornada700Led);
 
 namespace {
@@ -84,4 +86,6 @@ bool HpJornada700Led::PollDirty() {
     last_drawn_state_ = s;
     last_drawn_lit_   = lit;
     return true;
+}
+
 }

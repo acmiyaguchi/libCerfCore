@@ -10,6 +10,8 @@
 #include <mutex>
 #include <vector>
 
+namespace cerfcore {
+
 /* Deep-sleep recovery: a SoC power-down register write (e.g. SA-1110 PMCR.SF)
    calls Enter(), which halts the CPU and shows a no-timeout "Shut down CERF?"
    prompt - Cancel wakes via a sleep-mode reset (GuestCpuReset::SleepWakeReset),
@@ -126,3 +128,5 @@ private:
     std::mutex                 resume_mtx_;
     std::condition_variable    resume_cv_;
 };
+
+}

@@ -2,6 +2,8 @@
 
 #include "pxa255_uart16550.h"
 
+namespace cerfcore {
+
 /* PXA255 BTUART - Bluetooth UART (base 0x40200000, INTC IS21 Table 4-35).
    Exposed via a header so a board input transport can resolve it and inject RX
    bytes through Uart16550::PushRx - the NEC MobilePro 900 PCO keyboard/touch
@@ -16,3 +18,5 @@ protected:
     uint32_t    IntcBit() const override { return 21u; }
     const char* Name()    const override { return "BTUART"; }
 };
+
+}

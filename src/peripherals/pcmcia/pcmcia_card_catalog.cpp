@@ -12,6 +12,8 @@
 #include "../serial/serial_modem_insert_entry.h"
 #include "../serial_pccard/serial_pccard.h"
 
+namespace cerfcore {
+
 namespace {
 
 const char kIdNe2000[]    = "ne2000";
@@ -84,3 +86,5 @@ std::unique_ptr<PcmciaCard> PcmciaCardCatalog::Create(const std::string& id,
 }
 
 REGISTER_SERVICE(PcmciaCardCatalog);
+
+}

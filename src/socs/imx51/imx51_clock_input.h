@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Imx51ClockInput : public Service {
 public:
     using Service::Service;
@@ -13,3 +15,5 @@ public:
     virtual uint64_t CkihHz() const = 0;
     virtual uint64_t Ckih2Hz() const = 0;
 };
+
+}

@@ -3,6 +3,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include <cerfcore/core/fatal.h>
 
+namespace cerfcore {
+
 void Vr41xxCmu::RequireTclock(uint16_t mask_bit, const char* operation) const {
     const uint16_t mask = ClockMask();
     if ((mask & mask_bit) == 0u) {
@@ -20,4 +22,6 @@ void Vr41xxCmu::ClockMaskWriting(uint16_t next) const {
     for (const ClockListener& listener : clock_listeners_) {
         if ((changed & listener.mask_bit) != 0u) listener.fn((next & listener.mask_bit) != 0u);
     }
+}
+
 }

@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Rtc8564Wiring : public Service {
 public:
     using Service::Service;
@@ -20,3 +22,5 @@ public:
     virtual int      CalendarYearBase() const = 0;
     virtual Retained RetainedRegisters() const = 0;
 };
+
+}

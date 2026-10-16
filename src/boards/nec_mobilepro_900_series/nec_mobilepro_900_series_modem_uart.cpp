@@ -9,6 +9,8 @@
 #include <array>
 #include <cstdint>
 
+namespace cerfcore {
+
 /* Minimal register stub for the NEC P530 built-in modem's TI TL16C550 UART
    (PA 0x0B000000; 16-bit bus -> register index = offset/2). NOT a modem model:
    returns only the idle status the polled tl16c550.dll driver reads at init so
@@ -72,3 +74,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(NecMobilepro900SeriesModemUart);
+
+}

@@ -5,6 +5,8 @@
 
 #include <cerfcore/core/device_config.h>
 
+namespace cerfcore {
+
 namespace {
 
 /* True when os_name already contains the {major}.{minor} version as a
@@ -54,4 +56,6 @@ std::string OsDisplayLabel(const DeviceMeta& meta) {
     std::string tag = "(CE " + std::to_string(major) + "." +
                       std::to_string(minor) + ")";
     return name.empty() ? tag : (name + " " + tag);
+}
+
 }

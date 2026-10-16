@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace cerf_freescale_gpt_detail {
 
 inline constexpr uint32_t kSize = 0x00004000u;
@@ -42,5 +44,7 @@ inline constexpr uint32_t kGptprMask = 0xFFFu;
 inline constexpr uint32_t kOcrReset = 0xFFFFFFFFu;
 
 enum class GptClockInput : uint8_t { kNone, kIpg, kHighfreq, kLowfreq, kPad, kUndefined };
+
+}
 
 }

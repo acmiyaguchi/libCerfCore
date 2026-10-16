@@ -11,6 +11,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kPmicProg = 0x30000061u;
@@ -108,3 +110,5 @@ uint32_t Msm8255PmicRemoteServer::AnswerCall(uint32_t in_pa, uint32_t size,
 }
 
 REGISTER_SERVICE(Msm8255PmicRemoteServer);
+
+}

@@ -10,6 +10,8 @@
 #include <cerfcore/socs/guest_cpu_reset.h>
 #include "omap3530_scm_reset_image.h"
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kOffDevconf0 = 0x274u;
@@ -194,3 +196,5 @@ void Omap3530SyscPadconf::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE(Omap3530SyscPadconf);
+
+}

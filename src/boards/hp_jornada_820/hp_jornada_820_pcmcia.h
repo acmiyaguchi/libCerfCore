@@ -5,6 +5,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* HP Jornada 820 two-socket PCMCIA controller. The companion ASIC forwards the
    socket status reg (PA 0x181E0800, bit layout per pcmcia.dll sub_12A148C) and
    control reg (PA 0x181E0000, Vcc-enable bits per sub_12A1954) here; this owns
@@ -29,3 +31,5 @@ private:
     PcmciaSlot slot0_;
     PcmciaSlot slot1_;
 };
+
+}

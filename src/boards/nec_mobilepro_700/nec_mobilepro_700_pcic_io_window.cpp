@@ -8,6 +8,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kBase = 0x14000000u;
@@ -75,3 +77,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE(NecMobilePro700PcicIoWindow);
+
+}

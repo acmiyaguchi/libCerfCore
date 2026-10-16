@@ -2,6 +2,8 @@
 
 #include "../../core/unreachable.h"
 
+namespace cerfcore {
+
 namespace sm501_8051 {
 
 [[noreturn]] void Raise(Bus& bus, const char* what, uint32_t detail) {
@@ -359,3 +361,5 @@ uint8_t Core::ExecuteMove(Bus& bus, uint8_t opcode) {
 }
 
 }  // namespace sm501_8051
+
+}

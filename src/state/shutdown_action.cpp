@@ -7,6 +7,8 @@
 #include <cerfcore/state/hibernation.h>
 #include <cerfcore/state/shutdown_choice.h>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(ShutdownAction);
 
 void ShutdownAction::Perform(ShutdownChoice c) {
@@ -33,4 +35,6 @@ void ShutdownAction::Perform(ShutdownChoice c) {
             host.BeginTeardown();
             return;
     }
+}
+
 }

@@ -23,6 +23,8 @@
 #include <set>
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 using cerf::ce_imgfs_walker::kDirentFileSizeOff;
@@ -171,3 +173,5 @@ private:
 }  // namespace
 
 REGISTER_SERVICE(Imx51NandGuestAdditions);
+
+}

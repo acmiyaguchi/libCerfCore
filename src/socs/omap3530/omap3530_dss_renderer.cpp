@@ -14,6 +14,8 @@
 #include <cstdint>
 #include <cstring>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kFmtRgb16 = 0x6u;
@@ -85,3 +87,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(Omap3530DssRenderer, PanelFrameRenderer);
+
+}

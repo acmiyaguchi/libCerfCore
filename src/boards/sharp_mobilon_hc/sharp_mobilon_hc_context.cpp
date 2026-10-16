@@ -3,6 +3,8 @@
 #include "sharp_mobilon_hc_family_id.h"
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 namespace {
 
 class SharpMobilonHcContext : public BoardContext {
@@ -17,3 +19,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(SharpMobilonHcContext, BoardContext);
+
+}

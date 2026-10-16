@@ -8,6 +8,8 @@
 #include <span>
 #include <vector>
 
+namespace cerfcore {
+
 /* Pure functions for parsing the CE ROM image binary format
    (B000FF, NB0, ECEC marker, ROMHDR, TOC, IMGFS). All callers go
    through these - RomParserService composes them; nothing here
@@ -169,3 +171,5 @@ bool ReadImgfsSuperblock(std::span<const uint8_t> bytes, size_t off, ImgfsSuperb
 bool FindImgfsBase(std::span<const uint8_t> raw, ImgfsSuperblock& out);
 
 }  /* namespace cerf::rom_image_parse */
+
+}

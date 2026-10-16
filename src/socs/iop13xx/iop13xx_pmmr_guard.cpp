@@ -5,6 +5,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include "../../peripherals/peripheral_dispatcher.h"
 
+namespace cerfcore {
+
 bool Iop13xxPmmrGuard::ShouldRegister() {
     auto* board = emu_.TryGet<BoardContext>();
     return board && board->GetSocId() == SocId::Iop13xx;
@@ -36,4 +38,6 @@ void Iop13xxPmmrGuard::WriteHalf(uint32_t addr, uint16_t value) {
 
 void Iop13xxPmmrGuard::WriteByte(uint32_t addr, uint8_t value) {
     HaltUnsupportedAccess("IOP13xx unsupported PMMR byte write", addr, value);
+}
+
 }

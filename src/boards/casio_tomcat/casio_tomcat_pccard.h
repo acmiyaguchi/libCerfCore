@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 
@@ -57,3 +59,5 @@ private:
     bool       reg_space_ = false;
     bool       in_reset_  = false;
 };
+
+}

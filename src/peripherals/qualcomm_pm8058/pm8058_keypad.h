@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 
@@ -58,3 +60,5 @@ private:
     uint32_t new_index_ = 0;
     uint32_t old_index_ = 0;
 };
+
+}

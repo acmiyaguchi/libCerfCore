@@ -9,6 +9,8 @@
 #include <array>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* i.MX51 HSC (High-Speed Connectivity) @ 0x83FDC000, 16 KB. RM Table 2-1 leaves
@@ -68,3 +70,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(Imx51Hsc);
+
+}

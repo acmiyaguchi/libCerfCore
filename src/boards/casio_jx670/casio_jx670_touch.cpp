@@ -7,6 +7,8 @@
 
 #include <algorithm>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kOffCtrl300  = 0x0300u;
@@ -276,3 +278,5 @@ void CasioJx670Touch::RestoreState(StateReader& r) {
 }
 
 void CasioJx670Touch::PostRestore() {}
+
+}

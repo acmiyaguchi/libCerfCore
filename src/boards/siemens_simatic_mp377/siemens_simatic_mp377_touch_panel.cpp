@@ -13,6 +13,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace siemens_simatic_mp377 {
 
 namespace {
@@ -345,3 +347,5 @@ void SiemensSimaticMp377TouchPanel::PostRestore() {
 REGISTER_SERVICE(SiemensSimaticMp377TouchPanel);
 
 } // namespace siemens_mp377
+
+}

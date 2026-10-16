@@ -5,6 +5,8 @@
 
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 /* device_code = i.MX31 KPP cell, col<<8 | row. pyxis_keybd.dll's cell->VK table
@@ -38,3 +40,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(ToshibaGigabeatSKeyboardMap, KeyboardMap);
+
+}

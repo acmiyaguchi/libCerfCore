@@ -2,6 +2,8 @@
 
 #include "sa11xx_ssp_regs.h"
 
+namespace cerfcore {
+
 using namespace sa11xx_ssp;
 
 Sa11xxSspFrameFormat Sa11xxSspFrameFormat::Of(uint32_t sscr0, uint32_t sscr1) {
@@ -46,4 +48,6 @@ Sa11xxSspFrameFormat Sa11xxSspFrameFormat::Of(uint32_t sscr0, uint32_t sscr1) {
             break;
     }
     return f;
+}
+
 }

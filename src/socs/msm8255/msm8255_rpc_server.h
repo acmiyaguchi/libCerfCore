@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 
@@ -27,3 +29,5 @@ public:
     virtual uint32_t ConsumeCallbackReply(uint32_t in_pa, uint32_t size,
                                           uint32_t out_pa, uint32_t out_cap);
 };
+
+}

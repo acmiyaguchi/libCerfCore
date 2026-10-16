@@ -6,6 +6,8 @@
 #include "omap3530_board_clock_setup.h"
 #include "omap3530_dpll.h"
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kOffClkenPll   = 0x04u;
@@ -205,3 +207,5 @@ void Omap3530CmMpu::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE(Omap3530CmMpu);
+
+}

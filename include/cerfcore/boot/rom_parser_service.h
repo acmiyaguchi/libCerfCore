@@ -7,6 +7,8 @@
 #include <string>
 #include <vector>
 
+namespace cerfcore {
+
 struct ParsedTOCentry {
     uint32_t    dwFileAttributes = 0;
     uint64_t    ftTime           = 0;
@@ -162,3 +164,5 @@ private:
     bool                   ok_ = false;
     std::vector<ParsedRom> loaded_;
 };
+
+}

@@ -8,6 +8,8 @@
 #include "../../peripherals/peripheral_dispatcher.h"
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 
 enum : uint32_t {
@@ -231,3 +233,5 @@ void Pxa255PowerManager::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE(Pxa255PowerManager);
+
+}

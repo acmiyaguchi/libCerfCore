@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class CerfEmulator;
 class StateWriter;
 class StateReader;
@@ -79,3 +81,5 @@ private:
     uint32_t pm06_  = 0;
     uint32_t pm07_  = 0;
 };
+
+}

@@ -5,6 +5,8 @@
 #include <cstddef>
 #include <cstdint>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 class Twl4030;
@@ -43,3 +45,5 @@ private:
     bool     key_tst_     = false;
     uint8_t  key_armed_   = 0;
 };
+
+}

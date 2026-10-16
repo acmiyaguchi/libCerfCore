@@ -7,6 +7,8 @@
 #include <cerfcore/core/fatal.h>
 #include <cerfcore/core/service.h>
 
+namespace cerfcore {
+
 constexpr uint64_t kVr41xxClkxHz = 18432000u;
 
 class Vr41xxClockStrap : public Service {
@@ -24,3 +26,5 @@ public:
         return rows[clksel];
     }
 };
+
+}

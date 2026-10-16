@@ -6,6 +6,8 @@
 #include <cerfengine/engine_setup.h>
 #include <cerfengine/mips/mips_cpu_state.h>
 
+namespace cerfcore {
+
 class MipsProcessorConfig : public Service {
 public:
     using Service::Service;
@@ -50,3 +52,5 @@ private:
     bool mips16_             = false;
     bool tx39_multiply_add_  = false;
 };
+
+}

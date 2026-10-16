@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 class Imx51Gpio1;
 class StateReader;
 class StateWriter;
@@ -57,3 +59,5 @@ private:
     uint32_t                         cwdr_   = 0;
     uint32_t                         levels_ = 0;
 };
+
+}

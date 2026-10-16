@@ -9,6 +9,8 @@
 #include <cstdint>
 #include <optional>
 
+namespace cerfcore {
+
 namespace {
 
 /* PIUCMDREG ADCMD(3:0) = 0000 selects the TPX0 port (VR4121 UM 20.3.5 (2/2)). touch.dll
@@ -82,3 +84,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(CasioPocketpostpetTouchPanel, Vr41xxPiuPanel);
+
+}

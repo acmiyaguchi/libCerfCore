@@ -28,6 +28,8 @@
 #include <string>
 #include <vector>
 
+namespace cerfcore {
+
 namespace cerf_freescale_uart_detail {
 
 template <uint32_t kBase, int kUartNum, const std::string_view& kSoc>
@@ -470,5 +472,7 @@ private:
     FreescaleUartEscape      escape_{emu_};
     FreescaleUartSdma        sdma_{emu_, kUartNum, tx_, rx_};
 };
+
+}
 
 }

@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Sa11xxMemoryRegisterMap : public Service {
 public:
     using Service::Service;
@@ -13,3 +15,5 @@ public:
     virtual uint32_t RegisterCount() const = 0;
     virtual void ApplyResetValues(uint32_t (&regs)[kMaxRegisters]) const = 0;
 };
+
+}

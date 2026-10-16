@@ -9,6 +9,8 @@
 #include "omap3530_mcbsp_wiring.h"
 #include "omap3530_sysc_padconf.h"
 
+namespace cerfcore {
+
 bool Omap3530McBspClockInputs::ShouldRegister() {
     return emu_.Get<BoardContext>().GetSocId() == SocId::Omap3530;
 }
@@ -66,3 +68,5 @@ void Omap3530McBspClockInputs::Notify() {
 }
 
 REGISTER_SERVICE(Omap3530McBspClockInputs);
+
+}

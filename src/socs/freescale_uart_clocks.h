@@ -5,6 +5,8 @@
 
 #include <functional>
 
+namespace cerfcore {
+
 class FreescaleUartClocks : public Service {
 public:
     using Service::Service;
@@ -13,3 +15,5 @@ public:
 
     virtual void RegisterRateListener(std::function<void()> fn) = 0;
 };
+
+}

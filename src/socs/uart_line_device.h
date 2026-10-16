@@ -1,5 +1,7 @@
 #pragma once
 
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 
@@ -10,3 +12,5 @@ public:
     virtual void SaveState(StateWriter&) {}
     virtual void RestoreState(StateReader&) {}
 };
+
+}

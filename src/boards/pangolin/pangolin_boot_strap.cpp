@@ -5,6 +5,8 @@
 #include "pangolin_family_id.h"
 #include "../../socs/sa11xx/sa11xx_ppc.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* The G138 OAL samples PPC pin 7 (L_DD7, an input pre-LCD) as a boot-mode
@@ -28,3 +30,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE(PangolinBootStrap);
+
+}

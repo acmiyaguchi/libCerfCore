@@ -4,6 +4,8 @@
 
 #include <cerfcore/core/byte_order.h>
 
+namespace cerfcore {
+
 namespace cerf::ce_image_relocator {
 
 namespace {
@@ -145,6 +147,8 @@ void ApplyRelocations(std::vector<uint8_t>& bytes,
         }
         cursor += block_size;
     }
+}
+
 }
 
 }

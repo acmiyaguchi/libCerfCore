@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Pxa2xxAc97PcmIn : public Pxa2xxAc97InFifo {
 public:
     using Pxa2xxAc97InFifo::Pxa2xxAc97InFifo;
@@ -28,3 +30,5 @@ private:
 
     Pxa2xxFrameSlotLaw law_{Ac97Codec::kFrameRateHz};
 };
+
+}

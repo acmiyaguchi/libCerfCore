@@ -13,6 +13,8 @@
 #include "../core/host_file_bytes.h"
 #include <cerfcore/core/log.h>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(ImgfsVictimRecomposer);
 
 namespace {
@@ -94,4 +96,6 @@ ImgfsVictimRecomposer::Recompose(std::span<const uint8_t> orig_hdr,
         orig_vbase, orig_subsysmaj, orig_subsysmin, slots.size(),
         new_hdr.size(), reloc_count);
     return Result{std::move(new_hdr), std::move(slots)};
+}
+
 }

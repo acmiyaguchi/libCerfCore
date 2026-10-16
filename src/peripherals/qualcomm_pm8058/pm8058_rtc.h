@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 class Pm8058Irq;
 class StateWriter;
 class StateReader;
@@ -64,3 +66,5 @@ private:
     bool                       alarm_status_  = false;
     uint8_t                    alarm_[kBytes] = {};
 };
+
+}

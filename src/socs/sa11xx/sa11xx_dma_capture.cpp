@@ -9,6 +9,8 @@
 
 #include <vector>
 
+namespace cerfcore {
+
 void Sa11xxDmaCapture::OnReady() {
     cfg_ = AudioConfig();
     mic_.Start(cfg_.log_tag, static_cast<size_t>(cfg_.max_page_bytes) * 4u);
@@ -31,3 +33,5 @@ bool Sa11xxDmaCapture::FillReceived(uint32_t ddar, uint32_t pa, uint32_t bytes,
 }
 
 void Sa11xxDmaCapture::OnReceiveRestored() { mic_.Clear(); }
+
+}

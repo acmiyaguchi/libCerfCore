@@ -8,6 +8,8 @@
 #include <cstdint>
 #include <cmath>
 
+namespace cerfcore {
+
 namespace CerfVirt {
 
 /* jornada720 ddi.dll sub_FFC7D8 (table 0x1007970); ipaq_h3600_ppc2000 ddi.dll sub_F62650 */
@@ -144,5 +146,7 @@ struct AATextContext {
         return u;
     }
 };
+
+}
 
 }

@@ -17,6 +17,8 @@
 #include <atomic>
 #include <cstdint>
 
+namespace cerfcore {
+
 /* siemens_mp377_v1040 nk.exe OEMAddressTable, VA 0x80409F00. */
 namespace siemens_simatic_mp377_board_io_detail {
 
@@ -107,3 +109,5 @@ public:
 };
 
 } // namespace mp377_board_io_detail
+
+}

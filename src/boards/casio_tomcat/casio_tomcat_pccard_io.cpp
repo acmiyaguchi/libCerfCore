@@ -9,6 +9,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* casio_cassiopeia_e55 pcmcia.dll sub_14C1604 @0x14C1604 fills the descriptor's second
@@ -49,3 +51,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE(CasioTomcatPcCardIo);
+
+}

@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <string>
 
+namespace cerfcore {
+
 class EmulationSpeedConfig : public Service {
 public:
     struct Multiplier {
@@ -27,3 +29,5 @@ private:
     Multiplier throttle_;
     Multiplier cpu_rate_;
 };
+
+}

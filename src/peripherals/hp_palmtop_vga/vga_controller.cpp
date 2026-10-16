@@ -7,6 +7,8 @@
 #include <algorithm>
 #include <cstring>
 
+namespace cerfcore {
+
 namespace {
 constexpr uint32_t kAttrIndexData = 0x3C0;  /* index + data via flip-flop  */
 constexpr uint32_t kAttrReadData  = 0x3C1;
@@ -212,4 +214,6 @@ void VgaController::RenderInto(uint32_t* dib, uint32_t dst_w, uint32_t dst_h) {
             }
         }
     }
+}
+
 }

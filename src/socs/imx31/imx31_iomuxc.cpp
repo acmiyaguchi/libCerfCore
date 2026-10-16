@@ -9,6 +9,8 @@
 #include <array>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* i.MX31 IOMUXC pin-mux config (MCIMX31RM Ch 4 Table 4-1: GPR @0x008,
@@ -47,3 +49,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(Imx31Iomuxc);
+
+}

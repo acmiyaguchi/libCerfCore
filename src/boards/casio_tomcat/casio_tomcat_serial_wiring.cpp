@@ -4,6 +4,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "casio_tomcat_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* Carrier reaches the guest on GIU pin 15, asserted low: casio_cassiopeia_e55 serial.dll
@@ -30,3 +32,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(CasioTomcatSerialWiring, Vr41xxSerialWiring);
+
+}

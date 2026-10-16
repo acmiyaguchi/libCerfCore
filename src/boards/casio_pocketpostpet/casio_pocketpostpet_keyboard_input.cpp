@@ -9,6 +9,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 class CasioPocketpostpetKeyboardInput : public KeyboardInput {
@@ -37,3 +39,5 @@ public:
 }  // namespace
 
 REGISTER_SERVICE(CasioPocketpostpetKeyboardInput);
+
+}

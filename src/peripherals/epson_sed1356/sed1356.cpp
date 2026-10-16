@@ -10,6 +10,8 @@
 #include <cerfcore/state/state_stream.h>
 #include <cerfcore/core/fatal.h>
 
+namespace cerfcore {
+
 bool Sed1356::ShouldRegister() {
     return emu_.TryGet<Sed1356Config>() != nullptr;
 }
@@ -491,3 +493,5 @@ void Sed1356::PostRestore() {
 }
 
 REGISTER_SERVICE(Sed1356);
+
+}

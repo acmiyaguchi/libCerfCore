@@ -12,6 +12,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace siemens_simatic_mp377 {
 
 bool SiemensSimaticMp377SmiBridge::ShouldRegister() {
@@ -122,3 +124,5 @@ void SiemensSimaticMp377SmiBridge::PostRestoreState() {
 REGISTER_SERVICE(SiemensSimaticMp377SmiBridge);
 
 } // namespace siemens_mp377
+
+}

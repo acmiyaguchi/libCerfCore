@@ -6,6 +6,8 @@
 #include <atomic>
 #include <cstdint>
 
+namespace cerfcore {
+
 constexpr bool Msm8255GpioBanksAddressablePins(const Msm8255GpioBank* banks,
                                                uint32_t count) {
     for (uint32_t i = 0; i < count; ++i) {
@@ -124,3 +126,5 @@ private:
     std::atomic<uint32_t> selection_valid_{0};
     std::atomic<uint32_t> config_[kMsm8255GpioPinCount] = {};
 };
+
+}

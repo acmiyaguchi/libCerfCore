@@ -5,6 +5,8 @@
 #include <cerfcore/core/log.h>
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 uint32_t AtaDrive::CurrentLba28() const {
     return (static_cast<uint32_t>(device_ & 0x0Fu) << 24) |
            (static_cast<uint32_t>(lba_high_) << 16) |
@@ -329,4 +331,6 @@ void AtaDrive::RestoreState(StateReader& r) {
     r.Read("xfer_lba", xfer_lba_); r.Read("xfer_remaining", xfer_remaining_);
     r.Read("multiple_block", multiple_block_); r.Read("cur_block", cur_block_);
     r.Read("logged_id", logged_id_); r.Read("logged_rd", logged_rd_); r.Read("logged_wr", logged_wr_);
+}
+
 }

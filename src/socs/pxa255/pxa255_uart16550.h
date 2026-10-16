@@ -8,6 +8,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* PXA255 on-chip 16550 UART (Ch10): word register stride; the TX interrupt is
    gated by UUE (IER.6, Table 10-8) and the ISR at index 8 (offset 0x20) selects
    IrDA/UART mode. FFUART/BTUART/STUART differ only by base + INTC source
@@ -30,3 +32,5 @@ public:
         return bd && bd->GetSocId() == SocId::Pxa255;
     }
 };
+
+}

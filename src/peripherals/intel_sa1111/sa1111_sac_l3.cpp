@@ -6,6 +6,8 @@
 #include "../../boards/hp_jornada_700/hp_jornada_700_family_id.h"
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 
 /* Table 7-10 (printed 7-13): SASR0 L3WD 16, L3RD 17; Table 7-12 (printed 7-15): SASCR DTS 16,
@@ -117,3 +119,5 @@ void Sa1111SacL3::Restore(StateReader& r) {
 }
 
 REGISTER_SERVICE(Sa1111SacL3);
+
+}

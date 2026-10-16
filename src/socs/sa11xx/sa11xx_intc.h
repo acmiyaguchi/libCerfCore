@@ -7,6 +7,8 @@
 
 namespace cerfengine { class ArmJit; }
 
+namespace cerfcore {
+
 class Sa11xxIntc : public Peripheral {
 public:
     using Peripheral::Peripheral;
@@ -73,3 +75,5 @@ private:
                off == 0x0C || off == 0x10 || off == 0x20;
     }
 };
+
+}

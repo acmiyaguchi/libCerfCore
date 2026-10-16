@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 
@@ -162,3 +164,5 @@ private:
     bool                  pending_active_ = false;
     uint32_t              expected_dwords_ = 0;
 };
+
+}

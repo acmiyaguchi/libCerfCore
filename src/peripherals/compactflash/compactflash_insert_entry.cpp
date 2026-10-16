@@ -19,6 +19,8 @@
 #include <system_error>
 #include <vector>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(CompactFlashInsertEntry);
 
 std::string CompactFlashInsertEntry::CfImgPath() const {
@@ -124,4 +126,6 @@ SlotEntry CompactFlashInsertEntry::BuildInsertEntry(PcmciaCardCatalog::CardInser
         items.push_back(std::move(it));
     }
     return entry;
+}
+
 }

@@ -2,6 +2,8 @@
 
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kOffCsA100  = 0xA100u;
@@ -48,4 +50,6 @@ void CasioJx670Eeprom::SaveState(StateWriter& w) const {
 void CasioJx670Eeprom::RestoreState(StateReader& r) {
     r.Read("ctrl_a110", ctrl_a110_);
     r.Read("ctrl_a118", ctrl_a118_);
+}
+
 }

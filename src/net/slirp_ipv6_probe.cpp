@@ -3,6 +3,8 @@
 #include <cerfcore/core/log.h>
 #include "../platform/host_network.h"
 
+namespace cerfcore {
+
 bool ProbeHostIpv6Reachable() {
     LOG(Net, "IPv6 probe: testing public v6 reachability via TCP connect "
              "to 2606:4700:4700::1111:53 (Cloudflare DNS anycast, 1.5s timeout); "
@@ -22,4 +24,6 @@ bool ProbeHostIpv6Reachable() {
     LOG(Net, "IPv6 probe -> 2606:4700:4700::1111:53 = %s (err=%d)\n",
         probe.reachable ? "REACHABLE" : "UNREACHABLE", probe.error);
     return probe.reachable;
+}
+
 }

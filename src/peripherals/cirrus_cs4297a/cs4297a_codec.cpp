@@ -5,6 +5,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include <cerfcore/core/fatal.h>
 
+namespace cerfcore {
+
 bool Cs4297aCodec::ShouldRegister() {
     auto* board = emu_.TryGet<BoardContext>();
     return board && board->GetBoardFamilyId() == BoardFamilyId::SiemensSimaticMp377;
@@ -141,3 +143,5 @@ void Cs4297aCodec::RestoreState(StateReader& reader) {
 }
 
 REGISTER_SERVICE(Cs4297aCodec);
+
+}

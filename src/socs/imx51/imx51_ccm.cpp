@@ -19,6 +19,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* MCIMX51RM Table 7-3 CCM memory map. */
@@ -410,3 +412,5 @@ uint32_t Imx51Ccm::WfiLowPowerMode() const {
 }
 
 REGISTER_SERVICE(Imx51Ccm);
+
+}

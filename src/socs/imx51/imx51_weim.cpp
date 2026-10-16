@@ -9,6 +9,8 @@
 #include <array>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* i.MX51 WEIM (Wireless External Interface Module - EMI external-memory ctrl),
@@ -47,3 +49,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(Imx51Weim);
+
+}

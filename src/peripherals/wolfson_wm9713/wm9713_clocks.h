@@ -5,6 +5,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 class Wm9713MasterClocks;
@@ -28,3 +30,5 @@ private:
     const Wm9713MasterClocks* inputs_ = nullptr;
     uint32_t                  pager_  = 0;
 };
+
+}

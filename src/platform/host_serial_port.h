@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 
+namespace cerfcore {
+
 namespace host_platform {
 
 struct SerialPortSettings {
@@ -58,5 +60,7 @@ private:
 };
 
 std::vector<std::string> EnumerateSerialPorts();
+
+}
 
 }

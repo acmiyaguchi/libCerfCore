@@ -9,6 +9,8 @@
 #include "../../execution/engine_bridge.h"
 #include <cerfengine/arm/arm_mmu.h>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(Sa1110SdramDecode);
 
 namespace {
@@ -88,4 +90,6 @@ void Sa1110SdramDecode::ApplyMdcnfg(uint32_t mdcnfg) {
     emu_.Get<EmulatedMemory>().SetAddressDecode(kBank0Base, next);
     emu_.Get<EngineBridge>().Engine().Get<cerfengine::ArmMmu>().InvalidateAllTlbs();
     LOG(Mem, "SA-1110 MDCNFG 0x%08X: DE0 %u DRAC0 %u\n", mdcnfg, mdcnfg & kMdcnfgDe0, drac);
+}
+
 }

@@ -11,6 +11,8 @@
 
 #include <string>
 
+namespace cerfcore {
+
 using namespace CerfVirt;
 using host_platform::SharedFsInfo;
 using host_platform::SharedFsStatus;
@@ -220,4 +222,6 @@ uint16_t FolderShareFiles::GetSpace(ServerPB& pb) {
     pb.fPosition = (uint32_t)total_cl;
     pb.fSize     = (uint32_t)avail_cl;
     return kErrorNoError;
+}
+
 }

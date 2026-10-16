@@ -10,6 +10,8 @@
 #include "imx51_gpu2d_regfile.h"
 #include "imx51_gpu2d_blend.h"
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kInput = 0x0Fu;   /* ADDR_G2D_INPUT */
@@ -197,4 +199,6 @@ void Imx51Gpu2dDirect2d::UnpremultiplyRect(const Gpu2dCopySpec& c) {
                 | UnpremultChannel(*pixel & 0xFFu, alpha);
         }
     }
+}
+
 }

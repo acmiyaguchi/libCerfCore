@@ -4,6 +4,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "nec_cronos3e_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class NecCronos3eClockStrap : public Vr41xxClockStrap {
@@ -20,3 +22,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(NecCronos3eClockStrap, Vr41xxClockStrap);
+
+}

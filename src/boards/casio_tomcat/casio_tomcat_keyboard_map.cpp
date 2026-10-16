@@ -5,6 +5,8 @@
 
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 /* device_code is the GIU pin. casio_cassiopeia_e55 keybddr.dll sub_14E37C4 @0x14E37C4 forms
@@ -40,3 +42,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(CasioTomcatKeyboardMap, KeyboardMap);
+
+}

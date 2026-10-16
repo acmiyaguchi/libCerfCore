@@ -8,6 +8,8 @@
 
 #include <typeinfo>
 
+namespace cerfcore {
+
 uint32_t MipsKsegPageTableBuilder::VaToPa(uint32_t va) const {
     if (cerfengine::MipsSeg::IsUnmapped(va)) {
         return cerfengine::MipsSeg::UnmappedPa(va);
@@ -65,4 +67,6 @@ DramRegion MipsKsegPageTableBuilder::PlaceEntryXipRom(uint32_t dram_va,
               "(ulRAMEnd=0x%08X)\n", typeid(*this).name(), rom.va_base, rom.pa_base,
         rom.size, dram_va, dram_size, hdr.ulRAMEnd);
     return rom;
+}
+
 }

@@ -1,5 +1,7 @@
 #include "intel_28f128j3.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* Per-chip CFI query table, byte-exact from the Intel 28F128J3 datasheet
@@ -33,3 +35,5 @@ const uint8_t kCfi[] = {
 
 const uint8_t* Intel28F128J3::CfiTable() const { return kCfi; }
 uint32_t       Intel28F128J3::CfiCount() const { return sizeof(kCfi); }
+
+}

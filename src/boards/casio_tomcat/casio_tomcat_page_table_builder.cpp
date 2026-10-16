@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* DRAM space PA 0x00000000-0x03FFFFFF (VR4111 UM Table 6-6). The E-55 ships 16 MB
@@ -39,3 +41,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(CasioTomcatPageTableBuilder, PageTableBuilder);
+
+}

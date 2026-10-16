@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 
@@ -64,3 +66,5 @@ private:
     uint32_t primary_reserve_ = 0;
     bool     any_write_   = false;
 };
+
+}

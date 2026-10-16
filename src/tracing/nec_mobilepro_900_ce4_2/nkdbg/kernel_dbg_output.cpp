@@ -5,6 +5,8 @@
 
 #include <string>
 
+namespace cerfcore {
+
 namespace {
 
 /* nk.exe sub_90205054 is the OEM debug char-sink (OEMWriteDebugString level),
@@ -29,3 +31,5 @@ public:
 }  // namespace
 
 REGISTER_SERVICE(NecMobilepro900SeriesKernelDbgOutput);
+
+}

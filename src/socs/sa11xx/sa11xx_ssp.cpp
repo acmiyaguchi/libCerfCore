@@ -13,6 +13,8 @@
 #include "sa11xx_ssp_regs.h"
 #include "sa11xx_ssp_stream.h"
 
+namespace cerfcore {
+
 namespace {
 
 class Sa11xxSsp : public Peripheral {
@@ -149,3 +151,5 @@ void Sa11xxSsp::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE(Sa11xxSsp);
+
+}

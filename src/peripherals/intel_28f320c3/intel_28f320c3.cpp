@@ -8,6 +8,8 @@
 #include "../peripheral_dispatcher.h"
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 
 /* Intel 28F320C3 StrataFlash CFI state machine (iPaq H3xxx, SA-1110
@@ -139,3 +141,5 @@ void Intel28F320C3::WriteWord(uint32_t addr, uint32_t value) {
 }  /* namespace */
 
 REGISTER_SERVICE(Intel28F320C3);
+
+}

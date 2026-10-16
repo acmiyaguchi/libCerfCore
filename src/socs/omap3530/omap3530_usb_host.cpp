@@ -1,5 +1,7 @@
 #include "omap3530_prcm_stub_block.h"
 
+namespace cerfcore {
+
 namespace {
 
 class Omap3530UhhTllBase : public Omap3530PrcmStubBlock {
@@ -87,3 +89,5 @@ REGISTER_SERVICE(Omap3530Usbtll);
 REGISTER_SERVICE(Omap3530Uhh);
 REGISTER_SERVICE(Omap3530Ohci);
 REGISTER_SERVICE(Omap3530Ehci);
+
+}

@@ -4,6 +4,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include "../arm_processor_config.h"
 
+namespace cerfcore {
+
 REGISTER_SERVICE(ArmCp15Registers);
 
 bool ArmCp15Registers::ShouldRegister() {
@@ -51,11 +53,6 @@ CERF_FORCEINLINE void ArmCp15Registers::RecordAlignmentFault(uint32_t va, bool i
     file_.dfar = va;
 }
 
-void CERFENGINE_FASTCALL cerfengine::host::ArmAlignmentFault(void* context, uint32_t va,
-                                                             bool is_write) {
-    static_cast<ArmCp15Registers*>(context)->RecordAlignmentFault(va, is_write);
-}
-
 cerfengine::ArmResetResult ArmCp15Registers::Reset() {
     /* ARM DDI 0406C.c B4.1.153 (p. B4-1724): TTBCR is "A 32-bit RW register
        that resets to zero". */
@@ -91,4 +88,11 @@ void ArmCp15Registers::SetPendingResumeAuxControl(uint32_t aux) {
 uint32_t CERFENGINE_FASTCALL ArmCp15Registers::ReadCcsidr(void* self) {
     ArmCp15Registers* regs = static_cast<ArmCp15Registers*>(self);
     return regs->config_->Ccsidr(regs->file_.csselr);
+}
+
+}
+
+void CERFENGINE_FASTCALL cerfengine::host::ArmAlignmentFault(void* context, uint32_t va,
+                                                             bool is_write) {
+    static_cast<cerfcore::ArmCp15Registers*>(context)->RecordAlignmentFault(va, is_write);
 }

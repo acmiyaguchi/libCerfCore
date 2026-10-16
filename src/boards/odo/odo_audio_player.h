@@ -7,6 +7,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 
@@ -39,3 +41,5 @@ private:
     PacedWaveOut            out_;
     bool                    playing_ = false;
 };
+
+}

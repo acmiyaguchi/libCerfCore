@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <string_view>
 
+namespace cerfcore {
+
 class OpenBusWindow : public Peripheral {
 public:
     using Peripheral::Peripheral;
@@ -28,3 +30,5 @@ protected:
 
     void Trace(const char* op, uint32_t addr);
 };
+
+}

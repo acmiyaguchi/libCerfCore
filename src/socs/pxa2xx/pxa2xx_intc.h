@@ -6,6 +6,9 @@
 #include <mutex>
 
 namespace cerfengine { class ArmJit; }
+
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 
@@ -134,3 +137,5 @@ private:
        invalid. */
     uint32_t ipr_[kIprSlots] = {};
 };
+
+}

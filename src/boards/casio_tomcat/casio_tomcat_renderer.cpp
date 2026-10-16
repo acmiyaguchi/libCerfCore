@@ -8,6 +8,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "casio_tomcat_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class CasioTomcatRenderer : public PanelFrameRenderer {
@@ -53,3 +55,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(CasioTomcatRenderer, PanelFrameRenderer);
+
+}

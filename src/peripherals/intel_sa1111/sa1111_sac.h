@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Sa1111SacDma;
 class Sa1111SacFrameClock;
 class Sa1111SacHostInput;
@@ -78,3 +80,5 @@ private:
     uint32_t accar_ = 0, accdr_ = 0, saitr_ = 0;
     bool     clock_on_ = false;
 };
+
+}

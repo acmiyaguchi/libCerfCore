@@ -3,6 +3,8 @@
 #include <cerfcore/boards/board_context.h>
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 namespace {
 
 class NullPageTableBuilder : public PageTableBuilder {
@@ -23,3 +25,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(NullPageTableBuilder, PageTableBuilder);
+
+}

@@ -6,6 +6,8 @@
 
 #include <cstring>
 
+namespace cerfcore {
+
 uint32_t Omap3530SdmaIrq::ReadIrqRegister(uint32_t off) const {
     if (off < kIrqEnableL0) return irqstatus_l_[(off - kIrqStatusL0) / 4u];
     return irqenable_l_[(off - kIrqEnableL0) / 4u];
@@ -53,4 +55,6 @@ void Omap3530SdmaIrq::SaveIrqLines(StateWriter& w) {
 
 void Omap3530SdmaIrq::RestoreIrqLines(StateReader& r) {
     r.ReadBytes("irq_line_high", irq_line_high_, sizeof(irq_line_high_));
+}
+
 }

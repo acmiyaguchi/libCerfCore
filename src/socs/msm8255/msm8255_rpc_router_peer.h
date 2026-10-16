@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 
@@ -45,3 +47,5 @@ private:
     uint32_t srv_cid_   = 0;
     bool     srv_known_ = false;
 };
+
+}

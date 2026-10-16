@@ -4,6 +4,8 @@
 #include <cerfcore/host/host_widget_registry.h>
 #include "../../socs/pr31x00/pr31x00_card_space.h"
 
+namespace cerfcore {
+
 IteIt8368SocketHost::IteIt8368SocketHost(CerfEmulator& emu, const char* slot_name)
     : Service(emu), slot0_(emu, *this, slot_name) {}
 
@@ -26,4 +28,6 @@ void IteIt8368SocketHost::OnCardIrqAsserted(PcmciaSlot&) {
 
 void IteIt8368SocketHost::OnCardIrqDeasserted(PcmciaSlot&) {
     emu_.Get<IteIt8368>().SetCardIrq(false);
+}
+
 }

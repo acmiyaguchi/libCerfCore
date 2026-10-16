@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <functional>
 
+namespace cerfcore {
+
 class IrqController;
 
 class Pxa2xxAc97Interrupt : public Service, public Pxa2xxAc97LinkListener {
@@ -40,3 +42,5 @@ private:
     std::function<uint64_t(uint64_t)> next_;
     bool line_ = false;
 };
+
+}

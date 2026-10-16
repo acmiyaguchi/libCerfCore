@@ -4,6 +4,8 @@
 #define NOMINMAX
 #include <windows.h>
 
+namespace cerfcore {
+
 namespace host_platform {
 
 namespace {
@@ -51,6 +53,8 @@ void LargestDisplaySize(uint32_t& width, uint32_t& height) {
     }
     width  = mon.w;
     height = mon.h;
+}
+
 }
 
 }

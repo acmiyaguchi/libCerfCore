@@ -1,6 +1,8 @@
 #pragma once
 #include <cstdint>
 
+namespace cerfcore {
+
 struct CerfConfig {
     const char* device_override = nullptr;
 
@@ -28,3 +30,5 @@ inline constexpr char kArgBoot[]           = "--boot=";
 inline constexpr char kArgTab[]            = "--tab=";
 inline constexpr char kArgFullScreen[]     = "--full-screen";
 inline constexpr char kArgNoFocus[]        = "--no-focus";
+
+}

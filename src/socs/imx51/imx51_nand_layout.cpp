@@ -11,6 +11,8 @@
 #include <array>
 #include <cstdint>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(Imx51NandLayout);
 
 namespace {
@@ -206,4 +208,6 @@ void Imx51NandLayout::BuildBbtPage(uint64_t phys_off, uint8_t* main, size_t main
     /* meta[0]=0x00 marks a written page (validator 0x8FF0C9A0); meta[1..2] stay
        0xFF so the stored checksum reads 0xFFFF and the reader skips it (0x8FF0D8C4). */
     if (kBbtMetaSpareOff < spare_len) spare[kBbtMetaSpareOff] = 0x00;
+}
+
 }

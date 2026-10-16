@@ -9,6 +9,8 @@
 #include <cerfcore/host/host_presentation.h>
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(CerfVirtResize);
 
 bool CerfVirtResize::ShouldRegister() {
@@ -73,4 +75,6 @@ void CerfVirtResize::RequestResize(uint32_t w, uint32_t h) {
     want_w_.store(w);
     want_h_.store(h);
     want_gen_.fetch_add(1u);
+}
+
 }

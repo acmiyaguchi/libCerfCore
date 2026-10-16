@@ -5,6 +5,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Twl4030;
 
 class Tps65950AudioUplink : public Service {
@@ -41,3 +43,5 @@ private:
     int16_t    left_  = 0;
     int16_t    right_ = 0;
 };
+
+}

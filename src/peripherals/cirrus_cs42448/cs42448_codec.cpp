@@ -1,5 +1,7 @@
 #include "cs42448_codec.h"
 
+namespace cerfcore {
+
 void Cs42448Codec::Reset() {
     for (auto& r : reg_) r = 0u;
     /* Non-zero power-on-reset defaults (Cirrus CS42448 register map). reg 0x01
@@ -19,4 +21,6 @@ void Cs42448Codec::WriteReg(uint8_t reg, uint8_t val) {
 uint8_t Cs42448Codec::ReadReg(uint8_t reg) const {
     if (reg < kFirstReg || reg > kLastReg) return 0u;
     return reg_[reg];
+}
+
 }

@@ -2,6 +2,8 @@
 
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 namespace {
 
 /* Intel PXA255 Developer's Manual Table 5-5 (page 5-13) and Intel PXA27x Developer's Manual Table 5-10
@@ -20,3 +22,5 @@ uint32_t Pxa2xxAc97ModemOut::Request() const { return kRequestTx; }
 Pxa2xxSlotPace Pxa2xxAc97ModemOut::SlotPace() { return Pxa2xxSlotPace{Ac97Codec::kFrameRateHz, 1u}; }
 
 REGISTER_SERVICE(Pxa2xxAc97ModemOut);
+
+}

@@ -4,6 +4,8 @@
 
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace sm501_8051 {
 
 class Bus;
@@ -75,3 +77,5 @@ private:
 };
 
 }  // namespace sm501_8051
+
+}

@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Pr31x00Clock;
 class Pr31x00Intc;
 
@@ -78,3 +80,5 @@ private:
     bool     freeze_stopped_     = false;
     uint64_t freeze_tick_        = 0;
 };
+
+}

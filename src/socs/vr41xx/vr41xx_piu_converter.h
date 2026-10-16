@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 class Vr41xxPiuConverter : public Peripheral {
 public:
     using Peripheral::Peripheral;
@@ -40,3 +42,5 @@ private:
     uint16_t   next_page_      = 0;
     uint16_t   adbuf_[4]       = {};
 };
+
+}

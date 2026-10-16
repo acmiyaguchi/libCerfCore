@@ -8,6 +8,8 @@
 #include "../../peripherals/peripheral_dispatcher.h"
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 
 class Pxa2xxIntcMmio : public Peripheral {
@@ -66,3 +68,5 @@ private:
 }
 
 REGISTER_SERVICE(Pxa2xxIntcMmio);
+
+}

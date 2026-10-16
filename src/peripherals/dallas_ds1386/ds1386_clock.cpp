@@ -2,6 +2,8 @@
 
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint64_t kHundredthsPerMinute = 6000u;
@@ -192,4 +194,6 @@ void Ds1386Clock::Restore(StateReader& r) {
     r.Read("ds_hours12", hours12_);
     r.ReadBytes("ds_alarm", alarm_.data(), alarm_.size());
     check_known_ = false;
+}
+
 }

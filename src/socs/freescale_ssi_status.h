@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <functional>
 
+namespace cerfcore {
+
 class CerfEmulator;
 class FreescaleSsiReceiver;
 class FreescaleSsiTransmitter;
@@ -66,3 +68,5 @@ private:
     bool                          tue_read_[2] = {false, false};
     bool                          roe_read_[2] = {false, false};
 };
+
+}

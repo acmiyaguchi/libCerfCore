@@ -8,6 +8,8 @@
 #include <cerfengine/arm/arm_jit.h>
 #include "../../peripherals/peripheral_dispatcher.h"
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kIntCntlNidisBit = 1u << 22;
@@ -253,3 +255,5 @@ void Imx31Avic::WriteWord(uint32_t addr, uint32_t value) {
 }
 
 REGISTER_SERVICE(Imx31Avic);
+
+}

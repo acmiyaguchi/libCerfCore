@@ -5,6 +5,8 @@
 
 #include <cstring>
 
+namespace cerfcore {
+
 void MediaQGe::WriteReg(uint32_t g, uint32_t value) {
     if (g >= kNumRegs) return;
     reg_[g] = value;
@@ -125,4 +127,6 @@ void MediaQGe::RestoreState(StateReader& r) {
     r.ReadBytes("pending_reg", pending_reg_, sizeof(pending_reg_));
     uint8_t a = 0; r.Read("pending_active", a); pending_active_ = (a != 0);
     r.Read("expected_dwords", expected_dwords_);
+}
+
 }

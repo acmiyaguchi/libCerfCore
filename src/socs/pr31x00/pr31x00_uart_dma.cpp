@@ -13,6 +13,8 @@
 
 #include <utility>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr size_t kWireMax = 64u * 1024u;
@@ -300,3 +302,5 @@ void Pr31x00UartDma::RestoreState(uint32_t port, StateReader& r) {
 }
 
 REGISTER_SERVICE(Pr31x00UartDma);
+
+}

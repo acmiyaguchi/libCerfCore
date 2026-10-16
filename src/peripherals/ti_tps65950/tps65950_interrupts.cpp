@@ -9,6 +9,8 @@
 #include "tps65950_board.h"
 #include "tps65950_reset_image.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* TPS65950 TRM SWCU050E Table 4-101 (page 197): PWR_ISR1 RTC_IT [3]; Table 4-109 (page 200): PWR_EDR1
@@ -178,3 +180,5 @@ void Tps65950Interrupts::PostRestore() {
 }
 
 REGISTER_SERVICE(Tps65950Interrupts);
+
+}

@@ -9,6 +9,8 @@
 
 #include <cstring>
 
+namespace cerfcore {
+
 void Sa11xxDmaAudioPlayer::OnReady() {
     cfg_ = AudioConfig();
     out_.Start(cfg_.log_tag, 0u, cfg_.channels, cfg_.bits_per_sample, cfg_.allow_resampler);
@@ -58,4 +60,6 @@ void Sa11xxDmaAudioPlayer::OnTransmitRestored() {
     out_.StopAudioOut();
     active_ = false;
     rate_   = 0u;
+}
+
 }

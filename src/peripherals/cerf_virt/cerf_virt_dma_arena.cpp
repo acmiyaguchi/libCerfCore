@@ -10,6 +10,8 @@
 #include "../../execution/engine_bridge.h"
 #include <cerfcore/socs/guest_cpu_reset.h>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(CerfVirtDmaArena);
 
 bool CerfVirtDmaArena::ShouldRegister() {
@@ -73,4 +75,6 @@ void CerfVirtDmaArena::Claim(uint32_t pid) {
         CerfFatalExit();
     }
     cerf::le::Put32(base_ + PartitionBase(free_idx) + CerfVirt::kDmaPartOwnerPid, pid);
+}
+
 }

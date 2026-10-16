@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* VR4121 UM Table 25-1: SIU registers 0x09 SIURESET / 0x0A SIUCSEL (absent on the
    VR4102, whose Table 24-1 stops at 0x08). */
 class Vr41xxSiuResetCsel : public Vr41xxSiu {
@@ -46,3 +48,5 @@ private:
     uint8_t sreset_ = 0;   /* SIU 0x09 SIURESET D0 */
     uint8_t csel_   = 0;   /* SIU 0x0A SIUCSEL D0 */
 };
+
+}

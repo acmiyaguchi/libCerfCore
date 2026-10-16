@@ -7,6 +7,8 @@
 #include <functional>
 #include <vector>
 
+namespace cerfcore {
+
 class FreescaleModuleClocks;
 
 class Imx51UsbTransceiverClocks : public Service {
@@ -29,3 +31,5 @@ private:
     FreescaleTimerClocks*  timer_clocks_ = nullptr;
     std::vector<std::function<void(FreescaleLowPowerMode)>> listeners_;
 };
+
+}

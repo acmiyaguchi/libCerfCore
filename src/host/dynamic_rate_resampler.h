@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 struct DevicePosition {
     bool     valid   = false;
     uint32_t samples = 0;
@@ -43,3 +45,5 @@ private:
     DevicePosition prev_;
     bool           have_prev_ = false;
 };
+
+}

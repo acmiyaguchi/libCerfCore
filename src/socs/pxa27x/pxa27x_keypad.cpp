@@ -9,6 +9,8 @@
 
 #include <mutex>
 
+namespace cerfcore {
+
 namespace {
 /* Intel PXA27x Developer's Manual 280000-001 Table 18-3. */
 constexpr uint32_t kKpcAs        = 1u << 30;
@@ -261,3 +263,5 @@ void Pxa27xKeypad::PostRestore() {
 }
 
 REGISTER_SERVICE(Pxa27xKeypad);
+
+}

@@ -5,6 +5,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "nec_cronos3e_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* nec_mobilepro_790_hpc2000 nk.exe start @0x9E0999E8 boots on GIUPIODL D12 = 1; with it 0,
@@ -28,3 +30,5 @@ public:
 }
 
 REGISTER_SERVICE(NecCronos3eBatteryLock);
+
+}

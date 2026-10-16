@@ -9,6 +9,8 @@
 #include <algorithm>
 #include <string>
 
+namespace cerfcore {
+
 namespace ssi = cerf_freescale_ssi;
 
 void FreescaleSsiStatus::Attach(std::function<void(bool)> line) {
@@ -163,4 +165,6 @@ void FreescaleSsiStatus::PostRestore(const FreescaleSsiStatusControl& c) {
     ctl_ = c;
     line_(asserted_);
     Update();
+}
+
 }

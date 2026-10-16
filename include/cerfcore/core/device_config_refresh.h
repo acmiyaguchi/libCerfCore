@@ -5,6 +5,8 @@
 #include <functional>
 #include <vector>
 
+namespace cerfcore {
+
 class DeviceConfigRefresh : public Service {
 public:
     using Service::Service;
@@ -16,3 +18,5 @@ public:
 private:
     std::vector<std::function<void()>> listeners_;
 };
+
+}

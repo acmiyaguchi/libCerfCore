@@ -1,6 +1,8 @@
 #include "../vr41xx/vr41xx_fir_impl.h"
 #include "vr4121_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* VR4121 FIR base, Internal I/O Space 1 0x0C000040-0x0C000075 (VR4121 UM Table 27-1 p588). */
@@ -12,3 +14,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE(Vr4121Fir);
+
+}

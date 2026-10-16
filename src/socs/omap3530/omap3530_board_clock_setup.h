@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 struct Omap3530MpuDpllSetting {
     uint32_t clken_pll;
     uint32_t clksel1_pll;
@@ -38,3 +40,5 @@ public:
 
     virtual bool BootEnablesGpt1Clocks() const = 0;
 };
+
+}

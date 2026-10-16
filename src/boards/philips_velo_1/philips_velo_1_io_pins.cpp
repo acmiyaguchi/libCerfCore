@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <optional>
 
+namespace cerfcore {
+
 namespace {
 
 /* IO[0] M-Module attached, active high. philips_velo_1_ce1 nk.1.exe sub_9FB11194
@@ -59,3 +61,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(PhilipsVelo1IoPins, Pr31x00IoPins);
+
+}

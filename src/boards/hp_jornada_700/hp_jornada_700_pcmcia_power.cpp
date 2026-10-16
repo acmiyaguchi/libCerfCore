@@ -6,6 +6,8 @@
 #include "../../peripherals/pcmcia/pcmcia_slot.h"
 #include "../../peripherals/pcmcia/pcmcia_space_router.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* Jornada 720 PCMCIA/CF power controller on SA-1111 GPIO_A (hardware
@@ -38,3 +40,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(HpJornada700PcmciaPower, Sa1111GpioPortASink);
+
+}

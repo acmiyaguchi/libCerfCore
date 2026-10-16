@@ -8,6 +8,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* SIMpad bootloader warm-boot/param handoff scratch, probed by the CE boot stub
@@ -39,3 +41,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE(SiemensSimpadBootHandoff);
+
+}

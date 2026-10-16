@@ -8,6 +8,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 class ToshibaGigabeatSKeyboardInput : public KeyboardInput {
@@ -33,3 +35,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE(ToshibaGigabeatSKeyboardInput);
+
+}

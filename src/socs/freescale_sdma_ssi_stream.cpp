@@ -9,6 +9,8 @@
 #include <string>
 #include <utility>
 
+namespace cerfcore {
+
 void FreescaleSdmaSsiStream::Attach(FreescaleSdmaChannelHost& host, const char* tag, Hooks hooks) {
     host_  = &host;
     tag_   = tag;
@@ -158,4 +160,6 @@ void FreescaleSdmaSsiStream::PostRestore() {
     const uint32_t from = static_cast<uint32_t>(done) * sample_bytes_;
     if (hooks_.open) hooks_.open(bd_buffer_ + from, bd_words_ * sample_bytes_ - from);
     Rearm();
+}
+
 }

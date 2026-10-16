@@ -2,6 +2,8 @@
 
 #include <cerfcore/core/service.h>
 
+namespace cerfcore {
+
 class DeviceNotFoundService : public Service {
 public:
     using Service::Service;
@@ -11,3 +13,5 @@ public:
 private:
     bool IsDevicePresent();
 };
+
+}

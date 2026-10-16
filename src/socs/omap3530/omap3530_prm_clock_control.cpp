@@ -3,6 +3,8 @@
 #include <cerfcore/core/fatal.h>
 #include "omap3530_board_clock_setup.h"
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kOffClksel = 0x40u;
@@ -85,3 +87,5 @@ private:
 }
 
 REGISTER_SERVICE(Omap3530PrmClockControl);
+
+}

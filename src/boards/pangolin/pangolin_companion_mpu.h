@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* smartbook_g138_ce4_2 kbdmouse.dll sub_1B52CDC: 0xBF / 0xDF five-byte frames go to
    penmount.dll sub_1B43070, 0xFA / 0xF0 two-byte frames to the keyboard (sub_1B526BC). */
 class PangolinCompanionMpu : public Service {
@@ -15,3 +17,5 @@ public:
     void SendTouch(bool contact, uint16_t x14, uint16_t y14);
     void SendKey(uint8_t scancode, bool down);
 };
+
+}

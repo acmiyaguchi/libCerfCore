@@ -2,6 +2,8 @@
 
 #include "../mmc/emmc_card_base.h"
 
+namespace cerfcore {
+
 class SkHynixH26m52002ckr : public EmmcCardBase {
 public:
     using EmmcCardBase::EmmcCardBase;
@@ -13,3 +15,5 @@ protected:
     uint32_t                        SectorCount() const override;
     uint8_t                         ErasedMemCont() const override;
 };
+
+}

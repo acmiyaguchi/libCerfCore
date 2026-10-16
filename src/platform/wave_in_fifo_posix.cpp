@@ -2,6 +2,8 @@
 
 #include "host_unimplemented.h"
 
+namespace cerfcore {
+
 using host_platform::NoHostImplementation;
 
 class WaveInFifo::Impl {};
@@ -16,3 +18,5 @@ void WaveInFifo::Request(uint32_t, uint16_t, uint16_t) {
 }
 void WaveInFifo::Clear() { NoHostImplementation("WaveInFifo::Clear"); }
 size_t WaveInFifo::Take(uint8_t*, size_t) { NoHostImplementation("WaveInFifo::Take"); }
+
+}

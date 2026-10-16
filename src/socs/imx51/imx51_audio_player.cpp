@@ -7,6 +7,8 @@
 #include "../freescale_ssi_external_clock.h"
 #include "imx51_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class Imx51AudioPlayer : public FreescaleSdmaAudioPlayer {
@@ -31,3 +33,5 @@ protected:
 }
 
 REGISTER_SERVICE(Imx51AudioPlayer);
+
+}

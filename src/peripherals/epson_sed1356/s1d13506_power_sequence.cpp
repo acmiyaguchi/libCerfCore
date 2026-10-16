@@ -4,6 +4,8 @@
 #include "../../boards/hp_jornada_700/hp_jornada_700_family_id.h"
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 namespace {
 
 class S1d13506PowerSequence : public Sed1356PowerSequence {
@@ -28,3 +30,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(S1d13506PowerSequence, Sed1356PowerSequence);
+
+}

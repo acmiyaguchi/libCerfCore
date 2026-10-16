@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace Omap3530Gptimer1Regs {
 
 constexpr uint32_t kGptimer1BasePa = 0x48318000u;
@@ -65,5 +67,7 @@ constexpr uint32_t kTclrMask = 0x00007FFFu;
 constexpr uint32_t kTldrOverflowValue = 0xFFFFFFFFu;
 
 constexpr uint64_t kCounterModulo = 0x100000000ull;
+
+}
 
 }

@@ -9,6 +9,8 @@
 #include <utility>
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 struct StripButton { const char* label; uint16_t adc_y; };
@@ -52,3 +54,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(CasioPocketpostpetKeyboardHotkeys, KeyboardHotkeys);
+
+}

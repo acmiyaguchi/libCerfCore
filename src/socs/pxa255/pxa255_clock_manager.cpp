@@ -10,6 +10,8 @@
 #include <cerfcore/state/state_stream.h>
 #include <cerfcore/socs/guest_cpu_reset.h>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint64_t kCrystalHz = 3686400u;
@@ -220,3 +222,5 @@ void Pxa255ClockManager::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE(Pxa255ClockManager);
+
+}

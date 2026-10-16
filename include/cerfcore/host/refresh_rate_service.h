@@ -2,6 +2,8 @@
 
 #include "../core/service.h"
 
+namespace cerfcore {
+
 class RefreshRateService : public Service {
 public:
     using Service::Service;
@@ -13,3 +15,5 @@ private:
 
     int cached_ = 0;
 };
+
+}

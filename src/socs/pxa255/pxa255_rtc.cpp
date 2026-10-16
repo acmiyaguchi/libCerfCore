@@ -11,6 +11,8 @@
 #include "../irq_controller.h"
 #include "../pxa2xx/pxa2xx_intc.h"
 
+namespace cerfcore {
+
 REGISTER_SERVICE(Pxa255Rtc);
 
 namespace {
@@ -147,4 +149,6 @@ void Pxa255Rtc::WriteWord(uint32_t addr, uint32_t value) {
         case 0x0C: WriteRttr(value);      return;
     }
     HaltUnsupportedAccess("WriteWord", addr, value);
+}
+
 }

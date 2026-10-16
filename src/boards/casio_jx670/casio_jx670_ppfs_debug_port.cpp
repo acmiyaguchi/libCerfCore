@@ -7,6 +7,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* PPFS debug parallel port on External I/O area 1 (IOCS1#, 0x0C000000-0x0DFFFFFF,
    VR4131 UM U15350EJ2V0UM Fig 3-1 p.75), modeled absent. nk_main_kernel.exe probe
    @0x9F034174-0x9F03419C: sh 0x80 -> 0x0C000124 + lhu bit7, sh 0 + lhu bit7; a
@@ -46,3 +48,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE(CasioJx670PpfsDebugPort);
+
+}

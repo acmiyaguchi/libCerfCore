@@ -14,6 +14,8 @@
 #include <cstdio>
 #include <cstring>
 
+namespace cerfcore {
+
 namespace {
 
 const uint8_t kCisData[] = {
@@ -403,4 +405,6 @@ void Rtl8019::PostRestore() {
     std::lock_guard<std::mutex> lk(state_mutex_);
     irq_line_ = false;
     nic_.RecomputeIrqLocked();
+}
+
 }

@@ -15,6 +15,8 @@
 #include <memory>
 #include <string>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(PcmciaAutoInsert);
 
 void PcmciaAutoInsert::InsertDefaultNetworkCard(PcmciaSlot& slot) {
@@ -60,4 +62,6 @@ void PcmciaAutoInsert::InsertLaunchCompactFlash(PcmciaSlot& slot) {
             card.name.c_str(), slot.WidgetName().c_str());
         return;
     }
+}
+
 }

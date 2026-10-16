@@ -7,6 +7,8 @@
 #include <string>
 #include <vector>
 
+namespace cerfcore {
+
 /* Reusable cross-board battery status-bar widget (charge level + AC/battery
    toggle, icon/tooltip/menu). Owner holds one as a member and reads the getters
    to drive its hardware model. */
@@ -45,3 +47,5 @@ private:
     uint8_t last_drawn_on_battery_ = 0xFF;
     int     last_drawn_fill_       = -1;
 };
+
+}

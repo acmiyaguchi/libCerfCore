@@ -3,6 +3,8 @@
 #include <cerfcore/core/service.h>
 #include "../../host/battery_widget.h"
 
+namespace cerfcore {
+
 class NecMobilePro700Battery : public Service {
 public:
     explicit NecMobilePro700Battery(CerfEmulator& e) : Service(e) {}
@@ -17,3 +19,5 @@ private:
 
     BatteryWidget battery_;
 };
+
+}

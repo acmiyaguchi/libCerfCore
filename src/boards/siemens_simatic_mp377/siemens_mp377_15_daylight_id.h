@@ -2,8 +2,12 @@
 
 #include <string_view>
 
+namespace cerfcore {
+
 namespace BoardId {
 
 inline constexpr std::string_view SiemensMp37715Daylight = "siemens_mp377_15_daylight";
+
+}
 
 }

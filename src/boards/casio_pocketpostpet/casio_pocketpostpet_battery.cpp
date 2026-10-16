@@ -6,6 +6,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "casio_pocketpostpet_family_id.h"
 
+namespace cerfcore {
+
 bool CasioPocketpostpetBattery::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     return bd && bd->GetBoardFamilyId() == BoardFamilyId::CasioPocketpostpet;
@@ -28,3 +30,5 @@ void CasioPocketpostpetBattery::DrivePowerPins() {
 }
 
 REGISTER_SERVICE(CasioPocketpostpetBattery);
+
+}

@@ -5,6 +5,8 @@
 #include <cstddef>
 #include <cstdint>
 
+namespace cerfcore {
+
 /* DP8390D datasheet, 1992 National LAN databook, address recognition
    p. 1-133 and buffer ring management p. 1-138. */
 class Dp8390Receiver {
@@ -21,3 +23,5 @@ private:
     Dp8390& nic_;
     std::array<uint8_t, Dp8390::kRamSize>& ram_;
 };
+
+}

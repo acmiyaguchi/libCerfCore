@@ -7,6 +7,8 @@
 #include "../../peripherals/peripheral_dispatcher.h"
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 
 /* SA-1110 Serial Port 2 HSSP (Dev Man §11.10, base 0x80040000): fast-IR half
@@ -74,3 +76,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(Sa11xxHssp);
+
+}

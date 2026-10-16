@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace sm501_8051 {
 
 /* MCS-51 Programmer's Guide, "Program and Data Memory": the code space is
@@ -66,3 +68,5 @@ private:
 };
 
 }  // namespace sm501_8051
+
+}

@@ -2,6 +2,8 @@
 
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 
 enum : uint8_t {
@@ -232,4 +234,6 @@ void Pcic82365::RestoreState(StateReader& r) {
     r.ReadBytes("mem_reg", mem_reg_, sizeof(mem_reg_));
     r.ReadBytes("mem_page", mem_page_, sizeof(mem_page_));
     r.ReadBytes("timing", timing_, sizeof(timing_));
+}
+
 }

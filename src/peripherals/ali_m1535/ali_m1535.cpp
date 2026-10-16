@@ -12,6 +12,7 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
 
 namespace {
 
@@ -228,3 +229,5 @@ void AliM1535::RestoreState(StateReader& r) {
 }  /* namespace */
 
 REGISTER_SERVICE(AliM1535);
+
+}

@@ -9,6 +9,8 @@
 #include <cerfcore/socs/guest_cpu_reset.h>
 #include "../vr41xx/vr41xx_clock_strap.h"
 
+namespace cerfcore {
+
 REGISTER_SERVICE(Vr4122ClockState);
 
 namespace {
@@ -89,4 +91,6 @@ void Vr4122ClockState::RestoreState(StateReader& r) {
     r.Read("pending", pending_);
     r.Read("active", active_);
     emu_.Get<MipsCoreClock>().CountRateRestored();
+}
+
 }

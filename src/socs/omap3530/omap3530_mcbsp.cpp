@@ -9,6 +9,8 @@
 
 #include <algorithm>
 
+namespace cerfcore {
+
 namespace {
 
 namespace mb = omap3530_mcbsp;
@@ -444,3 +446,5 @@ REGISTER_SERVICE(Omap3530McBsp2);
 REGISTER_SERVICE(Omap3530McBsp3);
 REGISTER_SERVICE(Omap3530McBsp4);
 REGISTER_SERVICE(Omap3530McBsp5);
+
+}

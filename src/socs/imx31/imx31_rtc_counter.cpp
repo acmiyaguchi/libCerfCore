@@ -4,6 +4,8 @@
 
 #include <algorithm>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint64_t kSecondsPerMinute = 60u;
@@ -114,4 +116,6 @@ void Imx31RtcCounter::Restore(StateReader& r) {
     r.Read("rtc_sec_offset", sec_offset_);
     r.Read("rtc_eval_p", eval_p_);
     r.Read("rtc_stopwatch", sw_);
+}
+
 }

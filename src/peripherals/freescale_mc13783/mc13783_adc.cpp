@@ -5,6 +5,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(Mc13783Adc);
 
 namespace {
@@ -112,4 +114,6 @@ void Mc13783Adc::Save(StateWriter& w) {
 
 void Mc13783Adc::Restore(StateReader& r) {
     for (uint32_t i = 0; i < kRequests; ++i) r.ReadBytes(kCtrlKeys[i], req_[i].ctrl, sizeof(req_[i].ctrl));
+}
+
 }

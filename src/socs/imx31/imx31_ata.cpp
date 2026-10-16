@@ -24,6 +24,8 @@
 #include <string>
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 /* MCIMX31RM §23 (Table 23-8) ATA controller register block, PA 0x43F8C000. */
@@ -277,3 +279,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(Imx31Ata);
+
+}

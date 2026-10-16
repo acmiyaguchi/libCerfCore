@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 class Omap3530CmDss;
 
 class Omap3530Dss : public RasterScanPeripheral {
@@ -134,3 +136,5 @@ private:
     uint32_t rfbi_   [kBlockWords]{};
     uint32_t venc_   [kBlockWords]{};
 };
+
+}

@@ -10,6 +10,8 @@
 #include <cmath>
 #include <bit>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(Imx51Gpu3dTexture);
 bool Imx51Gpu3dTexture::ShouldRegister() {
     auto* board = emu_.TryGet<BoardContext>();
@@ -206,4 +208,6 @@ Imx51Gpu3dVec4 Imx51Gpu3dTexture::Sample(const std::unordered_map<uint32_t,uint3
         for (unsigned c = 0; c < 4u; ++c) result[c] = std::lerp(result[c],upper[c],static_cast<float>(lod-lower));
     }
     return result;
+}
+
 }

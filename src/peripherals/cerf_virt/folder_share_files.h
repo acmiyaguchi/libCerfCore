@@ -9,6 +9,8 @@
 #include <string>
 #include <unordered_map>
 
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 
@@ -52,3 +54,5 @@ private:
     uint16_t GetFcbInfo(CerfVirt::ServerPB& pb);
     uint16_t GetSpace(CerfVirt::ServerPB& pb);
 };
+
+}

@@ -5,6 +5,8 @@
 
 #include <cstddef>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t SyncSource(uint32_t port) {
@@ -332,3 +334,5 @@ REGISTER_SERVICE(Omap3530McBsp2Transmitter);
 REGISTER_SERVICE(Omap3530McBsp3Transmitter);
 REGISTER_SERVICE(Omap3530McBsp4Transmitter);
 REGISTER_SERVICE(Omap3530McBsp5Transmitter);
+
+}

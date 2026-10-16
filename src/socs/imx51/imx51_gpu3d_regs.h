@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* i.MX51 z430 (AMD/Adreno A2xx) GPU3D register index map + PM4 opcodes.
    Each constant is grounded per-line against yamato_reg.h / kgsl_*.c /
    a2xx.xml; see the inline citation on each. */
@@ -147,3 +149,5 @@ constexpr uint32_t kScBaseLoop  = 0x4908u;  /* type 3: REG_SQ_CF_LOOP, yamato_re
 constexpr uint32_t kScBaseReg   = 0x2000u;  /* type 4: register file */
 
 }  // namespace imx51_gpu3d_regs
+
+}

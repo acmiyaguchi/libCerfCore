@@ -4,6 +4,8 @@
 #define NOMINMAX
 #include <windows.h>
 
+namespace cerfcore {
+
 namespace host_platform {
 
 HostWaitTimer::~HostWaitTimer() {
@@ -42,6 +44,8 @@ bool HostWaitTimer::WaitOrEvent(void* event) {
 
 void HostWaitTimer::Cancel() {
     CancelWaitableTimer(static_cast<HANDLE>(handle_));
+}
+
 }
 
 }

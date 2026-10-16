@@ -8,6 +8,8 @@
 
 #include <fstream>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(UserConfigWriter);
 
 void UserConfigWriter::WriteConfigurableScreenSize(uint32_t width,
@@ -36,4 +38,6 @@ void UserConfigWriter::WriteConfigurableScreenSize(uint32_t width,
     config.board_configurable_screen_explicit = true;
     LOG(Cfg, "UserConfigWriter: persisted guest resolution %ux%u\n", width,
         height);
+}
+
 }

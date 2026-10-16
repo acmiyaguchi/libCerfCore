@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <span>
 
+namespace cerfcore {
+
 namespace cerf::rom_image_parse {
 
 /* symbol_mk500 dump.bin 0x00080000 partition table: 0x40-byte slots, 0x20-byte
@@ -32,3 +34,5 @@ struct SymbolFlashOsXip {
 bool SymbolFlashLocateOsXip(std::span<const uint8_t> raw, SymbolFlashOsXip& out);
 
 }  /* namespace cerf::rom_image_parse */
+
+}

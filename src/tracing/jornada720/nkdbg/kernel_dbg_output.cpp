@@ -5,6 +5,8 @@
 
 #include <string>
 
+namespace cerfcore {
+
 namespace {
 
 /* J720 kernel per-char debug writer sub_800762A0 (R0 = char) - the
@@ -28,3 +30,5 @@ public:
 }  // namespace
 
 REGISTER_SERVICE(HpJornada700KernelDbgOutput);
+
+}

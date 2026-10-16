@@ -10,6 +10,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* CS3 latch bit values, from Linux arch/arm/mach-sa1100/include/mach/simpad.h. */
@@ -77,3 +79,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(SiemensSimpadCs3);
+
+}

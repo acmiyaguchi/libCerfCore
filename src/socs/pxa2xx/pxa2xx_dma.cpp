@@ -12,17 +12,7 @@
 
 #include <algorithm>
 
-namespace {
-
-/* Intel PXA255 Developer's Manual Table 5-12 (page 5-24) DCMD: SIZE 17:16, LENGTH 12:0; (page 5-25)
-   WIDTH 15:14 "11 - Word (4 Bytes)". */
-constexpr uint32_t kSizeShift    = 16u;
-constexpr uint32_t kWidthShift   = 14u;
-constexpr uint32_t kWidthWord    = 3u;
-constexpr uint32_t kFieldMask    = 3u;
-constexpr uint32_t kWordBytes    = 4u;
-
-}  // namespace
+namespace cerfcore {
 
 void Pxa2xxDma::AttachChannels(uint32_t count) {
     channels_ = count;
@@ -495,4 +485,6 @@ void Pxa2xxDma::RestoreChannels(StateReader& r) {
 void Pxa2xxDma::PostRestoreChannelsLocked() {
     for (uint32_t ch = 0; ch < channels_; ++ch) ArmDoneLocked(ch);
     PortChangeLocked();
+}
+
 }

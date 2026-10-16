@@ -6,6 +6,8 @@
 #include "../../boards/hp_jornada_700/hp_jornada_700_family_id.h"
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 bool Sa1111ResetLine::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     return bd && bd->GetBoardFamilyId() == BoardFamilyId::HpJornada700;
@@ -62,3 +64,5 @@ void Sa1111ResetLine::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE(Sa1111ResetLine);
+
+}

@@ -8,6 +8,8 @@
 #include "../../peripherals/peripheral_dispatcher.h"
 #include "msm8255_crci_bus.h"
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kCmdPtrTypeShift = 29u;
@@ -200,4 +202,6 @@ void Msm8255AdmCommandList::RunCommandArray(uint32_t pa, uint32_t crci) {
     emu_.Get<Fatal>().Die(
         "msm8255 dmov: command array passed %u entries with no last-command "
         "marker", kMaxCommands);
+}
+
 }

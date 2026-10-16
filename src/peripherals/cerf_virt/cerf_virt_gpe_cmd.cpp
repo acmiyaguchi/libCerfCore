@@ -17,6 +17,8 @@
 
 #include <cstring>
 
+namespace cerfcore {
+
 namespace {
 
 class CerfVirtGpeCmd : public Peripheral {
@@ -113,5 +115,7 @@ private:
 };
 
 REGISTER_SERVICE(CerfVirtGpeCmd);
+
+}
 
 }

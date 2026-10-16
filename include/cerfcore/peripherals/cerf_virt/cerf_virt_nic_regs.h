@@ -6,6 +6,7 @@ typedef unsigned int uint32_t;
 #include <cstdint>
 #endif
 
+namespace cerfcore {
 namespace CerfVirt {
 
 const uint32_t kNicMagic = 0xCEF0E7C0u;
@@ -26,4 +27,5 @@ const uint32_t kNicRegRxDropped  = 0x30u;
 const uint32_t kNicSlotLenOff     = 0x00u;
 const uint32_t kNicSlotPayloadOff = 0x04u;
 
+}
 }

@@ -6,6 +6,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 class UsbHub : public UsbDevice, public UsbHostPortHost {
 public:
     explicit UsbHub(int num_ports);
@@ -66,3 +68,5 @@ private:
     std::vector<uint16_t>    port_status_;
     std::vector<uint16_t>    port_change_;
 };
+
+}

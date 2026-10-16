@@ -9,6 +9,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 class Ucb1x00McpAdapter : public Sa11xxMcpCodec {
@@ -35,3 +37,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(Ucb1x00McpAdapter, Sa11xxMcpCodec);
+
+}

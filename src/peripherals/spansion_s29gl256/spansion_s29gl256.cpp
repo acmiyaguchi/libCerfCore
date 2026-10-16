@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <string>
 
+namespace cerfcore {
+
 /* Spansion S29GL256 (32 MB) NOR, P177 nGCS0 boot bank (PA 0); AMD command set
    per amdflash.c, ID 0x227E0001 (OAL accept gate sub_830465C0, common to the
    S29GL-P family). Density is the nGCS0 OAT decode; the OAL gives TFFS
@@ -45,3 +47,5 @@ protected:
 }  /* namespace */
 
 REGISTER_SERVICE(SpansionS29Gl256);
+
+}

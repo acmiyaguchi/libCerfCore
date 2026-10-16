@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 
@@ -36,3 +38,5 @@ private:
     uint32_t irqenable_l_[4]   = {0, 0, 0, 0};
     bool     irq_line_high_[4] = {false, false, false, false};
 };
+
+}

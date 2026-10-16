@@ -11,6 +11,8 @@
 #include <cerfcore/state/state_stream.h>
 #include <cerfcore/socs/guest_cpu_reset.h>
 
+namespace cerfcore {
+
 namespace {
 bool IsPerPortRegister(uint32_t offset, uint32_t base,
                        uint32_t stride = siemens_simatic_mp377::kErtecSwiPortStride) {
@@ -476,4 +478,6 @@ void SiemensSimaticMp377Ertec400Model::RestoreState(StateReader& reader) {
     reader.Read("cyclic_counter_increment", cyclic_counter_increment_);
     reader.Read("cyclic_control", cyclic_control_);
     reader.Read("multicast_port_mask", multicast_port_mask_);
+}
+
 }

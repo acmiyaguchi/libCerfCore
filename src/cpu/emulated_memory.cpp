@@ -12,6 +12,8 @@
 #include <algorithm>
 #include <cstring>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(EmulatedMemory);
 
 void EmulatedMemory::OnReady() {
@@ -98,6 +100,14 @@ EmulatedMemory::Region* EmulatedMemory::FindRegion(uint32_t vaddr) {
         }
     }
     return nullptr;
+}
+
+EmulatedMemory::~EmulatedMemory() {
+    const size_t n = count_.load(std::memory_order_acquire);
+    for (size_t i = 0; i < n; ++i) {
+        if (uint8_t* host = regions_[i].host_ptr.exchange(nullptr, std::memory_order_acq_rel))
+            host_platform::Release(host);
+    }
 }
 
 uint8_t* EmulatedMemory::EnsureBacked(Region* r) {
@@ -241,17 +251,6 @@ CERF_FORCEINLINE bool EmulatedMemory::PhysicalSpanUniform(uint32_t pa, uint32_t 
     return base >= r->base &&
            static_cast<uint64_t>(base) + span_bytes <=
                static_cast<uint64_t>(r->base) + r->size;
-}
-
-uint8_t* CERFENGINE_FASTCALL cerfengine::host::PhysicalTranslate(void* context, uint32_t pa,
-                                                                 bool write,
-                                                                 PhysicalPage& page) {
-    return static_cast<EmulatedMemory*>(context)->PhysicalTranslate(pa, write, page);
-}
-
-bool CERFENGINE_FASTCALL cerfengine::host::PhysicalSpanUniform(void* context, uint32_t pa,
-                                                               uint32_t span) {
-    return static_cast<EmulatedMemory*>(context)->PhysicalSpanUniform(pa, span);
 }
 
 uint8_t EmulatedMemory::ReadByte(uint32_t vaddr) {
@@ -451,4 +450,17 @@ uint64_t EmulatedMemory::VolatileByteCount() const {
         total += r.size;
     }
     return total;
+}
+
+}
+
+uint8_t* CERFENGINE_FASTCALL cerfengine::host::PhysicalTranslate(void* context, uint32_t pa,
+                                                                 bool write,
+                                                                 PhysicalPage& page) {
+    return static_cast<cerfcore::EmulatedMemory*>(context)->PhysicalTranslate(pa, write, page);
+}
+
+bool CERFENGINE_FASTCALL cerfengine::host::PhysicalSpanUniform(void* context, uint32_t pa,
+                                                               uint32_t span) {
+    return static_cast<cerfcore::EmulatedMemory*>(context)->PhysicalSpanUniform(pa, span);
 }

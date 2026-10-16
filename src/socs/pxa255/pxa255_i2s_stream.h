@@ -9,6 +9,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 class EmulatedMemory;
 class Pxa255I2sBitClock;
 class Pxa255I2sFifoResetSync;
@@ -122,3 +124,5 @@ private:
 
     std::vector<uint8_t> block_;
 };
+
+}

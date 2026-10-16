@@ -12,6 +12,8 @@
 
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 /* S3C2410A User Manual, printed pp. 8-7..8-13: four channels stepping 0x40 with
@@ -391,3 +393,5 @@ void S3C2410Dma::PostRestore() {
 }
 
 REGISTER_SERVICE(S3C2410Dma);
+
+}

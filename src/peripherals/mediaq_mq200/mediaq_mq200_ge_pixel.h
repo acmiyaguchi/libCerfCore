@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class MediaQMq200Ge::Pixel {
 public:
     Pixel(const uint32_t* r, const Layout& layout, uint8_t* fb, uint32_t fb_size);
@@ -39,3 +41,5 @@ private:
     uint32_t compare_mask_;
     uint32_t write_mask_;
 };
+
+}

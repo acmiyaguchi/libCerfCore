@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Pxa2xxDmaPort {
 public:
     virtual ~Pxa2xxDmaPort() = default;
@@ -23,3 +25,5 @@ public:
     virtual void ReceiveBlock(uint32_t pa, uint32_t bytes)  = 0;
     virtual void Stopped(uint64_t now, bool end_of_chain)   = 0;
 };
+
+}

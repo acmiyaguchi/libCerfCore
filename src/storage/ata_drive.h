@@ -4,6 +4,8 @@
 
 #include "disk_image.h"
 
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 
@@ -115,3 +117,5 @@ private:
     /* One-shot boot-milestone logging (IDENTIFY / first READ / first WRITE). */
     bool logged_id_ = false, logged_rd_ = false, logged_wr_ = false;
 };
+
+}

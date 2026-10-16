@@ -13,6 +13,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 namespace {
 
 using namespace Rtc8564Regs;
@@ -454,3 +456,5 @@ void Rtc8564::RestoreState(StateReader& reader) {
 REGISTER_SERVICE_AS(Rtc8564, Rtc8564Core);
 
 } // namespace
+
+}

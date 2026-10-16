@@ -4,8 +4,11 @@
 #include <functional>
 #include <optional>
 
-class CerfEmulator;
 namespace cerfengine { class HostRequestChannel; }
+
+namespace cerfcore {
+
+class CerfEmulator;
 
 struct Vr41xxPiuPenPoint {
     bool     down;
@@ -36,3 +39,5 @@ private:
     std::optional<Vr41xxPiuPenPoint> pen_;
     std::optional<Vr41xxPiuPenPoint> tap_;
 };
+
+}

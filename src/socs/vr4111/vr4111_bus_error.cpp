@@ -7,6 +7,8 @@
 #include <cerfcore/socs/guest_cpu_reset.h>
 #include "../vr41xx/vr41xx_icu.h"
 
+namespace cerfcore {
+
 REGISTER_SERVICE(Vr4111BusError);
 
 namespace {
@@ -77,4 +79,6 @@ void Vr4111BusError::PostRestore() {
 
 void Vr4111BusError::Publish(bool level) {
     emu_.Get<Vr41xxIcu>().SetSysint1Source(kSysint1WrBerr, level);
+}
+
 }

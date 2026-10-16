@@ -5,6 +5,8 @@
 
 #include <string_view>
 
+namespace cerfcore {
+
 namespace {
 
 class CasioTomcatDictionaryRom : public CasioDictionaryRomWindow {
@@ -19,3 +21,5 @@ protected:
 }
 
 REGISTER_SERVICE(CasioTomcatDictionaryRom);
+
+}

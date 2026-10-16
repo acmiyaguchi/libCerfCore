@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <string>
 
+namespace cerfcore {
+
 /* File-backed emulated disk, one value per attached drive (not a singleton).
    `size` is the logical capacity reported to the guest; the file grows on write
    (never pre-extended), so a blank image costs ~0 host disk. */
@@ -35,3 +37,5 @@ private:
     host_platform::HostFile file_;
     uint64_t                sector_count_ = 0;
 };
+
+}

@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr double kCalXLeftFrac  =  48.0 / 480.0;
@@ -45,3 +47,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(SiemensSimaticTp177b4TouchCalibration, S3C2410TouchCalibration);
+
+}

@@ -6,6 +6,8 @@
 #include <cerfcore/core/fatal.h>
 #include "../irq_controller.h"
 
+namespace cerfcore {
+
 REGISTER_SERVICE(S3C2410SubSourceLevels);
 
 bool S3C2410SubSourceLevels::ShouldRegister() {
@@ -42,4 +44,6 @@ void S3C2410SubSourceLevels::ReassertStillHeld(uint32_t cleared_bits) {
         if (e.source->SubSourceAsserted(e.sub_bit))
             intc.AssertSubIrq(e.main_bit, e.sub_bit);
     }
+}
+
 }

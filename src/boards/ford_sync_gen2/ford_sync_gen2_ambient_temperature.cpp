@@ -4,6 +4,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(FordSyncGen2AmbientTemperature);
 
 bool FordSyncGen2AmbientTemperature::ShouldRegister() {
@@ -48,4 +50,6 @@ void FordSyncGen2AmbientTemperature::RestoreState(StateReader& r) {
     state_.available = available != 0;
     state_.half_celsius = valid ? std::optional<int16_t>(half_celsius) : std::nullopt;
     ++state_.revision;
+}
+
 }

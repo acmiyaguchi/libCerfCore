@@ -3,6 +3,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include <cerfcore/host/keyboard_input.h>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(KeyboardRouter);
 
 void KeyboardRouter::SelectAutoLocked() {
@@ -72,4 +74,6 @@ void KeyboardRouter::RearmAutoSelect() {
     std::lock_guard<std::mutex> lk(mtx_);
     user_picked_ = false;
     SelectAutoLocked();
+}
+
 }

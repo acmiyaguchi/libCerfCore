@@ -2,6 +2,8 @@
 
 #include <cerfcore/core/service.h>
 
+namespace cerfcore {
+
 /* Saved-state boot gate. Registers a JitRunner pre-start hook in OnReady;
    the hook runs on the main thread after Bootstrap, before the JIT spawns. */
 class StateBootGate : public Service {
@@ -14,3 +16,5 @@ private:
        DeviceConfig::boot_mode when a saved state image exists. */
     void Run();
 };
+
+}

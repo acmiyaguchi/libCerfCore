@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 
@@ -47,3 +49,5 @@ private:
     bool                       pending_       = false;
     bool                       published_     = false;
 };
+
+}

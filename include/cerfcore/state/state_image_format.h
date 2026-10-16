@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 inline constexpr char    kStateMagic[8]      = {'C','E','R','F','I','M','G','2'};
 inline constexpr char    kDefaultStateFile[] = "state.img";
 inline constexpr char    kRollbackStateFile[] = "rollback.img";
@@ -29,3 +31,5 @@ inline constexpr StateSection kStateSectionOrder[] = {
     StateSection::Flash,  StateSection::Periph,       StateSection::Presentation,
     StateSection::Widget, StateSection::Reset,
 };
+
+}

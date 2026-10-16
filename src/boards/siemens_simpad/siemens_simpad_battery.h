@@ -3,6 +3,8 @@
 #include <cerfcore/core/service.h>
 #include "../../host/battery_widget.h"
 
+namespace cerfcore {
+
 /* Owns the host battery widget for the SIMpad SL4 and exposes its state to the
    UCB1300 codec, which converts FillPercent into the AD1 ADC sample gwes reads
    and IsOnBattery into the AD2 AC-line sample. */
@@ -18,3 +20,5 @@ public:
 private:
     BatteryWidget battery_;
 };
+
+}

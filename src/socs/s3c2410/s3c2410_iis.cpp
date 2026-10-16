@@ -13,22 +13,23 @@
 #include <cerfcore/socs/guest_cpu_reset.h>
 #include "s3c2410_clocks.h"
 #include "s3c2410_dma.h"
+#include "s3c2410_iis_host_blocks.h"
 #include "s3c2410_iis_lrck_clock.h"
 #include "s3c2410_iis_regs.h"
 #include "s3c2410_iis_tx_fifo.h"
 #include "s3c2410_iis_tx_transfer.h"
 
 #include <algorithm>
-#include <array>
 #include <cstdint>
-#include <cstring>
 #include <mutex>
+
+namespace cerfcore {
 
 namespace {
 
 using namespace S3C2410IisRegs;
 
-constexpr uint32_t kBlockBytes = 2048u;
+constexpr uint32_t kBlockBytes = S3C2410IisHostBlocks::kBlockBytes;
 constexpr uint64_t kArmPhases  = kBlockBytes / sizeof(uint16_t);
 
 class S3C2410Iis : public Peripheral, public S3C2410DmaRequester {
@@ -109,10 +110,9 @@ public:
 
 private:
     struct HostOut {
-        uint8_t  block[2][kBlockBytes];
-        uint32_t blocks   = 0;
-        uint32_t new_rate = 0;
-        bool     finished = false;
+        S3C2410IisHostBlocks::Completed blocks;
+        uint32_t                        new_rate = 0;
+        bool                            finished = false;
     };
 
     void Reset() {
@@ -123,7 +123,7 @@ private:
             psr_       = 0u;
             fcon_      = 0u;
             fifo_.Reset();
-            host_fill_ = 0u;
+            host_blocks_.Reset();
             playing_   = false;
             lr_index_  = true;
             lrck_.ForgetRestored();
@@ -180,14 +180,12 @@ private:
     void ArmLocked(uint32_t transfers_to_terminal);
     uint32_t RetimeLocked();
     void EmitLocked(uint64_t entries, HostOut& out);
-    void CompleteBlockLocked(HostOut& out);
     void StopTransmitLocked(HostOut& out);
     void Deliver(const HostOut& out);
 
-    GuestCycleClock::Event*          drain_ev_  = nullptr;
-    S3C2410IisLrckClock              lrck_;
-    std::array<uint8_t, kBlockBytes> host_block_{};
-    uint32_t                         host_fill_ = 0;
+    GuestCycleClock::Event* drain_ev_ = nullptr;
+    S3C2410IisLrckClock     lrck_;
+    S3C2410IisHostBlocks    host_blocks_{emu_};
 
     std::mutex       mutex_;
     uint32_t         con_     = kConReset;
@@ -237,7 +235,7 @@ void S3C2410Iis::RestoreState(StateReader& r) {
         const uint64_t den     = running ? TransmitDivisorLocked() : 1u;
         lrck_.Restore(r, emu_.Get<GuestCycleClock>().Cycles(),
                       emu_.Get<S3C2410Clocks>().CoreClockHz(), num, den, 2u * kArmPhases);
-        host_fill_ = 0u;
+        host_blocks_.Reset();
         playing_   = false;
     }
     emu_.Get<GuestCycleClock>().Disarm(drain_ev_);
@@ -444,7 +442,7 @@ void S3C2410Iis::ArmLocked(uint32_t transfers_to_terminal) {
         clock.Disarm(drain_ev_);
         return;
     }
-    uint64_t phases = (kBlockBytes - host_fill_) / sizeof(uint16_t);
+    uint64_t phases = (kBlockBytes - host_blocks_.Fill()) / sizeof(uint16_t);
     if (TxDmaArmedLocked() && transfers_to_terminal != 0u)
         phases = std::min<uint64_t>(phases, transfers_to_terminal);
     clock.Arm(drain_ev_, lrck_.CycleOf(phases));
@@ -459,36 +457,19 @@ uint32_t S3C2410Iis::RetimeLocked() {
 }
 
 void S3C2410Iis::EmitLocked(uint64_t entries, HostOut& out) {
-    while (entries-- != 0u) {
-        const uint16_t sample = fifo_.Pop();
-        std::memcpy(host_block_.data() + host_fill_, &sample, sizeof(sample));
-        host_fill_ += sizeof(sample);
-        if (host_fill_ == kBlockBytes) CompleteBlockLocked(out);
-    }
-}
-
-void S3C2410Iis::CompleteBlockLocked(HostOut& out) {
-    if (out.blocks == 2u)
-        emu_.Get<Fatal>().Die("[S3C2410Iis] a third host block completed in one "
-                              "catch-up (host_fill=%u)", host_fill_);
-    std::memcpy(out.block[out.blocks++], host_block_.data(), kBlockBytes);
-    host_fill_ = 0u;
+    while (entries-- != 0u) host_blocks_.Push(fifo_.Pop(), out.blocks);
 }
 
 void S3C2410Iis::StopTransmitLocked(HostOut& out) {
-    if (host_fill_ != 0u) {
-        std::memset(host_block_.data() + host_fill_, 0, kBlockBytes - host_fill_);
-        host_fill_ = kBlockBytes;
-        CompleteBlockLocked(out);
-    }
+    host_blocks_.Pad(out.blocks);
     lr_index_    = lrck_.RightPhase();
     playing_     = false;
     out.finished = true;
 }
 
 void S3C2410Iis::Deliver(const HostOut& out) {
-    for (uint32_t i = 0; i < out.blocks; ++i) {
-        audio_out_.QueueOutput(out.block[i], kBlockBytes);
+    for (uint32_t i = 0; i < out.blocks.count; ++i) {
+        audio_out_.QueueOutput(out.blocks.block[i], kBlockBytes);
         emu_.Get<AudioActivityWidget>().MarkTx();
     }
     if (out.new_rate != 0u) audio_out_.SetFormat(out.new_rate, 2, 16);
@@ -498,3 +479,5 @@ void S3C2410Iis::Deliver(const HostOut& out) {
 }
 
 REGISTER_SERVICE(S3C2410Iis);
+
+}

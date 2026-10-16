@@ -8,6 +8,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Pxa27xUart16550 : public Pxa2xxUart16550 {
 public:
     explicit Pxa27xUart16550(CerfEmulator& emu)
@@ -35,3 +37,5 @@ public:
         return bd && bd->GetSocId() == SocId::Pxa270;
     }
 };
+
+}

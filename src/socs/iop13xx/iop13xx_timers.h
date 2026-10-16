@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Iop13xxWatchdog;
 class StateReader;
 class StateWriter;
@@ -70,3 +72,5 @@ private:
     uint32_t         tisr_      = 0;
     uint32_t         published_ = 0;
 };
+
+}

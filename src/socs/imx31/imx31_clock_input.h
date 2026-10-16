@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Imx31ClockInput : public Service {
 public:
     using Service::Service;
@@ -12,3 +14,5 @@ public:
     virtual uint64_t CkilHz() const = 0;
     virtual bool     ResetReferenceIsCkih() const = 0;
 };
+
+}

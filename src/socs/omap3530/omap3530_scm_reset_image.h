@@ -2,6 +2,8 @@
 
 #include "omap3530_reg_reset.h"
 
+namespace cerfcore {
+
 namespace omap3530 {
 
 /* OMAP35x TRM SPRUF98Y page 869 NOTE: "All '-' assume that the corresponding bit is not available"; "The reset
@@ -45,5 +47,7 @@ inline constexpr Omap3530RegReset kScmPowerOn[] = {
     {0xA08u, 0x01000118u}, {0xA0Cu, 0x01000100u}, {0xA10u, 0x01000100u}, {0xA14u, 0x01000100u}, {0xA18u, 0x010F010Fu},
     {0xA1Cu, 0x01080108u}, {0xA20u, 0x01180118u}, {0xA24u, 0x01180118u}, {0xA4Cu, 0x00080108u},
 };
+
+}
 
 }

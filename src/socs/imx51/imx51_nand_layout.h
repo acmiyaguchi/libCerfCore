@@ -6,6 +6,8 @@
 #include <optional>
 #include <vector>
 
+namespace cerfcore {
+
 /* The `.sec` packs partitions by size, but the device NAND holds them
    block-aligned at cumulative 512 KB StartBlocks - a linear `.sec` map feeds the
    stub's block-1 scan the wrong bytes. Placement = the flasher's own algorithm
@@ -71,3 +73,5 @@ private:
        `.sec` 0x5000 (image base 0x4000, flash_header @0x4400, S5). */
     static constexpr uint64_t kBootRegion = 0x5000u;
 };
+
+}

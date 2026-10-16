@@ -9,6 +9,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace CerfVirt {
 
 class BltSurfaceAccess {
@@ -158,6 +160,8 @@ inline bool BltSurfaceAccess::WriteSubBytePixel(const Surface& s, int32_t x,
     const uint8_t  mask  = (uint8_t)(((1u << bits) - 1u) << shift);
     *p = (uint8_t)((*p & ~mask) | ((value << shift) & mask));
     return true;
+}
+
 }
 
 }

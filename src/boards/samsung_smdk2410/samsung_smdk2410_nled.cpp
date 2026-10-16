@@ -15,6 +15,8 @@
 #include <mutex>
 #include <string>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kBase = 0x500FFFD0u;
@@ -193,3 +195,5 @@ bool SamsungSmdk2410NotificationLed::PollDirty() {
 }  /* namespace */
 
 REGISTER_SERVICE(SamsungSmdk2410NotificationLed);
+
+}

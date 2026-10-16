@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class CerfEmulator;
 class StateReader;
 class StateWriter;
@@ -79,3 +81,5 @@ private:
     uint64_t restart_    = kNever;
     uint64_t done_at_    = kNever;
 };
+
+}

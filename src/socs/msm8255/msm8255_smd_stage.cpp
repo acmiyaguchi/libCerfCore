@@ -10,6 +10,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kStageAlign = 0x100000u;
@@ -77,4 +79,6 @@ void Msm8255SmdStage::Scatter(uint32_t ring_pa, uint32_t half, uint32_t head,
     if (bytes > first) {
         mem.CopyIn(ring_pa, write_buf_ + first, bytes - first);
     }
+}
+
 }

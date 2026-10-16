@@ -8,6 +8,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* VR4102 ISA memory space (Vr4102-um Tbl 5-6/5-9/5-10). The two PCMCIA sockets'
@@ -48,3 +50,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE(NecMobilePro700PcicMemWindow);
+
+}

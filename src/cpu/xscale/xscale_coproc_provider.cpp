@@ -5,6 +5,8 @@
 #include "../../socs/pxa255/pxa255_clock_manager.h"
 #include "../../socs/pxa255/pxa255_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 using cerfengine::ArmCoprocAccess;
@@ -44,3 +46,5 @@ protected:
 }
 
 REGISTER_SERVICE_AS(XscaleCoprocProvider, ArmCoprocProvider);
+
+}

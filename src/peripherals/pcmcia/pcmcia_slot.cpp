@@ -13,6 +13,8 @@
 #include <type_traits>
 #include <utility>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint8_t  kFloat8  = PcmciaCard::kBusFloat8;
@@ -372,4 +374,6 @@ bool PcmciaSlot::PollDirty() {
     if (res == ui_last_res_) return false;
     ui_last_res_ = std::move(res);
     return true;
+}
+
 }

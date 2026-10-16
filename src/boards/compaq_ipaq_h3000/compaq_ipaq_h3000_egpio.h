@@ -5,6 +5,8 @@
 #include <atomic>
 #include <cstdint>
 
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 
@@ -39,3 +41,5 @@ private:
 
     std::atomic<uint16_t> latched_{0};
 };
+
+}

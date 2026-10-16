@@ -7,6 +7,8 @@
 #include <cerfcore/host/host_widget_registry.h>
 #include <cerfcore/host/task_manager_view.h>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(GuestAdditionsWidget);
 
 bool GuestAdditionsWidget::ShouldRegister() {
@@ -83,4 +85,6 @@ bool GuestAdditionsWidget::PollDirty() {
     if (on == last_drawn_on_) return false;
     last_drawn_on_ = on;
     return true;
+}
+
 }

@@ -8,6 +8,8 @@
 #include <mutex>
 #include <vector>
 
+namespace cerfcore {
+
 class HostWidget;
 class SerialEndpoint;
 
@@ -139,3 +141,5 @@ private:
 
     bool last_irq_level_ = false;
 };
+
+}

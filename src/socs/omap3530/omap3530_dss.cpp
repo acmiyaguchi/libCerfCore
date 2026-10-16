@@ -12,6 +12,8 @@
 #include "../irq_controller.h"
 #include "omap3530_cm_dss.h"
 
+namespace cerfcore {
+
 bool Omap3530Dss::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     return bd && bd->GetSocId() == SocId::Omap3530;
@@ -406,3 +408,5 @@ void Omap3530Dss::PostRestore() {
 }
 
 REGISTER_SERVICE(Omap3530Dss);
+
+}

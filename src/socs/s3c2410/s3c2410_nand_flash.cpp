@@ -9,6 +9,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* S3C2410A UM pp. 6-6..6-8 "SPECIAL FUNCTION REGISTERS": NFCONF at 0x4E000000,
@@ -215,3 +217,5 @@ uint8_t S3C2410NandFlash::ReadByte(uint32_t addr) {
 }  /* namespace */
 
 REGISTER_SERVICE(S3C2410NandFlash);
+
+}

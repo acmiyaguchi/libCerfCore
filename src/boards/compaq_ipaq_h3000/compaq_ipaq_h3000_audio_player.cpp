@@ -7,6 +7,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* iPAQ H3600 SSP audio transmit DMA: DA[31:8]=0x81C01B (SSP data port), wavedev
@@ -38,3 +40,5 @@ protected:
 }  /* namespace */
 
 REGISTER_SERVICE(CompaqIpaqH3000AudioPlayer);
+
+}

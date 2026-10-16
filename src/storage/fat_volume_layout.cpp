@@ -4,6 +4,8 @@
 
 #include <cstring>
 
+namespace cerfcore {
+
 namespace fat_volume_layout {
 
 uint8_t* MbrPartitionEntry(uint8_t* mbr, unsigned index) {
@@ -62,6 +64,8 @@ void WriteFsInfo(uint8_t* fsi, uint32_t free_count, uint32_t next_free) {
     cerf::le::Put32(fsi + kFsiFreeCount, free_count);
     cerf::le::Put32(fsi + kFsiNxtFree, next_free);
     WriteBootSignature(fsi);
+}
+
 }
 
 }

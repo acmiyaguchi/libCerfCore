@@ -2,6 +2,8 @@
 
 #include "host_unimplemented.h"
 
+namespace cerfcore {
+
 namespace host_platform {
 
 void CrashFreezeOtherThreads() { NoHostImplementation("CrashFreezeOtherThreads"); }
@@ -12,5 +14,7 @@ void CrashDumpOtherThreads() { NoHostImplementation("CrashDumpOtherThreads"); }
 void CrashPrintNativeStack(const char*) { NoHostImplementation("CrashPrintNativeStack"); }
 bool CrashSymbolize(const void*, char*, size_t) { NoHostImplementation("CrashSymbolize"); }
 void CrashInstallUnhandledFilter() { NoHostImplementation("CrashInstallUnhandledFilter"); }
+
+}
 
 }

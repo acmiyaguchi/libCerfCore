@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 
@@ -71,3 +73,5 @@ private:
     uint8_t mem_page_[5]    = {};   /* MEM_MAP0..4 window-page (high address bits) */
     uint8_t timing_[6]      = {};
 };
+
+}

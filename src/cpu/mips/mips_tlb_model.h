@@ -7,6 +7,9 @@
 #include <cerfengine/mips/mips_tlb_context.h>
 
 namespace cerfengine { struct MipsCpuState; }
+
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 
@@ -29,3 +32,5 @@ private:
     uint32_t lcg_seed_        = 1;
     uint32_t prev_random_idx_ = 0;
 };
+
+}

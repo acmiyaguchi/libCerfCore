@@ -14,6 +14,8 @@
 #include <algorithm>
 #include <iterator>
 
+namespace cerfcore {
+
 void CasioJx670Audio::Init(CerfEmulator& emu,
                                      std::function<void()> on_irq_change) {
     emu_ = &emu;
@@ -488,4 +490,6 @@ void CasioJx670Audio::PostRestore() {
         return;
     }
     RestartHostOutput();
+}
+
 }

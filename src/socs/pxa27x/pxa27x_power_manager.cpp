@@ -8,6 +8,8 @@
 #include "../../peripherals/peripheral_dispatcher.h"
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 
 /* Intel PXA27x Developer's Manual 280000-001 Table 3-38 (page 3-104) "Power
@@ -305,3 +307,5 @@ void Pxa27xPowerManager::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE(Pxa27xPowerManager);
+
+}

@@ -9,6 +9,8 @@
 #include "../execution/engine_bridge.h"
 #include <cerfcore/peripherals/cerf_virt/cerf_virt_addr_map.h>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(CerfInjectionRegion);
 
 bool CerfInjectionRegion::ShouldRegister() {
@@ -45,4 +47,6 @@ uint32_t CerfInjectionRegion::BandVaBase() {
     LOG(GuestAdditions, "injection band: VA 0x%08X -> PA 0x%08X size 0x%X\n",
         va, BandPaBase(), CerfVirt::kInjectionBandSize);
     return va_base_;
+}
+
 }

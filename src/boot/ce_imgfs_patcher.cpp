@@ -7,6 +7,8 @@
 #include <algorithm>
 #include <cstring>
 
+namespace cerfcore {
+
 namespace cerf::ce_imgfs_patcher {
 
 namespace {
@@ -119,6 +121,8 @@ std::vector<uint8_t> BuildModuleHeader(const PeImage&              pe,
         Put32(o32 + kO32OffFlags,    s.flags);
     }
     return hdr;
+}
+
 }
 
 }

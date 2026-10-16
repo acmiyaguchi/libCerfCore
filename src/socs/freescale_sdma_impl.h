@@ -21,6 +21,8 @@
 #include <mutex>
 #include <vector>
 
+namespace cerfcore {
+
 /* Shared core for the Freescale SDMA, same IP on i.MX31 (MCIMX31RM Ch 40) and
    i.MX51 (MCIMX51RM Ch 52) but with a divergent register layout. This core owns
    the same-offset registers + the shared logic; each concrete owns its divergent
@@ -456,3 +458,5 @@ private:
 };
 
 }  /* namespace cerf_freescale_sdma_detail */
+
+}

@@ -5,6 +5,8 @@
 
 #include <typeinfo>
 
+namespace cerfcore {
+
 uint8_t  Peripheral::ReadByte (uint32_t addr) { HaltUnsupportedAccess("ReadByte",  addr, 0); }
 uint16_t Peripheral::ReadHalf (uint32_t addr) { HaltUnsupportedAccess("ReadHalf",  addr, 0); }
 uint32_t Peripheral::ReadWord (uint32_t addr) { HaltUnsupportedAccess("ReadWord",  addr, 0); }
@@ -42,4 +44,6 @@ void Peripheral::HaltUnsupportedAccess(const char* op,
     emu_.Get<Fatal>().Die("Peripheral '%s' rejected %s at 0x%08X (value 0x%016llX)",
                           typeid(*this).name(), op, addr,
                           static_cast<unsigned long long>(value));
+}
+
 }

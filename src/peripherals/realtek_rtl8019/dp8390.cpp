@@ -5,6 +5,8 @@
 #include <cerfcore/core/log.h>
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 using namespace dp8390;
 
 namespace {
@@ -445,4 +447,6 @@ void Dp8390::RestoreState(StateReader& r) {
     r.Read("curr", curr_);
     r.Read("dma_remaining", dma_remaining_);
     r.Read("rst_overflow", rst_overflow_);
+}
+
 }

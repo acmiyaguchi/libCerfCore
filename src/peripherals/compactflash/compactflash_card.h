@@ -8,6 +8,8 @@
 #include <mutex>
 #include <string>
 
+namespace cerfcore {
+
 /* CompactFlash card in PC Card ATA mode (PCMCIA FUNCID 4 = fixed disk):
    ATA task-file in I/O space, backed by a host image file in 512-byte
    LBA sectors (read+write). Register/command codes: ATAPI.H. */
@@ -116,3 +118,5 @@ private:
     uint8_t cor_ = 0;          /* config-option register (attribute 0x200) */
     bool    irq_line_ = false; /* INTRQ pin state */
 };
+
+}

@@ -7,6 +7,8 @@
 #include <cerfcore/host/keyboard_map.h>
 #include <cerfcore/host/keyboard_router.h>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint8_t kScancodeKeyUp = 0x80u;
@@ -36,3 +38,5 @@ public:
 }
 
 REGISTER_SERVICE(SamsungSmdk2410KeyboardInput);
+
+}

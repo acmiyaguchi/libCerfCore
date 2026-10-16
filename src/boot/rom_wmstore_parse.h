@@ -7,6 +7,8 @@
 #include <string>
 #include <vector>
 
+namespace cerfcore {
+
 namespace cerf::rom_image_parse {
 
 constexpr uint8_t kEscoZipLocalSignature[4] = {'P', 'K', 0x03, 0x04};
@@ -77,3 +79,5 @@ bool EscoImageRange(std::span<const uint8_t> raw, EscoRange& out);
 bool EscoEraseRange(std::span<const uint8_t> raw, EscoRange& out);
 
 }  /* namespace cerf::rom_image_parse */
+
+}

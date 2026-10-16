@@ -4,6 +4,8 @@
 #include <cerfcore/host/host_presentation.h>
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 bool DisplayModeLatch::Publish(CerfEmulator& emu, bool display_enabled, uint32_t width, uint32_t height) {
     if (!display_enabled) {
         published_ = false;
@@ -30,4 +32,6 @@ void DisplayModeLatch::RestoreState(StateReader& r) {
     published_ = en != 0;
     r.Read("published_w", width_);
     r.Read("published_h", height_);
+}
+
 }

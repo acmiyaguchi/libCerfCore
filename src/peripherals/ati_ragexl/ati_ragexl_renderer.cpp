@@ -9,6 +9,8 @@
 
 #include <cstring>
 
+namespace cerfcore {
+
 namespace {
 
 /* Presents the Rage XL framebuffer at the CRTC-programmed geometry. The Mach64
@@ -96,3 +98,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(AtiRageXlRenderer, PanelFrameRenderer);
+
+}

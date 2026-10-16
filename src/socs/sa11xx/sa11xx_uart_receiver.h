@@ -12,6 +12,9 @@
 #include <memory>
 
 namespace cerfengine { class HostRequestChannel; }
+
+namespace cerfcore {
+
 class Sa11xxDma;
 class Sa11xxUartBase;
 class Sa11xxUartRxLine;
@@ -116,3 +119,5 @@ private:
     std::array<std::unique_ptr<Channel>, kPorts> ch_{};
     uint32_t            count_ = 0;
 };
+
+}

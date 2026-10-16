@@ -21,6 +21,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* Intel PXA27x Developer's Manual Table 13-10 (page 13-26) POCR, Table 13-11 PCMICR, Table 13-16
@@ -403,3 +405,5 @@ void Pxa27xAc97::PostRestore() {
 }  // namespace
 
 REGISTER_SERVICE(Pxa27xAc97);
+
+}

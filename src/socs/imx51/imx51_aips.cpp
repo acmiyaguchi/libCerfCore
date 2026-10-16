@@ -8,6 +8,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* i.MX51 AIPS_TZ AHB-to-IP bridge: AIPS_TZ#1 @ 0x73F00000 / #2 @ 0x83F00000
@@ -91,3 +93,5 @@ public:
 
 REGISTER_SERVICE(Imx51AipsTz1);
 REGISTER_SERVICE(Imx51AipsTz2);
+
+}

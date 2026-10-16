@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class CerfEmulator;
 class GuestCycleClock;
 class StateReader;
@@ -38,3 +40,5 @@ private:
     uint64_t         ready_cycle_ = 0;
     int64_t          ready_ns_    = 0;
 };
+
+}

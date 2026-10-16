@@ -10,6 +10,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* UCB1300 datasheet p.5, pin table note 6: "SIBDOUT reset state is 1 until the SIB bus is
@@ -53,3 +55,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(Ucb1x00SibAdapter, Pr31x00SibCodec);
+
+}

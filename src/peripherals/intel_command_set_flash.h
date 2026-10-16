@@ -6,6 +6,8 @@
 #include <utility>
 #include <vector>
 
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 
@@ -82,3 +84,5 @@ private:
     std::vector<std::pair<uint32_t, uint8_t>> shadow_;
     std::vector<uint8_t> block_locked_;
 };
+
+}

@@ -7,6 +7,8 @@
 #include <mutex>
 #include <thread>
 
+namespace cerfcore {
+
 class MemoryTelemetry : public Service {
 public:
     explicit MemoryTelemetry(CerfEmulator& emu) : Service(emu) {}
@@ -26,3 +28,5 @@ private:
 
     static constexpr std::chrono::milliseconds kPollInterval{2000};
 };
+
+}

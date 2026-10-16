@@ -6,6 +6,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 class Pr31x00SibCodec;
 
 class Pr31x00SibSpeaker : public Service {
@@ -28,3 +30,5 @@ private:
     PacedWaveOut         paced_;
     std::vector<uint8_t> buf_;
 };
+
+}

@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <functional>
 
+namespace cerfcore {
+
 enum class FreescaleModule : uint8_t {
     kRom, kIim, kUart1, kUart2, kUart3, kUart5, kUart1Ipg, kUart2Ipg, kUart3Ipg, kUart5Ipg,
     kI2c1, kI2c2, kI2c3, kSdhc1, kEsdhc2, kSsi1, kSsi2, kSsi3, kEcspi1, kCspi2, kCspi3, kSdma,
@@ -27,3 +29,5 @@ public:
 private:
     FreescaleLowPowerMode CurrentMode() const;
 };
+
+}

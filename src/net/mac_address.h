@@ -6,6 +6,8 @@
 #include <cstdint>
 #include <string>
 
+namespace cerfcore {
+
 namespace cerf::inet {
 
 using MacAddress = std::array<uint8_t, kEthMacSize>;
@@ -17,5 +19,7 @@ struct MacText {
 MacText FormatMac(const uint8_t* mac);
 
 bool ParseMac(const std::string& text, MacAddress& out);
+
+}
 
 }

@@ -6,6 +6,8 @@
 
 namespace cerfengine { class GuestEngine; }
 
+namespace cerfcore {
+
 class Fatal : public Service {
 public:
     using Service::Service;
@@ -19,3 +21,5 @@ public:
 private:
     std::atomic<cerfengine::GuestEngine*> live_engine_{nullptr};
 };
+
+}

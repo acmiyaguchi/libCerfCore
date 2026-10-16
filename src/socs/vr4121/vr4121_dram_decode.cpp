@@ -11,6 +11,8 @@
 #include <cstdarg>
 #include <cstdio>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(Vr4121DramDecode);
 
 namespace {
@@ -158,4 +160,6 @@ uint32_t Vr4121DramDecode::BankCapacity(bool dbus32, uint32_t bank, uint16_t cnt
         return 0u;
     }
     return dram64 ? (dbus32 ? kMb16 : kMb8) : (dbus32 ? kMb4 : kMb2);
+}
+
 }

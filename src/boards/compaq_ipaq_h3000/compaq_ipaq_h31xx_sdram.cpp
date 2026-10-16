@@ -3,6 +3,8 @@
 #include "../../socs/sa11xx/sa1110_sdram_geometry.h"
 #include "ipaq_h31xx_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* handhelds.org bootldr 2.18.01 boot-sa1100.s dram_mdcnfg_16mb: "KM416S4030C, 12 row
@@ -23,3 +25,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(CompaqIpaqH31xxSdram, Sa1110SdramGeometry);
+
+}

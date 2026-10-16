@@ -3,6 +3,8 @@
 
 #include <cstdio>
 
+namespace cerfcore {
+
 namespace cerf::inet {
 
 MacText FormatMac(const uint8_t* mac) {
@@ -20,6 +22,8 @@ bool ParseMac(const std::string& text, MacAddress& out) {
     if (n != int(kEthMacSize)) return false;
     for (size_t i = 0; i < kEthMacSize; i++) out[i] = uint8_t(bytes[i]);
     return true;
+}
+
 }
 
 }

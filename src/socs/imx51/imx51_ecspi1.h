@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <deque>
 
+namespace cerfcore {
+
 class FreescaleModuleClocks;
 class Imx51Ccm;
 class SpiSlave;
@@ -56,3 +58,5 @@ private:
     FreescaleModuleClocks* module_clocks_ = nullptr;
     Imx51Ccm*              ccm_           = nullptr;
 };
+
+}

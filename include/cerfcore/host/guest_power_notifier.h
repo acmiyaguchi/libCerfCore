@@ -5,6 +5,8 @@
 #include <functional>
 #include <vector>
 
+namespace cerfcore {
+
 enum class ResumeSource { User, Hardware };
 
 class GuestPowerNotifier : public Service {
@@ -23,3 +25,5 @@ private:
 
     std::vector<std::function<void()>> reboot_listeners_;
 };
+
+}

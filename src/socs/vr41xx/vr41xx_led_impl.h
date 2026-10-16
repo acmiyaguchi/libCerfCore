@@ -21,6 +21,8 @@
 #include <mutex>
 #include <string>
 
+namespace cerfcore {
+
 namespace cerf_vr41xx_led_detail {
 
 /* VR4111 UM Table 24-1 p493 and VR4102 UM 23.2.1-23.2.5 p454-p458 give 0x0B000240/0242/0248/
@@ -379,3 +381,5 @@ private:
 };
 
 }  /* namespace cerf_vr41xx_led_detail */
+
+}

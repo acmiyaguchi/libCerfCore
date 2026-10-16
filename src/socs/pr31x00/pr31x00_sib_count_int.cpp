@@ -9,6 +9,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* Interrupt Status 1 (TMPR3911 §8.3.1, printed p.8-5). */
@@ -111,3 +113,5 @@ void Pr31x00SibCountInt::Channel::Restore(StateReader& r) {
 }
 
 REGISTER_SERVICE(Pr31x00SibCountInt);
+
+}

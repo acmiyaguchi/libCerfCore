@@ -8,6 +8,8 @@
 
 #include <cstring>
 
+namespace cerfcore {
+
 namespace {
 
 /* ATA status bits (ATAPI.H). */
@@ -481,4 +483,6 @@ void CompactFlashCard::WriteIo16(uint32_t offset, uint16_t value) {
     const int reg = DecodeIoLocked(offset);
     if (reg == kRegData) WriteData16Locked(value);
     else WriteRegLocked(reg, static_cast<uint8_t>(value & 0xFFu));
+}
+
 }

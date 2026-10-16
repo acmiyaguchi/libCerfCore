@@ -5,6 +5,8 @@
 #include <cstddef>
 #include <string_view>
 
+namespace cerfcore {
+
 namespace cerf::rom_image_parse {
 
 namespace {
@@ -123,3 +125,5 @@ bool SymbolFlashLocateOsXip(std::span<const uint8_t> raw,
 }
 
 }  /* namespace cerf::rom_image_parse */
+
+}

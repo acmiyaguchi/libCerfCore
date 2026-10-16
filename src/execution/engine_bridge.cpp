@@ -18,6 +18,8 @@
 #include "../core/rate_probe.h"
 #endif
 
+namespace cerfcore {
+
 void EngineBridge::OnReady() {
     pages_ = &emu_.Get<PageTableBuilder>();
     trace_ = &emu_.Get<TraceManager>();
@@ -103,4 +105,6 @@ void EngineBridge::Log(cerfengine::LogChannel channel, const char* text) {
 
 bool EngineBridge::Symbolize(const void* address, char* out, size_t out_size) {
     return Log::SymbolizeAddress(address, out, out_size);
+}
+
 }

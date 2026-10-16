@@ -5,6 +5,8 @@
 #include "../../peripherals/cirrus_pd6710/pd6710_controller.h"
 #include "../../peripherals/pcmcia/pcmcia_auto_insert.h"
 
+namespace cerfcore {
+
 namespace {
 
 class SamsungSmdk2410DefaultPcmciaCard : public Service {
@@ -25,3 +27,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE(SamsungSmdk2410DefaultPcmciaCard);
+
+}

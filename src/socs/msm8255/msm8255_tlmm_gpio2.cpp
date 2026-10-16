@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* Linux arch/arm/mach-msm msm_iomap-7x30.h: MSM7X30_GPIO2_PHYS 0xAC101000,
@@ -35,3 +37,5 @@ public:
 }
 
 REGISTER_SERVICE(Msm8255TlmmGpio2);
+
+}

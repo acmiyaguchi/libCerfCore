@@ -3,6 +3,8 @@
 #include "../irq_controller.h"
 #include "imx51_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 using cerf_freescale_gpt_detail::GptClockInput;
@@ -38,3 +40,5 @@ class Imx51Gpt
 }
 
 REGISTER_SERVICE(Imx51Gpt);
+
+}

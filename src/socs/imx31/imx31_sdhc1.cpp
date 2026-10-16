@@ -12,6 +12,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* i.MX31 SDHC1 - MCIMX31RM Ch 29 @0x5000_4000. No SD card wired; per §29.5.1 a
@@ -189,3 +191,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(Imx31Sdhc1);
+
+}

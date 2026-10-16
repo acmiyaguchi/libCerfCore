@@ -7,6 +7,8 @@
 #include <string>
 #include <vector>
 
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 
@@ -77,3 +79,5 @@ private:
     std::atomic<bool> rx_pending_{false};
     std::atomic<bool> tx_pending_{false};
 };
+
+}

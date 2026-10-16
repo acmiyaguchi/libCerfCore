@@ -17,6 +17,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kSlotIoAdcCntr    = 0x00u;
@@ -391,4 +393,6 @@ void OdoTouchSound::RestoreState(StateReader& r) {
 
 void OdoTouchSound::PostRestore() {
     emu_.Get<OdoAudioPlayer>().PostRestore();
+}
+
 }

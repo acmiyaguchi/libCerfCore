@@ -9,6 +9,8 @@
 #include <array>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* i.MX51 HS-I2C (High-Speed I2C), MCIMX51RM Ch.39, base 0x70038000 (Table 2-1,
@@ -68,3 +70,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(Imx51HsI2c);
+
+}

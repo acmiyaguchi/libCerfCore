@@ -9,6 +9,8 @@
 #include <cerfengine/mips/mips_cpu_state.h>
 #include <cerfengine/mips/mips_mmu.h>
 
+namespace cerfcore {
+
 namespace {
 
 /* Status mode stack (TMPR39xx-um §6.2.3): IEc<0> KUc<1> IEp<2> KUp<3> IEo<4> KUo<5>.
@@ -107,3 +109,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(MipsExceptionR3000, MipsExceptionModel);
+
+}

@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 /* NEC VRC4172 companion GPIO + Level-2 GPIO interrupt controller @ PA
    0x15001080. Register map + trigger semantics: NetBSD hpcmips vrc4172gpioreg.h
    + vrc4172gpio.c. */
@@ -59,3 +61,5 @@ private:
     /* Last aggregate INT level driven onto GIU pin 1 (derived; not serialized). */
     bool giu_asserted_ = false;
 };
+
+}

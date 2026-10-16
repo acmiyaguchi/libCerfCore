@@ -9,6 +9,8 @@
 #include <thread>
 #include <vector>
 
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 
@@ -52,3 +54,5 @@ private:
 
     std::vector<std::function<void()>> pre_save_listeners_;
 };
+
+}

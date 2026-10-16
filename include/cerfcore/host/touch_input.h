@@ -3,6 +3,8 @@
 #include "../core/service.h"
 #include "pointer_source.h"
 
+namespace cerfcore {
+
 class TouchInput : public Service, public PointerSource {
 public:
     using Service::Service;
@@ -19,3 +21,5 @@ public:
     int            SourcePriority()   const override { return 0; }
     PointerKind    Kind()             const override { return PointerKind::Stylus; }
 };
+
+}

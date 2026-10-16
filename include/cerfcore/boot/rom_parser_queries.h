@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <span>
 
+namespace cerfcore {
+
 class RomParserQueries : public Service {
 public:
     using Service::Service;
@@ -26,3 +28,5 @@ public:
 private:
     const std::vector<ParsedRom>& Loaded() const;
 };
+
+}

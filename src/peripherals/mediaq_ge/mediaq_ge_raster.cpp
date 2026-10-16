@@ -3,6 +3,8 @@
 #include <cerfcore/core/byte_order.h>
 #include <cerfcore/core/log.h>
 
+namespace cerfcore {
+
 void MediaQGe::RopPixel(uint8_t* fb, uint32_t fbsize, uint64_t addr, uint32_t bpp,
                         uint32_t pmask, uint8_t rop, uint32_t pattern, uint32_t source) {
     if (addr + bpp > fbsize) return;
@@ -280,4 +282,6 @@ void MediaQGe::DrawBresenhamLine(uint32_t cmd, uint32_t line_color) {
             if (y_major) x += step_x; else y += step_y;
         }
     }
+}
+
 }

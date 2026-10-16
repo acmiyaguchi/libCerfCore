@@ -10,6 +10,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kHdrBytes = 20u;
@@ -131,3 +133,5 @@ void Msm8255DalRemoteServer::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE(Msm8255DalRemoteServer);
+
+}

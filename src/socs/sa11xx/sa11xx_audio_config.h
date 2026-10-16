@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 struct Sa11xxAudioConfig {
     uint32_t    ddar_mask;
     uint32_t    ddar_value;
@@ -11,3 +13,5 @@ struct Sa11xxAudioConfig {
     bool        allow_resampler;
     const char* log_tag;
 };
+
+}

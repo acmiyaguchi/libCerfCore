@@ -10,6 +10,8 @@
 #include <cerfcore/state/state_stream.h>
 #include <cerfcore/socs/guest_cpu_reset.h>
 
+namespace cerfcore {
+
 /* SA-1110 Dev Man §11.13.3 PPDR - 0=input, 1=output, reset all-0 (all input).
    §11.13.4 PPSR - 22 pin-state bits; an output pin reads its PPC-controlled
    value, an input pin reads the external pin level; PPSR is not reset,
@@ -187,3 +189,5 @@ void Sa11xxPpc::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE(Sa11xxPpc);
+
+}

@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 class Vr4121Rtc : public Vr41xxRtc {
@@ -21,3 +23,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(Vr4121Rtc, Vr41xxRtc);
+
+}

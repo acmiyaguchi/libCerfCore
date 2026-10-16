@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace siemens_simatic_mp377 {
 
 /* siemens_mp377_v1040 nk.exe sub_804414A8 and sub_80441638. */
@@ -11,3 +13,5 @@ inline constexpr uint32_t kDebugLedTickBase = 0xF3400020u;
 inline constexpr uint32_t kDebugLedTickEnd = 0xF3400022u;
 
 } // namespace siemens_mp377
+
+}

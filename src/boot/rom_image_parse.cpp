@@ -9,6 +9,8 @@
 #include <algorithm>
 #include <cstring>
 
+namespace cerfcore {
+
 namespace cerf::rom_image_parse {
 
 namespace {
@@ -455,3 +457,5 @@ bool FindImgfsBase(std::span<const uint8_t> raw, ImgfsSuperblock& out) {
 }
 
 }  /* namespace cerf::rom_image_parse */
+
+}

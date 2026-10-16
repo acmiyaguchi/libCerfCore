@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 struct Msm8255RamPartition {
     uint32_t start;
     uint32_t size;
@@ -20,3 +22,5 @@ public:
     virtual uint32_t PartitionCount() const = 0;
     virtual Msm8255RamPartition Partition(uint32_t index) const = 0;
 };
+
+}

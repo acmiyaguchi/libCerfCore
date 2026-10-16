@@ -1,5 +1,7 @@
 #include "siemens_simatic_mp377_board_io_window.h"
 
+namespace cerfcore {
+
 using namespace siemens_simatic_mp377_board_io_detail;
 
 namespace {
@@ -15,3 +17,5 @@ public:
 } // namespace
 
 REGISTER_SERVICE(SiemensSimaticMp377AtuOutboundPrimaryAfterRegsPreFbGuard);
+
+}

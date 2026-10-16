@@ -5,6 +5,8 @@
 #include "../../boards/siemens_simatic_mp377/siemens_simatic_mp377_family_id.h"
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 namespace siemens_simatic_mp377 {
 
 bool SiemensSimaticMp377Sm501PowerGpio::ShouldRegister() {
@@ -104,3 +106,5 @@ void SiemensSimaticMp377Sm501PowerGpio::UpdateAc97Link() {
 REGISTER_SERVICE(SiemensSimaticMp377Sm501PowerGpio);
 
 } // namespace siemens_mp377
+
+}

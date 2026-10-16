@@ -13,6 +13,7 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
 
 namespace {
 
@@ -381,3 +382,5 @@ private:
 REGISTER_SERVICE_AS(AtiRageXl, RageXlDisplay);
 
 }  /* namespace */
+
+}

@@ -9,6 +9,8 @@
 #include <cstdint>
 #include <deque>
 
+namespace cerfcore {
+
 class Sa11xxDma;
 class Sa11xxGpio;
 class Sa11xxIntc;
@@ -133,3 +135,5 @@ private:
     bool     enabled_ = false;
     uint16_t last_rx_ = 0;
 };
+
+}

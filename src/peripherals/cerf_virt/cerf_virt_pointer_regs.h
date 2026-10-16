@@ -6,6 +6,7 @@ typedef unsigned int uint32_t;
 #include <cstdint>
 #endif
 
+namespace cerfcore {
 namespace CerfVirt {
 
 const uint32_t kPtrX           = 0x00u;
@@ -18,4 +19,5 @@ const uint32_t kPtrButtonLeft   = 0x1u;
 const uint32_t kPtrButtonRight  = 0x2u;
 const uint32_t kPtrButtonMiddle = 0x4u;
 
+}
 }

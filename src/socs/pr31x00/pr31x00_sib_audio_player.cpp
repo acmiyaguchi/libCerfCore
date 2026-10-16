@@ -3,6 +3,7 @@
 #include "pr31x00_sib_audio.h"
 
 #include "pr31x00_intc.h"
+#include "pr31x00_sib_address_counter.h"
 #include "pr31x00_sib_capture.h"
 #include "pr31x00_sib_count_int.h"
 #include "pr31x00_sib_speaker.h"
@@ -20,6 +21,8 @@
 #include <algorithm>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* Interrupt Status 1 (TMPR3911 §8.3.1, printed p.8-5): SND0_5INT<22>, SND1_0INT<21>, TEL0_5INT<20>,
@@ -31,10 +34,6 @@ constexpr uint32_t kTel0_5Int      = 1u << 20;
 constexpr uint32_t kTel1_0Int      = 1u << 19;
 constexpr uint32_t kSndDmaCntInt   = 1u << 18;
 constexpr uint32_t kTelDmaCntInt   = 1u << 17;
-
-/* TMPR3911 Figure 13.4.1 (printed p.13-16): a 12-bit ADDR CNT, DMA ADDR = START ADDR +
-   ADDR CNT, compared against BUFFER SIZE and BUFFER SIZE / 2. */
-constexpr uint32_t kCntSpan = 0x1000u;
 
 class Pr31x00SibAudioPlayer : public Pr31x00SibAudioSink {
 public:
@@ -319,7 +318,9 @@ private:
             p_.capture_->Clear();
         }
 
-        uint32_t Size() const { return dma_.size & (kCntSpan - 1u); }
+        Pr31x00SibAddressCounter Counter() const { return Pr31x00SibAddressCounter(dma_.size); }
+
+        uint32_t Size() const { return Counter().Size(); }
 
         uint32_t Channels() const { return dma_.stereo ? 2u : 1u; }
 
@@ -331,27 +332,9 @@ private:
             return dma_.frame_rate.Scaled(1u, FramesPerWord());
         }
 
-        /* TMPR3911 §13.4 (printed p.13-15): "the DMA address is continuously incremented ... and
-           rolls over back to the start address after the end-of-buffer is reached". */
-        uint32_t CntAfter(uint32_t c, uint64_t k) const {
-            if (c > Size()) {
-                const uint64_t wrap = kCntSpan - c;
-                if (k < wrap) return static_cast<uint32_t>(c + k);
-                k -= wrap;
-                c = 0;
-            }
-            const uint64_t to_end = Size() - c;
-            if (k <= to_end) return static_cast<uint32_t>(c + k);
-            return static_cast<uint32_t>((k - to_end - 1u) % (Size() + 1u));
-        }
+        uint32_t CntAfter(uint32_t c, uint64_t k) const { return Counter().After(c, k); }
 
-        uint64_t NextMatch(uint32_t c) const {
-            const uint32_t half = Size() / 2u;
-            if (c > Size()) return (kCntSpan - c) + half;
-            if (c < half) return half - c;
-            if (c < Size()) return Size() - c;
-            return 1u + half;
-        }
+        uint64_t NextMatch(uint32_t c) const { return Counter().NextMatch(c); }
 
         /* Figure 13.4.1 (printed p.13-16): CMP of ADDR CNT against BUFFER SIZE and BUFFER SIZE / 2. */
         uint32_t CompareBits(uint32_t c) const {
@@ -495,3 +478,5 @@ private:
 }
 
 REGISTER_SERVICE_AS(Pr31x00SibAudioPlayer, Pr31x00SibAudioSink);
+
+}

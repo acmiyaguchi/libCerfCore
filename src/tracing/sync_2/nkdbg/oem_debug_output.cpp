@@ -6,6 +6,8 @@
 
 #include <string>
 
+namespace cerfcore {
+
 namespace {
 
 /* nk.exe OEMWriteDebugByte sub_80106360 (R0 = debug char; verified in nk.exe).
@@ -33,3 +35,5 @@ public:
 }  // namespace
 
 REGISTER_SERVICE(FordSyncGen2OemDebugOutput);
+
+}

@@ -9,6 +9,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* symbol_mk500 flash.bin boot XIP nk.exe sub_80001958, called from start at
@@ -61,3 +63,5 @@ private:
 }
 
 REGISTER_SERVICE(SymbolHamptonsBootClocks);
+
+}

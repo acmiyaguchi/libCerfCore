@@ -7,6 +7,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class CerfEmulator;
 class StateReader;
 class StateWriter;
@@ -92,3 +94,5 @@ private:
     bool     cmd_pending_    = false;
     uint64_t cmd_from_       = 0;
 };
+
+}

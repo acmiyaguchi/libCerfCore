@@ -7,6 +7,8 @@
 #include <algorithm>
 #include <string>
 
+namespace cerfcore {
+
 namespace ssi = cerf_freescale_ssi;
 
 void FreescaleSsiReceiver::Attach() {
@@ -259,4 +261,6 @@ void FreescaleSsiReceiver::Restore(StateReader& r) {
     }
     line_.Restore(r, "rx_");
     dma_ = dma != 0u;
+}
+
 }

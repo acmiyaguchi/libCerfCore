@@ -5,6 +5,8 @@
 #include "../pcmcia/pcmcia_slot.h"
 #include <cerfcore/core/service.h>
 
+namespace cerfcore {
+
 class IteIt8368SocketHost : public Service,
                             public PcmciaSlotHost,
                             public IteIt8368IntSink {
@@ -24,3 +26,5 @@ protected:
 private:
     PcmciaSlot slot0_;
 };
+
+}

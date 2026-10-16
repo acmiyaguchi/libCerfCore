@@ -3,6 +3,8 @@
 #include "askey_pc3xx_family_id.h"
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 namespace {
 
 class AskeyPc3xxContext : public BoardContext {
@@ -15,3 +17,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(AskeyPc3xxContext, BoardContext);
+
+}

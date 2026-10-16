@@ -4,6 +4,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include "pr31700_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class Pr31700Clock : public Pr31x00Clock {
@@ -22,3 +24,5 @@ protected:
 }  // namespace
 
 REGISTER_SERVICE_AS(Pr31700Clock, Pr31x00Clock);
+
+}

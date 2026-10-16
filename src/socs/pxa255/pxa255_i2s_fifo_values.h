@@ -9,6 +9,8 @@
 #include <utility>
 #include <vector>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 
@@ -64,3 +66,5 @@ private:
     uint32_t out_count_           = 0;
     std::deque<std::pair<uint64_t, uint32_t>> loop_;
 };
+
+}

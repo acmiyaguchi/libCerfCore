@@ -6,6 +6,8 @@
 #include <cstdint>
 #include <string_view>
 
+namespace cerfcore {
+
 class BoardContext : public Service {
 public:
     using Service::Service;
@@ -34,3 +36,5 @@ private:
     const DbSoc*       soc_        = nullptr;
     const DbSocFamily* soc_family_ = nullptr;
 };
+
+}

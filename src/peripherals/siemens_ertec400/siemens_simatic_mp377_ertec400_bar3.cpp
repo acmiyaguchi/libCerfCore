@@ -3,6 +3,8 @@
 
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 namespace {
 class SiemensSimaticMp377Ertec400Bar3 final : public SiemensSimaticMp377Ertec400BarWindow {
 public:
@@ -13,3 +15,5 @@ public:
 };
 } // namespace
 REGISTER_SERVICE(SiemensSimaticMp377Ertec400Bar3);
+
+}

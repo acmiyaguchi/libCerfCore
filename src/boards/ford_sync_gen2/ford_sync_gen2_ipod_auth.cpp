@@ -9,6 +9,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* Ford SYNC2 iPod Authentication Coprocessor (ipdacp.dll) on eCSPI1: the verify
@@ -69,3 +71,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(FordSyncGen2IpodAuth);
+
+}

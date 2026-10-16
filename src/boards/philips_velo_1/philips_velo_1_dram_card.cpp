@@ -11,6 +11,8 @@
 #include <array>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* philips_velo_1_ce1 nk.exe sub_9F423CF0 @0x9F423CF0 bit-bangs the Miniature Card ID
@@ -220,3 +222,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(PhilipsVelo1DramCard, Pr31x00MfioSlave);
+
+}

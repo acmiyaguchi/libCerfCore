@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <string>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kBase = 0x00000000u;
@@ -52,3 +54,5 @@ protected:
 }  /* namespace */
 
 REGISTER_SERVICE(Am29Lv800Bb);
+
+}

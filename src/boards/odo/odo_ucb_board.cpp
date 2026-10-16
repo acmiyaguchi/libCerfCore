@@ -8,6 +8,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 class OdoUcbBoard : public Ucb1x00Board {
@@ -57,3 +59,5 @@ private:
 }
 
 REGISTER_SERVICE_AS(OdoUcbBoard, Ucb1x00Board);
+
+}

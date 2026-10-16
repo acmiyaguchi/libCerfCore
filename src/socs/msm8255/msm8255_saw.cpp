@@ -10,6 +10,8 @@
 #include <atomic>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* Linux arch/arm/mach-msm msm_iomap-7x30.h: MSM_SAW_PHYS, MSM_SAW_SIZE. */
@@ -102,3 +104,5 @@ private:
 }
 
 REGISTER_SERVICE(Msm8255Saw);
+
+}

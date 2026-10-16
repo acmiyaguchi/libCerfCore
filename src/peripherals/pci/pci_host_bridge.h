@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class PciDevice;
 class StateWriter;
 class StateReader;
@@ -34,3 +36,5 @@ public:
     virtual void RestoreState(StateReader& r) = 0;
     virtual void PostRestore()                = 0;
 };
+
+}

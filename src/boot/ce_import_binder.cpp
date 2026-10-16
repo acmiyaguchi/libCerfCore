@@ -14,6 +14,8 @@
 #include <cstring>
 #include <string>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(CeImportBinder);
 
 namespace {
@@ -205,4 +207,6 @@ bool CeImportBinder::GuestAsciiEquals(const GuestExportDir& ed, uint32_t name_rv
         if (g != uint8_t(s[i])) return false;
         if (g == 0) return true;
     }
+}
+
 }

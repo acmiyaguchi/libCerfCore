@@ -6,6 +6,8 @@
 
 #include <cerfcore/peripherals/peripheral_base.h>
 
+namespace cerfcore {
+
 /* CMUCLKMSK D3 MSKKIU and D0 MSKPIU "Supply/mask TClock to KIU / PIU unit, 1: Supply, 0: Mask"
    (VR4102 UM 13.2.1 p290, VR4111 UM 14.2.1 p324, VR4121 UM 14.2.1 p367). */
 inline constexpr uint16_t kCmuMskPiu = 1u << 0;
@@ -29,3 +31,5 @@ private:
     };
     std::vector<ClockListener> clock_listeners_;
 };
+
+}

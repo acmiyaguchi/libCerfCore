@@ -6,6 +6,8 @@
 #include <cerfcore/core/byte_order.h>
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 void IteIt8368BusWindow::OnReady() { emu_.Get<PeripheralDispatcher>().Register(this); }
 
 uint16_t IteIt8368BusWindow::ReadHalf(uint32_t addr) {
@@ -21,3 +23,5 @@ void IteIt8368BusWindow::WriteHalf(uint32_t addr, uint16_t value) {
 void IteIt8368BusWindow::SaveState(StateWriter& w) { emu_.Get<IteIt8368>().SaveState(w); }
 
 void IteIt8368BusWindow::RestoreState(StateReader& r) { emu_.Get<IteIt8368>().RestoreState(r); }
+
+}

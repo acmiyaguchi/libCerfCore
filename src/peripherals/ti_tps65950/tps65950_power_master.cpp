@@ -13,6 +13,8 @@
 
 #include <cstring>
 
+namespace cerfcore {
+
 namespace {
 
 /* TPS65950 TRM SWCU050E Table 2-4 (page 81) PM_MASTER, Table 2-6 (page 82) PM_RECEIVER, Table 2-6 (page 84)
@@ -314,3 +316,5 @@ void Tps65950PowerMaster::Restore(StateReader& r) {
 }
 
 REGISTER_SERVICE(Tps65950PowerMaster);
+
+}

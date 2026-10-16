@@ -10,8 +10,11 @@
 #include <mutex>
 #include <vector>
 
-class EmulatedMemory;
 namespace cerfengine { class HostRequestChannel; }
+
+namespace cerfcore {
+
+class EmulatedMemory;
 class StateReader;
 class StateWriter;
 
@@ -97,3 +100,5 @@ private:
     EmulatedMemory*     mem_           = nullptr;
     cerfengine::HostRequestChannel* host_requests_ = nullptr;
 };
+
+}

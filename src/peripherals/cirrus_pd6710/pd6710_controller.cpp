@@ -10,6 +10,8 @@
 #include <cerfcore/host/host_widget_registry.h>
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kPortIndex = 0x0u;
@@ -177,3 +179,5 @@ void Pd6710Controller::PostRestore() {
 }
 
 REGISTER_SERVICE(Pd6710Controller);
+
+}

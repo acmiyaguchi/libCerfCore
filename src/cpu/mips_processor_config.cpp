@@ -7,6 +7,8 @@
 
 #include <string>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(MipsProcessorConfig);
 
 namespace {
@@ -49,4 +51,6 @@ void MipsProcessorConfig::OnReady() {
     vr41xx_power_modes_ = c.Boolean("vr41xx_power_modes");
     mips16_             = c.Boolean("mips16");
     tx39_multiply_add_  = c.Boolean("tx39_multiply_add");
+}
+
 }

@@ -4,6 +4,8 @@
 #include "../../boards/siemens_simpad/siemens_simpad_family_id.h"
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 namespace {
 
 /* SIMpad nCS0 boot flash: one x16 28F128J3, 16 MB (Linux arch/arm mach-sa1100
@@ -28,3 +30,5 @@ protected:
 }  /* namespace */
 
 REGISTER_SERVICE(Intel28F128J3Cs0);
+
+}

@@ -9,6 +9,8 @@
 
 #include "../core/service.h"
 
+namespace cerfcore {
+
 class JitRunner : public Service {
 public:
     using Service::Service;
@@ -48,3 +50,5 @@ private:
 
     std::vector<std::function<void()>> pre_start_hooks_;
 };
+
+}

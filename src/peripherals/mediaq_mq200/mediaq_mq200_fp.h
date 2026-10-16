@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class CerfEmulator;
 class StateWriter;
 class StateReader;
@@ -31,3 +33,5 @@ private:
 
     uint32_t regs_[kRegs] = {};
 };
+
+}

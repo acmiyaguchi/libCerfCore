@@ -2,6 +2,8 @@
 
 #include <cerfcore/core/service.h>
 
+namespace cerfcore {
+
 class CompaqIpaqH3000Panel : public Service {
 public:
     using Service::Service;
@@ -13,3 +15,5 @@ public:
 
     virtual Kind PanelKind() const = 0;
 };
+
+}

@@ -5,6 +5,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class S3C2410Clocks;
 class StateReader;
 class StateWriter;
@@ -59,3 +61,5 @@ private:
     bool           gated_  = false;
     Group          groups_[kGroups];
 };
+
+}

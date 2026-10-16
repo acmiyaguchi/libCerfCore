@@ -8,6 +8,8 @@
 #include <cerfcore/host/panel_frame_renderer.h>
 #include "../../lcd/panel_scanout.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* ddi.dll @0xFC5458-0xFC546C (andi 0xF800/0x7E0/0x1F channel split): the 16bpp
@@ -51,3 +53,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(CasioJx670Renderer, PanelFrameRenderer);
+
+}

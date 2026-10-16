@@ -6,6 +6,8 @@
 #include <memory>
 #include <string>
 
+namespace cerfcore {
+
 class CerfEmulator;
 class PppTerminator;
 
@@ -40,3 +42,5 @@ private:
     bool verbose_ = true;
     bool online_  = false;   /* data (connected) mode */
 };
+
+}

@@ -14,6 +14,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 using namespace cerf_vr41xx_kiu_regs;
 
 void Vr41xxKiu::OnReady() {
@@ -75,26 +77,11 @@ void Vr41xxKiu::ApplyResetLocked() {
 
 bool Vr41xxKiu::EnabledLocked() const { return (scanrep_ & kKeyen) != 0; }
 
-/* SCANLINE selects the scan-line count (VR4111 UM 22.2.9 p472, VR4102 UM 21.2.9 p434,
-   VR4121 UM 22.2.9 p524). */
-uint32_t Vr41xxKiu::ScanLineCountLocked() const {
-    switch (scanline_ & kScanLineMask) {
-        case 0x0000u: return 12u;
-        case 0x0001u: return 10u;
-        case 0x0002u: return 8u;
-        default:      return 0u;
-    }
-}
-
-bool Vr41xxKiu::GpenOnScanLinesLocked(uint32_t lines) const {
-    return (gpen_ & ((1u << lines) - 1u)) != 0u;
-}
-
 uint32_t Vr41xxKiu::ScanLinesLocked() {
-    const uint32_t lines = ScanLineCountLocked();
+    const uint32_t lines = ScanLineCount(scanline_);
     if (lines == 0u)
         HaltUnsupportedAccess("KIU scan with SCANLINE = 11", kBase + kOffScanLine, scanline_);
-    if (GpenOnScanLinesLocked(lines))
+    if (GpenOnScanLines(gpen_, lines))
         HaltUnsupportedAccess("KIU scan over KSCAN lines KIUGPEN selects as output ports",
                               kBase + kOffGpen, gpen_);
     return lines;
@@ -122,17 +109,7 @@ void Vr41xxKiu::LatchScanLocked() {
     for (uint32_t i = 0; i < regs; ++i) matrix_[i] = held_[i];
 }
 
-/* One set of key scan data walks every KSCAN pin, each costing T1CNT + T2CNT + T3CNT, and the
-   sets are separated by the KIUWKI interval (VR4111 UM 22.2.4 p466 / 22.2.5 p467 figures,
-   VR4102 UM p429 / p430, VR4121 UM Figure 22-2 p519 and Figure 22-3 p520). */
-uint32_t Vr41xxKiu::ScanPeriodTicksFor(uint32_t lines) const {
-    const uint32_t t1 = wks_ & kCntBits;
-    const uint32_t t2 = (wks_ >> kT2CntShift) & kCntBits;
-    const uint32_t t3 = (wks_ >> kT3CntShift) & kCntBits;
-    return lines * (t1 + t2 + t3 + 3u);
-}
-
-uint32_t Vr41xxKiu::ScanPeriodTicksLocked() { return ScanPeriodTicksFor(ScanLinesLocked()); }
+uint32_t Vr41xxKiu::ScanPeriodTicksLocked() { return ScanPeriodTicks(wks_, ScanLinesLocked()); }
 
 /* STPREP[5:0] "key scan sequencer stop count setting", 000001 one time .. 111111 63 times
    (VR4111 UM 22.2.2 p463, VR4102 UM 21.2.2 p425, VR4121 UM 22.2.2 p514); the 000000 row is
@@ -489,12 +466,14 @@ void Vr41xxKiu::ArmEventLocked() {
         clock_->Disarm(event_);
         return;
     }
-    const uint32_t lines = ScanLineCountLocked();
-    const bool start_halts = lines == 0u || GpenOnScanLinesLocked(lines);
-    rtcx_.ArmAt(event_, start_halts ? phase_end_ : phase_end_ + ScanPeriodTicksFor(lines));
+    const uint32_t lines = ScanLineCount(scanline_);
+    const bool start_halts = lines == 0u || GpenOnScanLines(gpen_, lines);
+    rtcx_.ArmAt(event_, start_halts ? phase_end_ : phase_end_ + ScanPeriodTicks(wks_, lines));
 }
 
 void Vr41xxKiu::UpdateLocked() {
     AdvancePhaseLocked();
     ArmEventLocked();
+}
+
 }

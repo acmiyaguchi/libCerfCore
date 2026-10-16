@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Sa11xxDmaTransmitObserver {
 public:
     virtual ~Sa11xxDmaTransmitObserver() = default;
@@ -24,3 +26,5 @@ public:
                               GuestCycleClock::Rate word_rate) = 0;
     virtual void OnReceiveRestored() = 0;
 };
+
+}

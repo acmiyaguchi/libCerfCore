@@ -11,6 +11,8 @@
 #include <array>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* i.MX51 VPU at 0x83FF4000 - a Chips&Media CODA video codec, NOT the TVE:
@@ -97,3 +99,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(Imx51Vpu);
+
+}

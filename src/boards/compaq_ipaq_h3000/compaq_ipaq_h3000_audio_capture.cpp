@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* iPAQ H3600 wavedev SSP receive-DMA DDAR = 0x81C01BF9 (AudioInitialize
@@ -34,3 +36,5 @@ protected:
 }  /* namespace */
 
 REGISTER_SERVICE(CompaqIpaqH3000AudioCapture);
+
+}

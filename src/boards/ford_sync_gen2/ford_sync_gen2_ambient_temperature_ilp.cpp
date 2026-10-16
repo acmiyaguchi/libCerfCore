@@ -5,6 +5,8 @@
 #include "ford_sync_gen2_family_id.h"
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 namespace {
 class FordSyncGen2AmbientTemperatureIlp : public Service {
 public:
@@ -41,4 +43,6 @@ private:
     }
 };
 REGISTER_SERVICE(FordSyncGen2AmbientTemperatureIlp);
+}
+
 }

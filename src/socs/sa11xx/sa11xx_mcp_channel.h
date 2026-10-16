@@ -9,6 +9,8 @@
 #include <cstdint>
 #include <functional>
 
+namespace cerfcore {
+
 class Sa11xxDma;
 class Sa11xxDmaTransmitFifo;
 class Sa11xxMcpFrameClock;
@@ -116,3 +118,5 @@ private:
     uint16_t codec_b_    = 0;
     uint16_t decoded_b_  = 0;
 };
+
+}

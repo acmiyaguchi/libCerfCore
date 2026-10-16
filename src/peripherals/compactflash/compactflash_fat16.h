@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 
+namespace cerfcore {
+
 class CompactFlashFat16Builder : public Service {
 public:
     using Service::Service;
@@ -14,3 +16,5 @@ public:
                const std::vector<std::string>& files,
                uint32_t data_mb);
 };
+
+}

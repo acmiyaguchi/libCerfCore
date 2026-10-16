@@ -14,6 +14,8 @@
 #include <thread>
 #include <vector>
 
+namespace cerfcore {
+
 class CerfEmulator;
 
 class HostSerialForward : public SerialEndpoint {
@@ -60,3 +62,5 @@ private:
     static constexpr uint8_t kModemLinesUnpushed = 0xFFu;
     std::atomic<uint8_t> last_ms_{kModemLinesUnpushed};
 };
+
+}

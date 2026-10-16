@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 struct Imx31SdcTimingRegs {
     uint32_t com_conf    = 0;
     uint32_t hor         = 0;
@@ -27,3 +29,5 @@ public:
     static bool                   SameScan(const Imx31SdcTimingRegs& a,
                                            const Imx31SdcTimingRegs& b);
 };
+
+}

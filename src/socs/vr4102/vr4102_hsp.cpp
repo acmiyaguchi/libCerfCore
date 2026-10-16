@@ -9,6 +9,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* VR4102 HSP (MODEM Interface Unit), I/O-1 0x0C000020-0x0C000029 (UM ch.25,
@@ -87,3 +89,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(Vr4102Hsp);
+
+}

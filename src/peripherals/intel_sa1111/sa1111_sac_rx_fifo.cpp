@@ -6,6 +6,8 @@
 #include "sa1111_sac_tx_stream.h"
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 bool Sa1111SacRxFifo::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     return bd && bd->GetBoardFamilyId() == BoardFamilyId::HpJornada700;
@@ -104,3 +106,5 @@ void Sa1111SacRxFifo::Restore(StateReader& r, uint64_t pos) {
 }
 
 REGISTER_SERVICE(Sa1111SacRxFifo);
+
+}

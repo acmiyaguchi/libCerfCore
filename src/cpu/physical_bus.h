@@ -5,6 +5,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class PhysicalBus : public Service {
 public:
     using Service::Service;
@@ -12,3 +14,5 @@ public:
     bool Read (uint32_t pa, MmioWidth width, uint32_t* out);
     bool Write(uint32_t pa, MmioWidth width, uint32_t value);
 };
+
+}

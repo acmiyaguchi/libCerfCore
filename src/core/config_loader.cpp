@@ -15,6 +15,8 @@
 #include <cstdio>
 #include <cstdlib>
 
+namespace cerfcore {
+
 using nlohmann::json;
 
 REGISTER_SERVICE(ConfigLoader);
@@ -388,4 +390,6 @@ void ConfigLoader::ApplyBoardPanelDefault(DeviceConfig& config) {
     if (!board || !board->lcd_panel_size) return;
     config.board_configurable_screen_width  = board->lcd_panel_size->width;
     config.board_configurable_screen_height = board->lcd_panel_size->height;
+}
+
 }

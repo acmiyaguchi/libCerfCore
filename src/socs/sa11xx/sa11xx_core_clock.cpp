@@ -5,6 +5,8 @@
 #include "sa1100_id.h"
 #include "sa1110_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class Sa11xxCoreClock : public ArmCoreClock {
@@ -26,3 +28,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(Sa11xxCoreClock, ArmCoreClock);
+
+}

@@ -15,6 +15,8 @@
 
 #include <algorithm>
 
+namespace cerfcore {
+
 namespace {
 
 const Sa1111SacDmaChannel::Names kRxNames{
@@ -161,3 +163,5 @@ void Sa1111SacRxDma::RestoreExtra(StateReader& r, uint64_t now) {
 void Sa1111SacRxDma::OnRestored() {}
 
 REGISTER_SERVICE(Sa1111SacRxDma);
+
+}

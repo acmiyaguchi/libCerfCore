@@ -2,6 +2,8 @@
 
 #include "host_unimplemented.h"
 
+namespace cerfcore {
+
 using host_platform::NoHostImplementation;
 
 class WaveOutSink::Impl {};
@@ -25,3 +27,5 @@ void WaveOutSink::Play(uint32_t, const uint8_t*, uint32_t) {
     NoHostImplementation("WaveOutSink::Play");
 }
 void WaveOutSink::Reset() { NoHostImplementation("WaveOutSink::Reset"); }
+
+}

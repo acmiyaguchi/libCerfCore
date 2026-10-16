@@ -3,6 +3,8 @@
 #include <cerfcore/core/byte_order.h>
 #include <cerfcore/core/log.h>
 
+namespace cerfcore {
+
 /* Colour BitBLT, source streamed through the Source FIFO (ddi.dll sub_1845A9C):
    16-bpp pixels two per dword, height rows of dwordsPerRow each; first valid
    pixel of every row at sub-dword offset GE09R bit 4 (= srcLeft & 1). */
@@ -118,4 +120,6 @@ void MediaQMq1188Ge::BlitMonoSource(const uint32_t* r) {
             RopPixel(fb, fbsize, addr, bpp, 0xFFFFu, rop, pat, color);
         }
     }
+}
+
 }

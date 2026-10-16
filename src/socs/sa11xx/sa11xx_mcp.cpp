@@ -19,6 +19,8 @@
 
 #include <algorithm>
 
+namespace cerfcore {
+
 namespace {
 
 using namespace sa11xx_mcp;
@@ -301,3 +303,5 @@ void Sa11xxMcp::PostRestore() {
 }
 
 REGISTER_SERVICE(Sa11xxMcp);
+
+}

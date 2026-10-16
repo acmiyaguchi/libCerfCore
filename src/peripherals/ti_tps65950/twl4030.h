@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 struct Tps65950RegValue;
 
 class Twl4030 : public I2cSlave {
@@ -48,3 +50,5 @@ private:
     std::array<bool,    kAddrCount>                  sub_addr_pending_{};
     bool                                             audio_reset_ = false;
 };
+
+}

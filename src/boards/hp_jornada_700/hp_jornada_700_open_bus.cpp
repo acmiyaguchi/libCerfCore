@@ -3,6 +3,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include "hp_jornada_700_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* Unpopulated static-bank space between the modem window and the
@@ -24,3 +26,5 @@ protected:
 }  /* namespace */
 
 REGISTER_SERVICE(HpJornada700OpenBus);
+
+}

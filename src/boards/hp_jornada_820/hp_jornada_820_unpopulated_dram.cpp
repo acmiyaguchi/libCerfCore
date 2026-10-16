@@ -5,6 +5,8 @@
 #include "hp_jornada_820_family_id.h"
 #include "../../peripherals/peripheral_dispatcher.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* The 820 populates only DRAM bank 0; the SA-1100 extension banks (PA
@@ -38,3 +40,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE(HpJornada820UnpopulatedDram);
+
+}

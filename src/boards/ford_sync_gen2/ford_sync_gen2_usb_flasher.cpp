@@ -16,6 +16,8 @@
 #include <cstdint>
 #include <cstring>
 
+namespace cerfcore {
+
 namespace {
 
 using cerf::le::Put32;
@@ -258,3 +260,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(FordSyncGen2UsbFlasher);
+
+}

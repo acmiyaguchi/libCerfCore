@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <cstdio>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr int kLevelHigh = 65;
@@ -132,4 +134,6 @@ void BatteryWidget::RestoreWidgetState(StateReader& r) {
        lock since the handler re-reads the getters. Pull-based owners have no
        handler and read the restored state live. */
     if (on_change_) on_change_();
+}
+
 }

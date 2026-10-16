@@ -4,6 +4,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "nec_mobilepro_700_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class NecMobilepro700ClockStrap : public Vr41xxClockStrap {
@@ -20,3 +22,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(NecMobilepro700ClockStrap, Vr41xxClockStrap);
+
+}

@@ -12,6 +12,8 @@
 #include <array>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* i.MX51 eSDHC2 (Enhanced SD Host Controller, MCIMX51RM Ch 31) at SPBA0 0x70008000.
@@ -153,3 +155,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(Imx51Esdhc2);
+
+}

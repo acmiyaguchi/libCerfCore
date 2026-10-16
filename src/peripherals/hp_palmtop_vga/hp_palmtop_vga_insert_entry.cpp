@@ -5,6 +5,8 @@
 
 #include <memory>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(HpPalmtopVgaInsertEntry);
 
 SlotEntry HpPalmtopVgaInsertEntry::BuildInsertEntry(PcmciaCardCatalog::CardInserter inserter) {
@@ -18,4 +20,6 @@ SlotEntry HpPalmtopVgaInsertEntry::BuildInsertEntry(PcmciaCardCatalog::CardInser
         WidgetControl{InfoControl{"Verified on the HP Jornada 720."}},
     };
     return entry;
+}
+
 }

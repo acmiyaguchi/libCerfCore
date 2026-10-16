@@ -1,6 +1,8 @@
 #include "omap3530_prcm_stub_block.h"
 #include "omap3530_sdma.h"
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kOffSysstatus = 0x014u;
@@ -137,3 +139,5 @@ protected:
 REGISTER_SERVICE(Omap3530Mmchs1);
 REGISTER_SERVICE(Omap3530Mmchs2);
 REGISTER_SERVICE(Omap3530Mmchs3);
+
+}

@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* Intel 28F128J3 StrataFlash (Intel order 290667): mfr 0x89, device 0x18,
    16 MB, 128 KB uniform erase blocks. */
 class Intel28F128J3 : public IntelCommandSetFlash {
@@ -17,3 +19,5 @@ protected:
     const uint8_t* CfiTable() const override;
     uint32_t       CfiCount() const override;
 };
+
+}

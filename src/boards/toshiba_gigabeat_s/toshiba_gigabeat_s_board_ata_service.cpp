@@ -15,6 +15,8 @@
 #include <cstring>
 #include <string>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint64_t kCapacityBytes   = 30005821440ull;        /* real Zune 30 HDD */
@@ -133,3 +135,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(ToshibaGigabeatSBoardAtaService, BoardAtaService);
+
+}

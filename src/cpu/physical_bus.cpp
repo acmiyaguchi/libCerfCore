@@ -4,6 +4,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include <cerfcore/cpu/emulated_memory.h>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(PhysicalBus);
 
 bool PhysicalBus::Read(uint32_t pa, MmioWidth width, uint32_t* out) {
@@ -26,4 +28,6 @@ bool PhysicalBus::Write(uint32_t pa, MmioWidth width, uint32_t value) {
     if (!disp.IsPeripheralAddress(pa)) return false;
     disp.Write(pa, value, width);
     return true;
+}
+
 }

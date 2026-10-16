@@ -9,6 +9,8 @@
 
 #include <array>
 
+namespace cerfcore {
+
 bool SiemensSimpadKeypad::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     return bd && bd->GetBoardFamilyId() == BoardFamilyId::SiemensSimpad;
@@ -50,3 +52,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(SiemensSimpadKeyboardInput);
+
+}

@@ -5,6 +5,8 @@
 #include "guest_cycle_clock.h"
 #include <cerfengine/cycle_deadline.h>
 
+namespace cerfcore {
+
 template <typename CpuState>
 class EngineCycleClock : public GuestCycleClock {
 public:
@@ -31,3 +33,5 @@ protected:
 
     CpuState* state_ = nullptr;
 };
+
+}

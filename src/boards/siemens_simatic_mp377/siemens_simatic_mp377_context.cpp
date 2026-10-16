@@ -3,6 +3,8 @@
 #include "siemens_simatic_mp377_family_id.h"
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 namespace {
 
 class SiemensSimaticMp377Context : public BoardContext {
@@ -17,3 +19,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(SiemensSimaticMp377Context, BoardContext);
+
+}

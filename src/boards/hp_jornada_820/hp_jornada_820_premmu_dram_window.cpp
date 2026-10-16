@@ -5,6 +5,8 @@
 #include "hp_jornada_820_family_id.h"
 #include "../../peripherals/peripheral_dispatcher.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* Pre-MMU shadow of the DRAM VA window (PA 0x88000000): the CE 2.11 kernel's
@@ -38,3 +40,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE(HpJornada820PreMmuDramWindow);
+
+}

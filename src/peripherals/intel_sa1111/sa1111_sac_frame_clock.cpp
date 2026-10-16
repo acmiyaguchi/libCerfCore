@@ -5,6 +5,8 @@
 #include "../../boards/hp_jornada_700/hp_jornada_700_family_id.h"
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 bool Sa1111SacFrameClock::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     return bd && bd->GetBoardFamilyId() == BoardFamilyId::HpJornada700;
@@ -70,3 +72,5 @@ void Sa1111SacFrameClock::Restore(StateReader& r, uint64_t now) {
 }
 
 REGISTER_SERVICE(Sa1111SacFrameClock);
+
+}

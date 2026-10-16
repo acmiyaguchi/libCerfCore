@@ -7,6 +7,8 @@
 #include <deque>
 #include <vector>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 
@@ -131,3 +133,5 @@ private:
     bool     framerr_     = false;
     bool     parityerr_   = false;
 };
+
+}

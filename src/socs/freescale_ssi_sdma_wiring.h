@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class FreescaleSdmaChannelHost;
 class FreescaleSsiCore;
 
@@ -18,3 +20,5 @@ public:
     virtual bool     RxEventFifo(int event, uint32_t& ssi, uint32_t& fifo) const = 0;
     virtual uint32_t RxSampleBytes(uint32_t ssi) = 0;
 };
+
+}

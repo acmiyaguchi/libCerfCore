@@ -11,6 +11,8 @@
 #include <atomic>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* i.MX51 System Reset Controller (SRC), MCIMX51RM Ch 54, PA 0x73FD_0000 - reset
@@ -99,3 +101,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(Imx51Src);
+
+}

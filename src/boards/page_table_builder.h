@@ -8,6 +8,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 /* Board/BSP bootloader-handoff state: DRAM regions, initial SP, and the
    static cached-DRAM VA→PA map used only for ROM placement and pre-MMU
    boot - the CE kernel installs its own page tables once it runs, so
@@ -102,3 +104,5 @@ public:
         return 0u;
     }
 };
+
+}

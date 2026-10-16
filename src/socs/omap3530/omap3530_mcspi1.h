@@ -6,6 +6,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 /* SPI slave attached to one McSPI channel. The McSPI controller
    forwards each TX-register write to the slave's Transfer and
    stores the returned value into RX. wl_bits is the effective
@@ -95,4 +97,6 @@ inline void Omap3530Mcspi1::SaveState(StateWriter& w) {
                   "Channel::Visit must name or skip every field of Channel");
     StateWriteField field(w);
     for (Channel& c : channels_) Channel::Visit(c, field);
+}
+
 }

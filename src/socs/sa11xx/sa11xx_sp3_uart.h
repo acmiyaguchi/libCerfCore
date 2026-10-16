@@ -2,6 +2,8 @@
 
 #include "sa11xx_uart_base.h"
 
+namespace cerfcore {
+
 /* SA-1110 §11.11 SP3 UART (PA 0x80050000). On the SmartBook G138 the companion
    MPU (keyboard/touch/battery controller) hangs off this port as "COM3:"; its
    board service installs a TX listener and pushes RX packets through the base
@@ -28,3 +30,5 @@ protected:
     Sa11xxDmaTransmitFifo& TransmitFifo() override;
     Sa11xxDmaReceiveFifo&  ReceiveFifo() override;
 };
+
+}

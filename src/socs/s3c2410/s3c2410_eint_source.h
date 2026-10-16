@@ -6,6 +6,8 @@
 #include <functional>
 #include <vector>
 
+namespace cerfcore {
+
 /* S3C2410A UM p. 14-7: SRCPND EINT0 [0], EINT1 [1], EINT2 [2], EINT3 [3],
    EINT4_7 [4], EINT8_23 [5]. UM pp. 9-26/9-27: EINTMASK and EINTPEND serve
    "20 external interrupts (EINT[23:4])". */
@@ -37,3 +39,5 @@ private:
     S3C2410EintSink* sink_ = nullptr;
     std::vector<std::function<void(uint32_t)>> unmask_listeners_;
 };
+
+}

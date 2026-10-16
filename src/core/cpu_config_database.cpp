@@ -9,6 +9,8 @@
 #include <algorithm>
 #include <cctype>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(CpuConfigDatabase);
 
 namespace {
@@ -136,4 +138,6 @@ CpuConfigValue CpuConfigDatabase::ParseValue(const CpuConfigParam& param, const 
         return out;
     }
     CfgFatal(path, where + " has a type this build does not parse");
+}
+
 }

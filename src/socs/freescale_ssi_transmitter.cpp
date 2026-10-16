@@ -7,6 +7,8 @@
 #include <algorithm>
 #include <string>
 
+namespace cerfcore {
+
 namespace ssi = cerf_freescale_ssi;
 
 void FreescaleSsiTransmitter::Attach() {
@@ -291,4 +293,6 @@ void FreescaleSsiTransmitter::Restore(StateReader& r) {
         ch_[k].fifo.Restore(level[k], moved[k]);
     }
     UpdateSupply();
+}
+
 }

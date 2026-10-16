@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Msm8255Smem : public Service {
 public:
     using Service::Service;
@@ -28,3 +30,5 @@ private:
     void PublishRamPartitions();
     void PublishItem(uint32_t id, uint32_t off, uint32_t size, uint32_t magic);
 };
+
+}

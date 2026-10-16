@@ -5,6 +5,8 @@
 #include <atomic>
 #include <cstdint>
 
+namespace cerfcore {
+
 class CerfVirtPointer : public Peripheral {
 public:
     using Peripheral::Peripheral;
@@ -33,3 +35,5 @@ private:
     std::atomic<uint32_t> wheel_{0};
     std::atomic<uint32_t> seq_{0};
 };
+
+}

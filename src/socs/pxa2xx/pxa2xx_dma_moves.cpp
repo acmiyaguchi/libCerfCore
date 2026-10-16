@@ -13,6 +13,8 @@
 
 #include <algorithm>
 
+namespace cerfcore {
+
 /* Intel PXA255 Developer's Manual Table 5-12 (page 5-25) WIDTH: "01 - 1 byte", "10 - HalfWord (2
    bytes)", "11 - Word (4 Bytes)"; SIZE: "01 - 8 Bytes", "10 - 16 Bytes", "11 - 32 Bytes". */
 uint32_t Pxa2xxDmaMoves::UnitWidth(uint32_t dcmd) {
@@ -316,4 +318,6 @@ void Pxa2xxDmaMoves::RestoreUnbound(StateReader& r) {
         r.Read("move_phase", phase);
         phase_[ch] = static_cast<Phase>(phase);
     }
+}
+
 }

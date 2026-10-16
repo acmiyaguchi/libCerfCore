@@ -9,6 +9,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 [[noreturn]] void Unwired(const char* what) {
@@ -92,3 +94,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(PhilipsNinoUcbBoard, Ucb1x00Board);
+
+}

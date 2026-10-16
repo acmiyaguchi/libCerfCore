@@ -11,6 +11,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* casio_cassiopeia_e55 keybddr.dll 0x14E1FA4 passes this base to sub_14E1EF8
@@ -174,3 +176,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(CasioTomcatAsic);
+
+}

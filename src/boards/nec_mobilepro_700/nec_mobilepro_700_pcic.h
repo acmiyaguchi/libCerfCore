@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 /* Dual-socket Intel 82365SL PCIC (NetBSD hpcmips dev/ic/i82365.c).
    ExCA file banked: index>>6 = socket, index&0x3F = register. */
 class NecMobilePro700Pcic : public Service, public PcmciaSlotHost {
@@ -73,3 +75,5 @@ private:
 
     uint8_t voltage_select_[2] = { 0u, 0u };
 };
+
+}

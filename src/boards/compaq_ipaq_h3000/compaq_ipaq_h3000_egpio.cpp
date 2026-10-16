@@ -8,6 +8,8 @@
 #include <cerfcore/state/state_stream.h>
 #include "compaq_ipaq_h3000_egpio_sink.h"
 
+namespace cerfcore {
+
 bool CompaqIpaqH3000Egpio::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     return bd && bd->GetBoardFamilyId() == BoardFamilyId::CompaqIpaqH3000;
@@ -66,3 +68,5 @@ void CompaqIpaqH3000Egpio::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE(CompaqIpaqH3000Egpio);
+
+}

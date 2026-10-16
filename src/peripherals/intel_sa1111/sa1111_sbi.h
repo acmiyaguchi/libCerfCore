@@ -6,6 +6,8 @@
 #include <functional>
 #include <vector>
 
+namespace cerfcore {
+
 class Sa1111Sbi : public Sa1111Unit {
 public:
     using Sa1111Unit::Sa1111Unit;
@@ -68,3 +70,5 @@ private:
     uint32_t smcr_   = kSmcrReset;
     bool     asleep_ = false;
 };
+
+}

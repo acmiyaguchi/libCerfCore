@@ -7,6 +7,8 @@
 #include <functional>
 #include <vector>
 
+namespace cerfcore {
+
 /* Implemented by the SoC peripheral owning the reset-cause register
    (e.g. SA-1110 RCSR). Non-Service so a Peripheral can implement it
    without a Service diamond; the implementer self-registers with
@@ -71,3 +73,5 @@ private:
     bool                                            delivered_is_resume_ = false;
     bool                                            line_held_           = false;
 };
+
+}

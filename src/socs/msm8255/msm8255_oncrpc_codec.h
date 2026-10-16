@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Msm8255RpcServer;
 
 struct Msm8255OncrpcCall {
@@ -30,3 +32,5 @@ public:
                                 uint32_t xid, const uint32_t* results,
                                 uint32_t result_words);
 };
+
+}

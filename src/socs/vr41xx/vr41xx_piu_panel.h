@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <optional>
 
+namespace cerfcore {
+
 /* The resistive panel wired to the VR41xx PIU's A/D ports. PIUCMDREG ADCMD(3:0) selects
    which port a command scan converts - 0000 TPX0, 0001 TPX1, 0010 TPY0, 0011 TPY1,
    0100 ADIN0, 0101 ADIN1, 0110 ADIN2, 0111 AUDIOIN (VR4121 UM 20.3.5 (2/2), VR4102 UM
@@ -30,3 +32,5 @@ public:
 
     virtual uint16_t ScreenRawXMax() const { return 1023u; }
 };
+
+}

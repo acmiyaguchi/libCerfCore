@@ -5,6 +5,8 @@
 
 #include <typeinfo>
 
+namespace cerfcore {
+
 void Msm8255RpcServer::SaveState(StateWriter& w) { (void)w; }
 
 void Msm8255RpcServer::RestoreState(StateReader& r) { (void)r; }
@@ -24,4 +26,6 @@ uint32_t Msm8255RpcServer::ConsumeCallbackReply(uint32_t in_pa, uint32_t size,
         "Service '%s': a %u-byte callback reply reached a server that names a "
         "callback client and models no reply for it",
         typeid(*this).name(), size);
+}
+
 }

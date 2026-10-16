@@ -12,6 +12,8 @@
 #include <string>
 #include <vector>
 
+namespace cerfcore {
+
 class Rtl8019 : public PcmciaCard {
 public:
     static constexpr const char* kDisplayName = "NE2000 Ethernet (RTL8019)";
@@ -88,3 +90,5 @@ private:
     Dp8390         nic_;
     Dp8390Receiver receiver_;
 };
+
+}

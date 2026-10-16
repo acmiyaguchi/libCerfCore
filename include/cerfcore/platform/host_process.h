@@ -3,6 +3,8 @@
 #include <cstddef>
 #include <string>
 
+namespace cerfcore {
+
 namespace host_platform {
 
 std::string ExecutablePath();
@@ -12,5 +14,7 @@ bool WriteStdout(const char* buf, size_t len);
 bool WriteStderr(const char* buf, size_t len);
 
 [[noreturn]] void ExitProcessNow(int code);
+
+}
 
 }

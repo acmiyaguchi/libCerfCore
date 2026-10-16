@@ -12,6 +12,8 @@
 #include <string>
 #include <vector>
 
+namespace cerfcore {
+
 class FreescaleSsiSdmaWiring;
 class StateWriter;
 class StateReader;
@@ -62,3 +64,5 @@ private:
     std::vector<std::unique_ptr<FreescaleSdmaSsiStream>> streams_;
     uint32_t                                             ssi_ = 0;
 };
+
+}

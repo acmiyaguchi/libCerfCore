@@ -4,6 +4,8 @@
 
 #include <atomic>
 
+namespace cerfcore {
+
 class Ucb1x00TouchPanel : public TouchInput {
 public:
     using TouchInput::TouchInput;
@@ -24,3 +26,5 @@ private:
 
     std::atomic<int> x_{0}, y_{0};
 };
+
+}

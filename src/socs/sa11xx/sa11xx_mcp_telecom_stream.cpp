@@ -5,6 +5,8 @@
 #include "sa11xx_mcp_telecom_receive_path.h"
 #include "sa11xx_mcp_telecom_transmit_path.h"
 
+namespace cerfcore {
+
 using namespace sa11xx_mcp;
 
 namespace {
@@ -47,3 +49,5 @@ void Sa11xxMcpTelecomStream::OnReady() {
 }
 
 REGISTER_SERVICE(Sa11xxMcpTelecomStream);
+
+}

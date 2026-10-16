@@ -8,6 +8,8 @@
 #include "imx31_clock_input.h"
 #include "imx31_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* MCIMX31RM Table 3-4 CCMR: MPE [3], UPE [9], SPE [8], PRCS [2:1] (01 FPM, 10 CKIH).
@@ -154,3 +156,5 @@ void Imx31Plls::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE(Imx31Plls);
+
+}

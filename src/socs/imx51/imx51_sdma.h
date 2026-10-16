@@ -8,6 +8,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include "imx51_id.h"
 
+namespace cerfcore {
+
 /* SDMA AP interrupt = TZIC source 6 (MCIMX51RM Table 3-2, ARM Domain Interrupt
    Summary). */
 constexpr uint32_t kTzicSourceSdma = 6u;
@@ -53,3 +55,5 @@ private:
         emu_.Get<Imx51Uart3>().BindSdma(this, 44u, 43u);
     }
 };
+
+}

@@ -11,6 +11,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kBase = 0xAD900000u;
@@ -136,3 +138,5 @@ private:
 }  // namespace
 
 REGISTER_SERVICE(Msm8255PmicBus);
+
+}

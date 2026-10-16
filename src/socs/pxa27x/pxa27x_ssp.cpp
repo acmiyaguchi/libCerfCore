@@ -9,6 +9,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* Intel PXA27x Developer's Manual 280000-001 Section 8.1 (page 8-1): "All three
@@ -263,3 +265,5 @@ REGISTER_SERVICE(Pxa27xSsp2);
 REGISTER_SERVICE(Pxa27xSsp3);
 
 }  /* namespace */
+
+}

@@ -7,6 +7,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "../../boards/siemens_simatic_mp377/siemens_simatic_mp377_family_id.h"
 
+namespace cerfcore {
+
 namespace siemens_simatic_mp377 {
 
 bool SiemensSimaticMp377Mram::ShouldRegister() {
@@ -82,3 +84,5 @@ uint32_t SiemensSimaticMp377Mram::OffsetFromAlias(uint32_t alias_pa) const {
 REGISTER_SERVICE(SiemensSimaticMp377Mram);
 
 } // namespace siemens_mp377
+
+}

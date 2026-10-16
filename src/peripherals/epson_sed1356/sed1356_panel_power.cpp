@@ -5,6 +5,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 bool Sed1356PanelPower::ShouldRegister() {
     return emu_.TryGet<Sed1356Config>() != nullptr;
 }
@@ -50,3 +52,5 @@ void Sed1356PanelPower::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE(Sed1356PanelPower);
+
+}

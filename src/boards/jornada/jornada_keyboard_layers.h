@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 /* Shared HP Jornada (720 + 820) keyboard preview layers: Fn (host F10), Alt
    (host Alt), and a Num Lock numpad overlay. Labels are display-only. */
 namespace jornada_kbd {
@@ -58,3 +60,5 @@ inline std::vector<KeyboardToggleLayer> ToggleLayers() {
 }
 
 }  /* namespace jornada_kbd */
+
+}

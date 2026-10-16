@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace cerf_msm8255_sdcc_detail {
 
 constexpr uint32_t kSdc1Base       = 0xA0400000u;
@@ -37,3 +39,5 @@ constexpr uint32_t kSdc4IrqSource1 = 101u;
 constexpr uint32_t kSdc4Crci       = 13u;
 
 }  // namespace cerf_msm8255_sdcc_detail
+
+}

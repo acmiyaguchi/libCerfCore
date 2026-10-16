@@ -5,6 +5,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* Relative pointing device (laptop touchpad / captured mouse), fed by the
    host mouse-lock path while HostInputCapture is captured. */
 
@@ -26,3 +28,5 @@ public:
     int            SourcePriority()   const override { return 0; }
     PointerKind    Kind()             const override { return PointerKind::Relative; }
 };
+
+}

@@ -7,6 +7,8 @@
 #include "iop13xx_atu_state.h"
 #include "iop13xx_pci_config.h"
 
+namespace cerfcore {
+
 namespace {
 
 class Iop13xxPhysicalAddressMapper final : public PhysicalAddressMapper {
@@ -56,3 +58,5 @@ private:
 REGISTER_SERVICE_AS(Iop13xxPhysicalAddressMapper, PhysicalAddressMapper);
 
 } // namespace
+
+}

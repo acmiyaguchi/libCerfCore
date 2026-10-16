@@ -8,6 +8,8 @@
 #include <functional>
 #include <vector>
 
+namespace cerfcore {
+
 /* Hard-reset orchestrator: wipes volatile guest RAM and replays the
    registered boot-time RAM writes at reset delivery. Registration is
    OnReady-time only - registering after JitRunner starts races the
@@ -42,3 +44,5 @@ private:
     std::vector<std::function<void()>> replays_;
     std::atomic<bool>                  pending_{false};
 };
+
+}

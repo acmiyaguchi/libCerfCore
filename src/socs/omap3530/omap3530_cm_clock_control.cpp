@@ -5,6 +5,8 @@
 #include "omap3530_board_clock_setup.h"
 #include "omap3530_dpll.h"
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kOffClkenPll    = 0x00u;
@@ -288,3 +290,5 @@ void Omap3530CmClockControl::WriteHalf(uint32_t addr, uint16_t value) {
 }
 
 REGISTER_SERVICE(Omap3530CmClockControl);
+
+}

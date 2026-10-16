@@ -2,6 +2,8 @@
 
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 namespace {
 
 /* nec_mobilepro_900_hpc2000 XIP.BIN nk.exe: sub_84093EE0 (cause 0x1A860, state 0x1A86C), sub_84093FF0
@@ -27,3 +29,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(NecMobilepro900SeriesCe3BootArgs, NecMobilepro900SeriesBootArgs);
+
+}

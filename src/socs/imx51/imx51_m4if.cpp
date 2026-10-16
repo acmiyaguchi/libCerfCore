@@ -9,6 +9,8 @@
 #include <array>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* i.MX51 M4IF (Multi-Master Memory Interface), MCIMX51RM Ch.44 §44.2.1,
@@ -47,3 +49,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(Imx51M4if);
+
+}

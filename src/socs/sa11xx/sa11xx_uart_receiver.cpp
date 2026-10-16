@@ -19,6 +19,8 @@
 #include <algorithm>
 #include <utility>
 
+namespace cerfcore {
+
 using namespace sa11xx_uart;
 
 namespace {
@@ -379,3 +381,5 @@ void Sa11xxUartReceiver::Restore(uint32_t port, StateReader& r) {
 }
 
 REGISTER_SERVICE(Sa11xxUartReceiver);
+
+}

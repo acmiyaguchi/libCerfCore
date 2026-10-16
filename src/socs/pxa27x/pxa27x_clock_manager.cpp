@@ -11,6 +11,8 @@
 #include <cerfcore/state/state_stream.h>
 #include <cerfcore/socs/guest_cpu_reset.h>
 
+namespace cerfcore {
+
 /* Intel PXA27x Developer's Manual 280000-001 chapter 3: Table 3-31 (page 3-95)
    "0x4130_0000 CCCR", Table 3-32 (page 3-97) "0x4130_0004 CKEN", Table 3-34
    (page 3-99) "0x4130_0008 OSCC", Table 3-35 (page 3-101) "0x4130_000C CCSR". */
@@ -258,3 +260,5 @@ void Pxa27xClockManager::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE(Pxa27xClockManager);
+
+}

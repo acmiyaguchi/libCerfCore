@@ -14,6 +14,8 @@
 #include <array>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kBase = 0x10C00100u;
@@ -397,3 +399,5 @@ void Pr31x00Intc::PostRestore() {
 }
 
 REGISTER_SERVICE(Pr31x00Intc);
+
+}

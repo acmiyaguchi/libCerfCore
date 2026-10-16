@@ -8,6 +8,8 @@
 #include <memory>
 #include <vector>
 
+namespace cerfcore {
+
 class SerialEndpoint;
 
 class SerialPcCard : public PcmciaCard {
@@ -84,3 +86,5 @@ private:
     std::unique_ptr<Serial16550>    uart_;
     std::unique_ptr<SerialEndpoint> endpoint_;
 };
+
+}

@@ -10,6 +10,8 @@
 #include "../peripheral_dispatcher.h"
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint8_t  kFloat8  = 0xFFu;
@@ -153,3 +155,5 @@ void PcmciaSpaceRouter::WriteWord(uint32_t addr, uint32_t value) {
 }
 
 REGISTER_SERVICE(PcmciaSpaceRouter);
+
+}

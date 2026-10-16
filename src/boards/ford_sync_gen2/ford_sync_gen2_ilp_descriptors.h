@@ -1,5 +1,8 @@
 #pragma once
 #include <cstdint>
+
+namespace cerfcore {
+
 namespace cerf_ford_sync_gen2_ilp_detail {
 /* EA5T-14D544-BA.sec, SyncGen2.bcf (BLBF v9), sections 1/3/5,
    descriptor arrays at file offsets 0xA4/0x21C/0x630; descriptor bits 26..31 + 1.
@@ -68,4 +71,6 @@ constexpr uint8_t kAssociation2Bits[] = {
     4, 4, 4, 4, 4, 4, 4, 4, 2, 3, 1, 3, 16, 16, 3, 1, 3, 3, 1, 1, 1, 3, 5, 2,
     1,
 };
+}
+
 }

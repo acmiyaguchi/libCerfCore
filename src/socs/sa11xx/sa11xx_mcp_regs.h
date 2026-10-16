@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace sa11xx_mcp {
 
 /* SA-1110 Developer's Manual §11.12.1.1 (printed 11-128): "Each MCP data frame is 128 bits
@@ -57,5 +59,7 @@ constexpr uint32_t kMcdr2Write     = 1u << 16;
 constexpr uint32_t kMcdr2AddrShift = 17;
 constexpr uint32_t kCwc            = 1u << 12;
 constexpr uint32_t kCrc            = 1u << 13;
+
+}
 
 }

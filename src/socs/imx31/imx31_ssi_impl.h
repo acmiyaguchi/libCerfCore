@@ -16,6 +16,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace cerf_imx31_ssi_detail {
 
 constexpr uint32_t kSize = 0x00004000u;
@@ -105,5 +107,7 @@ private:
     FreescaleModuleClocks* module_clocks_ = nullptr;
     bool                   clocked_       = true;
 };
+
+}
 
 }

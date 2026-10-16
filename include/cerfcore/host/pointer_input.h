@@ -5,6 +5,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* Absolute mouse (hover, buttons, wheel) for guest additions. sx,sy are
    guest-surface pixels (same space as TouchInput); the concrete normalizes. */
 /* button_mask bits, shared by HostCanvas and the channel adapter. */
@@ -27,3 +29,5 @@ public:
     int            SourcePriority()   const override { return 100; }
     PointerKind    Kind()             const override { return PointerKind::Absolute; }
 };
+
+}

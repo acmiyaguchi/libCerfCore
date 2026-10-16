@@ -13,6 +13,8 @@
 
 #include <cstring>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kBppCode16Bpp       = Pxa27xLcd::kBppCode16Bpp;
@@ -101,3 +103,5 @@ private:
 }
 
 REGISTER_SERVICE_AS(Pxa27xLcdRenderer, PanelFrameRenderer);
+
+}

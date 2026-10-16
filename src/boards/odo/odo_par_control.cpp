@@ -10,6 +10,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 namespace {
 
 
@@ -122,3 +124,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(OdoParControl);
+
+}

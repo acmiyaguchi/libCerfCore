@@ -17,6 +17,8 @@
 #include <atomic>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kMddiBase = 0xAD600000u;
@@ -414,3 +416,5 @@ private:
 }
 
 REGISTER_SERVICE(Msm8255MddiHost);
+
+}

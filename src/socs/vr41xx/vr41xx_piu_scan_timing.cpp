@@ -8,6 +8,8 @@
 #include <cerfcore/state/state_stream.h>
 #include "vr41xx_rtcx_ticks.h"
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint64_t kAdConversionNs = 10000u;
@@ -75,4 +77,6 @@ void Vr41xxPiuScanTiming::Restore(StateReader& r, uint64_t now) {
     r.Read("scan_ready_ns", ready_in);
     ready_ns_    = clock_->NowNs() + static_cast<int64_t>(ready_in);
     ready_cycle_ = now + clock_->NsToCycles(static_cast<int64_t>(ready_in));
+}
+
 }

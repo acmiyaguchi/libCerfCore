@@ -5,6 +5,8 @@
 #include "compaq_ipaq_h3000_egpio.h"
 #include "compaq_ipaq_h3000_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class CompaqIpaqH3000EgpioAudioAmp : public CompaqIpaqH3000AudioAmp {
@@ -27,3 +29,5 @@ public:
 }
 
 REGISTER_SERVICE_AS_FALLBACK(CompaqIpaqH3000EgpioAudioAmp, CompaqIpaqH3000AudioAmp);
+
+}

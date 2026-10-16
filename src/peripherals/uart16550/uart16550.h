@@ -10,6 +10,8 @@
 #include <cstdint>
 #include <string>
 
+namespace cerfcore {
+
 /* Memory-mapped 16550: registers sit at reg-index*RegStride (PXA255 =4, VR4102 SIU =1,
    a 16-bit-bus part =2). */
 class Uart16550 : public Peripheral, public Serial16550 {
@@ -78,3 +80,5 @@ protected:
 private:
     std::string tx_line_;   /* host-side console accumulator, not guest state */
 };
+
+}

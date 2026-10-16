@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 bool DisplaySizeLatch::PublishOnce(CerfEmulator& emu, bool display_enabled) {
     if (published_ || !display_enabled) return false;
     published_ = true;
@@ -21,4 +23,6 @@ void DisplaySizeLatch::RestoreState(StateReader& r) {
     uint8_t v = 0;
     r.Read("published", v);
     published_ = v != 0;
+}
+
 }

@@ -3,6 +3,8 @@
 #include "nokia_sea_ray_family_id.h"
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 namespace {
 
 class NokiaSeaRayContext : public BoardContext {
@@ -15,3 +17,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(NokiaSeaRayContext, BoardContext);
+
+}

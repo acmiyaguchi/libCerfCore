@@ -4,6 +4,8 @@
 #include "iop13xx_id.h"
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 /* Intel 81341/81342 Developer's Manual 315037-002US, section 16;
    siemens_mp377_v1040 nk.exe, VA 0x80409FDC. */
 
@@ -34,3 +36,5 @@ protected:
 } /* namespace */
 
 REGISTER_SERVICE(Iop13xxUart);
+
+}

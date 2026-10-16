@@ -11,6 +11,7 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
 
 namespace {
 
@@ -144,3 +145,5 @@ private:
 REGISTER_SERVICE_AS(Vrc5477Pci, PciHostBridge);
 
 }  /* namespace */
+
+}

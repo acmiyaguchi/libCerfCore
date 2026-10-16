@@ -5,6 +5,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace siemens_simatic_mp377 {
 
 class SiemensSimaticMp377Sm501Ac97;
@@ -37,3 +39,5 @@ private:
 };
 
 } // namespace siemens_mp377
+
+}

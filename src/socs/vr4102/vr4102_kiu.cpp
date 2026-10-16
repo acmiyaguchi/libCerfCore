@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* KIUSCANREP STPREP[5:0] 000000 is "64 times" (VR4102 UM 21.2.2 p425). Chapter 21 carries no
@@ -37,3 +39,5 @@ protected:
 }
 
 REGISTER_SERVICE_AS(Vr4102Kiu, Vr41xxKiu);
+
+}

@@ -7,6 +7,8 @@
 #include <iphlpapi.h>
 #include <icmpapi.h>
 
+namespace cerfcore {
+
 namespace host_platform {
 
 IcmpEchoResult SendIcmpEcho(uint32_t dest_ip_n, const uint8_t* payload, size_t size,
@@ -45,6 +47,8 @@ IcmpEchoResult SendIcmpEcho(uint32_t dest_ip_n, const uint8_t* payload, size_t s
         out.data.assign(er->DataSize, 0);
     }
     return out;
+}
+
 }
 
 }

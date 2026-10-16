@@ -4,6 +4,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "siemens_simatic_tp177b_4_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* siemens_tp177b_4inch_v1020 nk.exe sub_8303EFC8: the OAL derives FCLK
@@ -23,3 +25,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(SiemensSimaticTp177b4ClockInput, S3C2410ClockInput);
+
+}

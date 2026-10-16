@@ -5,6 +5,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include <cerfcore/core/fatal.h>
 
+namespace cerfcore {
+
 bool Omap3530Sdma::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     return bd && bd->GetSocId() == SocId::Omap3530;
@@ -36,3 +38,5 @@ void Omap3530Sdma::OnSyncServed(uint32_t source) {
 }
 
 REGISTER_SERVICE(Omap3530Sdma);
+
+}

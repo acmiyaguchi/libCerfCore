@@ -7,6 +7,8 @@
 #include "nec_mobilepro_900_series_family_id.h"
 #include "nec_mobilepro_900_series_pcmcia.h"
 
+namespace cerfcore {
+
 bool NecMobilepro900SeriesL1110::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     return bd && bd->GetBoardFamilyId() == BoardFamilyId::NecMobilepro900Series;
@@ -59,3 +61,5 @@ void NecMobilepro900SeriesL1110::WriteByte(uint32_t addr, uint8_t value) {
 
 void NecMobilepro900SeriesL1110::SaveState(StateWriter& w)   { w.Write("prc", prc_); }
 void NecMobilepro900SeriesL1110::RestoreState(StateReader& r) { r.Read("prc", prc_); }
+
+}

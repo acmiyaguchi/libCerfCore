@@ -2,6 +2,8 @@
 
 #include <cerfcore/core/service.h>
 
+namespace cerfcore {
+
 class Pr31x00SibIrqPin : public Service {
 public:
     using Service::Service;
@@ -10,3 +12,5 @@ public:
 
     void OnPinEdge(bool rising);
 };
+
+}

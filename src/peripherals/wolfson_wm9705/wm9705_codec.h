@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Wm9705Codec : public Wm97xxCodec {
 public:
     using Wm97xxCodec::Wm97xxCodec;
@@ -39,3 +41,5 @@ private:
     uint16_t reg_[kNumRegs] = {};
     bool     stalled_poll_  = false;
 };
+
+}

@@ -18,6 +18,8 @@
 #include <cstdint>
 #include <cstring>
 
+namespace cerfcore {
+
 namespace {
 
 /* Linux arch/arm/mach-msm proc_comm.c: APP_COMMAND 0x00, MDM_STATUS 0x14. */
@@ -457,3 +459,5 @@ void Msm8255ModemPeer::RunProcComm() {
 }
 
 REGISTER_SERVICE(Msm8255ModemPeer);
+
+}

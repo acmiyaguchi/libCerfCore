@@ -6,6 +6,9 @@
 #include <mutex>
 
 namespace cerfengine { class MipsJit; }
+
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 
@@ -50,3 +53,5 @@ private:
     uint32_t pending_    = 0;   /* live source request level (set by sources / AssertSource) */
     uint32_t line_level_ = 0;
 };
+
+}

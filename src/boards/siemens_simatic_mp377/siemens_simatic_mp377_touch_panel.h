@@ -5,6 +5,8 @@
 #include <atomic>
 #include <cstdint>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 
@@ -56,3 +58,5 @@ private:
 };
 
 } // namespace siemens_mp377
+
+}

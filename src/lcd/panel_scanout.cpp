@@ -5,6 +5,8 @@
 
 #include <cstring>
 
+namespace cerfcore {
+
 constexpr uint32_t kGray2Step = 255u / 3u;
 
 void PanelScanout::Blit(const PanelSurface& src, uint32_t* dib,
@@ -31,4 +33,6 @@ void PanelScanout::Blit(const PanelSurface& src, uint32_t* dib,
                 break;
         }
     }
+}
+
 }

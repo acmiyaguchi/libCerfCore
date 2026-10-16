@@ -1,6 +1,7 @@
 #include "ucb1x00_codec.h"
 
 #include "ucb1x00_board.h"
+#include "ucb1x00_regs.h"
 
 #include <cerfcore/core/cerf_emulator.h>
 #include <cerfcore/core/fatal.h>
@@ -10,45 +11,11 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
+using namespace ucb1x00_regs;
+
 namespace {
-
-constexpr uint8_t kRegIoData   = 0x00;
-constexpr uint8_t kRegIoDir    = 0x01;
-
-/* UCB1300 datasheet p.49: IO_DATA / IO_DIR bits 0-9; a read of IO_DATA returns "the
-   actual state of the associated I/O pin", an output pin carrying its written bit. */
-constexpr uint16_t kIoPins = 0x03FFu;
-constexpr uint8_t kRegIeRis    = 0x02;
-constexpr uint8_t kRegIeFal    = 0x03;
-constexpr uint8_t kRegIeStatus = 0x04;
-constexpr uint8_t kRegTsCr     = 0x09;
-constexpr uint8_t kRegAdcCr    = 0x0A;
-constexpr uint8_t kRegAdcData  = 0x0B;
-constexpr uint8_t kRegId       = 0x0C;
-constexpr uint8_t kRegNull     = 0x0F;
-
-/* NetBSD hpcmips ucb1200reg.h UCB1200_NULL_REG - "always returns 0xffff". */
-constexpr uint16_t kNullValue = 0xFFFFu;
-
-/* UCB1300 datasheet p.49-52, UCB1200 p.48-51, UCB1100 PDF index 29-32: the W and
-   R/W bits of each register, the same on the three parts. */
-constexpr std::array<uint16_t, 16> kDefinedWriteBits = {
-    0x03FFu, 0x83FFu, 0xFBFFu, 0xFBFFu, 0xFBFFu, 0x00FFu, 0xE858u, 0x0FFFu,
-    0xE15Fu, 0x0BFFu, 0x80BFu, 0x0000u, 0x0000u, 0xF03Fu, 0x0000u, 0x0000u,
-};
-
-/* UCB1300 datasheet, control register overview (p.49): IE bit 12 TSPX, bit 13 TSMX. */
-constexpr uint16_t kIeTouch = (1u << 12) | (1u << 13);
-
-/* Linux ucb1x00.h UCB_IO_0..9 and UCB_IE_ADC..UCB_IE_ACLIP (bits 11-15) list every
-   interrupt source; ucb1x00-core.c ucb1x00_detect_irq writes 0xffff to UCB_IE_CLEAR. */
-constexpr uint16_t kIeClearNoSource = 1u << 10;
-
-constexpr uint16_t kTsCrModeMask = 3u << 8;
-constexpr uint16_t kTsCrModePres = 1u << 8;
-constexpr uint16_t kTsCrTspxLow  = 1u << 12;
-constexpr uint16_t kTsCrTsmxLow  = 1u << 13;
-constexpr uint16_t kTsCrBiasEna  = 1u << 11;
 
 /* UCB1300 datasheet p.50-51, TS_CR: TSMX/TSPX/TSMY/TSPY_POW <3:0>, _GND <7:4>. */
 enum class PlatePin { Floating, Powered, Grounded };
@@ -88,30 +55,6 @@ bool DrivesAcross(Plate from, Plate to) {
            to.grounded == from.powered && to.powered == 0u;
 }
 
-constexpr uint16_t kAdcStart      = 1u << 7;
-constexpr uint16_t kAdcVrefbypCon = 1u << 1;
-constexpr uint16_t kAdcExtRefEna  = 1u << 5;
-constexpr uint16_t kAdcEna        = 1u << 15;
-constexpr uint16_t kAdcDatVal  = 1u << 15;
-constexpr uint16_t kAdcInpMask = 7u << 2;
-constexpr uint16_t kAdcInpTspx = 0u << 2;
-constexpr uint16_t kAdcInpTsmx = 1u << 2;
-constexpr uint16_t kAdcInpTspy = 2u << 2;
-constexpr uint16_t kAdcInpTsmy = 3u << 2;
-constexpr uint16_t kAdcInpAd0  = 4u << 2;
-
-constexpr uint16_t kAdcDataShift = 5;
-constexpr uint16_t kAdcDataMask  = 0x3FFu;
-
-constexpr uint8_t kRegTelCtlB = 0x06;
-constexpr uint8_t kRegAudCtlB = 0x08;
-constexpr uint8_t kRegMode    = 0x0D;
-
-/* UCB1300 datasheet p.50: TEL_CLIP_STAT reg 6 bit 4, AUD_CLIP_STAT reg 8 bit 6, set by
-   the clip detector on the codec input path. */
-constexpr uint16_t kTelClipStat = 1u << 4;
-constexpr uint16_t kAudClipStat = 1u << 6;
-
 /* UCB1300 datasheet p.52: MODE AUD_TEST<0> TEL_TEST<1> PROD_TEST_MODE<5:2>, note 1
    "Activating one or more test modes changes the functionality of the UCB1300";
    DYN_VFLAG_ENA<12>, A_BIG_ENDIAN<14>, T_BIG_ENDIAN<15>. */
@@ -119,14 +62,6 @@ constexpr uint16_t kModeUnmodelled = 0x003Fu | (1u << 12) | (1u << 14) | (1u << 
 
 /* UCB1300 datasheet p.50: AUD_LOOP<8> enables the audio codec loopback. */
 constexpr uint16_t kAudCtlBUnmodelled = 1u << 8;
-
-/* UCB1300 datasheet p.50, UCB1200 p.49, UCB1100 Address 6 / 8: TEL_IN_ENA<14> "the telecom input
-   path is activated", AUD_MUTE<13> "the audio output is muted", AUD_IN_ENA<14> "the audio codec
-   input path is activated", AUD_OUT_ENA<15> "the audio codec output path is activated". */
-constexpr uint16_t kTelInEna  = 1u << 14;
-constexpr uint16_t kAudMute   = 1u << 13;
-constexpr uint16_t kAudInEna  = 1u << 14;
-constexpr uint16_t kAudOutEna = 1u << 15;
 
 constexpr size_t kMaxStates = 8;
 
@@ -497,4 +432,6 @@ void Ucb1x00Codec::RestoreState(StateReader& r) {
     states_     = std::move(states);
     fork_event_ = "a reset before the state was saved";
     pen_down_.store(false, std::memory_order_release);
+}
+
 }

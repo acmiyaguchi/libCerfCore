@@ -7,6 +7,8 @@
 #include <cstring>
 #include <vector>
 
+namespace cerfcore {
+
 namespace cerf::inet {
 
 constexpr size_t   kEthMacSize      = 6;
@@ -106,6 +108,8 @@ inline void WriteIpv4Header(uint8_t* ip, uint16_t total_len, uint8_t proto,
     std::memcpy(ip + kIpOffSrc, src_ip, kIpv4AddrSize);
     std::memcpy(ip + kIpOffDst, dst_ip, kIpv4AddrSize);
     be::Put16(ip + kIpOffChecksum, InetChecksum(ip, kIpv4HeaderSize));
+}
+
 }
 
 }

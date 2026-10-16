@@ -3,6 +3,8 @@
 #include "samsung_smdk2410_family_id.h"
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 namespace {
 
 class SamsungSmdk2410Context : public BoardContext {
@@ -15,3 +17,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(SamsungSmdk2410Context, BoardContext);
+
+}

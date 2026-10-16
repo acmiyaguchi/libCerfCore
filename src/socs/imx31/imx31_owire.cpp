@@ -10,6 +10,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* MCIMX31RM Ch 22, 1-Wire at 0x43F9_C000. Table 22-4: RPP, WR0 and WR1 are self-clearing;
@@ -111,3 +113,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(Imx31Owire);
+
+}

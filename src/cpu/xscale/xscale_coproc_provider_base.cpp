@@ -4,6 +4,8 @@
 #include <cerfcore/host/guest_deep_sleep.h>
 #include "../arm/arm_cp15_decisions.h"
 
+namespace cerfcore {
+
 using cerfengine::ArmCoprocAccess;
 using cerfengine::ArmCoprocDecision;
 using A = cerfengine::ArmCoprocAction;
@@ -80,4 +82,6 @@ ArmCoprocDecision XscaleCoprocProviderBase::PwrmodeRunIdleSleep() {
 
 void CERFENGINE_FASTCALL XscaleCoprocProviderBase::EnterDeepSleepHook(void* self) {
     static_cast<XscaleCoprocProviderBase*>(self)->emu_.Get<GuestDeepSleep>().Enter();
+}
+
 }

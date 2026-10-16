@@ -10,6 +10,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 namespace cerf_vr41xx_reg_window_detail {
 
 constexpr bool WritableAndWrite0Disjoint(const Vr41xxRegWindowModel& m) {
@@ -109,5 +111,7 @@ private:
     PeripheralDispatcher*                  dispatcher_   = nullptr;
     PeripheralDispatcher::DataInversionId lcd_space_id_ = 0u;
 };
+
+}
 
 }

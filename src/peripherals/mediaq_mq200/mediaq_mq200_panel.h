@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class MediaQMq200Fp;
 class MediaQMq200Power;
 
@@ -34,3 +36,5 @@ private:
     const MediaQMq200Fp&    fp_;
     const MediaQMq200Gc&    gc_;
 };
+
+}

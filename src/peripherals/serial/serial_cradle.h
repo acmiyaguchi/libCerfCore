@@ -8,6 +8,8 @@
 #include <string>
 #include <vector>
 
+namespace cerfcore {
+
 class CerfEmulator;
 class SerialLine;
 class SerialEndpoint;
@@ -60,3 +62,5 @@ private:
 
     std::string ui_last_res_;
 };
+
+}

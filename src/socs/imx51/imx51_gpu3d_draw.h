@@ -5,6 +5,8 @@
 #include <span>
 #include <unordered_map>
 
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 struct Imx51Gpu3dShaderState;
@@ -35,3 +37,5 @@ private:
     uint32_t bases_ = 0;
     uint32_t bin_base_ = 0;
 };
+
+}

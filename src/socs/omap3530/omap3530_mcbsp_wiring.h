@@ -5,6 +5,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Omap3530McBspWiring : public Service {
 public:
     using Service::Service;
@@ -12,3 +14,5 @@ public:
     virtual Omap3530McBspPeer*     Peer(uint32_t port) = 0;
     virtual Omap3530McBspClockPad* ClksPad() = 0;
 };
+
+}

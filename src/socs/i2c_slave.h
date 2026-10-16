@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 
@@ -41,3 +43,5 @@ public:
        at the current sub_address and auto-increment. */
     virtual uint8_t TxnReadByte(uint8_t slave_addr) = 0;
 };
+
+}

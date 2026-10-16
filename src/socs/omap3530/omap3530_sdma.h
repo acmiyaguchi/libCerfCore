@@ -6,6 +6,8 @@
 #include <utility>
 #include <vector>
 
+namespace cerfcore {
+
 class Omap3530SdmaRequester {
 public:
     virtual bool RequestAsserted() = 0;
@@ -62,3 +64,5 @@ private:
 
     std::vector<std::pair<uint32_t, Omap3530SdmaRequester*>> requesters_;
 };
+
+}

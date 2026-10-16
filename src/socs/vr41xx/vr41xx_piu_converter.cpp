@@ -10,6 +10,8 @@
 #include "vr41xx_piu_panel.h"
 #include "vr41xx_piu_regs.h"
 
+namespace cerfcore {
+
 using namespace cerf_vr41xx_piu_detail;
 
 REGISTER_SERVICE(Vr41xxPiuConverter);
@@ -143,4 +145,6 @@ void Vr41xxPiuConverter::RestoreState(StateReader& r) {
     for (auto& pg : page_buf_) for (uint16_t& b : pg) r.Read("pg", b);
     r.Read("next_page", next_page_);
     for (uint16_t& b : adbuf_) r.Read("adbuf", b);
+}
+
 }

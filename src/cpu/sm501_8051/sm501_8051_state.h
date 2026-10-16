@@ -3,6 +3,8 @@
 #include <array>
 #include <cstdint>
 
+namespace cerfcore {
+
 /* Intel MCS-51 Programmer's Guide, Table 1; siemens_mp377_v1040 SM501
    firmware CODE:0030/0033/0036/0100. */
 namespace sm501_8051 {
@@ -88,3 +90,5 @@ struct State {
 };
 
 }  // namespace sm501_8051
+
+}

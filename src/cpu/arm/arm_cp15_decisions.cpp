@@ -5,6 +5,8 @@
 #include "../arm_processor_config.h"
 #include "arm_cp15_registers.h"
 
+namespace cerfcore {
+
 REGISTER_SERVICE(ArmCp15Decisions);
 
 namespace {
@@ -248,4 +250,6 @@ bool ArmCp15Decisions::UserAllowed(const ArmCoprocAccess& a) const {
     const bool block_mgmt = v6 && !v7 && a.crn == 7u && a.crm == 12u &&
         ((a.opc2 == 4u && a.read) || (a.opc2 == 5u && !a.read));
     return barrier || thread_id || block_mgmt;
+}
+
 }

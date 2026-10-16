@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Pxa255Rtc : public Peripheral {
 public:
     explicit Pxa255Rtc(CerfEmulator& emu);
@@ -32,3 +34,5 @@ private:
     IntelRtcCounter rtc_;
     uint64_t        alarm_mark_ = 0;
 };
+
+}

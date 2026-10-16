@@ -6,6 +6,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 class UsbMassStorageDevice : public UsbDevice {
 public:
     UsbMassStorageDevice();
@@ -74,3 +76,5 @@ private:
     uint8_t sense_asc_  = 0u;
     uint8_t sense_ascq_ = 0u;
 };
+
+}

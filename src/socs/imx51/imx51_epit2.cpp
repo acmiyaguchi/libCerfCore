@@ -3,6 +3,8 @@
 #include "../irq_controller.h"
 #include "imx51_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* EPIT2 @ 0x73FB0000; TZIC source 41 (MCIMX51RM Table 3-2, ARM Domain
@@ -19,3 +21,5 @@ class Imx51Epit2 : public cerf_freescale_epit_detail::FreescaleEpitBase<
 }  /* namespace */
 
 REGISTER_SERVICE(Imx51Epit2);
+
+}

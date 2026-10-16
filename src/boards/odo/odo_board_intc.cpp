@@ -13,6 +13,8 @@
 
 #include <mutex>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kBoardIntcPaBase   = 0x10000800u;
@@ -256,3 +258,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE(OdoBoardIntcMmio);
+
+}

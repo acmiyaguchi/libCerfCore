@@ -5,6 +5,8 @@
 #include "../../execution/engine_bridge.h"
 #include <cerfengine/mips/mips_interrupt_channel.h>
 
+namespace cerfcore {
+
 void Vr41xxRtcxTicks::Bind() {
     channel_ = &emu_.Get<EngineBridge>().Engine().Get<cerfengine::MipsInterruptChannel>();
     OscillatorTicks::Attach(kHz, 1u);
@@ -34,4 +36,6 @@ uint64_t Vr41xxRtcxTicks::ClockCycles() {
 
 bool Vr41xxRtcxTicks::ClockStopped() {
     return domain_ == Vr41xxRtcxDomain::Peripheral && channel_->Suspended();
+}
+
 }

@@ -2,6 +2,8 @@
 
 #include "../pxa2xx/pxa2xx_gpio.h"
 
+namespace cerfcore {
+
 using Pxa255GpioSerialSlave = Pxa2xxGpioSerialSlave;
 
 /* PXA255 GPIO, 3 banks x 32 pins (§4.1.3, base 0x40E00000, Table 4-49). */
@@ -23,3 +25,5 @@ protected:
         return kMask[bank];
     }
 };
+
+}

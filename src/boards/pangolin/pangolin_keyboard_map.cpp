@@ -6,6 +6,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 /* Win32 VK -> G138 MPU scancode (0 = unmapped), the inverse of kbdmouse.dll's
@@ -56,3 +58,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(PangolinKeyboardMap, KeyboardMap);
+
+}

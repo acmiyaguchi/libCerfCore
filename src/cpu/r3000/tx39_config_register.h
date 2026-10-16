@@ -8,8 +8,9 @@
 #include <cerfengine/calling_convention.h>
 
 namespace cerfengine { struct MipsCpuState; }
-
 namespace cerfengine { class Engine; }
+
+namespace cerfcore {
 
 class Tx39ConfigRegister : public Service {
 public:
@@ -30,3 +31,5 @@ private:
     cerfengine::MipsCpuState*                      cpu_state_ = nullptr;
     std::vector<std::function<void()>> rf_listeners_;
 };
+
+}

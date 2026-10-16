@@ -7,6 +7,8 @@
 #include <string>
 #include <vector>
 
+namespace cerfcore {
+
 class KeyboardInput;
 
 class KeyboardRouter : public Service {
@@ -35,3 +37,5 @@ private:
     KeyboardInput*              active_ = nullptr;
     bool                        user_picked_ = false;
 };
+
+}

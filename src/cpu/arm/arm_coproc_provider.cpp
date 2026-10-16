@@ -4,6 +4,8 @@
 #include <cerfcore/core/fatal.h>
 #include "arm_cp15_decisions.h"
 
+namespace cerfcore {
+
 using cerfengine::ArmCoprocAccess;
 using cerfengine::ArmCoprocDecision;
 using cerfengine::ArmCoprocKind;
@@ -32,4 +34,6 @@ ArmCoprocDecision ArmCoprocProvider::Decide(const ArmCoprocAccess& a) {
 
 ArmCoprocDecision ArmCoprocProvider::RegisterTransferDouble(const ArmCoprocAccess&) {
     return {.action = cerfengine::ArmCoprocAction::kUndefined};
+}
+
 }

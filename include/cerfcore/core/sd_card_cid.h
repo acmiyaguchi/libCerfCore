@@ -6,6 +6,8 @@
 #include <optional>
 #include <string_view>
 
+namespace cerfcore {
+
 using SdCardCid = std::array<uint8_t, 16>;
 
 // Raw register bytes, in display order. Do not infer identity from image data.
@@ -19,4 +21,6 @@ inline std::optional<SdCardCid> ParseSdCardCid(std::string_view text) {
         cid[i] = static_cast<uint8_t>(std::strtoul(byte, nullptr, 16));
     }
     return cid;
+}
+
 }

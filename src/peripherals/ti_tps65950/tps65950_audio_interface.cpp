@@ -16,6 +16,8 @@
 #include <algorithm>
 #include <cstddef>
 
+namespace cerfcore {
+
 namespace {
 
 /* TPS65950 TRM SWCU050E Table 14-15 CODEC_MODE: APLL_RATE [7:4], CODECPDZ [1], OPT_MODE [0]; Table 14-27
@@ -372,3 +374,5 @@ void Tps65950AudioInterface::Restore(StateReader& r) {
 }
 
 REGISTER_SERVICE(Tps65950AudioInterface);
+
+}

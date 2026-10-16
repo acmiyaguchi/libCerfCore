@@ -3,6 +3,8 @@
 #include <cerfcore/core/service.h>
 #include "../../host/battery_widget.h"
 
+namespace cerfcore {
+
 class CasioPocketpostpetBattery : public Service {
 public:
     explicit CasioPocketpostpetBattery(CerfEmulator& e) : Service(e) {}
@@ -18,3 +20,5 @@ private:
 
     BatteryWidget battery_;
 };
+
+}

@@ -9,6 +9,8 @@
 #include <cstring>
 #include <algorithm>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint8_t  kMscClass    = 0x08u;
@@ -406,4 +408,6 @@ void UsbMassStorageDevice::RestoreState(StateReader& r) {
             !cbw_dir_in_ && cbw_data_len_ == expected && out_buf_.size() <= expected,
             "invalid partial write");
     }
+}
+
 }

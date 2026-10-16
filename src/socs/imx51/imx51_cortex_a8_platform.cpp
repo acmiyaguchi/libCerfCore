@@ -9,6 +9,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* MCIMX51RM Table 14-1. */
@@ -102,4 +104,6 @@ void Imx51CortexA8Platform::RestoreState(StateReader& r) {
     r.Read("lpc", lpc_);
     r.Read("icgc", icgc_);
     r.Read("amc", amc_);
+}
+
 }

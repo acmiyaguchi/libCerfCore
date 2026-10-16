@@ -7,6 +7,8 @@
 #include "../../peripherals/peripheral_dispatcher.h"
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 bool NecMobilepro900SeriesBoardWindow::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     return bd && bd->GetBoardFamilyId() == BoardFamilyId::NecMobilepro900Series;
@@ -82,4 +84,6 @@ void NecMobilepro900SeriesBoardWindow::RestoreState(StateReader& r) {
         r.Read("val", val);
         regs_[off] = val;
     }
+}
+
 }

@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 /* Win32 VK -> NEC P530 key-matrix bit (0..103); device_code IS the bit. Bit
@@ -64,3 +66,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(NecMobilepro900SeriesKeyboardMap, KeyboardMap);
+
+}

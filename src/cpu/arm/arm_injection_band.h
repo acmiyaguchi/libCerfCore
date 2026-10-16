@@ -5,6 +5,8 @@
 #include <cerfcore/core/service.h>
 #include <cerfengine/arm/arm_mmu_state.h>
 
+namespace cerfcore {
+
 class EmulatedMemory;
 
 class ArmInjectionBand : public Service {
@@ -25,3 +27,5 @@ private:
     uint32_t pa_base_ = 0;
     uint32_t size_    = 0;
 };
+
+}

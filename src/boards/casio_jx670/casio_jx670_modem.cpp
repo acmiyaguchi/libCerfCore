@@ -3,6 +3,8 @@
 #include <cerfcore/core/log.h>
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 
 /* serial.dll dword_F58130[0]=0x600 (reg-index 0), RMW set-bit7 sub_F56D38. */
@@ -88,4 +90,6 @@ void CasioJx670Modem::RestoreState(StateReader& r) {
 
 void CasioJx670Modem::PostRestore() {
     uart_->PostRestoreLine();
+}
+
 }

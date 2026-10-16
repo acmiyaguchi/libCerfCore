@@ -7,6 +7,8 @@
 #include <functional>
 #include <vector>
 
+namespace cerfcore {
+
 class Sa11xxGpioClockInput : public Service {
 public:
     using Service::Service;
@@ -21,3 +23,5 @@ protected:
 private:
     std::vector<std::function<void()>> listeners_;
 };
+
+}

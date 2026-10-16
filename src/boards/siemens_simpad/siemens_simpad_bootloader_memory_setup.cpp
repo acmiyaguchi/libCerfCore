@@ -4,6 +4,8 @@
 #include "../../socs/sa11xx/sa11xx_bootloader_memory_setup.h"
 #include "siemens_simpad_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kOemMdcnfg      = 0x72547254u;
@@ -29,3 +31,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(SiemensSimpadBootloaderMemorySetup, Sa11xxBootloaderMemorySetup);
+
+}

@@ -8,6 +8,8 @@
 #include <cerfcore/core/device_config.h>
 #include <cerfcore/core/log.h>
 
+namespace cerfcore {
+
 namespace {
 
 class CerfVirtArenaCtl : public Peripheral {
@@ -41,5 +43,7 @@ public:
 };
 
 REGISTER_SERVICE(CerfVirtArenaCtl);
+
+}
 
 }

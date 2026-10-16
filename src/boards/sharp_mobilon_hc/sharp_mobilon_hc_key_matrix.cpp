@@ -6,6 +6,8 @@
 #include "../../peripherals/peripheral_dispatcher.h"
 #include "../../socs/pr31x00/pr31x00_io.h"
 
+namespace cerfcore {
+
 namespace {
 /* Matrix interrupt line = MFIO pin 13 (SPINPOSINT, Interrupt Status 3 bit 13,
    tx39icureg.h:247) -> SYSINTR 8. Its EOI handler (nk.exe 0x91024244) delivers to
@@ -54,3 +56,5 @@ void SharpMobilonHcKeyMatrix::RestoreState(StateReader&) {
 }
 
 REGISTER_SERVICE(SharpMobilonHcKeyMatrix);
+
+}

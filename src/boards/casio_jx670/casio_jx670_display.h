@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 class CerfEmulator;
 class StateWriter;
 class StateReader;
@@ -72,3 +74,5 @@ private:
 
     DisplaySizeLatch size_latch_;
 };
+
+}

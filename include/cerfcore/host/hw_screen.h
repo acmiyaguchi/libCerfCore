@@ -9,6 +9,8 @@
 #include <string_view>
 #include <vector>
 
+namespace cerfcore {
+
 class HwScreen : public Service {
 public:
     using Service::Service;
@@ -25,3 +27,5 @@ private:
     std::deque<std::string> lines_;
     uint64_t                gen_ = 0;
 };
+
+}

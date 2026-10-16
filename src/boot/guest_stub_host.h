@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 struct GuestStubHostSpan {
     uint32_t va    = 0;
     uint32_t pa    = 0;
@@ -28,3 +30,5 @@ private:
 
     uint32_t band_next_ = 0;
 };
+
+}

@@ -16,6 +16,8 @@
 #include <cstdint>
 #include <cstring>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(RomPlacer);
 
 bool RomPlacer::ShouldRegister() {
@@ -238,4 +240,6 @@ void RomPlacer::OnReady() {
                 PlaceB000FFSections(rom, /*volatile_only=*/true);
         }
     });
+}
+
 }

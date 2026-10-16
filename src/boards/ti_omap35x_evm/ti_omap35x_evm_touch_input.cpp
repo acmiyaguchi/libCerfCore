@@ -10,6 +10,8 @@
 #include <algorithm>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kPenIrqGpio  = 175;
@@ -69,3 +71,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(TiOmap35xEvmTouchInput, TouchInput);
+
+}

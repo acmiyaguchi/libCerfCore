@@ -3,6 +3,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 class PeImage {
 public:
     struct Section {
@@ -65,3 +67,5 @@ private:
     Directory             dirs_[16]{};
     std::vector<Section>  sections_;
 };
+
+}

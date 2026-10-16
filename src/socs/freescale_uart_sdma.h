@@ -6,6 +6,8 @@
 #include <cstdint>
 #include <functional>
 
+namespace cerfcore {
+
 class CerfEmulator;
 class FreescaleUartReceiver;
 class FreescaleUartTransmitter;
@@ -81,3 +83,5 @@ private:
     uint32_t rx_fill_   = 0;
     bool     rx_cont_   = false;
 };
+
+}

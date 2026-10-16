@@ -4,6 +4,8 @@
 
 #include <string_view>
 
+namespace cerfcore {
+
 /* smartbook_g138_ce4_2 filesys.exe 0x127D4: the RegisterAFSName name check. */
 bool IsValidShareFolderMountName(const std::string& utf8) {
     const std::u16string name = Utf8ToUtf16(utf8);
@@ -15,4 +17,6 @@ bool IsValidShareFolderMountName(const std::string& utf8) {
             return false;
     }
     return true;
+}
+
 }

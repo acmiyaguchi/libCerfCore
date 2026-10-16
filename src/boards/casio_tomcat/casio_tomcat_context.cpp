@@ -3,6 +3,8 @@
 #include "casio_tomcat_family_id.h"
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 namespace {
 
 class CasioTomcatContext : public BoardContext {
@@ -20,3 +22,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(CasioTomcatContext, BoardContext);
+
+}

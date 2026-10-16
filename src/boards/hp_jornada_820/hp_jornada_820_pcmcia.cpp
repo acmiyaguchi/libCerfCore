@@ -8,6 +8,8 @@
 #include "hp_jornada_820_family_id.h"
 #include "hp_jornada_820_companion_asic.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* Socket status word (PA 0x181E0800), decoded from pcmcia.dll sub_12A148C: per
@@ -73,3 +75,5 @@ void HpJornada820Pcmcia::OnCardIrqAsserted(PcmciaSlot& slot) {
 void HpJornada820Pcmcia::OnCardIrqDeasserted(PcmciaSlot&) {}
 
 REGISTER_SERVICE(HpJornada820Pcmcia);
+
+}

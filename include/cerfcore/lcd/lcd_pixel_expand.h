@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace lcd_pixel {
 
 inline uint32_t Expand4(uint32_t v) { return (v << 4) | v; }
@@ -36,6 +38,8 @@ inline uint32_t MsbFirstShift(uint32_t bit, uint32_t bpp) { return 8u - bpp - (b
 inline uint32_t PackedIndexMsbFirst(const uint8_t* row, uint32_t x, uint32_t bpp) {
     const uint32_t bit = x * bpp;
     return (row[bit >> 3] >> MsbFirstShift(bit, bpp)) & ((1u << bpp) - 1u);
+}
+
 }
 
 }

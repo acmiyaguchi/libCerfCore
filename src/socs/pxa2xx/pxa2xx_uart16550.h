@@ -8,6 +8,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* Intel PXA27x Developer's Manual 280000-001 Table 28-8 (pages 28-25, 28-26):
    STRBR 0x4070_0000, STIER 0x4070_0004, STIIR 0x4070_0008, STLCR 0x4070_000C,
    STMCR 0x4070_0010, STLSR 0x4070_0014, STMSR 0x4070_0018, STSPR 0x4070_001C,
@@ -48,3 +50,5 @@ protected:
 private:
     uint32_t isr_ = 0;
 };
+
+}

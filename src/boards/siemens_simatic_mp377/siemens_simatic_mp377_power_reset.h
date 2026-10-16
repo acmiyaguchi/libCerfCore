@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace siemens_simatic_mp377 {
 
 inline constexpr uint32_t kMp377PowerResetBase = 0xD0180000u;
@@ -14,3 +16,5 @@ inline constexpr uint32_t kMp377PowerResetEnd =
 inline constexpr uint32_t kMp377PowerFailIrqSource = 0x1Fu;
 
 } // namespace siemens_mp377
+
+}

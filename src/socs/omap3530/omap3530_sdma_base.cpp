@@ -12,6 +12,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kCcrOff       = 0x00u;
@@ -476,3 +478,4 @@ uint32_t Omap3530SdmaBase::FiredChannels() const {
     return fired;
 }
 
+}

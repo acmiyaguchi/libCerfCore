@@ -10,6 +10,8 @@
 
 namespace cerfengine { class HostRequestChannel; }
 
+namespace cerfcore {
+
 class GuestClockTouchInput : public TouchInput {
 public:
     using TouchInput::TouchInput;
@@ -71,3 +73,5 @@ private:
     uint64_t                next_sample_ = 0;
     bool                    sampling_    = false;
 };
+
+}

@@ -7,6 +7,8 @@
 #include "../../boards/siemens_simatic_mp377/siemens_simatic_mp377_family_id.h"
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace siemens_simatic_mp377 {
 
 bool SiemensSimaticMp377Aspc2::ShouldRegister() {
@@ -157,3 +159,5 @@ void SiemensSimaticMp377Aspc2::RestoreState(StateReader& r) {
 REGISTER_SERVICE(SiemensSimaticMp377Aspc2);
 
 } // namespace siemens_mp377
+
+}

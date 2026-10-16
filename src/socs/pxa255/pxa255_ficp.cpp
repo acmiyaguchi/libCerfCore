@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* Intel PXA255 Developer's Manual Table 11-8 (page 11-16): ICSR0 at 0x4080_0014, ICSR1 at
@@ -40,3 +42,5 @@ public:
 }  // namespace
 
 REGISTER_SERVICE(Pxa255Ficp);
+
+}

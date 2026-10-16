@@ -23,21 +23,9 @@
 #include <algorithm>
 #include <vector>
 
+namespace cerfcore {
+
 using namespace sa11xx_ssp;
-
-namespace {
-
-/* SA-1110 Developer's Manual §9.2.1.1 (printed 9-12): IP19 "Serial port 4b", "SSP service
-   request". */
-constexpr uint32_t kIntcBitSsp = 1u << 19;
-
-/* §9.1.2 (printed 9-9): GP 10 SSP_TXD, GP 11 SSP_RXD, GP 12 SSP_SCLK, GP 13 SSP_SFRM. */
-constexpr uint32_t kTxdPin  = 10u;
-constexpr uint32_t kRxdPin  = 11u;
-constexpr uint32_t kSclkPin = 12u;
-constexpr uint32_t kSfrmPin = 13u;
-
-}
 
 bool Sa11xxSspStream::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
@@ -497,3 +485,5 @@ void Sa11xxSspStream::PostRestore(uint64_t now) {
 }
 
 REGISTER_SERVICE(Sa11xxSspStream);
+
+}

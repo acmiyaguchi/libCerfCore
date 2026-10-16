@@ -6,6 +6,8 @@
 #include "sa1100_id.h"
 #include "sa11xx_intc.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* SA-1110 §9.2.1.1 Table 9-1: IP26..29 = OSMR0..3 match. */
@@ -36,3 +38,5 @@ protected:
 REGISTER_SERVICE(Sa11xxOsTimer);
 
 }  /* namespace */
+
+}

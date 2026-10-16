@@ -6,6 +6,8 @@
 #include "sa1111_sbi.h"
 #include "sa1111_system_controller.h"
 
+namespace cerfcore {
+
 void Sa1111Unit::OnReady() {
     auto& line  = emu_.Get<Sa1111ResetLine>();
     reset_line_ = &line;
@@ -49,3 +51,5 @@ void Sa1111Unit::UnitWriteByte (uint32_t addr, uint8_t  value) { HaltUnsupported
 void Sa1111Unit::UnitWriteHalf (uint32_t addr, uint16_t value) { HaltUnsupportedAccess("WriteHalf",  addr, value); }
 void Sa1111Unit::UnitWriteWord (uint32_t addr, uint32_t value) { HaltUnsupportedAccess("WriteWord",  addr, value); }
 void Sa1111Unit::UnitWriteDword(uint32_t addr, uint64_t value) { HaltUnsupportedAccess("WriteDword", addr, value); }
+
+}

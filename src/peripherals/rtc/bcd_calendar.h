@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class BcdCalendar {
 public:
     struct HostDate {
@@ -35,3 +37,5 @@ public:
     static bool     NextDate(uint32_t& date, uint32_t& month, uint32_t& year);
     static HostDate HostNow();
 };
+
+}

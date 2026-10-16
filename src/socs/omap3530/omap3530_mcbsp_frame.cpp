@@ -1,5 +1,7 @@
 #include "omap3530_mcbsp_frame.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* OMAP35x TRM SPRUF98Y Table 21-58 XCR1 / Table 21-54 RCR1: FRLEN1 [14:8], WDLEN1 [7:5]; Table 21-56
@@ -97,4 +99,6 @@ const char* Omap3530McBspFrame::Build(const Regs& r, Omap3530McBspDir dir) {
     }
     data_bits_ = at - delay_;
     return nullptr;
+}
+
 }

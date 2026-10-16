@@ -8,6 +8,8 @@
 #include <string>
 #include <vector>
 
+namespace cerfcore {
+
 enum class NotificationKind : uint8_t { Warning, Error };
 
 enum class NotificationId : uint32_t {
@@ -45,3 +47,5 @@ private:
     uint32_t                      next_error_id_ = kFirstErrorId;
     std::atomic<uint64_t>         gen_{0};
 };
+
+}

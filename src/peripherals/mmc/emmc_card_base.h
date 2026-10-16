@@ -6,6 +6,8 @@
 #include <cstdint>
 #include <span>
 
+namespace cerfcore {
+
 namespace cerf_mmc {
 
 constexpr uint8_t kCmdGoIdleState      = 0u;
@@ -135,3 +137,5 @@ private:
     std::vector<uint8_t> power_on_wp_;
     std::vector<uint8_t> read_data_;
 };
+
+}

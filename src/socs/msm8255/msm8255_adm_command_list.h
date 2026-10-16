@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Msm8255AdmCommandList : public Service {
 public:
     using Service::Service;
@@ -25,3 +27,5 @@ private:
                  uint32_t crci);
     void RunCommandArray(uint32_t pa, uint32_t crci);
 };
+
+}

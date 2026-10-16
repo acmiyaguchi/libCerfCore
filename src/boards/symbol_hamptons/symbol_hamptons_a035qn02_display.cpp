@@ -4,6 +4,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include "symbol_mk500_a035qn02_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class SymbolHamptonsA035qn02Display : public SymbolHamptonsDisplay {
@@ -20,3 +22,5 @@ public:
 }  // namespace
 
 REGISTER_SERVICE_AS(SymbolHamptonsA035qn02Display, SymbolHamptonsDisplay);
+
+}

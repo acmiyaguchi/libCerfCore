@@ -10,6 +10,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* Table 8-3 (printed 8-9): DSS 3:0, FRF 5:4, bit 6 reserved, SSP_EN 7, SCR 15:8. Table 8-4
@@ -306,3 +308,5 @@ private:
 }
 
 REGISTER_SERVICE(Sa1111Ssp);
+
+}

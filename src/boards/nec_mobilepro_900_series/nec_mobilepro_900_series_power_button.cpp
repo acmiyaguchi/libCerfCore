@@ -8,6 +8,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* nec_mobilepro_900_hpc2000 XIP.BIN pwr.dll sub_11519D4 registers hw 0xD0000 to SYSINTR 31
@@ -39,3 +41,5 @@ private:
 }
 
 REGISTER_SERVICE(NecMobilepro900SeriesPowerButton);
+
+}

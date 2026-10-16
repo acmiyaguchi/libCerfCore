@@ -5,6 +5,8 @@
 #include <cerfcore/core/log.h>
 #include <cerfcore/peripherals/cerf_virt/cerf_virt_addr_map.h>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr const char* kUnknownBoard = "Unknown / unsupported";
@@ -67,4 +69,6 @@ uint32_t BoardContext::ResolveGuestAdditionsColorDepth() const {
         emu_.Get<DeviceConfig>().board_configurable_screen_bpp;
     if (configured != 0u) return configured;
     return board_->ga_color_depth;
+}
+
 }

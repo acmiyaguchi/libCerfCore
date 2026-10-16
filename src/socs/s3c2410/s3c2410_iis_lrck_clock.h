@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 
@@ -34,3 +36,5 @@ private:
     uint64_t restore_rem_   = 0;
     bool     restore_right_ = false;
 };
+
+}

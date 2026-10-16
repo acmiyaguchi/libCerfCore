@@ -8,6 +8,8 @@
 
 namespace cerfengine { class ArmJit; }
 
+namespace cerfcore {
+
 class Imx31Avic : public Peripheral {
 public:
     using Peripheral::Peripheral;
@@ -66,3 +68,5 @@ private:
         return false;
     }
 };
+
+}

@@ -5,6 +5,8 @@
 #include "hp_jornada_700_family_id.h"
 #include "../../peripherals/peripheral_dispatcher.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* HP Jornada 720 internal V.90 modem ASIC on SA-1110 CS1, modelled absent.
@@ -37,3 +39,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE(HpJornada700Modem);
+
+}

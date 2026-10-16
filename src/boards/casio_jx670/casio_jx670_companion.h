@@ -12,6 +12,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 /* Casio companion ASIC in External I/O area 2 (IOCS0#), PA 0x0A000000 (kseg1
    0xAA000000; VR4131 UM U15350EJ2V0UM Fig 3-1 p75); registers from
    nk_main_kernel.exe sub_9F032B60, sub_9F0389EC, sub_9F03445C, sub_9F0346B0,
@@ -110,3 +112,5 @@ private:
     uint16_t edge_cfg_[16] = {};
 
 };
+
+}

@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 /* Intel PXA27x Developer's Manual 280000-001 Section 18.6 Table 18-14:
    keypad interface registers, 0x4150_0000..0x415F_FFFC. */
 class Pxa27xKeypad : public Peripheral {
@@ -78,3 +80,5 @@ private:
 
     uint8_t matrix_col_rows_[8] = {};
 };
+
+}

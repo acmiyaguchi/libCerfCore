@@ -19,6 +19,8 @@
 #include <functional>
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kOffLockTime = 0x00u;
@@ -287,3 +289,5 @@ private:
 
 REGISTER_SERVICE_AS(S3C2410ClockPower, S3C2410Clocks);
 REGISTER_SERVICE   (S3C2410ClockPowerMmio);
+
+}

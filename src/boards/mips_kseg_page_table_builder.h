@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 struct ParsedRom;
 struct ParsedROMHDR;
 
@@ -28,3 +30,5 @@ protected:
 private:
     const ParsedROMHDR& EntryXipHeader() const;
 };
+
+}

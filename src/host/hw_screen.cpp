@@ -2,6 +2,8 @@
 
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(HwScreen);
 
 void HwScreen::AddLine(std::string_view line) {
@@ -20,4 +22,6 @@ uint64_t HwScreen::Snapshot(std::vector<std::string>& out) const {
     std::lock_guard<std::mutex> lk(mtx_);
     out.assign(lines_.begin(), lines_.end());
     return gen_;
+}
+
 }

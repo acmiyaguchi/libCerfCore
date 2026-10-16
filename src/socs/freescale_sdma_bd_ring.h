@@ -5,6 +5,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class CerfEmulator;
 class StateReader;
 class StateWriter;
@@ -38,3 +40,5 @@ private:
     uint32_t      stride_  = 0;
     uint32_t      cur_pa_  = 0;
 };
+
+}

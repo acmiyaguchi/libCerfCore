@@ -3,6 +3,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include "../platform/host_clock.h"
 
+namespace cerfcore {
+
 REGISTER_SERVICE(VirtualClock);
 
 void VirtualClock::OnReady() {
@@ -93,4 +95,6 @@ void VirtualClock::Resume() {
         to_run = notify_;
     }
     for (const auto& fn : to_run) fn();
+}
+
 }

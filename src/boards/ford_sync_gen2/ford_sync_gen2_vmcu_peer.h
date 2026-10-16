@@ -8,6 +8,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 class Imx51Uart2;
 
 /* The SYNC2 companion processor (VMCU) on UART2. Without a peer answering the
@@ -121,3 +123,5 @@ private:
     std::array<uint8_t, 64> next_rx_{};
     bool discarding_frame_ = false;
 };
+
+}

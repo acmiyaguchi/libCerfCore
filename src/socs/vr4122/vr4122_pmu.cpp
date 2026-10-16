@@ -9,6 +9,8 @@
 #include <cstdint>
 #include "vr4122_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 using cerf_vr41xx_pmu_detail::kOffWaitReg;
@@ -164,3 +166,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(Vr4122Pmu, Vr41xxPmu);
+
+}

@@ -5,6 +5,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "casio_tomcat_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* casio_cassiopeia_e55 nk.exe cold boot requires GPIO19=H (sub_9E814D18 @0x9E814D20,
@@ -31,3 +33,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE(CasioTomcatBootGpio);
+
+}

@@ -5,6 +5,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "casio_pocketpostpet_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* pcmcia.dll CardGetStatus -> sub_135078C reads GIUPIODL D12 (GPIO12); the card is
@@ -26,3 +28,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE(CasioPocketpostpetCardSlot);
+
+}

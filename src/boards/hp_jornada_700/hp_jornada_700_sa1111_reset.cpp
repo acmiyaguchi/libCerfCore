@@ -7,6 +7,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* jornada720 jornada720.bin nk.exe sub_8004F8EC 0x8004F914 / 0x8004F930 / 0x8004F93C: GPSR,
@@ -38,3 +40,5 @@ public:
 }
 
 REGISTER_SERVICE(HpJornada700Sa1111Reset);
+
+}

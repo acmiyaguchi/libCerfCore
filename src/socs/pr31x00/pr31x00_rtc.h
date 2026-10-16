@@ -11,6 +11,8 @@
 #include <optional>
 #include <vector>
 
+namespace cerfcore {
+
 class Pr31x00Clock;
 class Pr31x00Intc;
 
@@ -93,3 +95,5 @@ private:
     Pr31x00Clock*              module_clock_ = nullptr;
     Pr31x00Intc*               intc_         = nullptr;
 };
+
+}

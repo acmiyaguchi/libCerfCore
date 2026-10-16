@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Sa11xxRtc : public Peripheral {
 public:
     explicit Sa11xxRtc(CerfEmulator& emu);
@@ -33,3 +35,5 @@ private:
 
     IntelRtcCounter rtc_;
 };
+
+}

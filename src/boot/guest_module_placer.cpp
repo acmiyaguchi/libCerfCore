@@ -10,6 +10,8 @@
 #include <cerfcore/cpu/emulated_memory.h>
 #include "../boards/page_table_builder.h"
 
+namespace cerfcore {
+
 REGISTER_SERVICE(GuestModulePlacer);
 
 namespace {
@@ -101,3 +103,4 @@ uint32_t GuestModulePlacer::ComputeVbase(uint32_t orig_vbase,
     return new_vbase;
 }
 
+}

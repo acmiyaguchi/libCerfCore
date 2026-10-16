@@ -4,6 +4,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include "iop13xx_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class Iop13xxCoreClock : public ArmCoreClock {
@@ -24,3 +26,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(Iop13xxCoreClock, ArmCoreClock);
+
+}

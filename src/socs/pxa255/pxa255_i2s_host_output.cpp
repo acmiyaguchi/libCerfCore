@@ -5,6 +5,8 @@
 #include "../../host/audio_activity_widget.h"
 #include "pxa255_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* Intel PXA255 Developer's Manual section 14.5.1 (page 14-6): "two samples (Left + Right) per 32-bit word";
@@ -53,4 +55,6 @@ void Pxa255I2sHostOutput::Stop() {
     host_.StopAudioOut();
     active_ = false;
     rate_   = 0u;
+}
+
 }

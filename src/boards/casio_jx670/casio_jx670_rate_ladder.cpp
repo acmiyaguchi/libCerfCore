@@ -5,6 +5,8 @@
 #include <cerfcore/core/fatal.h>
 #include "casio_jx670_family_id.h"
 
+namespace cerfcore {
+
 bool CasioJx670RateLadder::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     return bd && bd->GetBoardFamilyId() == BoardFamilyId::CasioJx670;
@@ -38,3 +40,5 @@ uint32_t CasioJx670RateLadder::RequireRate(uint32_t select, bool doubler) const 
 }
 
 REGISTER_SERVICE(CasioJx670RateLadder);
+
+}

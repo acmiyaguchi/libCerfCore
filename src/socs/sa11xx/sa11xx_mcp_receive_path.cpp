@@ -8,6 +8,8 @@
 
 #include <algorithm>
 
+namespace cerfcore {
+
 using namespace sa11xx_mcp;
 
 Sa11xxMcpReceivePath::Sa11xxMcpReceivePath(CerfEmulator& emu)
@@ -260,4 +262,6 @@ void Sa11xxMcpReceivePath::Restore(StateReader& r) {
     resume_     = resume != 0u;
     looped_     = looped != 0u;
     loop_armed_ = loop_armed != 0u;
+}
+
 }

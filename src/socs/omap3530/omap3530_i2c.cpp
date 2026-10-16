@@ -8,6 +8,8 @@
 #include <deque>
 #include <mutex>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kOffRev      = 0x00;
@@ -328,4 +330,6 @@ void Omap3530I2cBank::WriteWord(uint32_t addr, uint32_t value) {
     HaltUnsupportedAccess(
         "WriteWord (I2C registers are 16-bit; no 32-bit write expected)",
         addr, value);
+}
+
 }

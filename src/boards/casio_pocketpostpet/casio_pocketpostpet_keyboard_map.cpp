@@ -5,6 +5,8 @@
 
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 /* device_code<0x100 = KIU matrix idx (keybddr.dll sub_1362060 emits dword_1360490[idx];
@@ -40,3 +42,5 @@ public:
 }  // namespace
 
 REGISTER_SERVICE_AS(CasioPocketpostpetKeyboardMap, KeyboardMap);
+
+}

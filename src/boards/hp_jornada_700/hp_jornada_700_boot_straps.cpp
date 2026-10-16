@@ -3,6 +3,8 @@
 #include "../../socs/sa11xx/sa11xx_boot_straps.h"
 #include "hp_jornada_700_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* HP Jornada 720 Hardware Configuration v0.20, Memory Controller: "MSC0 0xFFF04F78"
@@ -23,3 +25,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(HpJornada700BootStraps, Sa11xxBootStraps);
+
+}

@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* Strategy for the guest CPU's cold-reset entry state. */
 class BootMode : public Service {
 public:
@@ -21,3 +23,5 @@ public:
     /* Initial SP at cold reset, PHYSICAL. */
     virtual uint32_t ColdStackPa() = 0;
 };
+
+}

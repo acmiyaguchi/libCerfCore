@@ -8,6 +8,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "nokia_sea_ray_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class NokiaSeaRayPanelRenderer : public PanelFrameRenderer {
@@ -45,3 +47,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(NokiaSeaRayPanelRenderer, PanelFrameRenderer);
+
+}

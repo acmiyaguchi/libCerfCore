@@ -4,6 +4,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "casio_pocketpostpet_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class CasioPocketpostpetClockStrap : public Vr41xxClockStrap {
@@ -20,3 +22,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(CasioPocketpostpetClockStrap, Vr41xxClockStrap);
+
+}

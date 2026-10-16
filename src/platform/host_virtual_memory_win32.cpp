@@ -5,6 +5,8 @@
 
 #include <cerfcore/core/log.h>
 
+namespace cerfcore {
+
 namespace host_platform {
 
 uint8_t* AllocateZeroed(size_t size) {
@@ -17,6 +19,8 @@ uint8_t* AllocateZeroed(size_t size) {
 
 void Release(uint8_t* memory) {
     ::VirtualFree(memory, 0, MEM_RELEASE);
+}
+
 }
 
 }

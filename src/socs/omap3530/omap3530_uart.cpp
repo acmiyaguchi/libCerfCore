@@ -14,6 +14,8 @@
 #include <mutex>
 #include <string>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kUartSize = 0x00001000u;  /* 4 KB per UART */
@@ -302,3 +304,5 @@ protected:
 REGISTER_SERVICE(Omap3530Uart1);
 REGISTER_SERVICE(Omap3530Uart2);
 REGISTER_SERVICE(Omap3530Uart3);
+
+}

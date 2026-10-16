@@ -11,6 +11,8 @@
 #include "../../peripherals/peripheral_dispatcher.h"
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 
 class Sa11xxMemoryController : public Peripheral {
@@ -110,3 +112,5 @@ void Sa11xxMemoryController::WriteWord(uint32_t addr, uint32_t value) {
 }
 
 REGISTER_SERVICE(Sa11xxMemoryController);
+
+}

@@ -4,6 +4,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "philips_velo_1_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class PhilipsVelo1ClockCrystal : public Pr31x00ClockCrystal {
@@ -20,3 +22,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(PhilipsVelo1ClockCrystal, Pr31x00ClockCrystal);
+
+}

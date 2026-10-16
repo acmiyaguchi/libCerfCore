@@ -3,6 +3,8 @@
 #include <algorithm>
 #include <cstring>
 
+namespace cerfcore {
+
 MappedFile::~MappedFile() {
     if (view_) host_platform::UnmapFileView(view_);
     host_platform::CloseMappedFile(mapping_);
@@ -63,4 +65,6 @@ size_t MappedFile::Read(uint64_t offset, void* dst, size_t len) {
         copied += n;
     }
     return copied;
+}
+
 }

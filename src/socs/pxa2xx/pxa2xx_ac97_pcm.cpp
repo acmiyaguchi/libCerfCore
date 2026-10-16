@@ -7,6 +7,8 @@
 #include "../../peripherals/ac97_codec.h"
 #include "pxa2xx_ac97_bit_clock.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* Intel PXA255 Developer's Manual Table 5-5 (page 5-13): AC97 audio transmit FIFO 0x4050_0040 on DRCMR
@@ -97,3 +99,5 @@ void Pxa2xxAc97Pcm::QueueHost(const void* bytes, uint32_t length) {
 }
 
 REGISTER_SERVICE(Pxa2xxAc97Pcm);
+
+}

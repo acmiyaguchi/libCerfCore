@@ -5,6 +5,8 @@
 #include "omap3530_cm_mpu.h"
 #include "omap3530_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class Omap3530CoreClock : public ArmCoreClock {
@@ -23,3 +25,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(Omap3530CoreClock, ArmCoreClock);
+
+}

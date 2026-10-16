@@ -3,6 +3,8 @@
 #include "../../socs/sa11xx/sa1110_sdram_geometry.h"
 #include "siemens_simpad_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class SiemensSimpadSdram : public Sa1110SdramGeometry {
@@ -21,3 +23,5 @@ public:
 }
 
 REGISTER_SERVICE_AS_FALLBACK(SiemensSimpadSdram, Sa1110SdramGeometry);
+
+}

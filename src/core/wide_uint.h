@@ -5,6 +5,8 @@
 
 #include <cerfengine/wide_multiply.h>
 
+namespace cerfcore {
+
 template <int N>
 struct WideUint {
     uint64_t w[N] = {};
@@ -138,4 +140,6 @@ uint64_t DivideWide(const WideUint<N>& num, const WideUint<M>& den,
     }
     if (rem != nullptr) *rem = r.template Resized<M>();
     return q;
+}
+
 }

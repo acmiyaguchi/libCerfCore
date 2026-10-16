@@ -6,6 +6,8 @@
 
 #include <cerfcore/platform/wide_text_win32.h>
 
+namespace cerfcore {
+
 namespace host_platform {
 
 namespace {
@@ -52,6 +54,8 @@ bool WriteStderr(const char* buf, size_t len) {
 
 void ExitProcessNow(int code) {
     ExitProcess((UINT)code);
+}
+
 }
 
 }

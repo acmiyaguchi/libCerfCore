@@ -15,6 +15,8 @@
 #include <string>
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 class KeyboardWidget : public Service, public HostWidget {
@@ -128,3 +130,5 @@ void KeyboardWidget::RestoreWidgetState(StateReader& r) {
 }
 
 REGISTER_SERVICE(KeyboardWidget);
+
+}

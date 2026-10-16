@@ -4,8 +4,12 @@
 #define NOMINMAX
 #include <windows.h>
 
+namespace cerfcore {
+
 namespace host_platform {
 
 uint32_t CurrentThreadId() { return GetCurrentThreadId(); }
+
+}
 
 }

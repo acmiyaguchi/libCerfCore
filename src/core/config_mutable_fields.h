@@ -6,6 +6,8 @@
 
 #include <string>
 
+namespace cerfcore {
+
 inline void CfgResetMutableFields(DeviceConfig& config) {
     config.board_configurable_screen_width    = kDefaultConfigurableScreenWidth;
     config.board_configurable_screen_height   = kDefaultConfigurableScreenHeight;
@@ -130,4 +132,6 @@ inline void CfgLoadMutableFields(const nlohmann::json& root,
             CfgLoadShareFolderMountPoint(ga, config, path);
         }
     }
+}
+
 }

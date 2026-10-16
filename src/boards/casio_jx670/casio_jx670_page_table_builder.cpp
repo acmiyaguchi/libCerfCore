@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* DRAM area PA 0x00000000-0x07FFFFFF (VR4131 UM Fig 3-1); ROMHDR
@@ -31,3 +33,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(CasioJx670PageTableBuilder, PageTableBuilder);
+
+}

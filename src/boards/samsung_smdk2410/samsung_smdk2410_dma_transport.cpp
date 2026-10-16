@@ -10,6 +10,8 @@
 #include <array>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kBase = 0x500F0000u;
@@ -206,3 +208,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(SamsungSmdk2410DmaTransport);
+
+}

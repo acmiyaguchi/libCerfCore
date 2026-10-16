@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* Decoded IDMAC channel parameters (one CPMEM channel descriptor). */
 struct Imx51IpuChannelDesc {
     uint32_t eba = 0;   /* framebuffer byte address (guest physical) = EBA0 << 3 */
@@ -32,3 +34,5 @@ private:
        drivers/gpu/ipu-v3/ipu-cpmem.c IPU_FIELD_* macros + MCIMX51RM Ch 42). */
     uint32_t Field(uint32_t ch, uint32_t word, uint32_t off, uint32_t len) const;
 };
+
+}

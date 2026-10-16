@@ -8,6 +8,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 class Sa11xxDmaPort;
 
 class Sa11xxDma : public Peripheral {
@@ -88,3 +90,5 @@ private:
        11-8: "The Big Endian implementation scheme is not supported in the B4 stepping and above." */
     bool                    big_endian_dma_ = false;
 };
+
+}

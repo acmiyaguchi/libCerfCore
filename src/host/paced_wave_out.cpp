@@ -6,6 +6,8 @@
 #include <chrono>
 #include <cstring>
 
+namespace cerfcore {
+
 void PacedWaveOut::Start(const char* log_tag, uint32_t rate_hz, uint16_t channels,
                          uint16_t bits, bool allow_resampler) {
     log_tag_         = log_tag;
@@ -336,4 +338,6 @@ bool PacedWaveOut::QueueOutput(const void* host_bytes, uint32_t length) {
     ++unfed_total_;
     PlayLocked(static_cast<const uint8_t*>(host_bytes), length);
     return true;
+}
+
 }

@@ -5,6 +5,8 @@
 #include <cstring>
 #include <limits>
 
+namespace cerfcore {
+
 namespace {
 
 /* Hans-Kristian Arntzen, "Dynamic Rate Control for Retro Game Emulators"
@@ -115,4 +117,6 @@ bool DynamicRateResampler::TakeEstimate(double* ratio) {
     estimated_ = false;
     *ratio     = base_;
     return true;
+}
+
 }

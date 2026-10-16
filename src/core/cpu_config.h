@@ -11,6 +11,8 @@
 #include <string_view>
 #include <utility>
 
+namespace cerfcore {
+
 class CpuConfig : public Service {
 public:
     using Service::Service;
@@ -40,3 +42,5 @@ private:
     CpuConfigValues                                 values_;
     std::map<std::string, std::string, std::less<>> origins_;
 };
+
+}

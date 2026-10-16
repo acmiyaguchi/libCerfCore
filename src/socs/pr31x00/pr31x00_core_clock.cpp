@@ -7,6 +7,8 @@
 #include "pr31700_id.h"
 #include "pr31x00_clock.h"
 
+namespace cerfcore {
+
 namespace {
 
 class Pr31x00CoreClock : public MipsCoreClock {
@@ -26,3 +28,5 @@ public:
 }  // namespace
 
 REGISTER_SERVICE_AS(Pr31x00CoreClock, MipsCoreClock);
+
+}

@@ -7,6 +7,8 @@
 #include <functional>
 #include <vector>
 
+namespace cerfcore {
+
 class Imx51Iomuxc : public Peripheral {
 public:
     using Peripheral::Peripheral;
@@ -43,3 +45,5 @@ private:
     std::array<uint32_t, kBoardPads>   pad_mux_{};
     std::vector<std::function<void()>> pad_listeners_;
 };
+
+}

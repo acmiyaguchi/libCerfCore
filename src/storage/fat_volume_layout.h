@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace fat_volume_layout {
 
 /* QEMU block/vvfat.c: bootsector_t, partition_t, mbr_t. */
@@ -94,5 +96,7 @@ void WriteBootSignature(uint8_t* sector);
 void WriteBpb(uint8_t* bs, const Bpb& b);
 void WriteFat32Extension(uint8_t* bs, const Fat32Extension& e);
 void WriteFsInfo(uint8_t* fsi, uint32_t free_count, uint32_t next_free);
+
+}
 
 }

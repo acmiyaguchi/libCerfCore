@@ -4,6 +4,8 @@
 #include <cerfengine/mips/mips_cpu_state.h>
 #include "bundle.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* nk.exe sub_9F41C790 is NKDbgPrintfW. It formats into a stack buffer and only then
@@ -36,3 +38,5 @@ public:
 }  // namespace
 
 REGISTER_SERVICE(VeloKernelDbgOutput);
+
+}

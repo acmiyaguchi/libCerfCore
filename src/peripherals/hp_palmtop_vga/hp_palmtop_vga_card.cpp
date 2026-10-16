@@ -7,6 +7,8 @@
 #include <cerfcore/core/log.h>
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 
 /* Minimal PC-Card CIS: enough for CE's PCMCIA bus driver to enumerate the
@@ -150,3 +152,5 @@ uint8_t  HpPalmtopVgaCard::ReadIo8 (uint32_t o)             { return ReadCommon8
 uint16_t HpPalmtopVgaCard::ReadIo16(uint32_t o)             { return ReadCommon16(o); }
 void     HpPalmtopVgaCard::WriteIo8 (uint32_t o, uint8_t v)  { WriteCommon8(o, v);  }
 void     HpPalmtopVgaCard::WriteIo16(uint32_t o, uint16_t v) { WriteCommon16(o, v); }
+
+}

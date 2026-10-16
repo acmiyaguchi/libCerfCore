@@ -9,6 +9,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* G138 board-config block on static nCS4 (PA 0x42000000), unbacked MMIO. OAL
@@ -59,3 +61,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(PangolinCs4BoardConfig);
+
+}

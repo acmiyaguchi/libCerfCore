@@ -4,6 +4,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "samsung_smdk2410_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* devemu_wm2003se nk.exe start 0x800410A4: MPLLCON = 0xA1031;
@@ -27,3 +29,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(SamsungSmdk2410PreKernelClocks, S3C2410PreKernelClocks);
+
+}

@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Pxa27xLcdDma;
 
 /* Intel PXA27x Developer's Manual 280000-001 Section 7.6 Table 7-64: LCD
@@ -123,3 +125,5 @@ private:
     uint32_t ovl2c2_ = 0;
     uint32_t ccr_    = 0;
 };
+
+}

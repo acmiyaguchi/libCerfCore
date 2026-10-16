@@ -5,6 +5,8 @@
 #include <array>
 #include <cstdint>
 
+namespace cerfcore {
+
 class Iop13xxAtuState : public Service {
 public:
     using Service::Service;
@@ -84,3 +86,5 @@ private:
         {0x00000004u, 0x00000000u},
     }};
 };
+
+}

@@ -7,6 +7,8 @@
 #include <functional>
 #include <mutex>
 
+namespace cerfcore {
+
 /* TI TSC2003 I2C touch-screen controller (datasheet SBAS162G). Ford SYNC2 APIM:
    I2C slave 0x49 (Fig.10 addr = 10010.A1.A0, strapped A1=0/A0=1) on the GPIO4
    software-I2C "HIC1:" bus, driven by the ROM's touch_tsc2003.dll (sub_C1471EA0). */
@@ -51,3 +53,5 @@ private:
     std::mutex penirq_mu_;
     bool       last_penirq_ = false;
 };
+
+}

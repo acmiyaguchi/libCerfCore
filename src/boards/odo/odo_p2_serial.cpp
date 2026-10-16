@@ -16,6 +16,8 @@
 #include <mutex>
 #include <string>
 
+namespace cerfcore {
+
 namespace {
 
 /* PRODUCT_SER (PA 0x10004000, slot 4) + IR_SER (PA 0x10008000,
@@ -257,3 +259,5 @@ REGISTER_SERVICE(OdoProductSerialTxDma);
 REGISTER_SERVICE(OdoProductSerialRxDma);
 REGISTER_SERVICE(OdoIrSerialTxDma);
 REGISTER_SERVICE(OdoIrSerialRxDma);
+
+}

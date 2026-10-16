@@ -3,6 +3,8 @@
 #include <array>
 #include <cstdint>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 
@@ -30,3 +32,5 @@ private:
     uint32_t                     count_    = 0u;
     uint32_t                     reserved_ = 0u;
 };
+
+}

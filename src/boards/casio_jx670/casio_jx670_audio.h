@@ -8,6 +8,8 @@
 #include <functional>
 #include <mutex>
 
+namespace cerfcore {
+
 class CasioJx670Capture;
 class CasioJx670RateLadder;
 class CasioJx670Speaker;
@@ -168,3 +170,5 @@ private:
     bool     capture_     = false;
     bool     ran_dry_     = false;
 };
+
+}

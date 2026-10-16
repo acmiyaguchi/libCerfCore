@@ -9,6 +9,8 @@
 #include "../../peripherals/pcmcia/pcmcia_space_router.h"
 #include "../../socs/sa11xx/sa11xx_gpio.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* SIMpad SL4 single PC Card socket (SA-1110 socket 0, window PA 0x20000000).
@@ -64,3 +66,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(SiemensSimpadPcmcia, SiemensSimpadCs3Sink);
+
+}

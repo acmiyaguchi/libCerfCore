@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class EmulatedMemory;
 
 namespace siemens_simatic_mp377 {
@@ -68,3 +70,5 @@ private:
 };
 
 } // namespace siemens_mp377
+
+}

@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* PXA255 FFUART - full-function UART (base 0x40100000, INTC IS22 Table 4-35). */
 class Pxa255Ffuart : public Pxa255Uart16550 {
 public:
@@ -15,3 +17,5 @@ protected:
     uint32_t    IntcBit() const override { return 22u; }
     const char* Name()    const override { return "FFUART"; }
 };
+
+}

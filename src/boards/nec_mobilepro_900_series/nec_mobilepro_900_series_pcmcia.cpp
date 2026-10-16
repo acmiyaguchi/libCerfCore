@@ -8,6 +8,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "nec_mobilepro_900_series_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* Per-socket GPIO (Linux jlime_v2.6.34-hpc_mp900.c mp900_pin_config[]). */
@@ -76,3 +78,5 @@ void NecMobilepro900SeriesPcmcia::OnCardIrqDeasserted(PcmciaSlot& slot) {
 }
 
 REGISTER_SERVICE(NecMobilepro900SeriesPcmcia);
+
+}

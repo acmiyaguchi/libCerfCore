@@ -4,6 +4,8 @@
 #include <string>
 #include <string_view>
 
+namespace cerfcore {
+
 namespace host_platform {
 
 enum class SharedFsError : uint8_t {
@@ -99,5 +101,7 @@ public:
 private:
     void* handle_ = nullptr;
 };
+
+}
 
 }

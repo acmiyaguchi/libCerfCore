@@ -5,6 +5,8 @@
 
 #include <string>
 
+namespace cerfcore {
+
 /* Status-bar audio-activity indicator shared by every sound system: MarkTx on
    sound output (green dot), MarkRx on microphone capture (red dot). */
 class AudioActivityWidget : public Service, public HostWidget {
@@ -26,3 +28,5 @@ public:
 private:
     bool registered_ = false;
 };
+
+}

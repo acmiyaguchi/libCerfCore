@@ -6,6 +6,8 @@
 #include "../../peripherals/peripheral_dispatcher.h"
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 void Pxa2xxGpio::OnReady() {
     emu_.Get<PeripheralDispatcher>().Register(this);
 }
@@ -314,4 +316,6 @@ void Pxa2xxGpio::RestoreState(StateReader& r) {
     r.ReadBytes("held_mask", held_mask_, nb);
     r.ReadBytes("held_level", held_level_, nb);
     if (serial_slave_) serial_slave_->RestoreState(r);
+}
+
 }

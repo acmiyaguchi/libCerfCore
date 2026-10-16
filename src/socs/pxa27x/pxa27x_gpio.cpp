@@ -5,6 +5,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include <cerfcore/socs/guest_cpu_reset.h>
 
+namespace cerfcore {
+
 bool Pxa27xGpio::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     return bd && bd->GetSocId() == SocId::Pxa270;
@@ -40,3 +42,5 @@ Pxa2xxGpio::Reg Pxa27xGpio::Decode(uint32_t off, uint32_t* index) const {
 }
 
 REGISTER_SERVICE(Pxa27xGpio);
+
+}

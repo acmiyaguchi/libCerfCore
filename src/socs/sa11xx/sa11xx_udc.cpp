@@ -7,6 +7,8 @@
 #include "../../peripherals/peripheral_dispatcher.h"
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 
 /* SA-1110 §11.8.14: UDCCR/UDCAR/UDCOMP/UDCIMP at +0x00/04/08/0C,
@@ -156,3 +158,5 @@ void Sa11xxUdc::RestoreState(StateReader& r) {
 }  /* namespace */
 
 REGISTER_SERVICE(Sa11xxUdc);
+
+}

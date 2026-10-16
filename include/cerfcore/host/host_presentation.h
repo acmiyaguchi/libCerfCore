@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <string>
 
+namespace cerfcore {
+
 class HostPresentation : public Service {
 public:
     using Service::Service;
@@ -19,3 +21,5 @@ public:
 
     virtual void ShowCustomizationsRestart() = 0;
 };
+
+}

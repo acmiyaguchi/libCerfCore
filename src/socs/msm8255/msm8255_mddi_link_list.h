@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Msm8255MddiLinkListHost {
 public:
     virtual ~Msm8255MddiLinkListHost() = default;
@@ -32,3 +34,5 @@ private:
     void     ExecuteVideoStream(uint32_t item_pa, uint32_t packet_pa,
                                 uint32_t data_bytes);
 };
+
+}

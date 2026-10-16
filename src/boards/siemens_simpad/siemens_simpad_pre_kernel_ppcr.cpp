@@ -4,6 +4,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "siemens_simpad_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class SiemensSimpadPreKernelPpcr : public Sa11xxPreKernelPpcr {
@@ -23,3 +25,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(SiemensSimpadPreKernelPpcr, Sa11xxPreKernelPpcr);
+
+}

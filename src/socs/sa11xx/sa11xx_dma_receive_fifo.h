@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <deque>
 
+namespace cerfcore {
+
 class EmulatedMemory;
 class Sa11xxDmaPort;
 class StateReader;
@@ -86,3 +88,5 @@ private:
     uint64_t             drained_ = 0;
     bool                 overrun_ = false;
 };
+
+}

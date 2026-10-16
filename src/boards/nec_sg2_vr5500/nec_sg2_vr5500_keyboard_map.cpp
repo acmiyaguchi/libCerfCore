@@ -6,6 +6,8 @@
 
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 class NecSg2Vr5500KeyboardMap : public KeyboardMap {
@@ -28,3 +30,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(NecSg2Vr5500KeyboardMap, KeyboardMap);
+
+}

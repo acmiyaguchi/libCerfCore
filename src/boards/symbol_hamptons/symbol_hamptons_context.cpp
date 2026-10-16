@@ -3,6 +3,8 @@
 #include "symbol_hamptons_family_id.h"
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 namespace {
 
 class SymbolHamptonsContext : public BoardContext {
@@ -15,3 +17,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(SymbolHamptonsContext, BoardContext);
+
+}

@@ -6,6 +6,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 class EmulationPause : public Service {
 public:
     using Service::Service;
@@ -32,3 +34,5 @@ private:
     std::atomic<bool>     state_operation_{false};
     std::atomic<uint64_t> pause_tick_ms_{0};
 };
+
+}

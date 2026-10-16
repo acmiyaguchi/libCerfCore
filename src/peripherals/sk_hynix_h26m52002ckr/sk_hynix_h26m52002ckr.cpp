@@ -1,5 +1,7 @@
 #include "sk_hynix_h26m52002ckr.h"
 
+namespace cerfcore {
+
 namespace {
 
 // SK hynix 26nm 32Gb e-NAND datasheet Rev 1.1, Table 10
@@ -66,4 +68,6 @@ uint32_t SkHynixH26m52002ckr::SectorCount() const { return kSectorCount; }
 
 uint8_t SkHynixH26m52002ckr::ErasedMemCont() const {
     return cerf_mmc::kErasedMemContZeros;
+}
+
 }

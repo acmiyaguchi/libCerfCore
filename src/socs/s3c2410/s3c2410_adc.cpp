@@ -10,6 +10,8 @@
 #include "../irq_controller.h"
 #include "s3c2410_touch_calibration.h"
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kBase = 0x58000000u;
@@ -243,3 +245,5 @@ void S3C2410Adc::PostRestore() {
 }
 
 REGISTER_SERVICE(S3C2410Adc);
+
+}

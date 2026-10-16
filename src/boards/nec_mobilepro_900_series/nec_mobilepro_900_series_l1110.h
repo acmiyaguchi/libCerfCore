@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* NeoMagic NMC1110 ("L1110") PCMCIA power/reset glue: one 16-bit PRS(read)/
    PRC(write) register per socket. */
 class NecMobilepro900SeriesL1110 : public Peripheral {
@@ -33,3 +35,5 @@ private:
 
     uint16_t prc_ = 0;   /* last NMC1110 PRC command written */
 };
+
+}

@@ -6,6 +6,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 class PeImage;
 
 /* CE2.11 does not re-bind an injected XIP ROM module's imports at load (it trusts
@@ -41,3 +43,5 @@ private:
     bool     GuestAsciiEquals(const GuestExportDir& ed, uint32_t name_rva,
                               const char* s);
 };
+
+}

@@ -2,6 +2,8 @@
 
 #include <cerfcore/core/service.h>
 
+namespace cerfcore {
+
 class Pd6710CardIrqLine : public Service {
 public:
     using Service::Service;
@@ -10,3 +12,5 @@ public:
     virtual void Assert()   = 0;
     virtual void Deassert() = 0;
 };
+
+}

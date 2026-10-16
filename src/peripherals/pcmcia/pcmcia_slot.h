@@ -8,6 +8,8 @@
 #include <mutex>
 #include <string>
 
+namespace cerfcore {
+
 class CerfEmulator;
 class PcmciaSlot;
 
@@ -118,3 +120,5 @@ private:
 
     std::string ui_last_res_;
 };
+
+}

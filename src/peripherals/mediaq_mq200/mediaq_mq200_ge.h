@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* MQ-200 (SIMpad SL4) instance of the shared MediaQ 2D engine: MQ-200 register
    indices, solid-fill encoding, and Source-FIFO packing only (ddi.dll
    sub_13458A0 fill, sub_1346EF8 colour source). */
@@ -38,3 +40,5 @@ private:
     uint32_t MonoSourceBit(const uint32_t* r, uint32_t col, uint32_t row, bool& present) const;
     uint32_t ColorSourcePixel(const uint32_t* r, uint32_t col, uint32_t row, bool& present) const;
 };
+
+}

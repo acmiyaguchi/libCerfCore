@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 
@@ -63,3 +65,5 @@ private:
     bool     osmr0_written_since_ack_ = false;
     bool     last_write_rephased_     = false;
 };
+
+}

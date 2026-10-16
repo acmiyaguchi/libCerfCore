@@ -8,6 +8,8 @@
 #include <cerfcore/cpu/emulated_memory.h>
 #include "../../execution/engine_bridge.h"
 
+namespace cerfcore {
+
 REGISTER_SERVICE(CerfVirtNicStage);
 
 bool CerfVirtNicStage::ShouldRegister() {
@@ -39,4 +41,6 @@ uint8_t* CerfVirtNicStage::TxSlot(uint32_t index) {
 uint8_t* CerfVirtNicStage::RxSlot(uint32_t index) {
     return base_ + CerfVirt::kNicRxBufOffset +
            (index % CerfVirt::kNicRxSlots) * CerfVirt::kNicSlotSize;
+}
+
 }

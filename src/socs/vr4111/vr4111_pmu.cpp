@@ -6,6 +6,8 @@
 #include <cstdint>
 #include "vr4111_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 using cerf_vr41xx_pmu_detail::Vr41xxPmuBase;
@@ -55,3 +57,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(Vr4111Pmu, Vr41xxPmu);
+
+}

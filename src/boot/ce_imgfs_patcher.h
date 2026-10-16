@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 class PeImage;
 
 namespace cerf::ce_imgfs_patcher {
@@ -63,5 +65,7 @@ std::vector<uint8_t> BuildModuleHeader(const PeImage&             pe,
                                         uint16_t                   subsys_minor,
                                         const std::vector<uint32_t>& slot_realaddr,
                                         const std::vector<PackedSlot>& slots);
+
+}
 
 }

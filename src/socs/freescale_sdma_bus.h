@@ -3,6 +3,8 @@
 #include <cstddef>
 #include <cstdint>
 
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 
@@ -37,3 +39,5 @@ public:
     virtual bool EndChannelRun(uint32_t channel) = 0;
     virtual bool ChannelWatermark(uint32_t channel, uint32_t& value) const = 0;
 };
+
+}

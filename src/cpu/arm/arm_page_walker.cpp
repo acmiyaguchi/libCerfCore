@@ -13,6 +13,8 @@
 #include "arm_mmu_ap_permits.h"
 #include "arm_pte.h"
 
+namespace cerfcore {
+
 REGISTER_SERVICE(ArmPageWalker);
 
 bool ArmPageWalker::ShouldRegister() {
@@ -395,16 +397,18 @@ CERF_FORCEINLINE bool ArmPageWalker::ProbeWalk(uint32_t mva, uint32_t control_wo
     }
 }
 
+}
+
 template <cerfengine::ArmMmuAccess kAccess>
 cerfengine::ArmTranslation CERFENGINE_FASTCALL cerfengine::host::ArmWalk(void* context,
                                                                          uint32_t mva, bool user,
                                                                          uint32_t control) {
-    return static_cast<ArmPageWalker*>(context)->Walk<kAccess>(mva, user, control);
+    return static_cast<cerfcore::ArmPageWalker*>(context)->Walk<kAccess>(mva, user, control);
 }
 
 bool CERFENGINE_FASTCALL cerfengine::host::ArmProbeWalk(void* context, uint32_t mva,
                                                         uint32_t control, uint32_t* pa) {
-    return static_cast<ArmPageWalker*>(context)->ProbeWalk(mva, control, pa);
+    return static_cast<cerfcore::ArmPageWalker*>(context)->ProbeWalk(mva, control, pa);
 }
 
 template cerfengine::ArmTranslation CERFENGINE_FASTCALL

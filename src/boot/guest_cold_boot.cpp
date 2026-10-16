@@ -7,6 +7,8 @@
 #include "../execution/engine_bridge.h"
 #include <cerfcore/socs/guest_cpu_reset.h>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(GuestColdBoot);
 
 void GuestColdBoot::RegisterReplay(std::function<void()> fn) {
@@ -46,4 +48,6 @@ void GuestColdBoot::ExecuteIfPending() {
     for (auto& fn : replays_) fn();
     emu_.Get<EngineBridge>().Guest().FlushTranslationCache();
     emu_.Get<GuestPowerNotifier>().NotifyHardReset();
+}
+
 }

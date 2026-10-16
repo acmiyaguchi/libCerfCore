@@ -8,6 +8,8 @@
 #include "host_clock.h"
 #include "host_wait_timer.h"
 
+namespace cerfcore {
+
 namespace host_platform {
 
 struct HostSerialPort::Impl {
@@ -196,6 +198,8 @@ std::vector<std::string> EnumerateSerialPorts() {
     }
     RegCloseKey(key);
     return ports;
+}
+
 }
 
 }

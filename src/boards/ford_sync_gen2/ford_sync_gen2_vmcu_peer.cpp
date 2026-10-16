@@ -15,6 +15,8 @@
 #include <cstdio>
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 using cerf::le::Append16;
@@ -428,3 +430,5 @@ void FordSyncGen2VmcuPeer::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE(FordSyncGen2VmcuPeer);
+
+}

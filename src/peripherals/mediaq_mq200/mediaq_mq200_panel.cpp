@@ -4,6 +4,8 @@
 #include "mediaq_mq200_gc.h"
 #include "mediaq_mq200_power.h"
 
+namespace cerfcore {
+
 namespace {
 
 uint32_t ModuleBit(uint32_t gc, uint32_t gc1_bit, uint32_t gc2_bit) {
@@ -78,4 +80,6 @@ MediaQMq200Panel::HwCursor MediaQMq200Panel::Cursor(bool fb_served) const {
     c.fg    = gc_.Reg(gc, MediaQMq200Gc::kCursorFg);
     c.bg    = gc_.Reg(gc, MediaQMq200Gc::kCursorBg);
     return c;
+}
+
 }

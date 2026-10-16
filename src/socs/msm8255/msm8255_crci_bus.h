@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Msm8255CrciClient {
 public:
     virtual ~Msm8255CrciClient() = default;
@@ -38,3 +40,5 @@ private:
     Fifo               fifos_[kCrciCount];
     bool               level_[kCrciCount] = {};
 };
+
+}

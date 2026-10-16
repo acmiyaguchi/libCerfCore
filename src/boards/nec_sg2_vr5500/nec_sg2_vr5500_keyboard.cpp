@@ -9,6 +9,8 @@
 #include <cstddef>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint8_t kPs2ExtendedPrefix = 0xE0u;
@@ -43,3 +45,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE(NecSg2Vr5500KeyboardInput);
+
+}

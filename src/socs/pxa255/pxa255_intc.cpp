@@ -4,6 +4,8 @@
 #include "pxa255_id.h"
 #include <cerfcore/core/cerf_emulator.h>
 
+namespace cerfcore {
+
 namespace {
 
 class Pxa255Intc : public Pxa2xxIntc {
@@ -22,3 +24,5 @@ protected:
 }
 
 REGISTER_SERVICE_AS(Pxa255Intc, IrqController);
+
+}

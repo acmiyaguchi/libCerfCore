@@ -8,6 +8,8 @@
 
 namespace cerfengine { class EngineService; }
 
+namespace cerfcore {
+
 class CerfEmulator : public servicelocator::ServiceLocator<CerfEmulator, 2048> {
     using Locator = servicelocator::ServiceLocator<CerfEmulator, 2048>;
 
@@ -45,7 +47,10 @@ private:
     char**     argv_ = nullptr;
 };
 
-#define REGISTER_SERVICE(Type) SERVICELOCATOR_REGISTER(CerfEmulator, Type)
-#define REGISTER_SERVICE_AS(Type, Base) SERVICELOCATOR_REGISTER_AS(CerfEmulator, Type, Base)
+#define REGISTER_SERVICE(Type) SERVICELOCATOR_REGISTER(::cerfcore::CerfEmulator, Type)
+#define REGISTER_SERVICE_AS(Type, Base) \
+    SERVICELOCATOR_REGISTER_AS(::cerfcore::CerfEmulator, Type, Base)
 #define REGISTER_SERVICE_AS_FALLBACK(Type, Base) \
-    SERVICELOCATOR_REGISTER_AS_FALLBACK(CerfEmulator, Type, Base)
+    SERVICELOCATOR_REGISTER_AS_FALLBACK(::cerfcore::CerfEmulator, Type, Base)
+
+}

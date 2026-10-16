@@ -6,6 +6,8 @@
 #include <cstdarg>
 #include <mutex>
 
+namespace cerfcore {
+
 namespace Log {
 
     #define LOG_CATEGORIES(X)                                                       \
@@ -148,8 +150,8 @@ namespace Log {
    error. The slug "[NAME]" is auto-prepended by Log::Print from the
    registry - never put it in the format string. */
 #define LOG(name, ...) do {                                                         \
-    if (Log::IsEnabled(Log::Cat::name))                                             \
-        Log::Print(Log::Cat::name, __VA_ARGS__);                                    \
+    if (::cerfcore::Log::IsEnabled(::cerfcore::Log::Cat::name))                     \
+        ::cerfcore::Log::Print(::cerfcore::Log::Cat::name, __VA_ARGS__);            \
 } while (0)
 
 inline constexpr int CERF_FATAL_RUNTIME_ERROR = 1;
@@ -161,3 +163,5 @@ inline constexpr int CERF_FATAL_NORMAL_EXIT   = 0;
 inline constexpr int CERF_FATAL_TIMEOUT       = 124;
 
 [[noreturn]] void CerfFatalExit(int code = CERF_FATAL_RUNTIME_ERROR);
+
+}

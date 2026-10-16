@@ -2,6 +2,8 @@
 
 #include "host_unimplemented.h"
 
+namespace cerfcore {
+
 namespace host_platform {
 
 HostFile::~HostFile() {
@@ -28,5 +30,7 @@ bool ReplaceHostFile(const std::string&, const std::string&, bool) {
 
 bool HostFileExists(const std::string&) { NoHostImplementation("HostFileExists"); }
 bool HostPathExists(const std::string&) { NoHostImplementation("HostPathExists"); }
+
+}
 
 }

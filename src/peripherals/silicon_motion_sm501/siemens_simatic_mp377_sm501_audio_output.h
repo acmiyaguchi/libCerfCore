@@ -9,6 +9,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 class AudioActivityWidget;
 class StateReader;
 class StateWriter;
@@ -47,3 +49,5 @@ private:
 };
 
 } // namespace siemens_mp377
+
+}

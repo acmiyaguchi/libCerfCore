@@ -10,6 +10,8 @@
 #include <cerfcore/host/host_widget_registry.h>
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 
 class FordSyncGen2CarWidget : public Service, public HostWidget {
@@ -54,4 +56,6 @@ bool FordSyncGen2CarWidget::PollDirty() {
 }
 void FordSyncGen2CarWidget::SaveWidgetState(StateWriter& w) const { temperature_.SaveState(w); }
 void FordSyncGen2CarWidget::RestoreWidgetState(StateReader& r) { temperature_.RestoreState(r); }
+}
+
 }

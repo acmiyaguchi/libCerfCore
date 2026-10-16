@@ -2,6 +2,8 @@
 
 #include "../../core/bit_field.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* MCIMX31RM Figure 44-53 / Table 44-72. */
@@ -81,4 +83,6 @@ uint64_t Imx31SdcTiming::BgFirstTick(const Imx31SdcTimingRegs& r) {
     const uint64_t line = cerf::BitField(r.hor, 16u, 0x3FFu) + 1u;
     return cerf::BitField(r.hor, 0u, 0xFu) + cerf::BitField(r.bg_pos, 0u, 0x3FFu) * line +
            cerf::BitField(r.bg_pos, 16u, 0x3FFu);
+}
+
 }

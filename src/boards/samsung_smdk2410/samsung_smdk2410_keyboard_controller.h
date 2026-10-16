@@ -6,6 +6,8 @@
 #include <deque>
 #include <mutex>
 
+namespace cerfcore {
+
 class SamsungSmdk2410KeyboardController : public SpiSlave {
 public:
     using SpiSlave::SpiSlave;
@@ -35,3 +37,5 @@ private:
     bool                line_active_  = false;
     bool                line_seeded_  = false;
 };
+
+}

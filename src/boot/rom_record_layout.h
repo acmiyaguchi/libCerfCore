@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 constexpr uint32_t kRomSignature       = 0x43454345u;
 constexpr uint32_t kRomSignatureOffset = 0x40u;
 constexpr uint32_t kEcecOffPtoc        = 0x04;
@@ -138,3 +140,5 @@ constexpr uint32_t kFileOffLoadOffset = 0x18;
 
 constexpr uint32_t kRomPageMask = 0xFFFu;
 constexpr uint32_t AlignRomPage(uint32_t v) { return (v + kRomPageMask) & ~kRomPageMask; }
+
+}

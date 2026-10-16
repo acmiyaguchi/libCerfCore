@@ -8,6 +8,8 @@
 #include <cerfcore/socs/guest_cpu_reset.h>
 #include "vrc5477_intc.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* Linux ddb5477.h: DDB_GIUFUNSEL at 0x4040 of the VRC5477 register window,
@@ -73,4 +75,6 @@ void Vrc5477Giu::RestoreState(StateReader& r) {
 void Vrc5477Giu::PostRestore() {
     if (line_) intc_->AssertSource(kIntcSourceId);
     else       intc_->DeassertSource(kIntcSourceId);
+}
+
 }

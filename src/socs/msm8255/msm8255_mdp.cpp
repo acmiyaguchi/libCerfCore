@@ -11,6 +11,8 @@
 #include <atomic>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kMdpBase = 0xA3F00000u;
@@ -304,3 +306,5 @@ private:
 }
 
 REGISTER_SERVICE(Msm8255Mdp);
+
+}

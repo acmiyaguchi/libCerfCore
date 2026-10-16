@@ -3,6 +3,8 @@
 #include <array>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace Rtc8564Regs {
 
 /* Epson RTC-8564 MQ322-04 section 8.1 (p. 5): register table. */
@@ -34,5 +36,7 @@ inline constexpr uint8_t kTiTp         = 0x10u;
 inline constexpr uint8_t kAlarmDisable = 0x80u;
 
 using File = std::array<uint8_t, 16>;
+
+}
 
 }

@@ -11,6 +11,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kNorBase = 0xA0000000u;
@@ -392,3 +394,5 @@ void SpansionS29AL016J::EraseChip() {
 }  /* namespace */
 
 REGISTER_SERVICE(SpansionS29AL016J);
+
+}

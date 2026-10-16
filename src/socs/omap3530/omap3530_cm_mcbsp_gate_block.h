@@ -6,6 +6,8 @@
 #include <functional>
 #include <vector>
 
+namespace cerfcore {
+
 class Omap3530CmMcBspGateBlock : public Omap3530PrcmStubBlock {
 public:
     using Omap3530PrcmStubBlock::Omap3530PrcmStubBlock;
@@ -32,3 +34,5 @@ private:
     std::vector<std::function<void()>> clock_listeners_;
     bool                               reset_changed_ = false;
 };
+
+}

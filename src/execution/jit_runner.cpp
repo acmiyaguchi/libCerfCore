@@ -13,6 +13,8 @@
 
 #include <chrono>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(JitRunner);
 
 void JitRunner::OnShutdown() {
@@ -159,4 +161,6 @@ void JitRunner::RunLoop() {
     stopped_.store(true, std::memory_order_release);
     { std::lock_guard<std::mutex> lk(pause_mutex_); }
     pause_cv_.notify_all();
+}
+
 }

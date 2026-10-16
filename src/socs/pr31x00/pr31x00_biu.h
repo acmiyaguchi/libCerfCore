@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* Philips PR31x00 Bus Interface Unit, TMPR3911/3912 ch.4. Memory Configuration
    registers $000-$020. */
 class Pr31x00Biu : public Peripheral {
@@ -45,3 +47,5 @@ private:
        so nk.exe's flash-ID stub sees one JEDEC id replicated across both halves. */
     uint32_t reg_[kRegs] = {1u, 0u, 0xFFu, 0u, 1u << 16};
 };
+
+}

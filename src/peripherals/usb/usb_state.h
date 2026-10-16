@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+namespace cerfcore {
+
 namespace UsbState {
 inline void Require(StateReader& r, bool ok, const char* reason) {
     if (!ok) r.Reject("USB: %s", reason);
@@ -31,4 +33,6 @@ inline void ReadBuffer(StateReader& r, const char* size_name, const char* name,
     Require(r, n <= limit, "invalid transfer buffer length");
     value.resize(n); r.ReadBytes(name, value.data(), n);
 }
+}
+
 }

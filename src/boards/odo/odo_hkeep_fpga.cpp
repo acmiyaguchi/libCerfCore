@@ -14,6 +14,8 @@
 #include <mutex>
 #include <string>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kHkeepFpgaPaBase   = 0x04040000u;
@@ -200,3 +202,5 @@ bool OdoHkeepFpga::PollDirty() {
 }  /* namespace */
 
 REGISTER_SERVICE(OdoHkeepFpga);
+
+}

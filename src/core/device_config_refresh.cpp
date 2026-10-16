@@ -8,6 +8,8 @@
 #include <cerfcore/core/device_config.h>
 #include <cerfcore/core/log.h>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(DeviceConfigRefresh);
 
 void DeviceConfigRefresh::RegisterListener(std::function<void()> fn) {
@@ -41,4 +43,6 @@ void DeviceConfigRefresh::Refresh() {
         config.share_folder_mount_point.c_str());
 
     for (auto& fn : listeners_) fn();
+}
+
 }

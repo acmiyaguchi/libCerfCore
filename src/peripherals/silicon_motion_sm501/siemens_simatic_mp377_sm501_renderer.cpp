@@ -17,6 +17,8 @@
 #include <cstdint>
 #include <optional>
 
+namespace cerfcore {
+
 namespace {
 
 using siemens_simatic_mp377::kSm501FbBytes;
@@ -150,3 +152,5 @@ private:
 } // namespace
 
 REGISTER_SERVICE_AS(SiemensSimaticMp377Sm501Renderer, PanelFrameRenderer);
+
+}

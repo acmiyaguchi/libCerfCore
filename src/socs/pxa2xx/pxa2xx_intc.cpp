@@ -11,6 +11,8 @@
 
 #include <mutex>
 
+namespace cerfcore {
+
 /* Intel PXA27x Developer's Manual 280000-001 Tables 25-9 / 25-10 / 25-11 / 25-12
    reset rows 0, Table 25-13 DIM "Cleared during resets", Section 25.5.7 "At reset,
    these registers are marked invalid"; PXA255 Section 4.2.2 "set to 0x0". */
@@ -299,4 +301,6 @@ void Pxa2xxIntc::RestoreState(StateReader& r) {
 void Pxa2xxIntc::PostRestore() {
     std::lock_guard<std::mutex> guard(state_mtx_);
     NotifyLocked();
+}
+
 }

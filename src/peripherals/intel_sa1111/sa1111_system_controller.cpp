@@ -10,6 +10,8 @@
 #include <algorithm>
 #include <iterator>
 
+namespace cerfcore {
+
 namespace {
 
 /* §5.2.2 SKCDR FBDiv reset 1001100; §5.2.3 SKAUD ACDiv reset 0011000; §5.2.1 SKPCR "All
@@ -172,3 +174,5 @@ void Sa1111SystemController::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE(Sa1111SystemController);
+
+}

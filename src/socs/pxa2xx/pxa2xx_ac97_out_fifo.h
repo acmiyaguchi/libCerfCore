@@ -8,6 +8,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Ac97Codec;
 class EmulatedMemory;
 class GuestCycleClock;
@@ -84,3 +86,5 @@ private:
     uint64_t out_frames_  = 0;
     bool     out_error_   = false;
 };
+
+}

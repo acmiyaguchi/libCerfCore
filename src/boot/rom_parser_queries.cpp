@@ -8,6 +8,8 @@
 #include <cerfcore/core/log.h>
 #include "../core/ascii_case.h"
 
+namespace cerfcore {
+
 REGISTER_SERVICE(RomParserQueries);
 
 namespace {
@@ -73,4 +75,6 @@ bool RomParserQueries::KernelSubsystemVersion(uint16_t& major,
         }
     }
     return false;
+}
+
 }

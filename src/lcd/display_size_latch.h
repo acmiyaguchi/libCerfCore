@@ -1,5 +1,7 @@
 #pragma once
 
+namespace cerfcore {
+
 class CerfEmulator;
 class StateReader;
 class StateWriter;
@@ -14,3 +16,5 @@ public:
 private:
     bool published_ = false;
 };
+
+}

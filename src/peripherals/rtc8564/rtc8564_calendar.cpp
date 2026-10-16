@@ -5,6 +5,8 @@
 
 #include <algorithm>
 
+namespace cerfcore {
+
 namespace {
 
 using namespace Rtc8564Regs;
@@ -233,4 +235,6 @@ uint64_t Rtc8564Calendar::SourceTicks(uint8_t td, uint64_t now) const {
 uint64_t Rtc8564Calendar::CycleOfSourceTick(uint8_t td, uint64_t tick) const {
     if (td == 3u) return second_.CycleOfTick(tick * 60u - anchor_sec_);
     return second_.AnchorCycle() + ScaleU64Ceil(tick, cpu_hz_, SourceHz(td));
+}
+
 }

@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace CerfVirt {
 
 constexpr uint32_t kFsServerPbAddr = 0x00;
@@ -85,5 +87,7 @@ struct ServerPB {
 
 static_assert(sizeof(ServerPB) == 1068,
               "ServerPB layout must stay byte-identical to the guest FSD's");
+
+}
 
 }

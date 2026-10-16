@@ -10,6 +10,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kBase = 0x500FFFF0u;
@@ -73,3 +75,5 @@ uint16_t SamsungSmdk2410Battery::ReadHalf(uint32_t addr) {
 }  /* namespace */
 
 REGISTER_SERVICE(SamsungSmdk2410Battery);
+
+}

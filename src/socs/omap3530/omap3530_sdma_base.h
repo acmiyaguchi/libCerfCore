@@ -7,6 +7,8 @@
 #include <mutex>
 #include <vector>
 
+namespace cerfcore {
+
 class Omap3530DmaElementBus;
 
 class Omap3530SdmaBase : public Omap3530SdmaIrq {
@@ -125,4 +127,6 @@ inline void Omap3530SdmaBase::SaveState(StateWriter& w) {
     StateWriteField field(w);
     for (Channel& c : channels_) VisitChannel(c, field);
     SaveIrqLines(w);
+}
+
 }

@@ -7,6 +7,7 @@ typedef unsigned char  uint8_t;
 #include <cstdint>
 #endif
 
+namespace cerfcore {
 namespace CerfVirt {
 
 const uint32_t kCurKick   = 0x004u;
@@ -25,4 +26,5 @@ struct CerfCursorDescriptor {
     uint8_t  bits[kCursorBitsBytes];
 };
 
+}
 }

@@ -12,6 +12,8 @@
 #include <memory>
 #include <vector>
 
+namespace cerfcore {
+
 class Sa11xxDma;
 class Sa11xxUartBase;
 class Sa11xxUartReceiver;
@@ -103,3 +105,5 @@ private:
     std::array<std::unique_ptr<Channel>, kPorts> ch_{};
     uint32_t         count_ = 0;
 };
+
+}

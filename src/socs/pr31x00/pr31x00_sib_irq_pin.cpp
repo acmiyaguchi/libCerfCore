@@ -8,6 +8,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* NetBSD hpcmips tx39icureg.h TX39_INTRSTATUS1_SIBIRQPOSINT 0x40, SIBIRQNEGINT 0x20. */
@@ -27,3 +29,5 @@ void Pr31x00SibIrqPin::OnPinEdge(bool rising) {
 }
 
 REGISTER_SERVICE(Pr31x00SibIrqPin);
+
+}

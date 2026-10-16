@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* UART A ($0B0) is the built-in serial port (serial.dll HWInit sub_1EB2028). UART B
@@ -40,3 +42,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(PhilipsVelo1SerialWiring, Pr31x00SerialWiring);
+
+}

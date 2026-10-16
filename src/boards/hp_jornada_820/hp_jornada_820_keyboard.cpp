@@ -12,6 +12,8 @@
 
 #include <deque>
 
+namespace cerfcore {
+
 namespace {
 
 /* SSP keyboard controller slave (keybddr sub_12C21B8 init / sub_12C239C reads).
@@ -163,4 +165,6 @@ void HpJornada820Keyboard::PulseKbdIrqLine() {
     auto& gpio = emu_.Get<Sa11xxGpio>();
     gpio.DriveInputPin(0, true);
     gpio.DriveInputPin(0, false);
+}
+
 }

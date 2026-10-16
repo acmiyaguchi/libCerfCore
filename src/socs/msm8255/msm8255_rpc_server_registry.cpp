@@ -10,6 +10,8 @@
 #include <cstdint>
 #include <typeinfo>
 
+namespace cerfcore {
+
 bool Msm8255RpcServerRegistry::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     return bd && bd->GetSocId() == SocId::Msm8255;
@@ -57,3 +59,5 @@ void Msm8255RpcServerRegistry::Register(Msm8255RpcServer* server) {
 }
 
 REGISTER_SERVICE(Msm8255RpcServerRegistry);
+
+}

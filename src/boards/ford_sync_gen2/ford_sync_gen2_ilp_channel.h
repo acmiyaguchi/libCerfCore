@@ -7,6 +7,8 @@
 #include <vector>
 #include <string>
 
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 
@@ -52,3 +54,5 @@ private:
     std::atomic<uint64_t> received_{0}, sent_{0};
     unsigned logged_writes_ = 0;
 };
+
+}

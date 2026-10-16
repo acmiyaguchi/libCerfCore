@@ -6,6 +6,8 @@
 #include "../irq_controller.h"
 #include "pxa255_id.h"
 
+namespace cerfcore {
+
 REGISTER_SERVICE(Pxa255I2sInterrupt);
 
 namespace {
@@ -108,4 +110,6 @@ void Pxa255I2sInterrupt::PostRestore() {
     line_ = false;
     intc_->DeAssertIrq(kIntcI2s);
     Refresh();
+}
+
 }

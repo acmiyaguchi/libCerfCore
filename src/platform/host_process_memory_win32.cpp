@@ -8,6 +8,8 @@
 
 #include <cstring>
 
+namespace cerfcore {
+
 namespace host_platform {
 
 ProcessMemoryUsage QueryProcessMemory() {
@@ -77,6 +79,8 @@ ThreadStackUsage MeasureThreadStacks() {
 
     ::CloseHandle(snap);
     return out;
+}
+
 }
 
 }

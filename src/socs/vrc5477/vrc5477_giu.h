@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Vrc5477Intc;
 
 class Vrc5477Giu : public Peripheral {
@@ -32,3 +34,5 @@ private:
     bool         latched_ = false;
     bool         line_    = false;
 };
+
+}

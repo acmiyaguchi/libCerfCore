@@ -6,6 +6,8 @@
 #include "siemens_mp377_15_inox_id.h"
 #include "siemens_mp377_15_touch_id.h"
 
+namespace cerfcore {
+
 namespace siemens_simatic_mp377 {
 namespace {
 
@@ -29,3 +31,5 @@ public:
 REGISTER_SERVICE_AS(SiemensSimaticMp377Panel15, SiemensSimaticMp377Panel);
 
 }  // namespace siemens_simatic_mp377
+
+}

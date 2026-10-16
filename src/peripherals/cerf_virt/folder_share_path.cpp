@@ -4,6 +4,8 @@
 #include <cerfcore/core/folder_share_config.h>
 #include <cerfcore/core/log.h>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(FolderSharePath);
 
 using host_platform::SharedFsError;
@@ -62,4 +64,6 @@ uint16_t FolderSharePath::CeError(const host_platform::SharedFsStatus& status) {
     }
     LOG(Cerf, "[FolderShare] unmapped host error %u -> general failure\n", status.native);
     return CerfVirt::kErrorGeneralFailure;
+}
+
 }

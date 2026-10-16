@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 /* HP Jornada 820 companion ASIC, nCS3 PA 0x18000000 (uncached VA 0xA4000000).
    Control regs storage-backed; the GlidePad PS/2 controller is at offset
    0x1A0000 - 8042 status +0x400, command/data +0x800 (glidepad.dll). */
@@ -73,3 +75,5 @@ private:
     uint32_t             intr_pending_ = 0;
     Ps2Mouse             mouse_;
 };
+
+}

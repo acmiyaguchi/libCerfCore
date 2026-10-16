@@ -9,6 +9,8 @@
 #include <mutex>
 #include <vector>
 
+namespace cerfcore {
+
 class Msm8255GpioWindow {
 public:
     virtual ~Msm8255GpioWindow() = default;
@@ -40,3 +42,5 @@ private:
     std::vector<Msm8255GpioWindow*>               windows_;
     std::array<std::atomic<uint8_t>, kPinCount>   driven_{};
 };
+
+}

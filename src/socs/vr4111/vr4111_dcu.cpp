@@ -3,6 +3,8 @@
 #include <cstdint>
 #include "vr4111_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 using cerf_vr41xx_reg_window_detail::ReadKind;
@@ -42,3 +44,5 @@ public:
 }
 
 REGISTER_SERVICE(Vr4111Dcu);
+
+}

@@ -2,6 +2,8 @@
 
 #include "host_unimplemented.h"
 
+namespace cerfcore {
+
 namespace host_platform {
 
 bool StartNetworking(int&) { NoHostImplementation("StartNetworking"); }
@@ -20,5 +22,7 @@ bool HostPollSet::Empty() const { NoHostImplementation("HostPollSet::Empty"); }
 int  HostPollSet::Add(uintptr_t, int) { NoHostImplementation("HostPollSet::Add"); }
 int  HostPollSet::Revents(int) const { NoHostImplementation("HostPollSet::Revents"); }
 int  HostPollSet::Wait(int) { NoHostImplementation("HostPollSet::Wait"); }
+
+}
 
 }

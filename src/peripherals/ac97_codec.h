@@ -5,6 +5,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 
@@ -98,3 +100,5 @@ private:
     uint32_t dac_rate_ = kFrameRateHz;
     uint32_t adc_rate_ = kFrameRateHz;
 };
+
+}

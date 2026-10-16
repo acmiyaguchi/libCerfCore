@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class CerfInjectionRegion : public Service {
 public:
     using Service::Service;
@@ -21,3 +23,5 @@ public:
 private:
     uint32_t va_base_ = 0;
 };
+
+}

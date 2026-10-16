@@ -5,6 +5,8 @@
 #include "../../peripherals/ac97_codec.h"
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 
 /* Intel PXA255 Developer's Manual Table 5-5 (page 5-13) and Intel PXA27x Developer's Manual Table 5-10
@@ -114,3 +116,5 @@ void Pxa2xxAc97MicIn::Restore(StateReader& r) {
 }
 
 REGISTER_SERVICE(Pxa2xxAc97MicIn);
+
+}

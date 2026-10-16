@@ -4,6 +4,8 @@
 #include "sa11xx_sp2_uart_receive_fifo.h"
 #include "sa11xx_sp2_uart_transmit_fifo.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* SA-1110 §11.10 SP2 UART. IrDA-capable port - on iPaq H3xxx this
@@ -31,3 +33,5 @@ protected:
 }  /* namespace */
 
 REGISTER_SERVICE(Sa11xxSp2Uart);
+
+}

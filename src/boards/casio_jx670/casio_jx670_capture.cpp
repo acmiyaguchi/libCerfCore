@@ -9,6 +9,8 @@
 
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint8_t  kNoCapturedSample = 0u;
@@ -51,3 +53,5 @@ void CasioJx670Capture::WriteBlock(uint32_t va, uint32_t length) {
 }
 
 REGISTER_SERVICE(CasioJx670Capture);
+
+}

@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace S3C2410IisRegs {
 
 /* S3C2410A User Manual, printed pp. 21-5..21-8 "IIS-BUS INTERFACE SPECIAL
@@ -55,5 +57,7 @@ constexpr uint32_t kCodecClk384 = 384u;
 /* S3C2410A User Manual, printed p. 21-3: the transmitter sends one word per
    IISLRCK phase, two FIFO entries per 16-bit stereo frame. */
 constexpr uint32_t kEntriesPerFrame = 2u;
+
+}
 
 }

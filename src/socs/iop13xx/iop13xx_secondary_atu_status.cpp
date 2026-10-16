@@ -4,6 +4,9 @@
 #include <cerfcore/peripherals/peripheral_base.h>
 #include "../../peripherals/peripheral_dispatcher.h"
 #include "iop13xx_atu_state.h"
+
+namespace cerfcore {
+
 namespace {
 class Iop13xxSecondaryAtuStatus final : public Peripheral {
 public:
@@ -43,3 +46,5 @@ private:
 };
 } // namespace
 REGISTER_SERVICE(Iop13xxSecondaryAtuStatus);
+
+}

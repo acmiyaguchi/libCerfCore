@@ -8,6 +8,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kWeimBase = 0xB8002000u;
@@ -99,3 +101,5 @@ void Imx31Weim::WriteWord(uint32_t addr, uint32_t value) {
 }  /* namespace */
 
 REGISTER_SERVICE(Imx31Weim);
+
+}

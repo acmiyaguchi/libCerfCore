@@ -7,6 +7,8 @@
 #include <mutex>
 #include <vector>
 
+namespace cerfcore {
+
 /* SA-1110 Dev Man §9.1.1: GPSR (+0x8) and GPCR (+0xC) are W-O set/clear
    commands updating the output shadow read via GPLR (+0x0); GEDR (+0x18)
    is W1C. §9.1.1.5/§9.2.1.1: a GRER/GFER-matched edge latches GEDR, GPIO
@@ -80,3 +82,5 @@ private:
     std::vector<OutputObserver> output_observers_;
     std::vector<std::function<void()>> pin_config_listeners_;
 };
+
+}

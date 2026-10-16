@@ -2,6 +2,8 @@
 
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 
 /* SA-1111 Developer's Manual Table 3-3 note 1: "All reserved bits are read back as zero."
@@ -72,4 +74,6 @@ void Sa1111SacDmaControl::Restore(StateReader& r) {
     r.Read(keys_.count_a,   regs_[kCountA]);
     r.Read(keys_.address_b, regs_[kAddressB]);
     r.Read(keys_.count_b,   regs_[kCountB]);
+}
+
 }

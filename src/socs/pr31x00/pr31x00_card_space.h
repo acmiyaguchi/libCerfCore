@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class PcmciaSlot;
 class StateReader;
 class StateWriter;
@@ -62,3 +64,5 @@ private:
     PcmciaSlot*        sockets_[2] = {};
     Pr31x00CardBuffer* buffer_     = nullptr;
 };
+
+}

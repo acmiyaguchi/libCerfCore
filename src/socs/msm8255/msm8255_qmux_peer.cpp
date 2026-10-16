@@ -10,6 +10,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint8_t kQmuxMarker = 0x01u;
@@ -138,4 +140,6 @@ uint32_t Msm8255QmuxPeer::Answer(uint32_t in_pa, uint32_t in_bytes,
 
     mem.CopyIn(out_pa, reply.data(), reply.size());
     return static_cast<uint32_t>(reply.size());
+}
+
 }

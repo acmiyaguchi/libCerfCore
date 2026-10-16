@@ -17,6 +17,8 @@
 #include <algorithm>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* RTC1 block offsets from 0x0B0000C0 (UM Table 16-1 == Table 17-1). */
@@ -470,4 +472,6 @@ void Vr41xxRtc::PostRestore() {
     tclk_periods_ack_   = PeriodsReached(tclk_reload_, tclk_restore_pos_);
     DriveIcuLocked();
     ArmNextLocked();
+}
+
 }

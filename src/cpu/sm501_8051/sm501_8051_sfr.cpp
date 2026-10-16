@@ -1,5 +1,7 @@
 #include "sm501_8051_core.h"
 
+namespace cerfcore {
+
 namespace sm501_8051 {
 
 void Sfr::Reset() {
@@ -181,3 +183,5 @@ void Sfr::RestoreState(StateReader& reader) {
 }
 
 }  // namespace sm501_8051
+
+}

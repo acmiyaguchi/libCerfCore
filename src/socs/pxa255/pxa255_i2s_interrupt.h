@@ -6,6 +6,8 @@
 #include <cstdint>
 #include <functional>
 
+namespace cerfcore {
+
 class IrqController;
 class StateReader;
 class StateWriter;
@@ -51,3 +53,5 @@ private:
     bool     ror_   = false;
     bool     line_  = false;
 };
+
+}

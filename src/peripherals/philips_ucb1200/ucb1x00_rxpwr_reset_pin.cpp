@@ -6,6 +6,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include "../../socs/pr31x00/pr31x00_ir.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* philips_velo_1_ce1 serial.dll sub_1EBAA5C and sharp_mobilon_hc4100_hpc2 SIB.dll
@@ -32,3 +34,5 @@ public:
 }
 
 REGISTER_SERVICE(Ucb1x00RxPwrResetPin);
+
+}

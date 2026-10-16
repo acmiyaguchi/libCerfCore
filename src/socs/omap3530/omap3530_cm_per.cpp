@@ -1,5 +1,7 @@
 #include "omap3530_cm_per.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* OMAP35x TRM SPRUF98Y Table 4-237 CM_FCLKEN_PER (page 490) and Table 4-239 CM_ICLKEN_PER (page 492):
@@ -37,3 +39,5 @@ bool Omap3530CmPer::LoadResetLocked() {
 }
 
 REGISTER_SERVICE(Omap3530CmPer);
+
+}

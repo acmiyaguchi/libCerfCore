@@ -10,6 +10,8 @@
 #include <cerfcore/host/keyboard_router.h>
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(CerfVirtKeyboard);
 
 bool CerfVirtKeyboard::ShouldRegister() {
@@ -89,5 +91,7 @@ public:
 };
 
 REGISTER_SERVICE(CerfVirtKeyboardInput);
+
+}
 
 }

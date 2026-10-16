@@ -7,6 +7,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 class Tps65950Interrupts;
@@ -80,3 +82,5 @@ private:
     bool     alarm_match_   = false;
     bool     rtc_it_        = false;
 };
+
+}

@@ -2,6 +2,8 @@
 
 #include <cerfcore/core/log.h>
 
+namespace cerfcore {
+
 void Vr41xxRtclCensus::OnPairStart(int ch, Pair kind, uint64_t phase_tk) {
     Channel& c = ch_[ch];
     ++c.pairs;
@@ -45,4 +47,6 @@ void Vr41xxRtclCensus::Report(int64_t now_ns) {
             c.cnt_reads_clr);
         ch_[ch] = Channel{};
     }
+}
+
 }

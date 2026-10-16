@@ -8,6 +8,8 @@
 #include <cerfcore/core/log.h>
 #include "ipv4_packet.h"
 
+namespace cerfcore {
+
 namespace {
 
 using cerf::be::Put16;
@@ -160,4 +162,6 @@ bool SlirpBackend::TryInterceptAaaaQuery(const uint8_t* frame, std::size_t len) 
              "%u-byte query → %zu-byte reply)\n",
         (unsigned)len, reply.size());
     return true;
+}
+
 }

@@ -4,6 +4,8 @@
 #include <algorithm>
 #include <limits>
 
+namespace cerfcore {
+
 namespace siemens_simatic_mp377 {
 
 Sm501LineDirtyRange RasterizeSm501Line(const Sm501LineState& state) {
@@ -64,3 +66,5 @@ Sm501LineDirtyRange RasterizeSm501Line(const Sm501LineState& state) {
 }
 
 } // namespace siemens_mp377
+
+}

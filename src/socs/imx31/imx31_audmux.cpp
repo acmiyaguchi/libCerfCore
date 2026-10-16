@@ -9,6 +9,8 @@
 #include <array>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kBase = 0x53FC4000u;
@@ -63,3 +65,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(Imx31Audmux);
+
+}

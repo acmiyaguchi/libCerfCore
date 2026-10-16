@@ -11,6 +11,8 @@
 #include "imx51_ccm.h"
 #include "../spi_slave.h"
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kBase    = 0x70010000u;
@@ -205,3 +207,5 @@ void Imx51Ecspi1::RestoreState(StateReader& r) {
 void Imx51Ecspi1::PostRestore() { RaiseIrqIfPending(); }
 
 REGISTER_SERVICE(Imx51Ecspi1);
+
+}

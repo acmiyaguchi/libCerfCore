@@ -9,6 +9,8 @@
 #include <cstdio>
 #include <cstring>
 
+namespace cerfcore {
+
 namespace {
 constexpr uint8_t kCR = 0x0D;
 constexpr uint8_t kLF = 0x0A;
@@ -134,4 +136,6 @@ void ModemPersonality::Reply(const char* verbose_text, char numeric_code) {
 void ModemPersonality::PushStr(const char* s) {
     if (uart_) uart_->PushRx(reinterpret_cast<const uint8_t*>(s),
                              std::strlen(s));
+}
+
 }

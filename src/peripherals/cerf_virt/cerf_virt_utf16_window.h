@@ -4,6 +4,8 @@
 #include <cstdint>
 #include <string>
 
+namespace cerfcore {
+
 namespace CerfVirt {
 
 inline uint32_t Utf16WindowWord(const std::u16string& s, size_t ch) {
@@ -11,6 +13,8 @@ inline uint32_t Utf16WindowWord(const std::u16string& s, size_t ch) {
     if (ch < s.size())     v |= uint16_t(s[ch]);
     if (ch + 1 < s.size()) v |= uint32_t(uint16_t(s[ch + 1])) << 16;
     return v;
+}
+
 }
 
 }

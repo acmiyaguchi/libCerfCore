@@ -5,6 +5,8 @@
 #include <array>
 #include <cstdint>
 
+namespace cerfcore {
+
 class FreescaleModuleClocks;
 
 /* i.MX51 NAND Flash Controller (NFC v3), MCIMX51RM Ch 45. State owner for both
@@ -75,3 +77,5 @@ private:
 
     FreescaleModuleClocks* module_clocks_ = nullptr;
 };
+
+}

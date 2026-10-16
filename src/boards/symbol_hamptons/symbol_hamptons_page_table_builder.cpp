@@ -9,6 +9,8 @@
 #include <cstdint>
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t MB(uint32_t mb) { return mb * 0x100000u; }
@@ -143,3 +145,5 @@ std::vector<DramRegion> SymbolHamptonsPageTableBuilder::MappedVaSpans() const {
 }  /* namespace */
 
 REGISTER_SERVICE_AS(SymbolHamptonsPageTableBuilder, PageTableBuilder);
+
+}

@@ -2,6 +2,8 @@
 
 #include "imx51_dpll.h"
 
+namespace cerfcore {
+
 class Imx51Dpll3 final : public Imx51Dpll {
 public:
     using Imx51Dpll::Imx51Dpll;
@@ -16,3 +18,5 @@ protected:
         return BootReferenceRate().Scaled(91u, 12u);
     }
 };
+
+}

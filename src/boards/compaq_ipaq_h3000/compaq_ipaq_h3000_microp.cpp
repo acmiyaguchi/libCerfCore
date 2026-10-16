@@ -10,6 +10,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 namespace {
 
 /* Message IDs from Linux include/linux/mfd/ipaq-micro.h. */
@@ -231,3 +233,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(CompaqIpaqH3000MicroP, TouchInput);
+
+}

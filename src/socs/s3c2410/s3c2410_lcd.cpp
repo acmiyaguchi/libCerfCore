@@ -8,6 +8,8 @@
 #include "../../peripherals/peripheral_dispatcher.h"
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 bool S3C2410Lcd::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     return bd && bd->GetSocId() == SocId::S3c2410;
@@ -113,3 +115,5 @@ void S3C2410Lcd::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE(S3C2410Lcd);
+
+}

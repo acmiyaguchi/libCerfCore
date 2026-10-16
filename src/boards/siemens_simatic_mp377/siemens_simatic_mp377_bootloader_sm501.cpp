@@ -12,6 +12,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace siemens_simatic_mp377 {
 namespace {
 
@@ -85,3 +87,5 @@ private:
 REGISTER_SERVICE(SiemensSimaticMp377BootloaderState);
 
 } // namespace siemens_mp377
+
+}

@@ -3,6 +3,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include "sa11xx_mcp_regs.h"
 
+namespace cerfcore {
+
 using namespace sa11xx_mcp;
 
 namespace {
@@ -17,3 +19,5 @@ Sa11xxMcpAudioTransmitPath::Sa11xxMcpAudioTransmitPath(CerfEmulator& emu)
     : Sa11xxDmaTransmitFifo(emu, Geometry{kTxDepth, kRequestAt, kBurst, kAudioDataMask}) {}
 
 REGISTER_SERVICE(Sa11xxMcpAudioTransmitPath);
+
+}

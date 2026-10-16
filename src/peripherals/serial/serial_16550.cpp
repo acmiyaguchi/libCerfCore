@@ -7,6 +7,8 @@
 
 #include <utility>
 
+namespace cerfcore {
+
 namespace {
 constexpr uint32_t kRbrThrDll = 0;   /* RBR/THR, or DLL when LCR.DLAB */
 constexpr uint32_t kIerDlm    = 1;   /* IER,     or DLM when LCR.DLAB */
@@ -366,4 +368,6 @@ void Serial16550::SetModemInputs(bool cts, bool dsr, bool ri, bool dcd) {
     if (diff & MSR_DCD) d |= MSR_DDCD;
     msr_ = (uint8_t)(lvl | d);
     SettleAndFireIrq();
+}
+
 }

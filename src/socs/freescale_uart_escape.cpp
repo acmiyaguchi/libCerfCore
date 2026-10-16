@@ -3,6 +3,8 @@
 #include <cerfcore/state/state_stream.h>
 #include "freescale_uart_regs.h"
 
+namespace cerfcore {
+
 using namespace cerf_freescale_uart;
 
 namespace {
@@ -82,4 +84,6 @@ void FreescaleUartEscape::Restore(StateReader& r) {
     r.Read("esc_last_ref", last_);
     ref_.Restore(r, "esc_ref_");
     escf_ = escf != 0u;
+}
+
 }

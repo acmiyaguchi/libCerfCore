@@ -20,6 +20,8 @@
 #include <cstdint>
 #include <optional>
 
+namespace cerfcore {
+
 namespace {
 
 /* PR31x00 Power module. The single Power Control Register sits at offset $1C4 of
@@ -294,3 +296,5 @@ private:
 }
 
 REGISTER_SERVICE(Pr31x00Power);
+
+}

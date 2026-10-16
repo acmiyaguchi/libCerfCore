@@ -13,6 +13,8 @@
 
 #include <chrono>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(GuestDeepSleep);
 
 namespace {
@@ -238,4 +240,6 @@ void GuestDeepSleep::Recover() {
         return;
     }
     emu_.Get<ShutdownAction>().Perform(c);
+}
+
 }

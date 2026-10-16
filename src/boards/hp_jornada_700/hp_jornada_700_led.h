@@ -5,6 +5,8 @@
 
 #include <mutex>
 
+namespace cerfcore {
+
 /* LED is behind the MCU (gwes.exe nled driver sub_927C4: 0xE1=on 0xE2=blink
    0xE3=off; sub_926CC: 0xE0 -> status bit0=on bit1=blink). The button is GPIO13
    falling edge (gwes sub_928F4 arms GFER bit13) -> SYSINTR 22 -> gwes posts
@@ -43,3 +45,5 @@ private:
     State last_drawn_state_ = State::Off;
     bool  last_drawn_lit_   = false;
 };
+
+}

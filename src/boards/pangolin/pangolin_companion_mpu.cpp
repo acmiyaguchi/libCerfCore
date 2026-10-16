@@ -10,6 +10,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 bool PangolinCompanionMpu::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     return bd && bd->GetBoardFamilyId() == BoardFamilyId::Pangolin;
@@ -59,3 +61,5 @@ public:
 
 REGISTER_SERVICE(PangolinCompanionMpu);
 REGISTER_SERVICE(PangolinKeyboardInput);
+
+}

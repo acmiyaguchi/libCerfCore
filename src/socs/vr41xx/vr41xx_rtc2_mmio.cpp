@@ -9,6 +9,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* RTC second MMIO block (0x0B0001C0, UM Table 16-1 == Table 17-1: TCLK + RTCINTREG);
@@ -45,3 +47,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE(Vr41xxRtc2Mmio);
+
+}

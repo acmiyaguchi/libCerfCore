@@ -4,6 +4,8 @@
 
 #include <utility>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr const char* kGettingOnlineUrl = "https://cerf.cx/getting-online";
@@ -17,4 +19,6 @@ SlotEntry SerialModemInsertEntry::BuildInsertEntry(std::function<void()> on_inse
     entry.insert  = std::move(on_insert);
     entry.details = {WidgetControl{LinkControl{"Getting online tutorial", kGettingOnlineUrl}}};
     return entry;
+}
+
 }

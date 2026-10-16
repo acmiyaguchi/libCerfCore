@@ -3,6 +3,8 @@
 #include "imx31_avic.h"
 #include "imx31_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* MCIMX31RM Table 31-2: UART5 at 0x43FB_4000. First UART touched on Zune Keel -
@@ -24,3 +26,5 @@ protected:
 }
 
 REGISTER_SERVICE(Imx31Uart5);
+
+}

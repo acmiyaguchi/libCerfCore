@@ -10,6 +10,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* Linux arch/arm/mach-msm video-msm mddihosti.h:
@@ -228,3 +230,5 @@ void Msm8255MddiLinkList::ExecuteVideoStream(uint32_t item_pa,
 }
 
 REGISTER_SERVICE(Msm8255MddiLinkList);
+
+}

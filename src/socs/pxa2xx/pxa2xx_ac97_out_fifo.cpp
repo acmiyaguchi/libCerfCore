@@ -18,6 +18,8 @@
 #include <algorithm>
 #include <string>
 
+namespace cerfcore {
+
 namespace {
 
 /* Intel PXA255 Developer's Manual section 13.8.1 (page 13-18): transmit FIFOs with "sixteen 32-bit entries";
@@ -231,4 +233,6 @@ void Pxa2xxAc97OutFifo::Restore(StateReader& r) {
     primed_    = primed != 0u;
     out_error_ = out_error != 0u;
     OnRestored();
+}
+
 }

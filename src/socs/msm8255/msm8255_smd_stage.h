@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Msm8255SmdStage : public Service {
 public:
     using Service::Service;
@@ -29,3 +31,5 @@ private:
     uint8_t  buf_[kStageBytes]             = {};
     uint8_t  write_buf_[kWriteStageBytes]  = {};
 };
+
+}

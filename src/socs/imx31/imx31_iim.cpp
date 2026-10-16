@@ -1,6 +1,8 @@
 #include "../freescale_iim_impl.h"
 #include "imx31_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 using cerf_freescale_iim_detail::FreescaleIimBase;
@@ -32,3 +34,5 @@ protected:
 }  /* namespace */
 
 REGISTER_SERVICE(Imx31Iim);
+
+}

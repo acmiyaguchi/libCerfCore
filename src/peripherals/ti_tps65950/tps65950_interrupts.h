@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 class Tps65950Board;
@@ -58,3 +60,5 @@ private:
     bool           int1_       = false;
     bool           reset_      = false;
 };
+
+}

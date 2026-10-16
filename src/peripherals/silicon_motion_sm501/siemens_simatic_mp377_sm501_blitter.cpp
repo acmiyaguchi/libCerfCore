@@ -16,6 +16,9 @@
 #include <algorithm>
 #include <cstdint>
 #include <vector>
+
+namespace cerfcore {
+
 namespace siemens_simatic_mp377 {
 
 bool SiemensSimaticMp377Sm501Blitter::ShouldRegister() {
@@ -447,3 +450,5 @@ void SiemensSimaticMp377Sm501Blitter::ExecuteDdiVgx2dCommand(uint32_t cmd) {
 REGISTER_SERVICE(SiemensSimaticMp377Sm501Blitter);
 
 } // namespace siemens_mp377
+
+}

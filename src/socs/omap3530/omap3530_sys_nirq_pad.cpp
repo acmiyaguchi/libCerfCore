@@ -7,6 +7,8 @@
 #include "omap3530_id.h"
 #include "omap3530_sysc_padconf.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* OMAP35x TRM SPRUF98Y Table 7-4 (page 779): CONTROL_PADCONF_SYS_NIRQ[15:0] at 0x4800 21E0, mode 0 sys_nirq, mode 4
@@ -41,3 +43,5 @@ void Omap3530SysNirqPad::Route() {
 }
 
 REGISTER_SERVICE(Omap3530SysNirqPad);
+
+}

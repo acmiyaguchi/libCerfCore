@@ -10,6 +10,8 @@
 
 #include <cstring>
 
+namespace cerfcore {
+
 bool MediaQMq1188::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     return bd && bd->GetBoardFamilyId() == BoardFamilyId::AskeyPc3xx;
@@ -151,3 +153,5 @@ void MediaQMq1188::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE(MediaQMq1188);
+
+}

@@ -3,6 +3,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t SyncSource(uint32_t port) {
@@ -251,3 +253,5 @@ REGISTER_SERVICE(Omap3530McBsp2Receiver);
 REGISTER_SERVICE(Omap3530McBsp3Receiver);
 REGISTER_SERVICE(Omap3530McBsp4Receiver);
 REGISTER_SERVICE(Omap3530McBsp5Receiver);
+
+}

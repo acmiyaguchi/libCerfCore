@@ -1,6 +1,8 @@
 #include "msm8255_sdcc_slots.h"
 #include "msm8255_sdcc_window_base.h"
 
+namespace cerfcore {
+
 namespace {
 
 namespace sdcc = cerf_msm8255_sdcc_detail;
@@ -17,3 +19,5 @@ public:
 }
 
 REGISTER_SERVICE(Msm8255Sdcc1);
+
+}

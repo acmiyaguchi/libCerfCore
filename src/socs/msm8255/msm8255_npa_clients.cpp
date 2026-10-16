@@ -10,6 +10,8 @@
 #include <cerfcore/state/state_stream.h>
 #include <cerfcore/socs/guest_cpu_reset.h>
 
+namespace cerfcore {
+
 bool Msm8255NpaClients::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     return bd && bd->GetSocId() == SocId::Msm8255;
@@ -93,3 +95,5 @@ void Msm8255NpaClients::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE(Msm8255NpaClients);
+
+}

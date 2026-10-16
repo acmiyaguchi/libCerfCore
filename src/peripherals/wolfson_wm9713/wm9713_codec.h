@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Wm9713Clocks;
 
 /* symbol_mk500 touch.dll FUN_02238118 @0x02238118 names this part
@@ -61,3 +63,5 @@ private:
     uint64_t pen_q_frame_   = 0;
     bool     gpio_int_      = false;
 };
+
+}

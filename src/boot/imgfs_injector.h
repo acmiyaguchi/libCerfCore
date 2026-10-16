@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 
+namespace cerfcore {
+
 class ImgfsInjector : public Service {
 public:
     using Service::Service;
@@ -32,3 +34,5 @@ private:
     std::vector<FreeFtlSlot> free_ftl_slots_;
     uint32_t                 next_new_ls_   = 0;
 };
+
+}

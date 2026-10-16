@@ -11,6 +11,8 @@
 #include <array>
 #include <cstdint>
 
+namespace cerfcore {
+
 /* i.MX51 Keypad Port (KPP), MCIMX51RM Ch.43, base 0x73F94000 (Table 2-1).
    Named (not anonymous) so the Ford board can drive its HW_REV strap onto the
    KPDR input pins via SetInputPin. */
@@ -76,3 +78,5 @@ private:
     std::array<uint16_t, kSize / 2> regs_{};
     uint16_t input_level_ = 0;   /* board-driven external input pin levels */
 };
+
+}

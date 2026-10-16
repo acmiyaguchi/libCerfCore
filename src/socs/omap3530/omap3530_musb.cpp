@@ -1,6 +1,8 @@
 #include "omap3530_prcm_stub_block.h"
 #include "omap3530_sdma.h"
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kOffFifoBase  = 0x20u;
@@ -114,3 +116,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(Omap3530Musb);
+
+}

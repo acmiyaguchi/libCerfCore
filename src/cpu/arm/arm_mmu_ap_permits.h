@@ -4,6 +4,8 @@
 
 #include <cerfengine/arm/arm_mmu_state.h>
 
+namespace cerfcore {
+
 /* ARM DDI 0406C.c Table D15-7 (p. D15-2607): AP=00 by SCTLR.{S,R} - S=0,R=0 no access;
    S=0,R=1 RO all modes; S=1,R=0 PL1 RO; S=1,R=1 reserved. AP=01 PL1 RW; AP=10 PL1 RW +
    user RO; AP=11 full access. */
@@ -53,4 +55,6 @@ inline bool ApPermitsV6(uint32_t ap, bool is_user_mode) {
     } else {
         return false;
     }
+}
+
 }

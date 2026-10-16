@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* G2D blend micro-op word field decoders (REG_G2D_BLEND_A0/C0, vgregs_z160.h:366-387;
    A0-A3 / C0-C7 share this layout). */
 namespace imx51_g2d_blend {
@@ -96,3 +98,5 @@ constexpr uint32_t UnpremultChannel(uint32_t ch, uint32_t a) {
 }
 
 }  // namespace imx51_g2d_blend
+
+}

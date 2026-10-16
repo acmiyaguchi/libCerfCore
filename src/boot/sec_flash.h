@@ -7,6 +7,8 @@
 #include <cstddef>
 #include <cstdint>
 
+namespace cerfcore {
+
 /* Owns the device's `.sec` NAND image (MappedFile + parsed SecContainer), shared
    by the board detector, the NAND BootMode, and the NFC peripheral. Registers
    only when the device dir holds a `.sec`; consumers TryGet and tolerate absence. */
@@ -35,3 +37,5 @@ private:
     MappedFile   mf_;
     SecContainer sec_;
 };
+
+}

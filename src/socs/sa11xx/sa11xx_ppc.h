@@ -7,6 +7,8 @@
 #include <mutex>
 #include <vector>
 
+namespace cerfcore {
+
 class Sa11xxLcd;
 
 /* SA-1110 Dev Man §11.13: PPC peripheral-pin control, 22 pins. Register block:
@@ -88,3 +90,5 @@ private:
         return true;
     }
 };
+
+}

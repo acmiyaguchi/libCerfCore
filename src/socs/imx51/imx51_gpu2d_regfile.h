@@ -4,6 +4,8 @@
 #include <cstdint>
 #include <cstring>
 
+namespace cerfcore {
+
 /* Float and device-scale reads off the g12 command-engine register file, shared
    by the geometry decode (command engine) and the VG-FLUSH fill dispatch. */
 namespace imx51_g2d_regfile {
@@ -43,3 +45,5 @@ inline float UnpackGradwConst(uint32_t v) {
 }
 
 }  // namespace imx51_g2d_regfile
+
+}

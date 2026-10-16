@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 
+namespace cerfcore {
+
 struct FileChooserFilter {
     std::string description;
     std::string patterns;
@@ -19,3 +21,5 @@ public:
     virtual std::vector<std::string> ChooseFiles(const std::string& title,
                                                  const std::vector<FileChooserFilter>& filters) = 0;
 };
+
+}

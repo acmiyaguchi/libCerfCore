@@ -9,6 +9,8 @@
 #include <cstdint>
 #include "imx31_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kSlotCount = Imx31Ccm::kSlotCount;
@@ -409,3 +411,5 @@ void Imx31Ccm::WriteHalf(uint32_t addr, uint16_t value) {
 }
 
 REGISTER_SERVICE(Imx31Ccm);
+
+}

@@ -14,6 +14,8 @@
 
 #include <mutex>
 
+namespace cerfcore {
+
 namespace {
 
 /* SA-1111 PCMCIA interface (Developer's Manual §12.6, base 0x40001800):
@@ -268,3 +270,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(Sa1111Pcmcia);
+
+}

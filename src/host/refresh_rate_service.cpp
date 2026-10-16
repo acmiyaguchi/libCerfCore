@@ -5,6 +5,8 @@
 #include <cerfcore/core/log.h>
 #include "../platform/host_display.h"
 
+namespace cerfcore {
+
 REGISTER_SERVICE(RefreshRateService);
 
 namespace {
@@ -47,4 +49,6 @@ int RefreshRateService::Decide() {
     int capped = (raw < 60) ? raw : 60;
     LOG(Boot, "RefreshRate: non-GA host max=%d Hz -> %d Hz\n", raw, capped);
     return capped;
+}
+
 }

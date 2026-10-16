@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* SIMpad SL4 wavedev PDD_AudioInitialize (sub_1331BF0) programs the playback
@@ -35,3 +37,5 @@ protected:
 }  /* namespace */
 
 REGISTER_SERVICE(SiemensSimpadAudioPlayer);
+
+}

@@ -5,6 +5,8 @@
 
 #include "../../socs/uart_line_device.h"
 
+namespace cerfcore {
+
 class SerialLine;
 
 class SerialEndpoint : public UartLineDevice {
@@ -35,3 +37,5 @@ public:
 protected:
     SerialLine* uart_ = nullptr;
 };
+
+}

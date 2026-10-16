@@ -6,6 +6,8 @@
 #include <array>
 #include <cstdint>
 
+namespace cerfcore {
+
 class Sa1110SdramDecode : public Service {
 public:
     using Service::Service;
@@ -22,3 +24,5 @@ private:
     std::array<EmulatedMemory::AddressDecode, 7> decodes_{};
     const EmulatedMemory::AddressDecode* active_ = nullptr;
 };
+
+}

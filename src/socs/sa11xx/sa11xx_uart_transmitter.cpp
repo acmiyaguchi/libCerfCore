@@ -13,6 +13,8 @@
 #include "sa11xx_uart_receiver.h"
 #include "sa11xx_uart_regs.h"
 
+namespace cerfcore {
+
 using namespace sa11xx_uart;
 
 bool Sa11xxUartTransmitter::ShouldRegister() {
@@ -231,3 +233,5 @@ void Sa11xxUartTransmitter::Restore(uint32_t port, StateReader& r) {
 }
 
 REGISTER_SERVICE(Sa11xxUartTransmitter);
+
+}

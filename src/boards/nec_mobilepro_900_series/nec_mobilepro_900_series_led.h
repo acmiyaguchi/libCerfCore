@@ -5,6 +5,8 @@
 
 #include <mutex>
 
+namespace cerfcore {
+
 class NecMobilepro900SeriesLed : public Service, public HostWidget {
 public:
     using Service::Service;
@@ -30,3 +32,5 @@ private:
     bool drawn_blinking_ = false;
     bool drawn_lit_      = false;
 };
+
+}

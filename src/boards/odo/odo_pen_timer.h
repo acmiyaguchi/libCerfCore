@@ -6,6 +6,8 @@
 #include <cstdint>
 #include <functional>
 
+namespace cerfcore {
+
 class CerfEmulator;
 class StateWriter;
 class StateReader;
@@ -37,3 +39,5 @@ private:
     NarrowRatedTickCount    grid_;
     bool                    enabled_ = false;
 };
+
+}

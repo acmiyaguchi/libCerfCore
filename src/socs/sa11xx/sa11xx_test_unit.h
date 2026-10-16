@@ -7,6 +7,8 @@
 #include <functional>
 #include <vector>
 
+namespace cerfcore {
+
 class StateReader;
 class StateWriter;
 
@@ -36,3 +38,5 @@ private:
     std::vector<std::function<void()>> listeners_;
     uint32_t tucr_ = 0;
 };
+
+}

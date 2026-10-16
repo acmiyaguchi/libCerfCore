@@ -4,6 +4,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "nec_mobilepro_700_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* Carrier reaches the guest on GIU pin 5, asserted low: serial.dll HWGetModemStatus
@@ -30,3 +32,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(NecMobilePro700SerialWiring, Vr41xxSerialWiring);
+
+}

@@ -9,6 +9,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 /* S3C2410 SD/MMC host (SDI) at PA 0x5A000000 (S3C2410A manual §19), present-no-card.
    Card detection is a GPIO line, not an SDI register (sdhc_smdk2410.dll sub_340282C
    samples CardDetectGPIO), so the SDI block never signals a card → the SD stack
@@ -99,3 +101,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(S3C2410Sdi);
+
+}

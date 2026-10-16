@@ -13,6 +13,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kBase = 0x43FA8000u;
@@ -331,4 +333,6 @@ void Imx31Kpp::PostRestore() {
     ArmEventLocked(now);
     irq_on_ = ((kpsr_ & kKpkd) && (kpsr_ & kKdie)) || ((kpsr_ & kKpkr) && (kpsr_ & kKrie));
     DriveIrqLocked();
+}
+
 }

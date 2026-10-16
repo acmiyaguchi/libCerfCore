@@ -8,6 +8,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* sharp_mobilon_hc4100_hpc2 serial.dll sub_1475B7C: UART CTL2 BAUDRATE = 0x38400 / baud - 1;
@@ -44,3 +46,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(SharpMobilonHcBootloader);
+
+}

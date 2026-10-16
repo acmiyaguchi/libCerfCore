@@ -16,6 +16,8 @@
 #include <mutex>
 #include <string>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kDramPaBase        = 0x0C000000u;
@@ -215,3 +217,5 @@ private:
 REGISTER_SERVICE(OdoDebugSerial);
 REGISTER_SERVICE(OdoDebugSerialTxDma);
 REGISTER_SERVICE(OdoDebugSerialRxDma);
+
+}

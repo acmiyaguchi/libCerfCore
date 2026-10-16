@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* zune_keel nk.exe sub_8823E33C: clears GPIO1 ISR bit 31, sets IMR bit 31, and reads the
@@ -32,3 +34,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(ToshibaGigabeatSMc13783IntLine, Mc13783IntLine);
+
+}

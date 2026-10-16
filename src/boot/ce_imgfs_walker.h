@@ -8,6 +8,8 @@
 #include <string>
 #include <vector>
 
+namespace cerfcore {
+
 namespace cerf::ce_imgfs_walker {
 
 constexpr uint32_t kMagicModule  = 0xFFFFFEFEu;
@@ -139,5 +141,7 @@ struct ImgfsModule {
 std::vector<ImgfsModule> CollectModules(std::span<const uint8_t> raw,
                                          const Translator&        tr,
                                          uint32_t                 bytes_per_block);
+
+}
 
 }

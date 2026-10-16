@@ -8,6 +8,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Sa11xxIntc;
 class Sa11xxSp1Uart;
 
@@ -35,3 +37,5 @@ private:
     RatedTickCount          packets_;
     uint64_t                next_packet_   = 0;
 };
+
+}

@@ -10,6 +10,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* philips_velo_1_ce1 serial.dll sub_1EB9200 converts INP AD2 into shared word +40
@@ -83,3 +85,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(PhilipsVelo1UcbBoard, Ucb1x00Board);
+
+}

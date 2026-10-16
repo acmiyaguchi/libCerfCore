@@ -13,6 +13,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* Linux arch/arm/mach-msm/include/mach/msm_iomap-7x30.h: MSM7X30_CSR_PHYS
@@ -408,3 +410,5 @@ private:
 }  // namespace
 
 REGISTER_SERVICE(Msm8255Timer);
+
+}

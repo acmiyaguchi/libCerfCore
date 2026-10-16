@@ -12,6 +12,8 @@
 #include <array>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint8_t kFrameStart = 0xE0u;
@@ -96,3 +98,5 @@ void HpJornada820Battery::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE(HpJornada820Battery);
+
+}

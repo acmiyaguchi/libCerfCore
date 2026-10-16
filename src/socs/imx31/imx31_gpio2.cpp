@@ -1,6 +1,8 @@
 #include "../freescale_gpio_impl.h"
 #include "imx31_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* MCIMX31RM Table 5-3: GPIO2 at 0x53FD_0000. */
@@ -13,3 +15,5 @@ class Imx31Gpio2
 }  /* namespace */
 
 REGISTER_SERVICE(Imx31Gpio2);
+
+}

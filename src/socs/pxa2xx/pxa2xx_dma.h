@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 class EmulatedMemory;
 class IrqController;
 class Pxa2xxDmaPort;
@@ -29,6 +31,13 @@ protected:
     static constexpr uint32_t FLOWSRC = 1u << 29, FLOWTRG = 1u << 28;
     static constexpr uint32_t STARTIRQEN = 1u << 22, ENDIRQEN = 1u << 21;
     static constexpr uint32_t kDcmdLengthMask = 0x1FFFu;
+    /* Intel PXA255 Developer's Manual Table 5-12 (page 5-24) DCMD: SIZE 17:16, LENGTH 12:0;
+       (page 5-25) WIDTH 15:14 "11 - Word (4 Bytes)". */
+    static constexpr uint32_t kSizeShift  = 16u;
+    static constexpr uint32_t kWidthShift = 14u;
+    static constexpr uint32_t kWidthWord  = 3u;
+    static constexpr uint32_t kFieldMask  = 3u;
+    static constexpr uint32_t kWordBytes  = 4u;
     static constexpr uint32_t DDADR_STOP = 1u << 0;
     static constexpr uint32_t kIntcDmaBit = 25u;
 
@@ -147,3 +156,5 @@ private:
     uint64_t                load_at_[kMaxChannels] = {};
     uint32_t                loads_[kMaxChannels]   = {};
 };
+
+}

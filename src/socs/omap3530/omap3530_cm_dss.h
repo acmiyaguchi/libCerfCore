@@ -7,6 +7,8 @@
 #include <functional>
 #include <vector>
 
+namespace cerfcore {
+
 class Omap3530CmDss : public Omap3530PrcmStubBlock {
 public:
     using Omap3530PrcmStubBlock::Omap3530PrcmStubBlock;
@@ -35,3 +37,5 @@ private:
     Omap3530CmClockControl*            clock_control_ = nullptr;
     std::vector<std::function<void()>> dss1_listeners_;
 };
+
+}

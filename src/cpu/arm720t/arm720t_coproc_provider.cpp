@@ -5,6 +5,8 @@
 #include "../arm/arm_cp15_decisions.h"
 #include "arm720t_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 using cerfengine::ArmCoprocAccess;
@@ -44,3 +46,5 @@ protected:
 }
 
 REGISTER_SERVICE_AS(Arm720TCoprocProvider, ArmCoprocProvider);
+
+}

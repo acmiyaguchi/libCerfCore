@@ -16,6 +16,8 @@
 #include <mutex>
 #include <vector>
 
+namespace cerfcore {
+
 namespace cerf_freescale_gpio_detail {
 
 constexpr uint32_t kGpioSize = 0x00004000u;
@@ -327,3 +329,5 @@ private:
 };
 
 }  /* namespace cerf_freescale_gpio_detail */
+
+}

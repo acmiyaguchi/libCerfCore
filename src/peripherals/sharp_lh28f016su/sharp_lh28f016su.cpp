@@ -7,6 +7,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* Sharp LH28F016SU, 16 Mbit, LH28F008SA-compatible (Intel basic command set).
@@ -74,3 +76,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(SharpLh28F016Su);
+
+}

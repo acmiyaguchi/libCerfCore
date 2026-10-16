@@ -6,6 +6,8 @@
 #include <cstdint>
 #include <functional>
 
+namespace cerfcore {
+
 class CerfEmulator;
 class StateReader;
 class StateWriter;
@@ -110,3 +112,5 @@ private:
 
     GuestCycleClock::Event* edge_ev_ = nullptr;
 };
+
+}

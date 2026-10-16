@@ -9,6 +9,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* Intel PXA27x Developer's Manual 280000-001 Table 9-13 (page 9-31) "Standard
@@ -182,3 +184,5 @@ void Pxa27xI2c::RestoreState(StateReader& r) {
 }  /* namespace */
 
 REGISTER_SERVICE(Pxa27xI2c);
+
+}

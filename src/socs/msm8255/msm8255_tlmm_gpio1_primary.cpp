@@ -8,6 +8,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kBase = 0xABC00000u;
@@ -42,3 +44,5 @@ public:
 }  // namespace
 
 REGISTER_SERVICE(Msm8255TlmmGpio1Primary);
+
+}

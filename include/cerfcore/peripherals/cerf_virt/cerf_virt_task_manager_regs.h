@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace CerfVirt {
 
 constexpr uint32_t kTmCmdGen     = 0x00;
@@ -59,5 +61,7 @@ constexpr uint32_t kTmWinFlagVisible = 0x1;
 
 static_assert(sizeof(TaskManagerWindowRecord) == 144,
               "record layout must stay byte-identical to the guest pump's");
+
+}
 
 }

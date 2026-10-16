@@ -8,6 +8,7 @@
 
 #include <cstdint>
 
+namespace cerfcore {
 
 namespace {
 
@@ -43,3 +44,5 @@ private:
 REGISTER_SERVICE(Vrc5477PciIoWindow);
 
 }  /* namespace */
+
+}

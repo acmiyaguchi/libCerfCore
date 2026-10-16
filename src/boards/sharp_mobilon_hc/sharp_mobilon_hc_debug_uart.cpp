@@ -8,6 +8,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 class SharpMobilonHcDebugUart : public Uart16550 {
@@ -88,3 +90,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(SharpMobilonHcDebugUart);
+
+}

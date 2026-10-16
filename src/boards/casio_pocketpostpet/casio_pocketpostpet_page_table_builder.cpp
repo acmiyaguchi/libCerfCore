@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* DRAM Area PA 0x00000000-0x07FFFFFF (VR4121 UM Fig 6-8); ROMHDR ulRAMStart/ulRAMEnd
@@ -38,3 +40,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(CasioPocketpostpetPageTableBuilder, PageTableBuilder);
+
+}

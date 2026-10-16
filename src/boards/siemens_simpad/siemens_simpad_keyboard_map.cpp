@@ -5,6 +5,8 @@
 
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 /* device_code = SIMpad keypad button 0..5. Each button's guest action is the
@@ -40,3 +42,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(SiemensSimpadKeyboardMap, KeyboardMap);
+
+}

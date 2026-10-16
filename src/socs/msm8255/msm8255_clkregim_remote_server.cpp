@@ -16,6 +16,8 @@
 #include <atomic>
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kClkProg = 0x3000000Fu;
@@ -291,3 +293,5 @@ uint32_t Msm8255ClkregimRemoteServer::AnswerCall(
 }
 
 REGISTER_SERVICE(Msm8255ClkregimRemoteServer);
+
+}

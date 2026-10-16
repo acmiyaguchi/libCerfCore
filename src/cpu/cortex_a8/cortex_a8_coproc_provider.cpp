@@ -5,6 +5,8 @@
 #include "../../socs/imx51/imx51_id.h"
 #include "../../socs/omap3530/omap3530_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class CortexA8CoprocProvider : public Armv7aCoprocProviderBase {
@@ -20,3 +22,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(CortexA8CoprocProvider, ArmCoprocProvider);
+
+}

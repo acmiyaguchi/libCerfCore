@@ -7,6 +7,8 @@
 
 #include <cerfcore/platform/wide_text_win32.h>
 
+namespace cerfcore {
+
 namespace host_platform {
 
 HostFile::~HostFile() {
@@ -124,6 +126,8 @@ bool HostFileExists(const std::string& path) {
 
 bool HostPathExists(const std::string& path) {
     return GetFileAttributesW(Utf8ToWide(path.c_str()).c_str()) != INVALID_FILE_ATTRIBUTES;
+}
+
 }
 
 }

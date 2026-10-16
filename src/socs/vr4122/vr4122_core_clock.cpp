@@ -4,6 +4,8 @@
 #include "vr4122_clock_state.h"
 #include "vr4122_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class Vr4122CoreClock : public MipsCoreClock {
@@ -28,3 +30,5 @@ private:
 }
 
 REGISTER_SERVICE_AS(Vr4122CoreClock, MipsCoreClock);
+
+}

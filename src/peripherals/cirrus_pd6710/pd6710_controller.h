@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <mutex>
 
+namespace cerfcore {
+
 /* Cirrus PD6710 single-socket PCMCIA host adapter. The PCIC index/data
    port pair and the window mapping registers live here; the I/O and
    memory window peripherals decode guest accesses through MapIo /
@@ -66,3 +68,5 @@ private:
 
     Pcic82365 exca_;
 };
+
+}

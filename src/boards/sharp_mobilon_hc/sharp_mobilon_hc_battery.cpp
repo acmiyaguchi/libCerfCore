@@ -5,6 +5,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "sharp_mobilon_hc_family_id.h"
 
+namespace cerfcore {
+
 bool SharpMobilonHcBattery::ShouldRegister() {
     auto* bd = emu_.TryGet<BoardContext>();
     return bd && bd->GetBoardFamilyId() == BoardFamilyId::SharpMobilonHc;
@@ -15,3 +17,5 @@ void SharpMobilonHcBattery::OnReady() {
 }
 
 REGISTER_SERVICE(SharpMobilonHcBattery);
+
+}

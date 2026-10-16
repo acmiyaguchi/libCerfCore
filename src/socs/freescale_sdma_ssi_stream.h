@@ -8,6 +8,8 @@
 #include <cstdint>
 #include <functional>
 
+namespace cerfcore {
+
 class CerfEmulator;
 class StateReader;
 class StateWriter;
@@ -61,3 +63,5 @@ private:
     uint64_t                  bd_end_words_ = 0;
     bool                      bd_cont_      = false;
 };
+
+}

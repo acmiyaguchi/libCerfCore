@@ -5,6 +5,8 @@
 #include <cerfcore/state/state_stream.h>
 #include <cstdio>
 
+namespace cerfcore {
+
 std::string TemperatureSection::Label() const {
     const auto snapshot = emu_.Get<FordSyncGen2AmbientTemperature>().Read();
     if (!snapshot.available) return "Outside temperature: Not reported";
@@ -60,4 +62,6 @@ bool TemperatureSection::PollDirty() {
 void TemperatureSection::SaveState(StateWriter& w) const { w.Write<uint8_t>("imperial", imperial_); }
 void TemperatureSection::RestoreState(StateReader& r) {
     uint8_t imperial = 0; r.Read("imperial", imperial); imperial_ = imperial != 0;
+}
+
 }

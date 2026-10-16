@@ -10,6 +10,8 @@
 #include <string>
 #include <vector>
 
+namespace cerfcore {
+
 class CerfEmulator;
 class SerialLine;
 
@@ -91,3 +93,5 @@ private:
     bool                              rts_ = true;
     std::vector<std::vector<uint8_t>> rx_hold_;
 };
+
+}

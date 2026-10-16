@@ -8,6 +8,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* MCIMX51RM Table 7-35 CCGR2: CG1 epit1_ipg_clk, CG2 epit1_highfreq, CG3
@@ -75,3 +77,5 @@ private:
 }
 
 REGISTER_SERVICE_AS(Imx51TimerClocks, FreescaleTimerClocks);
+
+}

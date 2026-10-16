@@ -5,6 +5,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "ford_sync_gen2_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class FordSyncGen2SsiSlaveFormat : public FreescaleSsiExternalClock {
@@ -40,3 +42,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(FordSyncGen2SsiSlaveFormat, FreescaleSsiExternalClock);
+
+}

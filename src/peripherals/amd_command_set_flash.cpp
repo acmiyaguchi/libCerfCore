@@ -9,6 +9,8 @@
 
 #include <cstring>
 
+namespace cerfcore {
+
 namespace {
 /* AMD command-set unlock/command-cycle address decode: word A10:A0 = byte 0xFFE. */
 constexpr uint32_t kCmdAddrMask = 0xFFEu;
@@ -148,4 +150,6 @@ void AmdCommandSetFlash::RestoreState(StateReader& r) {
 
 std::vector<WidgetControl> AmdCommandSetFlash::Controls() {
     return {WidgetControl{InfoControl{Tooltip()}}};
+}
+
 }

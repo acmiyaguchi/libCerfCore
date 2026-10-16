@@ -5,6 +5,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "nec_sg2_vr5500_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class NecSg2Vr5500Ds1386Wiring final : public Ds1386Wiring {
@@ -26,5 +28,7 @@ private:
 };
 
 REGISTER_SERVICE_AS(NecSg2Vr5500Ds1386Wiring, Ds1386Wiring);
+
+}
 
 }

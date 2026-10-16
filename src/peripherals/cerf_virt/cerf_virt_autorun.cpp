@@ -13,6 +13,8 @@
 #include <string>
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 class CerfVirtAutorun : public Peripheral {
@@ -73,3 +75,5 @@ private:
 }
 
 REGISTER_SERVICE(CerfVirtAutorun);
+
+}

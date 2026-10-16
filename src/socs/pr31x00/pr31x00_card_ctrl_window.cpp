@@ -9,6 +9,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* Card 1 and Card 2 I/O-or-Attribute space, 64 MB each, adjacent (Table 4.2.1). */
@@ -59,3 +61,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE(Pr31x00CardCtrlWindow);
+
+}

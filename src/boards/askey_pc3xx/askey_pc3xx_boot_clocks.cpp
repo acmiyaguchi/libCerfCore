@@ -8,6 +8,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* falcon_4220__4_10 nk.exe sub_800B9524, called by the sleep-exit path sub_800BA740
@@ -48,3 +50,5 @@ private:
 }
 
 REGISTER_SERVICE(AskeyPc3xxBootClocks);
+
+}

@@ -9,6 +9,8 @@
 #include <cerfcore/socs/guest_cpu_reset.h>
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 
 /* Linux drivers/mfd/pm8058-core.c: IRQ_CFG_CLR (1 << 3),
@@ -283,3 +285,5 @@ void Pm8058Irq::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE(Pm8058Irq);
+
+}

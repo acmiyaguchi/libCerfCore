@@ -5,6 +5,8 @@
 #include "sa11xx_mcp_audio_transmit_path.h"
 #include "sa11xx_mcp_regs.h"
 
+namespace cerfcore {
+
 using namespace sa11xx_mcp;
 
 namespace {
@@ -46,3 +48,5 @@ void Sa11xxMcpAudioStream::OnReady() {
 }
 
 REGISTER_SERVICE(Sa11xxMcpAudioStream);
+
+}

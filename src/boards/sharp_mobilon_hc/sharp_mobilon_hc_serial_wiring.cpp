@@ -6,6 +6,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 /* UART A ($0B0) is the built-in serial port (serial.dll HWInit sub_14755F0,
@@ -38,3 +40,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(SharpMobilonHcSerialWiring, Pr31x00SerialWiring);
+
+}

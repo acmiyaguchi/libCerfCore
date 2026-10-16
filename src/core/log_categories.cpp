@@ -5,6 +5,8 @@
 #include <cstdio>
 #include <string>
 
+namespace cerfcore {
+
 uint64_t Log::ParseCategories(const char* str) {
     std::string s(str);
     std::transform(s.begin(), s.end(), s.begin(),
@@ -44,4 +46,6 @@ void Log::PrintCategoryList() {
     printf("  %-12s %s\n", "NONE", "no categories");
     for (size_t i = 0; i < (size_t)Cat::COUNT; i++)
         printf("  %-12s %s\n", kCategories[i].slug, kCategories[i].desc);
+}
+
 }

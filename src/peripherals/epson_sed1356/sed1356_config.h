@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <functional>
 
+namespace cerfcore {
+
 class Sed1356Config : public Service {
 public:
     using Service::Service;
@@ -32,3 +34,5 @@ public:
     virtual uint64_t BusClockHz() const = 0;
     virtual void     RegisterBusClockListener(std::function<void()> fn) = 0;
 };
+
+}

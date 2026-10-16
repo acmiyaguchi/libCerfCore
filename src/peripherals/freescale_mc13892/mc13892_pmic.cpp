@@ -1,5 +1,7 @@
 #include "mc13892_pmic.h"
 
+namespace cerfcore {
+
 REGISTER_SERVICE(Mc13892Pmic);
 
 void Mc13892Pmic::TxnStart(uint8_t /*slave_addr*/) {
@@ -28,4 +30,6 @@ uint8_t Mc13892Pmic::TxnReadByte(uint8_t /*slave_addr*/) {
     const uint32_t shift = 16u - 8u * idx;       /* MSB first */
     if (rd_idx_ <= 2) ++rd_idx_;
     return static_cast<uint8_t>(regs_[sub_addr_] >> shift);
+}
+
 }

@@ -7,6 +7,8 @@
 #include <functional>
 #include <vector>
 
+namespace cerfcore {
+
 class Pxa27xClockManager : public Peripheral {
 public:
     using Peripheral::Peripheral;
@@ -75,3 +77,5 @@ private:
     uint64_t                           published_lcd_hz_ = 0u;
     bool                               published_lcd_on_ = false;
 };
+
+}

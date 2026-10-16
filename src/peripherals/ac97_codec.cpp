@@ -2,6 +2,8 @@
 
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint16_t kFixedRate = 0xBB80u;
@@ -90,3 +92,5 @@ uint32_t Ac97Codec::ConverterDivider() { return 1u; }
 uint32_t Ac97Codec::AdcLeftSlot() { return 3u; }
 
 uint32_t Ac97Codec::DigitiserSlot() { return 0u; }
+
+}

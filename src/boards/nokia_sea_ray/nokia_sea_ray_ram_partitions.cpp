@@ -7,6 +7,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t MB(uint32_t mb) { return mb * 0x100000u; }
@@ -46,3 +48,5 @@ public:
 }
 
 REGISTER_SERVICE_AS(NokiaSeaRayRamPartitions, Msm8255RamPartitions);
+
+}

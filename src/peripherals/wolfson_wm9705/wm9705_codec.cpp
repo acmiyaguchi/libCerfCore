@@ -6,6 +6,8 @@
 #include <cerfcore/core/fatal.h>
 #include <cerfcore/state/state_stream.h>
 
+namespace cerfcore {
+
 namespace {
 /* falcon_4220__4_10 touch.dll sub_18E1CE8 requires register 7Ch = 574Dh and 7Eh = 4C05h (WM9705) or
    4C12h before it enables the touch screen. */
@@ -252,3 +254,5 @@ void Wm9705Codec::RestoreState(StateReader& r) {
 }
 
 REGISTER_SERVICE_AS(Wm9705Codec, Ac97Codec);
+
+}

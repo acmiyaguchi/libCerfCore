@@ -9,6 +9,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kStubFlashPa = 0x4u;
@@ -46,3 +48,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(SamsungSmdk2410PowerOffStub, BoardBootPlacer);
+
+}

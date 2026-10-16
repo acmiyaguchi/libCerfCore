@@ -7,6 +7,8 @@
 
 #include <utility>
 
+namespace cerfcore {
+
 REGISTER_SERVICE(Tsc2003Touch);
 
 bool Tsc2003Touch::ShouldRegister() {
@@ -84,4 +86,6 @@ uint8_t Tsc2003Touch::ReadResultByte() {
     }
     ++read_idx_;
     return out;
+}
+
 }

@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 constexpr uint32_t Iop13xxCp6Key(uint32_t crn, uint32_t crm,
                                  uint32_t opc2 = 0, uint32_t opc1 = 0) {
     return crn | (crm << 4) | (opc2 << 8) | (opc1 << 11);
@@ -33,3 +35,5 @@ constexpr uint32_t kCp6Timer1Reload = Iop13xxCp6Key(5, 9);
 constexpr uint32_t kCp6TimerStatus = Iop13xxCp6Key(6, 9);
 constexpr uint32_t kCp6WatchdogCtrl = Iop13xxCp6Key(7, 9);
 constexpr uint32_t kCp6WatchdogStat = Iop13xxCp6Key(8, 9);
+
+}

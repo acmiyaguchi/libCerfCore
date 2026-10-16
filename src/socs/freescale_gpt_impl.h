@@ -18,6 +18,8 @@
 #include <cstdint>
 #include <string_view>
 
+namespace cerfcore {
+
 namespace cerf_freescale_gpt_detail {
 
 template <uint32_t kBase, const std::string_view& kSoc, typename Traits>
@@ -460,5 +462,7 @@ private:
     GuestCycleClock::Rate ratio_core_{0u, 1u};
     GuestCycleClock::Rate ratio_tick_{0u, 1u};
 };
+
+}
 
 }

@@ -4,6 +4,8 @@
 #include <cerfcore/boards/board_context.h>
 #include "philips_nino_family_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 /* UART A ($0B0) is the docking-cradle COM1 serial.dll opens as DeviceArrayIndex 0
@@ -36,3 +38,5 @@ public:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(PhilipsNinoSerialWiring, Pr31x00SerialWiring);
+
+}

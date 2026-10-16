@@ -6,6 +6,8 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include "imx31_id.h"
 
+namespace cerfcore {
+
 namespace {
 
 class Imx31AudioPlayer : public FreescaleSdmaAudioPlayer {
@@ -30,3 +32,5 @@ protected:
 }
 
 REGISTER_SERVICE(Imx31AudioPlayer);
+
+}

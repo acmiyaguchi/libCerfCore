@@ -2,6 +2,8 @@
 
 #include "../pxa2xx/pxa2xx_gpio.h"
 
+namespace cerfcore {
+
 class Pxa27xGpio : public Pxa2xxGpio {
 public:
     using Pxa2xxGpio::Pxa2xxGpio;
@@ -26,3 +28,5 @@ protected:
 
     Reg Decode(uint32_t off, uint32_t* index) const override;
 };
+
+}

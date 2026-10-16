@@ -7,6 +7,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint8_t  kAuxBackup        = 0;
@@ -57,3 +59,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE_AS(HpJornada820UcbBoard, Ucb1x00Board);
+
+}

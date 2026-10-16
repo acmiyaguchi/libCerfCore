@@ -17,6 +17,8 @@
 #include <memory>
 #include <optional>
 
+namespace cerfcore {
+
 /* VR41xx on-chip SIU: NS16550-compatible UART at base 0x0C000000, byte-addressed (SCR at
    0x0C000007); interrupt is SYSINT1 D9 SIUINTR (VR4121 UM 15.2.1 p373 / VR4102 UM 14.2.1
    p295). Registers 0x00-0x08 chip-identical (VR4121 UM Table 25-1 p553 == VR4102 UM
@@ -124,3 +126,5 @@ private:
     std::optional<Vr41xxSerialModem> modem_;
     std::unique_ptr<SerialCradle>    cradle_;
 };
+
+}

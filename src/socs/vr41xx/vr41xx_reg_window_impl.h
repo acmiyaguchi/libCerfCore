@@ -12,6 +12,8 @@
 #include <cstdint>
 #include <typeinfo>
 
+namespace cerfcore {
+
 namespace cerf_vr41xx_reg_window_detail {
 
 constexpr uint32_t kMaxRegs = 16u;
@@ -114,17 +116,23 @@ public:
     }
 
     uint32_t ReadWord(uint32_t addr) override {
-        if (!M.word_pairs) this->HaltUnsupportedAccess("ReadWord", addr, 0);
-        const uint32_t lo = PairLow(addr, "ReadWord");
-        return ReadHalf(M.base + lo * 2u) |
-               (static_cast<uint32_t>(ReadHalf(M.base + (lo + 1u) * 2u)) << 16);
+        if constexpr (!M.word_pairs) {
+            this->HaltUnsupportedAccess("ReadWord", addr, 0);
+        } else {
+            const uint32_t lo = PairLow(addr, "ReadWord");
+            return ReadHalf(M.base + lo * 2u) |
+                   (static_cast<uint32_t>(ReadHalf(M.base + (lo + 1u) * 2u)) << 16);
+        }
     }
 
     void WriteWord(uint32_t addr, uint32_t value) override {
-        if (!M.word_pairs) this->HaltUnsupportedAccess("WriteWord", addr, value);
-        PairLow(addr, "WriteWord");
-        WriteHalf(addr,     static_cast<uint16_t>(value));
-        WriteHalf(addr + 2, static_cast<uint16_t>(value >> 16));
+        if constexpr (!M.word_pairs) {
+            this->HaltUnsupportedAccess("WriteWord", addr, value);
+        } else {
+            PairLow(addr, "WriteWord");
+            WriteHalf(addr,     static_cast<uint16_t>(value));
+            WriteHalf(addr + 2, static_cast<uint16_t>(value >> 16));
+        }
     }
 
     uint8_t ReadByte(uint32_t addr) override { this->HaltUnsupportedAccess("ReadByte", addr, 0); }
@@ -187,5 +195,7 @@ private:
     uint16_t reg_[kMaxRegs]       = {};
     uint16_t undefined_[kMaxRegs] = {};
 };
+
+}
 
 }

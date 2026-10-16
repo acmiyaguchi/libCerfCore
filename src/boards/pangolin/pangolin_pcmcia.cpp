@@ -11,6 +11,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kGpioCd  = 6u;
@@ -59,3 +61,5 @@ private:
 }  /* namespace */
 
 REGISTER_SERVICE(PangolinPcmcia);
+
+}

@@ -22,6 +22,8 @@
 #include <mutex>
 #include <vector>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr uint32_t kDmaPhysicalBase = 0x0F800000u;
@@ -291,3 +293,5 @@ void SiemensSimaticMp377Ertec400Nrt::PostRestore() {
 }
 
 REGISTER_SERVICE(SiemensSimaticMp377Ertec400Nrt);
+
+}

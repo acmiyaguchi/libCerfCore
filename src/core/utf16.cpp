@@ -1,5 +1,7 @@
 #include <cerfcore/core/utf16.h>
 
+namespace cerfcore {
+
 namespace {
 
 constexpr char32_t kReplacement = 0xFFFD;
@@ -106,4 +108,6 @@ std::string Utf16ToUtf8(std::u16string_view utf16) {
         AppendUtf8(out, cp);
     }
     return out;
+}
+
 }

@@ -9,6 +9,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace {
 
 class Pxa255I2c : public Peripheral {
@@ -124,3 +126,5 @@ void Pxa255I2c::RestoreState(StateReader& r) {
 }  /* namespace */
 
 REGISTER_SERVICE(Pxa255I2c);
+
+}

@@ -7,6 +7,8 @@
 #include <cerfcore/host/host_widget_registry.h>
 #include <cstdio>
 
+namespace cerfcore {
+
 namespace {
 class FordSyncGen2IlpDiagnosticsWidget : public Service, public HostWidget {
 public:
@@ -76,4 +78,6 @@ private:
     uint64_t last_received_ = 0, last_sent_ = 0, dismissed_failures_ = 0;
 };
 REGISTER_SERVICE(FordSyncGen2IlpDiagnosticsWidget);
+}
+
 }

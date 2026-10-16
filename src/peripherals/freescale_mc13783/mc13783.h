@@ -5,6 +5,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 class Mc13783Adc;
 class Mc13783IntLine;
 class StateWriter;
@@ -72,3 +74,5 @@ private:
     bool                    wdi_high_         = true;
     uint64_t                off_alarm_tick_   = kNoAlarmTick;
 };
+
+}

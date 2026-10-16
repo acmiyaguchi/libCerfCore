@@ -10,6 +10,8 @@
 #include "../ps2_keyboard/ps2_keyboard.h"
 #include "../ps2_mouse/ps2_mouse.h"
 
+namespace cerfcore {
+
 class StateWriter;
 class StateReader;
 
@@ -59,3 +61,5 @@ private:
     Ps2Keyboard kbd_;
     Ps2Mouse    mouse_;
 };
+
+}

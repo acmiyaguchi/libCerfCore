@@ -10,6 +10,8 @@
 
 #include <cstdint>
 
+namespace cerfcore {
+
 namespace cerf_vr41xx_fir_detail {
 
 /* VR41xx FIR (Fast IrDA Interface Unit): IRSR1 at block offset 0x18
@@ -65,3 +67,5 @@ private:
 };
 
 }  /* namespace cerf_vr41xx_fir_detail */
+
+}
