@@ -1,0 +1,93 @@
+#include <cerfcore/peripherals/peripheral_base.h>
+
+#include <cerfcore/core/cerf_emulator.h>
+#include <cerfcore/boards/board_context.h>
+#include "imx51_id.h"
+#include "../../peripherals/peripheral_dispatcher.h"
+#include <cerfcore/state/state_stream.h>
+
+#include <cstdint>
+
+namespace {
+
+/* i.MX51 AIPS_TZ AHB-to-IP bridge: AIPS_TZ#1 @ 0x73F00000 / #2 @ 0x83F00000
+   (i.MX51 RM memory map). i.MX51 RM has no AIPS_TZ register chapter; map is the
+   Freescale AIPS IP (i.MX31 RM §38.3.1 Table 38-12): MPR 0x00/0x04, PACR
+   0x20-0x2C, OPACR 0x40-0x50, 32-bit R/W config; CERF stores only. */
+constexpr uint32_t kAipsRegionSize = 0x00001000u;
+constexpr uint32_t kPacrReset      = 0x44444444u;  /* i.MX31 §38.3.1 PACR/OPACR reset */
+
+class Imx51AipsBase : public Peripheral {
+public:
+    using Peripheral::Peripheral;
+
+    uint32_t MmioSize() const override { return kAipsRegionSize; }
+    uint32_t ReadWord (uint32_t addr) override;
+    void     WriteWord(uint32_t addr, uint32_t value) override;
+
+    /* JIT-thread-only register file (no worker thread). */
+    void SaveState(StateWriter& w) override    { w.WriteBytes("regs", regs_, sizeof(regs_)); }
+    void RestoreState(StateReader& r) override { r.ReadBytes("regs", regs_, sizeof(regs_)); }
+
+protected:
+    uint32_t regs_[11] = {
+        0u, 0u,
+        kPacrReset, kPacrReset, kPacrReset, kPacrReset,
+        kPacrReset, kPacrReset, kPacrReset, kPacrReset, kPacrReset,
+    };
+
+    static bool OffsetToIndex(uint32_t off, uint32_t* index_out) {
+        if      (off == 0x00) { *index_out = 0; return true; }
+        else if (off == 0x04) { *index_out = 1; return true; }
+        else if (off >= 0x20 && off <= 0x2C && (off & 0x3u) == 0) {
+            *index_out = 2u + (off - 0x20u) / 4u;
+            return true;
+        }
+        else if (off >= 0x40 && off <= 0x50 && (off & 0x3u) == 0) {
+            *index_out = 6u + (off - 0x40u) / 4u;
+            return true;
+        }
+        return false;
+    }
+};
+
+uint32_t Imx51AipsBase::ReadWord(uint32_t addr) {
+    const uint32_t off = addr - MmioBase();
+    uint32_t idx;
+    if (!OffsetToIndex(off, &idx)) HaltUnsupportedAccess("ReadWord", addr, 0);
+    return regs_[idx];
+}
+
+void Imx51AipsBase::WriteWord(uint32_t addr, uint32_t value) {
+    const uint32_t off = addr - MmioBase();
+    uint32_t idx;
+    if (!OffsetToIndex(off, &idx)) HaltUnsupportedAccess("WriteWord", addr, value);
+    regs_[idx] = value;
+}
+
+class Imx51AipsTz1 : public Imx51AipsBase {
+public:
+    using Imx51AipsBase::Imx51AipsBase;
+    bool ShouldRegister() override {
+        auto* bd = emu_.TryGet<BoardContext>();
+        return bd && bd->GetSocId() == SocId::Imx51;
+    }
+    void OnReady() override { emu_.Get<PeripheralDispatcher>().Register(this); }
+    uint32_t MmioBase() const override { return 0x73F00000u; }
+};
+
+class Imx51AipsTz2 : public Imx51AipsBase {
+public:
+    using Imx51AipsBase::Imx51AipsBase;
+    bool ShouldRegister() override {
+        auto* bd = emu_.TryGet<BoardContext>();
+        return bd && bd->GetSocId() == SocId::Imx51;
+    }
+    void OnReady() override { emu_.Get<PeripheralDispatcher>().Register(this); }
+    uint32_t MmioBase() const override { return 0x83F00000u; }
+};
+
+}  /* namespace */
+
+REGISTER_SERVICE(Imx51AipsTz1);
+REGISTER_SERVICE(Imx51AipsTz2);

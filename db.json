@@ -1,0 +1,2814 @@
+{
+  "ga_shared_folder_mount_point": "CERF Storage",
+  "ga_video_driver_names": [
+    "ddi.dll",
+    "DeviceEmulator_lcd.dll",
+    "s3c2410disp.dll",
+    "ddi_tievm3530.dll",
+    "ddraw_ipu_sdc.dll",
+    "ddi_mq200.dll",
+    "ddi_ragexl.dll",
+    "ddraw_ipu.dll",
+    "ddi_vgx.dll"
+  ],
+  "soc_families": [
+    {
+      "id": "strongarm",
+      "name": "StrongARM",
+      "arch": "ARM"
+    },
+    {
+      "id": "xscale",
+      "name": "XScale",
+      "arch": "ARM"
+    },
+    {
+      "id": "arm720t",
+      "name": "ARM720T",
+      "arch": "ARM"
+    },
+    {
+      "id": "arm920t",
+      "name": "ARM920T",
+      "arch": "ARM"
+    },
+    {
+      "id": "arm1136",
+      "name": "ARM1136",
+      "arch": "ARM"
+    },
+    {
+      "id": "cortex_a8",
+      "name": "Cortex-A8",
+      "arch": "ARM"
+    },
+    {
+      "id": "scorpion",
+      "name": "Scorpion",
+      "arch": "ARM"
+    },
+    {
+      "id": "mips1",
+      "name": "MIPS I",
+      "arch": "MIPS"
+    },
+    {
+      "id": "mips3",
+      "name": "MIPS III",
+      "arch": "MIPS"
+    },
+    {
+      "id": "mips4",
+      "name": "MIPS IV",
+      "arch": "MIPS"
+    }
+  ],
+  "socs": [
+    {
+      "id": "sa1100",
+      "name": "Intel SA-1100",
+      "family_id": "strongarm"
+    },
+    {
+      "id": "sa1110",
+      "name": "Intel SA-1110",
+      "family_id": "strongarm"
+    },
+    {
+      "id": "pxa255",
+      "name": "Intel XScale PXA255",
+      "family_id": "xscale"
+    },
+    {
+      "id": "pxa270",
+      "name": "Intel XScale PXA270",
+      "family_id": "xscale"
+    },
+    {
+      "id": "iop13xx",
+      "name": "Intel IOP13xx",
+      "family_id": "xscale"
+    },
+    {
+      "id": "arm720t",
+      "name": "ARM ARM720T",
+      "family_id": "arm720t"
+    },
+    {
+      "id": "s3c2410",
+      "name": "Samsung S3C2410",
+      "family_id": "arm920t"
+    },
+    {
+      "id": "omap3530",
+      "name": "TI OMAP 3530",
+      "family_id": "cortex_a8"
+    },
+    {
+      "id": "imx31",
+      "name": "Freescale i.MX31L",
+      "family_id": "arm1136"
+    },
+    {
+      "id": "imx51",
+      "name": "Freescale i.MX51",
+      "family_id": "cortex_a8"
+    },
+    {
+      "id": "msm8255",
+      "name": "Qualcomm MSM8255",
+      "family_id": "scorpion"
+    },
+    {
+      "id": "vr4102",
+      "name": "NEC VR4102",
+      "family_id": "mips3"
+    },
+    {
+      "id": "vr4111",
+      "name": "NEC VR4111",
+      "family_id": "mips3"
+    },
+    {
+      "id": "vr4121",
+      "name": "NEC VR4121",
+      "family_id": "mips3"
+    },
+    {
+      "id": "vr4122",
+      "name": "NEC VR4122",
+      "family_id": "mips3"
+    },
+    {
+      "id": "vr5500",
+      "name": "NEC VR5500",
+      "family_id": "mips4"
+    },
+    {
+      "id": "pr31500",
+      "name": "Philips PR31500",
+      "family_id": "mips1"
+    },
+    {
+      "id": "pr31700",
+      "name": "Philips PR31700",
+      "family_id": "mips1"
+    }
+  ],
+  "cpu_config_params": [
+    {
+      "id": "midr",
+      "name": "Main ID (MIDR)",
+      "arch": "ARM",
+      "type": "hex"
+    },
+    {
+      "id": "ctr",
+      "name": "Cache Type (CTR)",
+      "arch": "ARM",
+      "type": "hex"
+    },
+    {
+      "id": "clidr",
+      "name": "Cache Level ID (CLIDR)",
+      "arch": "ARM",
+      "type": "hex"
+    },
+    {
+      "id": "ccsidr_l1i",
+      "name": "L1 instruction cache size ID (CCSIDR)",
+      "arch": "ARM",
+      "type": "hex"
+    },
+    {
+      "id": "ccsidr_l1d",
+      "name": "L1 data cache size ID (CCSIDR)",
+      "arch": "ARM",
+      "type": "hex"
+    },
+    {
+      "id": "ccsidr_l2",
+      "name": "L2 cache size ID (CCSIDR)",
+      "arch": "ARM",
+      "type": "hex"
+    },
+    {
+      "id": "pc_store_offset",
+      "name": "Stored PC value",
+      "arch": "ARM",
+      "type": "enum",
+      "enum_values": [
+        {
+          "id": "plus_8",
+          "name": "Instruction address + 8"
+        },
+        {
+          "id": "plus_12",
+          "name": "Instruction address + 12"
+        }
+      ]
+    },
+    {
+      "id": "base_restored_abort_model",
+      "name": "Base-restored data abort model",
+      "arch": "ARM",
+      "type": "boolean"
+    },
+    {
+      "id": "supersection_format",
+      "name": "Supersections",
+      "arch": "ARM",
+      "type": "enum",
+      "enum_values": [
+        {
+          "id": "unknown",
+          "name": "Undetermined"
+        },
+        {
+          "id": "none",
+          "name": "Not supported"
+        },
+        {
+          "id": "pa32",
+          "name": "32-bit physical address"
+        },
+        {
+          "id": "pa36",
+          "name": "36-bit physical address"
+        }
+      ]
+    },
+    {
+      "id": "thumb",
+      "name": "Thumb",
+      "arch": "ARM",
+      "type": "boolean"
+    },
+    {
+      "id": "thumb2",
+      "name": "Thumb-2",
+      "arch": "ARM",
+      "type": "boolean"
+    },
+    {
+      "id": "dsp",
+      "name": "DSP instructions",
+      "arch": "ARM",
+      "type": "boolean"
+    },
+    {
+      "id": "load_store_double",
+      "name": "LDRD / STRD",
+      "arch": "ARM",
+      "type": "boolean"
+    },
+    {
+      "id": "preload",
+      "name": "PLD",
+      "arch": "ARM",
+      "type": "boolean"
+    },
+    {
+      "id": "clz",
+      "name": "CLZ",
+      "arch": "ARM",
+      "type": "boolean"
+    },
+    {
+      "id": "blx_reg",
+      "name": "BLX (register)",
+      "arch": "ARM",
+      "type": "boolean"
+    },
+    {
+      "id": "armv5_unconditional_space",
+      "name": "ARMv5 unconditional instructions",
+      "arch": "ARM",
+      "type": "boolean"
+    },
+    {
+      "id": "load_to_pc_interworking",
+      "name": "Interworking loads to PC",
+      "arch": "ARM",
+      "type": "boolean"
+    },
+    {
+      "id": "data_proc_to_pc_interworking",
+      "name": "Interworking data processing to PC",
+      "arch": "ARM",
+      "type": "boolean"
+    },
+    {
+      "id": "accesses_spsr_in_system_mode",
+      "name": "SPSR access in System mode",
+      "arch": "ARM",
+      "type": "boolean"
+    },
+    {
+      "id": "mls",
+      "name": "MLS",
+      "arch": "ARM",
+      "type": "boolean"
+    },
+    {
+      "id": "movw_movt",
+      "name": "MOVW / MOVT",
+      "arch": "ARM",
+      "type": "boolean"
+    },
+    {
+      "id": "bit_field",
+      "name": "Bit field instructions",
+      "arch": "ARM",
+      "type": "boolean"
+    },
+    {
+      "id": "rev",
+      "name": "Byte reverse instructions",
+      "arch": "ARM",
+      "type": "boolean"
+    },
+    {
+      "id": "extend_rotate",
+      "name": "Extend instructions",
+      "arch": "ARM",
+      "type": "boolean"
+    },
+    {
+      "id": "ldrex_strex",
+      "name": "LDREX / STREX",
+      "arch": "ARM",
+      "type": "boolean"
+    },
+    {
+      "id": "ldrex_strex_v6k",
+      "name": "ARMv6K exclusive instructions",
+      "arch": "ARM",
+      "type": "boolean"
+    },
+    {
+      "id": "barrier_insn",
+      "name": "Barrier instructions",
+      "arch": "ARM",
+      "type": "boolean"
+    },
+    {
+      "id": "integer_divide",
+      "name": "SDIV / UDIV",
+      "arch": "ARM",
+      "type": "boolean"
+    },
+    {
+      "id": "cp15_v6",
+      "name": "ARMv6 CP15 registers",
+      "arch": "ARM",
+      "type": "boolean"
+    },
+    {
+      "id": "cp15_v7",
+      "name": "ARMv7 CP15 registers",
+      "arch": "ARM",
+      "type": "boolean"
+    },
+    {
+      "id": "security_extensions",
+      "name": "Security Extensions",
+      "arch": "ARM",
+      "type": "boolean"
+    },
+    {
+      "id": "aux_control_register",
+      "name": "Auxiliary Control Register",
+      "arch": "ARM",
+      "type": "boolean"
+    },
+    {
+      "id": "l2_cache_aux_control",
+      "name": "L2 Cache Auxiliary Control Register",
+      "arch": "ARM",
+      "type": "boolean"
+    },
+    {
+      "id": "l1_system_array_debug",
+      "name": "L1 system array debug operations",
+      "arch": "ARM",
+      "type": "boolean"
+    },
+    {
+      "id": "vfp",
+      "name": "VFP",
+      "arch": "ARM",
+      "type": "boolean"
+    },
+    {
+      "id": "neon",
+      "name": "Advanced SIMD (NEON)",
+      "arch": "ARM",
+      "type": "boolean"
+    },
+    {
+      "id": "fpsid",
+      "name": "Floating-point System ID (FPSID)",
+      "arch": "ARM",
+      "type": "hex"
+    },
+    {
+      "id": "mvfr0",
+      "name": "Media and VFP Feature 0 (MVFR0)",
+      "arch": "ARM",
+      "type": "hex"
+    },
+    {
+      "id": "mvfr1",
+      "name": "Media and VFP Feature 1 (MVFR1)",
+      "arch": "ARM",
+      "type": "hex"
+    },
+    {
+      "id": "prid",
+      "name": "Processor ID (PRId)",
+      "arch": "MIPS",
+      "type": "hex"
+    },
+    {
+      "id": "isa_level",
+      "name": "ISA level",
+      "arch": "MIPS",
+      "type": "enum",
+      "enum_values": [
+        {
+          "id": "mips1",
+          "name": "MIPS I"
+        },
+        {
+          "id": "mips3",
+          "name": "MIPS III"
+        },
+        {
+          "id": "mips4",
+          "name": "MIPS IV"
+        }
+      ]
+    },
+    {
+      "id": "tlb_size",
+      "name": "TLB entries",
+      "arch": "MIPS",
+      "type": "integer"
+    },
+    {
+      "id": "min_page_size",
+      "name": "Minimum page size",
+      "arch": "MIPS",
+      "type": "enum",
+      "enum_values": [
+        {
+          "id": "1kb",
+          "name": "1 KB"
+        },
+        {
+          "id": "4kb",
+          "name": "4 KB"
+        }
+      ]
+    },
+    {
+      "id": "phys_addr_mask",
+      "name": "Physical address mask",
+      "arch": "MIPS",
+      "type": "hex"
+    },
+    {
+      "id": "device_ip_mask",
+      "name": "Device interrupt lines (Cause.IP)",
+      "arch": "MIPS",
+      "type": "hex"
+    },
+    {
+      "id": "fpu",
+      "name": "Floating-point unit",
+      "arch": "MIPS",
+      "type": "boolean"
+    },
+    {
+      "id": "llsc",
+      "name": "LL / SC",
+      "arch": "MIPS",
+      "type": "boolean"
+    },
+    {
+      "id": "counter",
+      "name": "Count / Compare",
+      "arch": "MIPS",
+      "type": "boolean"
+    },
+    {
+      "id": "watch",
+      "name": "WatchLo / WatchHi",
+      "arch": "MIPS",
+      "type": "boolean"
+    },
+    {
+      "id": "vr41xx_power_modes",
+      "name": "VR4100 power-mode instructions",
+      "arch": "MIPS",
+      "type": "boolean"
+    },
+    {
+      "id": "mips16",
+      "name": "MIPS16",
+      "arch": "MIPS",
+      "type": "boolean"
+    },
+    {
+      "id": "tx39_multiply_add",
+      "name": "TX39 multiply-add",
+      "arch": "MIPS",
+      "type": "boolean"
+    }
+  ],
+  "cpu_configs": [
+    {
+      "id": "arm",
+      "values": {
+        "clidr": "0x00000000",
+        "ccsidr_l1i": "0x00000000",
+        "ccsidr_l1d": "0x00000000",
+        "ccsidr_l2": "0x00000000",
+        "supersection_format": "none",
+        "thumb": true,
+        "thumb2": false,
+        "preload": false,
+        "clz": false,
+        "blx_reg": false,
+        "armv5_unconditional_space": false,
+        "load_to_pc_interworking": false,
+        "data_proc_to_pc_interworking": false,
+        "accesses_spsr_in_system_mode": false,
+        "mls": false,
+        "movw_movt": false,
+        "bit_field": false,
+        "rev": false,
+        "extend_rotate": false,
+        "ldrex_strex": false,
+        "ldrex_strex_v6k": false,
+        "barrier_insn": false,
+        "integer_divide": false,
+        "cp15_v6": false,
+        "cp15_v7": false,
+        "security_extensions": false,
+        "aux_control_register": false,
+        "l2_cache_aux_control": false,
+        "l1_system_array_debug": false,
+        "vfp": false,
+        "neon": false,
+        "fpsid": "0x00000000",
+        "mvfr0": "0x00000000",
+        "mvfr1": "0x00000000"
+      }
+    },
+    {
+      "id": "strongarm",
+      "inherits_cpu_config_id": "arm",
+      "values": {
+        "pc_store_offset": "plus_8",
+        "base_restored_abort_model": true,
+        "thumb": false,
+        "dsp": false,
+        "load_store_double": false
+      }
+    },
+    {
+      "soc_id": "sa1100",
+      "inherits_cpu_config_id": "strongarm",
+      "values": {
+        "midr": "0x4401A110",
+        "ctr": "0x4401A110"
+      }
+    },
+    {
+      "soc_id": "sa1110",
+      "inherits_cpu_config_id": "strongarm",
+      "values": {
+        "midr": "0x6901B118",
+        "ctr": "0x6901B118"
+      }
+    },
+    {
+      "id": "xscale",
+      "inherits_cpu_config_id": "arm",
+      "values": {
+        "pc_store_offset": "plus_8",
+        "base_restored_abort_model": true,
+        "dsp": true,
+        "load_store_double": true,
+        "preload": true,
+        "clz": true,
+        "blx_reg": true,
+        "armv5_unconditional_space": true,
+        "load_to_pc_interworking": true,
+        "aux_control_register": true
+      }
+    },
+    {
+      "soc_id": "pxa255",
+      "inherits_cpu_config_id": "xscale",
+      "values": {
+        "midr": "0x69052D06",
+        "ctr": "0x0B1AA1AA",
+        "accesses_spsr_in_system_mode": true
+      }
+    },
+    {
+      "soc_id": "pxa270",
+      "inherits_cpu_config_id": "xscale",
+      "values": {
+        "midr": "0x69054117",
+        "ctr": "0x0D172172",
+        "accesses_spsr_in_system_mode": true
+      }
+    },
+    {
+      "soc_id": "iop13xx",
+      "inherits_cpu_config_id": "xscale",
+      "values": {
+        "midr": "0x69056000",
+        "ctr": "0x0B192192",
+        "supersection_format": "pa36"
+      }
+    },
+    {
+      "soc_id": "arm720t",
+      "inherits_cpu_config_id": "arm",
+      "values": {
+        "midr": "0x41807200",
+        "ctr": "0x41807200",
+        "pc_store_offset": "plus_12",
+        "base_restored_abort_model": false,
+        "dsp": false,
+        "load_store_double": false
+      }
+    },
+    {
+      "soc_id": "s3c2410",
+      "inherits_cpu_config_id": "arm",
+      "values": {
+        "midr": "0x69059201",
+        "ctr": "0x0B172172",
+        "pc_store_offset": "plus_12",
+        "base_restored_abort_model": true,
+        "dsp": true,
+        "load_store_double": true
+      }
+    },
+    {
+      "soc_id": "imx31",
+      "inherits_cpu_config_id": "arm",
+      "values": {
+        "midr": "0x4127B363",
+        "ctr": "0x1D152152",
+        "pc_store_offset": "plus_8",
+        "base_restored_abort_model": true,
+        "supersection_format": "pa32",
+        "dsp": true,
+        "load_store_double": true,
+        "preload": true,
+        "clz": true,
+        "blx_reg": true,
+        "armv5_unconditional_space": true,
+        "load_to_pc_interworking": true,
+        "rev": true,
+        "extend_rotate": true,
+        "ldrex_strex": true,
+        "ldrex_strex_v6k": true,
+        "cp15_v6": true,
+        "aux_control_register": true,
+        "vfp": true,
+        "fpsid": "0x410120B3",
+        "mvfr0": "0x11111111",
+        "mvfr1": "0x00000000"
+      }
+    },
+    {
+      "id": "armv7a",
+      "inherits_cpu_config_id": "arm",
+      "values": {
+        "pc_store_offset": "plus_8",
+        "base_restored_abort_model": true,
+        "supersection_format": "unknown",
+        "thumb2": true,
+        "dsp": true,
+        "load_store_double": true,
+        "preload": true,
+        "clz": true,
+        "blx_reg": true,
+        "armv5_unconditional_space": true,
+        "load_to_pc_interworking": true,
+        "data_proc_to_pc_interworking": true,
+        "mls": true,
+        "movw_movt": true,
+        "bit_field": true,
+        "rev": true,
+        "extend_rotate": true,
+        "ldrex_strex": true,
+        "ldrex_strex_v6k": true,
+        "barrier_insn": true,
+        "cp15_v6": true,
+        "cp15_v7": true
+      }
+    },
+    {
+      "id": "cortex_a8",
+      "inherits_cpu_config_id": "armv7a",
+      "values": {
+        "ctr": "0x82048004",
+        "supersection_format": "pa32",
+        "security_extensions": true,
+        "aux_control_register": true,
+        "l2_cache_aux_control": true,
+        "l1_system_array_debug": true,
+        "vfp": true,
+        "neon": true,
+        "fpsid": "0x410330C0",
+        "mvfr0": "0x11110222",
+        "mvfr1": "0x00011111"
+      }
+    },
+    {
+      "soc_id": "imx51",
+      "inherits_cpu_config_id": "cortex_a8",
+      "values": {
+        "midr": "0x412FC085",
+        "clidr": "0x0A000023",
+        "ccsidr_l1i": "0x200FE01A",
+        "ccsidr_l1d": "0xE00FE01A",
+        "ccsidr_l2": "0xF03FE03A"
+      }
+    },
+    {
+      "soc_id": "omap3530",
+      "inherits_cpu_config_id": "cortex_a8",
+      "values": {
+        "midr": "0x410FC080",
+        "clidr": "0x0A000003",
+        "ccsidr_l1i": "0x2007E01A",
+        "ccsidr_l1d": "0xE007E01A",
+        "ccsidr_l2": "0xF0000000"
+      }
+    },
+    {
+      "soc_id": "msm8255",
+      "inherits_cpu_config_id": "armv7a",
+      "values": {
+        "midr": "0x510F02D0",
+        "ctr": "0x8003C003",
+        "clidr": "0x0A000023",
+        "ccsidr_l1i": "0x201FE019",
+        "ccsidr_l1d": "0xE01FE019",
+        "ccsidr_l2": "0xF07FE039",
+        "security_extensions": true,
+        "aux_control_register": true,
+        "vfp": true,
+        "neon": true,
+        "fpsid": "0x51400000",
+        "mvfr0": "0x11110222",
+        "mvfr1": "0x00011111"
+      }
+    },
+    {
+      "id": "vr41xx",
+      "values": {
+        "isa_level": "mips3",
+        "tlb_size": 32,
+        "min_page_size": "1kb",
+        "phys_addr_mask": "0x1FFFFFFF",
+        "device_ip_mask": "0x00003C00",
+        "fpu": false,
+        "llsc": false,
+        "counter": true,
+        "watch": true,
+        "vr41xx_power_modes": true,
+        "mips16": false,
+        "tx39_multiply_add": false
+      }
+    },
+    {
+      "soc_id": "vr4102",
+      "inherits_cpu_config_id": "vr41xx",
+      "values": {
+        "prid": "0x00000C00"
+      }
+    },
+    {
+      "soc_id": "vr4111",
+      "inherits_cpu_config_id": "vr41xx",
+      "values": {
+        "prid": "0x00000C50"
+      }
+    },
+    {
+      "soc_id": "vr4121",
+      "inherits_cpu_config_id": "vr41xx",
+      "values": {
+        "prid": "0x00000C60"
+      }
+    },
+    {
+      "soc_id": "vr4122",
+      "inherits_cpu_config_id": "vr41xx",
+      "values": {
+        "prid": "0x00000C70",
+        "device_ip_mask": "0x00001C00",
+        "mips16": true
+      }
+    },
+    {
+      "id": "tx39",
+      "values": {
+        "isa_level": "mips1",
+        "tlb_size": 32,
+        "min_page_size": "4kb",
+        "phys_addr_mask": "0xFFFFFFFF",
+        "device_ip_mask": "0x00005000",
+        "fpu": false,
+        "llsc": false,
+        "counter": false,
+        "watch": false,
+        "vr41xx_power_modes": false,
+        "mips16": false,
+        "tx39_multiply_add": true
+      }
+    },
+    {
+      "soc_id": "pr31500",
+      "inherits_cpu_config_id": "tx39",
+      "values": {
+        "prid": "0x00002200"
+      }
+    },
+    {
+      "soc_id": "pr31700",
+      "inherits_cpu_config_id": "tx39",
+      "values": {
+        "prid": "0x00002202"
+      }
+    },
+    {
+      "soc_id": "vr5500",
+      "values": {
+        "prid": "0x00005500",
+        "isa_level": "mips4",
+        "tlb_size": 48,
+        "min_page_size": "4kb",
+        "phys_addr_mask": "0xFFFFFFFF",
+        "device_ip_mask": "0x00003C00",
+        "fpu": true,
+        "llsc": true,
+        "counter": true,
+        "watch": true,
+        "vr41xx_power_modes": false,
+        "mips16": false,
+        "tx39_multiply_add": false
+      }
+    }
+  ],
+  "device_features": [
+    {
+      "id": "touch",
+      "name": "Touch",
+      "icon": "stylus"
+    },
+    {
+      "id": "mouse",
+      "name": "Mouse",
+      "icon": "cursor"
+    },
+    {
+      "id": "keyboard",
+      "name": "Keyboard",
+      "icon": "keyboard"
+    },
+    {
+      "id": "suspend",
+      "name": "Suspend / Resume",
+      "icon": "suspend"
+    },
+    {
+      "id": "guest_additions",
+      "name": "Guest Additions",
+      "icon": "ga_autoresize"
+    },
+    {
+      "id": "sound",
+      "name": "Sound",
+      "icon": "speaker_active"
+    },
+    {
+      "id": "mic",
+      "name": "Microphone",
+      "icon": "microphone"
+    },
+    {
+      "id": "pcmcia",
+      "name": "PCMCIA",
+      "icon": "pcmcia_enabled"
+    },
+    {
+      "id": "network",
+      "name": "Network",
+      "icon": "internet"
+    },
+    {
+      "id": "battery",
+      "name": "Battery",
+      "icon": "battery"
+    },
+    {
+      "id": "serial",
+      "name": "Serial Port",
+      "icon": "serial_com"
+    }
+  ],
+  "board_families": [
+    {
+      "id": "samsung_smdk2410",
+      "name": "Samsung SMDK2410",
+      "soc_id": "s3c2410",
+      "device_features": [
+        {
+          "feature_id": "sound",
+          "supported": true
+        },
+        {
+          "feature_id": "touch",
+          "supported": true
+        },
+        {
+          "feature_id": "keyboard",
+          "supported": true
+        },
+        {
+          "feature_id": "network",
+          "supported": true
+        },
+        {
+          "feature_id": "pcmcia",
+          "supported": true
+        },
+        {
+          "feature_id": "battery",
+          "supported": true
+        },
+        {
+          "feature_id": "suspend",
+          "supported": true
+        },
+        {
+          "feature_id": "guest_additions",
+          "supported": true
+        }
+      ],
+      "notes": [
+        "Stock video: don't exceed 640x480 on Windows Mobile 6.5 or newer - shell hang imminent.",
+        "Stock video: don't exceed 800x600 on any OS - CERF crash imminent."
+      ],
+      "configurable_screen": true,
+      "lcd_panel_size": {
+        "width": 240,
+        "height": 320
+      },
+      "ga_color_depth": 24,
+      "rom_placing_mode": "flat_container"
+    },
+    {
+      "id": "askey_pc3xx",
+      "name": "Askey PC3xx",
+      "soc_id": "pxa255",
+      "device_features": [
+        {
+          "feature_id": "sound",
+          "supported": true
+        },
+        {
+          "feature_id": "touch",
+          "supported": true
+        },
+        {
+          "feature_id": "keyboard",
+          "supported": false
+        },
+        {
+          "feature_id": "network",
+          "supported": true
+        },
+        {
+          "feature_id": "pcmcia",
+          "supported": true
+        },
+        {
+          "feature_id": "battery",
+          "supported": true
+        },
+        {
+          "feature_id": "suspend",
+          "supported": true
+        },
+        {
+          "feature_id": "guest_additions",
+          "supported": true
+        }
+      ],
+      "notes": [
+        "Stock video: visual artifacts present"
+      ],
+      "lcd_panel_size": {
+        "width": 240,
+        "height": 320
+      },
+      "ga_color_depth": 24,
+      "rom_placing_mode": "flat_container"
+    },
+    {
+      "id": "compaq_ipaq_h3000",
+      "name": "Compaq iPAQ H3000",
+      "soc_id": "sa1110",
+      "device_year": 2000,
+      "device_features": [
+        {
+          "feature_id": "sound",
+          "supported": true
+        },
+        {
+          "feature_id": "touch",
+          "supported": true
+        },
+        {
+          "feature_id": "keyboard",
+          "supported": false
+        },
+        {
+          "feature_id": "network",
+          "supported": true
+        },
+        {
+          "feature_id": "pcmcia",
+          "supported": true
+        },
+        {
+          "feature_id": "battery",
+          "supported": false
+        },
+        {
+          "feature_id": "suspend",
+          "supported": true
+        },
+        {
+          "feature_id": "guest_additions",
+          "supported": true
+        },
+        {
+          "feature_id": "mic",
+          "supported": true
+        }
+      ],
+      "notes": [],
+      "lcd_panel_size": {
+        "width": 240,
+        "height": 320
+      },
+      "ga_color_depth": 24,
+      "rom_placing_mode": "flat_container"
+    },
+    {
+      "id": "hp_jornada_820",
+      "name": "HP Jornada 820",
+      "soc_id": "sa1100",
+      "device_year": 1998,
+      "device_features": [
+        {
+          "feature_id": "sound",
+          "supported": true
+        },
+        {
+          "feature_id": "keyboard",
+          "supported": true
+        },
+        {
+          "feature_id": "pcmcia",
+          "supported": true
+        },
+        {
+          "feature_id": "mouse",
+          "supported": true
+        },
+        {
+          "feature_id": "network",
+          "supported": true
+        },
+        {
+          "feature_id": "battery",
+          "supported": true
+        },
+        {
+          "feature_id": "suspend",
+          "supported": true
+        },
+        {
+          "feature_id": "guest_additions",
+          "supported": true
+        },
+        {
+          "feature_id": "mic",
+          "supported": false
+        },
+        {
+          "feature_id": "serial",
+          "supported": false
+        }
+      ],
+      "notes": [],
+      "lcd_panel_size": {
+        "width": 640,
+        "height": 480
+      },
+      "ga_color_depth": 24,
+      "rom_placing_mode": "flat_container"
+    },
+    {
+      "id": "hp_jornada_700",
+      "name": "HP Jornada 700 series",
+      "soc_id": "sa1110",
+      "device_year": 2000,
+      "device_features": [
+        {
+          "feature_id": "sound",
+          "supported": true
+        },
+        {
+          "feature_id": "touch",
+          "supported": true
+        },
+        {
+          "feature_id": "keyboard",
+          "supported": true
+        },
+        {
+          "feature_id": "network",
+          "supported": true
+        },
+        {
+          "feature_id": "pcmcia",
+          "supported": true
+        },
+        {
+          "feature_id": "battery",
+          "supported": true
+        },
+        {
+          "feature_id": "suspend",
+          "supported": true
+        },
+        {
+          "feature_id": "guest_additions",
+          "supported": true
+        },
+        {
+          "feature_id": "mic",
+          "supported": false
+        },
+        {
+          "feature_id": "serial",
+          "supported": false
+        }
+      ],
+      "notes": [],
+      "lcd_panel_size": {
+        "width": 640,
+        "height": 240
+      },
+      "ga_color_depth": 24,
+      "rom_placing_mode": "flat_container"
+    },
+    {
+      "id": "odo",
+      "name": "Microsoft Hardware Reference Platform",
+      "soc_id": "arm720t",
+      "device_features": [
+        {
+          "feature_id": "sound",
+          "supported": true
+        },
+        {
+          "feature_id": "touch",
+          "supported": true
+        },
+        {
+          "feature_id": "keyboard",
+          "supported": true
+        },
+        {
+          "feature_id": "battery",
+          "supported": false
+        },
+        {
+          "feature_id": "guest_additions",
+          "supported": true
+        }
+      ],
+      "notes": [],
+      "lcd_panel_size": {
+        "width": 480,
+        "height": 240
+      },
+      "ga_color_depth": 24,
+      "rom_placing_mode": "flat_container"
+    },
+    {
+      "id": "ti_omap35x_evm",
+      "name": "TI OMAP35x EVM",
+      "soc_id": "omap3530",
+      "device_features": [
+        {
+          "feature_id": "sound",
+          "supported": true
+        },
+        {
+          "feature_id": "touch",
+          "supported": true
+        },
+        {
+          "feature_id": "suspend",
+          "supported": false
+        },
+        {
+          "feature_id": "guest_additions",
+          "supported": true
+        },
+        {
+          "feature_id": "network",
+          "supported": false
+        }
+      ],
+      "ga_color_depth": 24,
+      "rom_placing_mode": "flat_container"
+    },
+    {
+      "id": "toshiba_gigabeat_s",
+      "name": "Toshiba Gigabeat S",
+      "soc_id": "imx31",
+      "device_year": 2006,
+      "device_features": [
+        {
+          "feature_id": "sound",
+          "supported": true
+        },
+        {
+          "feature_id": "keyboard",
+          "supported": true
+        },
+        {
+          "feature_id": "guest_additions",
+          "supported": true
+        },
+        {
+          "feature_id": "battery",
+          "supported": false
+        }
+      ],
+      "notes": [],
+      "lcd_panel_size": {
+        "width": 240,
+        "height": 320
+      },
+      "ga_color_depth": 16,
+      "rom_placing_mode": "flat_container"
+    },
+    {
+      "id": "siemens_simpad",
+      "name": "Siemens SIMpad",
+      "soc_id": "sa1110",
+      "device_year": 2001,
+      "device_features": [
+        {
+          "feature_id": "sound",
+          "supported": true
+        },
+        {
+          "feature_id": "touch",
+          "supported": true
+        },
+        {
+          "feature_id": "pcmcia",
+          "supported": true
+        },
+        {
+          "feature_id": "network",
+          "supported": true
+        },
+        {
+          "feature_id": "guest_additions",
+          "supported": true
+        },
+        {
+          "feature_id": "battery",
+          "supported": true
+        },
+        {
+          "feature_id": "mic",
+          "supported": false
+        }
+      ],
+      "notes": [],
+      "lcd_panel_size": {
+        "width": 800,
+        "height": 600
+      },
+      "ga_color_depth": 24,
+      "rom_placing_mode": "flat_container"
+    },
+    {
+      "id": "nec_mobilepro_900_series",
+      "name": "NEC MobilePro 900 Series",
+      "soc_id": "pxa255",
+      "device_year": 2003,
+      "device_features": [
+        {
+          "feature_id": "sound",
+          "supported": true
+        },
+        {
+          "feature_id": "touch",
+          "supported": true
+        },
+        {
+          "feature_id": "keyboard",
+          "supported": true
+        },
+        {
+          "feature_id": "pcmcia",
+          "supported": true
+        },
+        {
+          "feature_id": "network",
+          "supported": true
+        },
+        {
+          "feature_id": "guest_additions",
+          "supported": true
+        },
+        {
+          "feature_id": "battery",
+          "supported": false
+        },
+        {
+          "feature_id": "mic",
+          "supported": false
+        },
+        {
+          "feature_id": "suspend",
+          "supported": true
+        }
+      ],
+      "notes": [],
+      "lcd_panel_size": {
+        "width": 640,
+        "height": 240
+      },
+      "ga_color_depth": 24,
+      "rom_placing_mode": "flat_container"
+    },
+    {
+      "id": "nec_mobilepro_700",
+      "name": "NEC MobilePro 700",
+      "soc_id": "vr4102",
+      "device_year": 1997,
+      "device_features": [
+        {
+          "feature_id": "touch",
+          "supported": true
+        },
+        {
+          "feature_id": "keyboard",
+          "supported": true
+        },
+        {
+          "feature_id": "sound",
+          "supported": false
+        },
+        {
+          "feature_id": "network",
+          "supported": true
+        },
+        {
+          "feature_id": "pcmcia",
+          "supported": true
+        },
+        {
+          "feature_id": "serial",
+          "supported": true
+        },
+        {
+          "feature_id": "battery",
+          "supported": false
+        },
+        {
+          "feature_id": "guest_additions",
+          "supported": true
+        },
+        {
+          "feature_id": "suspend",
+          "supported": true
+        }
+      ],
+      "notes": [],
+      "lcd_panel_size": {
+        "width": 640,
+        "height": 240
+      },
+      "ga_color_depth": 8,
+      "rom_placing_mode": "flat_container"
+    },
+    {
+      "id": "nec_cronos3e",
+      "name": "NEC CRONOS3E",
+      "soc_id": "vr4121",
+      "device_year": 2001,
+      "device_features": [],
+      "notes": [],
+      "lcd_panel_size": {
+        "width": 640,
+        "height": 240
+      },
+      "rom_placing_mode": "flat_container"
+    },
+    {
+      "id": "casio_tomcat",
+      "name": "Casio Tomcat",
+      "soc_id": "vr4111",
+      "device_year": 1998,
+      "device_features": [
+        {
+          "feature_id": "touch",
+          "supported": true
+        },
+        {
+          "feature_id": "keyboard",
+          "supported": true
+        },
+        {
+          "feature_id": "guest_additions",
+          "supported": true
+        },
+        {
+          "feature_id": "pcmcia",
+          "supported": true
+        },
+        {
+          "feature_id": "serial",
+          "supported": true
+        },
+        {
+          "feature_id": "network",
+          "supported": true
+        },
+        {
+          "feature_id": "sound",
+          "supported": false
+        },
+        {
+          "feature_id": "battery",
+          "supported": false
+        },
+        {
+          "feature_id": "suspend",
+          "supported": false
+        }
+      ],
+      "notes": [],
+      "lcd_panel_size": {
+        "width": 240,
+        "height": 320
+      },
+      "ga_color_depth": 8,
+      "rom_placing_mode": "flat_container"
+    },
+    {
+      "id": "casio_jx670",
+      "name": "Casio JX670",
+      "soc_id": "vr4122",
+      "device_year": 2000,
+      "device_features": [
+        {
+          "feature_id": "touch",
+          "supported": true
+        },
+        {
+          "feature_id": "sound",
+          "supported": true
+        },
+        {
+          "feature_id": "guest_additions",
+          "supported": true
+        },
+        {
+          "feature_id": "suspend",
+          "supported": false
+        },
+        {
+          "feature_id": "keyboard",
+          "supported": false
+        },
+        {
+          "feature_id": "mic",
+          "supported": false
+        },
+        {
+          "feature_id": "network",
+          "supported": false
+        },
+        {
+          "feature_id": "serial",
+          "supported": false
+        },
+        {
+          "feature_id": "battery",
+          "supported": false
+        }
+      ],
+      "notes": [],
+      "lcd_panel_size": {
+        "width": 240,
+        "height": 320
+      },
+      "ga_color_depth": 24,
+      "rom_placing_mode": "flat_container"
+    },
+    {
+      "id": "casio_pocketpostpet",
+      "name": "Casio PocketPostPet",
+      "soc_id": "vr4121",
+      "device_year": 2000,
+      "device_features": [
+        {
+          "feature_id": "touch",
+          "supported": true
+        },
+        {
+          "feature_id": "keyboard",
+          "supported": true
+        },
+        {
+          "feature_id": "guest_additions",
+          "supported": true
+        },
+        {
+          "feature_id": "sound",
+          "supported": false
+        },
+        {
+          "feature_id": "network",
+          "supported": false
+        },
+        {
+          "feature_id": "pcmcia",
+          "supported": false
+        },
+        {
+          "feature_id": "mic",
+          "supported": false
+        }
+      ],
+      "notes": [
+        "Stock camera: access causes imminent crash",
+        "Stock microphone: access causes imminent crash"
+      ],
+      "lcd_panel_size": {
+        "width": 320,
+        "height": 240
+      },
+      "ga_color_depth": 24,
+      "rom_placing_mode": "flat_container"
+    },
+    {
+      "id": "nec_sg2_vr5500",
+      "name": "NEC Solution Gear 2-Vr5500",
+      "soc_id": "vr5500",
+      "device_features": [
+        {
+          "feature_id": "mouse",
+          "supported": true
+        },
+        {
+          "feature_id": "keyboard",
+          "supported": true
+        },
+        {
+          "feature_id": "suspend",
+          "supported": false
+        },
+        {
+          "feature_id": "sound",
+          "supported": false
+        },
+        {
+          "feature_id": "guest_additions",
+          "supported": true
+        },
+        {
+          "feature_id": "pcmcia",
+          "supported": true
+        },
+        {
+          "feature_id": "network",
+          "supported": true
+        }
+      ],
+      "notes": [
+        "MIPS IV ROM is incompatible with MIPS II apps. Prefer using MIPS II ROM."
+      ],
+      "lcd_panel_size": {
+        "width": 640,
+        "height": 480
+      },
+      "ga_color_depth": 24,
+      "rom_placing_mode": "flat_container"
+    },
+    {
+      "id": "philips_nino",
+      "name": "Philips Nino",
+      "soc_id": "pr31700",
+      "device_year": 1998,
+      "device_features": [
+        {
+          "feature_id": "touch",
+          "supported": true
+        },
+        {
+          "feature_id": "keyboard",
+          "supported": true
+        },
+        {
+          "feature_id": "battery",
+          "supported": true
+        },
+        {
+          "feature_id": "suspend",
+          "supported": true
+        },
+        {
+          "feature_id": "guest_additions",
+          "supported": true
+        },
+        {
+          "feature_id": "pcmcia",
+          "supported": true
+        },
+        {
+          "feature_id": "sound",
+          "supported": true
+        },
+        {
+          "feature_id": "serial",
+          "supported": true
+        }
+      ],
+      "notes": [],
+      "lcd_panel_size": {
+        "width": 240,
+        "height": 320
+      },
+      "ga_color_depth": 8,
+      "rom_placing_mode": "flat_container"
+    },
+    {
+      "id": "philips_velo_1",
+      "name": "Philips Velo 1",
+      "soc_id": "pr31500",
+      "device_year": 1997,
+      "device_features": [
+        {
+          "feature_id": "touch",
+          "supported": true
+        },
+        {
+          "feature_id": "keyboard",
+          "supported": true
+        },
+        {
+          "feature_id": "battery",
+          "supported": true
+        },
+        {
+          "feature_id": "suspend",
+          "supported": true
+        },
+        {
+          "feature_id": "guest_additions",
+          "supported": false
+        },
+        {
+          "feature_id": "pcmcia",
+          "supported": true
+        },
+        {
+          "feature_id": "network",
+          "supported": true
+        },
+        {
+          "feature_id": "sound",
+          "supported": true
+        },
+        {
+          "feature_id": "serial",
+          "supported": true
+        }
+      ],
+      "notes": [],
+      "lcd_panel_size": {
+        "width": 480,
+        "height": 240
+      },
+      "ga_color_depth": 24,
+      "rom_placing_mode": "flat_container"
+    },
+    {
+      "id": "sharp_mobilon_hc",
+      "name": "Sharp Mobilon HC",
+      "soc_id": "pr31700",
+      "device_year": 1997,
+      "device_features": [
+        {
+          "feature_id": "touch",
+          "supported": true
+        },
+        {
+          "feature_id": "keyboard",
+          "supported": true
+        },
+        {
+          "feature_id": "battery",
+          "supported": true
+        },
+        {
+          "feature_id": "suspend",
+          "supported": false
+        },
+        {
+          "feature_id": "guest_additions",
+          "supported": true
+        },
+        {
+          "feature_id": "pcmcia",
+          "supported": true
+        },
+        {
+          "feature_id": "network",
+          "supported": true
+        },
+        {
+          "feature_id": "sound",
+          "supported": true
+        },
+        {
+          "feature_id": "serial",
+          "supported": true
+        }
+      ],
+      "notes": [],
+      "lcd_panel_size": {
+        "width": 640,
+        "height": 240
+      },
+      "ga_color_depth": 8,
+      "rom_placing_mode": "flat_container"
+    },
+    {
+      "id": "siemens_simatic_mp377",
+      "name": "Siemens SIMATIC MP 377",
+      "soc_id": "iop13xx",
+      "device_year": 2007,
+      "device_features": [
+        {
+          "feature_id": "touch",
+          "supported": true
+        },
+        {
+          "feature_id": "sound",
+          "supported": true
+        },
+        {
+          "feature_id": "network",
+          "supported": true
+        },
+        {
+          "feature_id": "mic",
+          "supported": false
+        },
+        {
+          "feature_id": "serial",
+          "supported": false
+        },
+        {
+          "feature_id": "guest_additions",
+          "supported": true
+        }
+      ],
+      "notes": [],
+      "ga_color_depth": 24,
+      "rom_placing_mode": "flat_container"
+    },
+    {
+      "id": "siemens_simatic_tp177b_4",
+      "name": "Siemens SIMATIC TP 177B 4\"",
+      "soc_id": "s3c2410",
+      "device_features": [
+        {
+          "feature_id": "touch",
+          "supported": true
+        },
+        {
+          "feature_id": "network",
+          "supported": false
+        },
+        {
+          "feature_id": "guest_additions",
+          "supported": true
+        }
+      ],
+      "notes": [],
+      "lcd_panel_size": {
+        "width": 480,
+        "height": 272
+      },
+      "ga_color_depth": 24,
+      "rom_placing_mode": "flat_container"
+    },
+    {
+      "id": "pangolin",
+      "name": "Pangolin",
+      "soc_id": "sa1110",
+      "device_year": 2003,
+      "device_features": [
+        {
+          "feature_id": "touch",
+          "supported": true
+        },
+        {
+          "feature_id": "keyboard",
+          "supported": true
+        },
+        {
+          "feature_id": "pcmcia",
+          "supported": true
+        },
+        {
+          "feature_id": "network",
+          "supported": true
+        },
+        {
+          "feature_id": "guest_additions",
+          "supported": true
+        },
+        {
+          "feature_id": "battery",
+          "supported": false
+        },
+        {
+          "feature_id": "mic",
+          "supported": false
+        },
+        {
+          "feature_id": "suspend",
+          "supported": true
+        }
+      ],
+      "notes": [],
+      "lcd_panel_size": {
+        "width": 800,
+        "height": 480
+      },
+      "ga_color_depth": 24,
+      "rom_placing_mode": "flat_container"
+    },
+    {
+      "id": "ford_sync_gen2",
+      "name": "Ford SYNC Gen 2",
+      "soc_id": "imx51",
+      "device_year": 2010,
+      "device_features": [
+        {
+          "feature_id": "touch",
+          "supported": true
+        },
+        {
+          "feature_id": "guest_additions",
+          "supported": true
+        },
+        {
+          "feature_id": "sound",
+          "supported": false
+        }
+      ],
+      "notes": [
+        "Stock video: some visuals are glitching; most stock features might crash it",
+        "Guest Additions: do not use this mode when booting without NAND. Flash your device first.",
+        "Guest Additions: driver will OVERWRITE your registry and permanently force WinCE Shell even for stock device runs."
+      ],
+      "lcd_panel_size": {
+        "width": 800,
+        "height": 480
+      },
+      "ga_color_depth": 24,
+      "rom_placing_mode": "imx51_nand"
+    },
+    {
+      "id": "symbol_hamptons",
+      "name": "Symbol Hamptons",
+      "soc_id": "pxa270",
+      "device_year": 2009,
+      "device_features": [
+        {
+          "feature_id": "touch",
+          "supported": true
+        },
+        {
+          "feature_id": "keyboard",
+          "supported": false
+        },
+        {
+          "feature_id": "sound",
+          "supported": true
+        },
+        {
+          "feature_id": "network",
+          "supported": false
+        },
+        {
+          "feature_id": "guest_additions",
+          "supported": true
+        }
+      ],
+      "notes": [],
+      "lcd_panel_size": {
+        "width": 320,
+        "height": 240
+      },
+      "ga_color_depth": 24,
+      "rom_placing_mode": "flat_container"
+    },
+    {
+      "id": "nokia_sea_ray",
+      "name": "Nokia Sea Ray",
+      "soc_id": "msm8255",
+      "device_year": 2011,
+      "device_features": [],
+      "notes": [],
+      "lcd_panel_size": {
+        "width": 480,
+        "height": 800
+      },
+      "ga_color_depth": 24,
+      "rom_placing_mode": "flat_container"
+    }
+  ],
+  "boards": [
+    {
+      "id": "devemu",
+      "name": "Device Emulator (QVGA)",
+      "short_name": "Device Emulator",
+      "board_family_id": "samsung_smdk2410",
+      "support_level": "bootable_full"
+    },
+    {
+      "id": "devemu_vga",
+      "name": "Device Emulator (VGA)",
+      "short_name": "Device Emulator",
+      "board_family_id": "samsung_smdk2410",
+      "support_level": "bootable_full",
+      "internal__spec_divergences": "480x640 panel",
+      "lcd_panel_size": {
+        "width": 480,
+        "height": 640
+      }
+    },
+    {
+      "id": "devemu_wqvga",
+      "name": "Device Emulator (WQVGA)",
+      "short_name": "Device Emulator",
+      "board_family_id": "samsung_smdk2410",
+      "support_level": "bootable_full",
+      "internal__spec_divergences": "240x400 panel",
+      "lcd_panel_size": {
+        "width": 240,
+        "height": 400
+      }
+    },
+    {
+      "id": "devemu_wvga",
+      "name": "Device Emulator (WVGA)",
+      "short_name": "Device Emulator",
+      "board_family_id": "samsung_smdk2410",
+      "support_level": "bootable_full",
+      "internal__spec_divergences": "480x800 panel",
+      "lcd_panel_size": {
+        "width": 480,
+        "height": 800
+      }
+    },
+    {
+      "id": "samsung_smdk2410",
+      "name": "Samsung SMDK2410",
+      "short_name": "SMDK2410",
+      "board_family_id": "samsung_smdk2410",
+      "support_level": "no_support",
+      "internal__spec_divergences": "physical board, no Device Emulator virtual devices"
+    },
+    {
+      "id": "falcon_4220",
+      "name": "PSC/Datalogic Falcon 4220",
+      "short_name": "Falcon 4220",
+      "board_family_id": "askey_pc3xx",
+      "support_level": "bootable_full"
+    },
+    {
+      "id": "ipaq_h36xx",
+      "name": "iPAQ H36xx",
+      "short_name": "iPAQ H36xx",
+      "board_family_id": "compaq_ipaq_h3000",
+      "support_level": "bootable_full"
+    },
+    {
+      "id": "ipaq_h31xx",
+      "name": "iPAQ H31xx",
+      "short_name": "iPAQ H31xx",
+      "board_family_id": "compaq_ipaq_h3000",
+      "support_level": "bootable_full",
+      "internal__spec_divergences": "16 MB RAM, 15-level grayscale STN panel",
+      "device_year": 2001
+    },
+    {
+      "id": "ipaq_h3660_h3670",
+      "name": "iPAQ H3660/H3670",
+      "short_name": "iPAQ H3660/H3670",
+      "board_family_id": "compaq_ipaq_h3000",
+      "support_level": "bootable_full",
+      "internal__spec_divergences": "64 MB RAM",
+      "device_year": 2001
+    },
+    {
+      "id": "ipaq_h37xx",
+      "name": "iPAQ H37xx",
+      "short_name": "iPAQ H37xx",
+      "board_family_id": "compaq_ipaq_h3000",
+      "support_level": "unknown_partial",
+      "internal__spec_divergences": "64 MB RAM, 32 MB flash",
+      "device_year": 2001
+    },
+    {
+      "id": "jornada_820",
+      "name": "HP Jornada 820",
+      "short_name": "Jornada 820",
+      "board_family_id": "hp_jornada_820",
+      "support_level": "bootable_full"
+    },
+    {
+      "id": "jornada_820e",
+      "name": "HP Jornada 820e",
+      "short_name": "Jornada 820e",
+      "board_family_id": "hp_jornada_820",
+      "support_level": "unknown_partial",
+      "internal__spec_divergences": "no modem connector"
+    },
+    {
+      "id": "jornada_720",
+      "name": "HP Jornada 720",
+      "short_name": "Jornada 720",
+      "board_family_id": "hp_jornada_700",
+      "support_level": "bootable_full"
+    },
+    {
+      "id": "jornada_710",
+      "name": "HP Jornada 710",
+      "short_name": "Jornada 710",
+      "board_family_id": "hp_jornada_700",
+      "support_level": "unknown_partial",
+      "internal__spec_divergences": "no modem",
+      "device_year": 2001
+    },
+    {
+      "id": "jornada_728",
+      "name": "HP Jornada 728",
+      "short_name": "Jornada 728",
+      "board_family_id": "hp_jornada_700",
+      "support_level": "unknown_partial",
+      "internal__spec_divergences": "64 MB RAM",
+      "device_year": 2002
+    },
+    {
+      "id": "odo",
+      "name": "Microsoft Hardware Reference Platform",
+      "short_name": "Reference Platform",
+      "board_family_id": "odo",
+      "support_level": "bootable_full"
+    },
+    {
+      "id": "omap_3530_evm",
+      "name": "TI OMAP35x EVM (Gen1 main board)",
+      "short_name": "OMAP35x EVM",
+      "board_family_id": "ti_omap35x_evm",
+      "support_level": "bootable_full"
+    },
+    {
+      "id": "omap_3530_evm_gen2",
+      "name": "TI OMAP35x EVM (Gen2 main board)",
+      "short_name": "OMAP35x EVM",
+      "board_family_id": "ti_omap35x_evm",
+      "support_level": "bootable_partial",
+      "internal__spec_divergences": "LAN9220 Ethernet"
+    },
+    {
+      "id": "omap_3530_evm_onenand",
+      "name": "TI OMAP35x EVM (OneNAND module)",
+      "short_name": "OMAP35x EVM",
+      "board_family_id": "ti_omap35x_evm",
+      "support_level": "no_support",
+      "internal__spec_divergences": "128 MB RAM, 128 MB OneNAND"
+    },
+    {
+      "id": "zune_30",
+      "name": "Microsoft Zune 30",
+      "short_name": "Zune 30",
+      "board_family_id": "toshiba_gigabeat_s",
+      "support_level": "bootable_full"
+    },
+    {
+      "id": "toshiba_gigabeat_s30",
+      "name": "Toshiba Gigabeat S30",
+      "short_name": "Gigabeat S30",
+      "board_family_id": "toshiba_gigabeat_s",
+      "support_level": "no_support",
+      "internal__spec_divergences": "2.4\" panel, matrix keypad, no WiFi, Si4700 FM tuner"
+    },
+    {
+      "id": "toshiba_gigabeat_s60v",
+      "name": "Toshiba Gigabeat S60V",
+      "short_name": "Gigabeat S60V",
+      "board_family_id": "toshiba_gigabeat_s",
+      "support_level": "no_support",
+      "internal__spec_divergences": "2.4\" panel, matrix keypad, no WiFi, Si4700 FM tuner, 60 GB HDD"
+    },
+    {
+      "id": "toshiba_gigabeat_v30t",
+      "name": "Toshiba Gigabeat V30T",
+      "short_name": "Gigabeat V30T",
+      "board_family_id": "toshiba_gigabeat_s",
+      "support_level": "no_support",
+      "internal__spec_divergences": "3.5\" 320x240 panel, 1seg TV tuner"
+    },
+    {
+      "id": "simpad_sl4",
+      "name": "Siemens SIMpad SL4",
+      "short_name": "SIMpad SL4",
+      "board_family_id": "siemens_simpad",
+      "support_level": "bootable_full"
+    },
+    {
+      "id": "simpad_slc",
+      "name": "Siemens SIMpad SLC",
+      "short_name": "SIMpad SLC",
+      "board_family_id": "siemens_simpad",
+      "support_level": "unknown_partial",
+      "internal__spec_divergences": "MD34 DECT module"
+    },
+    {
+      "id": "simpad_cl4",
+      "name": "Siemens SIMpad CL4",
+      "short_name": "SIMpad CL4",
+      "board_family_id": "siemens_simpad",
+      "support_level": "unknown_partial",
+      "internal__spec_divergences": "32 MB RAM, 16 MB flash, MD34 DECT module, no PC Card slot, no microphone",
+      "device_features": [
+        {
+          "feature_id": "pcmcia",
+          "supported": false
+        }
+      ]
+    },
+    {
+      "id": "t_sinus_pad",
+      "name": "T-Sinus Pad",
+      "short_name": "T-Sinus Pad",
+      "board_family_id": "siemens_simpad",
+      "support_level": "unknown_partial",
+      "internal__spec_divergences": "32 MB RAM, 16 MB flash, MD34 DECT module"
+    },
+    {
+      "id": "swisscom_wp50",
+      "name": "Swisscom WP50",
+      "short_name": "WP50",
+      "board_family_id": "siemens_simpad",
+      "support_level": "unknown_partial",
+      "internal__spec_divergences": "32 MB RAM, 16 MB flash, MD34 DECT module, no PC Card slot",
+      "device_features": [
+        {
+          "feature_id": "pcmcia",
+          "supported": false
+        }
+      ]
+    },
+    {
+      "id": "nec_mobilepro_900",
+      "name": "NEC MobilePro 900(c)",
+      "short_name": "MobilePro 900(c)",
+      "board_family_id": "nec_mobilepro_900_series",
+      "support_level": "bootable_full"
+    },
+    {
+      "id": "nec_mobilepro_700",
+      "name": "NEC MobilePro 700",
+      "short_name": "MobilePro 700",
+      "board_family_id": "nec_mobilepro_700",
+      "support_level": "bootable_full"
+    },
+    {
+      "id": "nec_mobilepro_790",
+      "name": "NEC MobilePro 790",
+      "short_name": "MobilePro 790",
+      "board_family_id": "nec_cronos3e",
+      "support_level": "no_support"
+    },
+    {
+      "id": "nec_mobilegear2_r550",
+      "name": "NEC MobileGear II MC/R550",
+      "short_name": "MobileGear II R550",
+      "board_family_id": "nec_cronos3e",
+      "support_level": "no_support",
+      "internal__spec_divergences": "Japanese keyboard, phone interface (PDC, cdmaOne, PHS), earphone-mic jack",
+      "device_year": 2000
+    },
+    {
+      "id": "nec_mobilegear2_r450",
+      "name": "NEC MobileGear II MC/R450",
+      "short_name": "MobileGear II R450",
+      "board_family_id": "nec_cronos3e",
+      "support_level": "no_support",
+      "internal__spec_divergences": "Japanese keyboard, phone interface (PDC, cdmaOne, PHS), earphone-mic jack",
+      "device_year": 2000
+    },
+    {
+      "id": "nec_mobilepro_780",
+      "name": "NEC MobilePro 780",
+      "short_name": "MobilePro 780",
+      "board_family_id": "nec_cronos3e",
+      "support_level": "no_support",
+      "internal__spec_divergences": "no flash",
+      "device_year": 2000
+    },
+    {
+      "id": "nec_mobilegear2_r530",
+      "name": "NEC MobileGear II MC/R530",
+      "short_name": "MobileGear II R530",
+      "board_family_id": "nec_cronos3e",
+      "support_level": "no_support",
+      "internal__spec_divergences": "no flash, Japanese keyboard",
+      "device_year": 1999
+    },
+    {
+      "id": "nec_mobilegear2_r430",
+      "name": "NEC MobileGear II MC/R430",
+      "short_name": "MobileGear II R430",
+      "board_family_id": "nec_cronos3e",
+      "support_level": "no_support",
+      "internal__spec_divergences": "no flash, Japanese keyboard, no modem, no VGA out, no scroll dial",
+      "device_year": 1999
+    },
+    {
+      "id": "casio_cassiopeia_e55",
+      "name": "Casio Cassiopeia E-55",
+      "short_name": "E-55",
+      "board_family_id": "casio_tomcat",
+      "support_level": "bootable_full"
+    },
+    {
+      "id": "casio_cassiopeia_e10",
+      "name": "Casio Cassiopeia E-10",
+      "short_name": "E-10",
+      "board_family_id": "casio_tomcat",
+      "support_level": "unknown_partial",
+      "internal__spec_divergences": "4 MB RAM, 8 MB ROM"
+    },
+    {
+      "id": "casio_cassiopeia_e11",
+      "name": "Casio Cassiopeia E-11",
+      "short_name": "E-11",
+      "board_family_id": "casio_tomcat",
+      "support_level": "unknown_partial",
+      "internal__spec_divergences": "8 MB RAM, 8 MB ROM"
+    },
+    {
+      "id": "casio_cassiopeia_e65",
+      "name": "Casio Cassiopeia E-65",
+      "short_name": "E-65",
+      "board_family_id": "casio_tomcat",
+      "support_level": "unknown_partial",
+      "internal__spec_divergences": "identical hardware",
+      "device_year": 1999
+    },
+    {
+      "id": "casio_cassiopeia_e15",
+      "name": "Casio Cassiopeia E-15",
+      "short_name": "E-15",
+      "board_family_id": "casio_tomcat",
+      "support_level": "unknown_partial",
+      "internal__spec_divergences": "16 MB ROM",
+      "device_year": 1999
+    },
+    {
+      "id": "casio_cassiopeia_for_docomo",
+      "name": "Casio CASSIOPEIA for DoCoMo",
+      "short_name": "CASSIOPEIA for DoCoMo",
+      "board_family_id": "casio_tomcat",
+      "support_level": "unknown_partial",
+      "internal__spec_divergences": "8 MB RAM"
+    },
+    {
+      "id": "casio_cassiopeia_em500",
+      "name": "Casio Cassiopeia EM-500",
+      "short_name": "EM-500",
+      "board_family_id": "casio_jx670",
+      "support_level": "bootable_full"
+    },
+    {
+      "id": "casio_cassiopeia_e700",
+      "name": "Casio Cassiopeia E-700",
+      "short_name": "E-700",
+      "board_family_id": "casio_jx670",
+      "support_level": "bootable_full",
+      "internal__spec_divergences": "32 MB RAM, 32 MB ROM"
+    },
+    {
+      "id": "casio_cassiopeia_em505",
+      "name": "Casio Cassiopeia EM-505",
+      "short_name": "EM-505",
+      "board_family_id": "casio_jx670",
+      "support_level": "unknown_partial",
+      "internal__spec_divergences": "32 MB RAM"
+    },
+    {
+      "id": "casio_cassiopeia_e707",
+      "name": "Casio Cassiopeia E-707",
+      "short_name": "E-707",
+      "board_family_id": "casio_jx670",
+      "support_level": "unknown_partial",
+      "internal__spec_divergences": "CF slot, DoPa module"
+    },
+    {
+      "id": "casio_cassiopeia_e800",
+      "name": "Casio Cassiopeia E-800",
+      "short_name": "E-800",
+      "board_family_id": "casio_jx670",
+      "support_level": "unknown_partial",
+      "internal__spec_divergences": "CF slot instead of SD"
+    },
+    {
+      "id": "casio_gfort",
+      "name": "Casio GFORT",
+      "short_name": "GFORT",
+      "board_family_id": "casio_jx670",
+      "support_level": "unknown_partial",
+      "internal__spec_divergences": "CF slot instead of SD, Li-polymer battery"
+    },
+    {
+      "id": "casio_toricomail",
+      "name": "Casio Toricomail",
+      "short_name": "Toricomail",
+      "board_family_id": "casio_pocketpostpet",
+      "support_level": "bootable_full"
+    },
+    {
+      "id": "casio_message_cam",
+      "name": "Casio Message-Cam",
+      "short_name": "Message-Cam",
+      "board_family_id": "casio_pocketpostpet",
+      "support_level": "bootable_full",
+      "internal__spec_divergences": "GSM phone interface",
+      "device_year": 2001
+    },
+    {
+      "id": "casio_pocketpostpet",
+      "name": "Casio PocketPostPet",
+      "short_name": "PocketPostPet",
+      "board_family_id": "casio_pocketpostpet",
+      "support_level": "bootable_full",
+      "internal__spec_divergences": "no camera, keyboard, IrDA, 4096-colour panel, PDC phone interface"
+    },
+    {
+      "id": "nec_rockhopper",
+      "name": "NEC Rockhopper SG2_VR5500",
+      "short_name": "Rockhopper",
+      "board_family_id": "nec_sg2_vr5500",
+      "support_level": "bootable_full"
+    },
+    {
+      "id": "nec_rockhopper_i",
+      "name": "NEC Rockhopper I",
+      "short_name": "Rockhopper I",
+      "board_family_id": "nec_sg2_vr5500",
+      "support_level": "no_support",
+      "internal__spec_divergences": "no ALi M1535 south bridge, EPLD on LCS2, second flash on LCS1"
+    },
+    {
+      "id": "philips_nino_300",
+      "name": "Philips Nino 300",
+      "short_name": "Nino 300",
+      "board_family_id": "philips_nino",
+      "support_level": "bootable_full"
+    },
+    {
+      "id": "philips_nino_312",
+      "name": "Philips Nino 312",
+      "short_name": "Nino 312",
+      "board_family_id": "philips_nino",
+      "support_level": "unknown_partial",
+      "internal__spec_divergences": "8 MB RAM"
+    },
+    {
+      "id": "philips_nino_200",
+      "name": "Philips Nino 200",
+      "short_name": "Nino 200",
+      "board_family_id": "philips_nino",
+      "support_level": "unknown_partial",
+      "internal__spec_divergences": "8 MB RAM",
+      "device_year": 1999
+    },
+    {
+      "id": "philips_nino_500",
+      "name": "Philips Nino 500",
+      "short_name": "Nino 500",
+      "board_family_id": "philips_nino",
+      "support_level": "no_support",
+      "internal__spec_divergences": "16 MB RAM, 16 MB ROM, 256-colour DSTN panel",
+      "device_year": 1999
+    },
+    {
+      "id": "philips_velo_1",
+      "name": "Philips Velo 1",
+      "short_name": "Velo 1",
+      "board_family_id": "philips_velo_1",
+      "support_level": "bootable_full"
+    },
+    {
+      "id": "philips_velo_1_dram_1mb",
+      "name": "Philips Velo 1 (1 MB DRAM Miniature Card)",
+      "short_name": "Velo 1",
+      "board_family_id": "philips_velo_1",
+      "support_level": "bootable_full",
+      "internal__spec_divergences": "1 MB DRAM Miniature Card in slot 1"
+    },
+    {
+      "id": "philips_velo_1_dram_2mb",
+      "name": "Philips Velo 1 (2 MB DRAM Miniature Card)",
+      "short_name": "Velo 1",
+      "board_family_id": "philips_velo_1",
+      "support_level": "bootable_full",
+      "internal__spec_divergences": "2 MB DRAM Miniature Card in slot 1"
+    },
+    {
+      "id": "philips_velo_1_dram_4mb",
+      "name": "Philips Velo 1 (4 MB DRAM Miniature Card)",
+      "short_name": "Velo 1",
+      "board_family_id": "philips_velo_1",
+      "support_level": "bootable_full",
+      "internal__spec_divergences": "4 MB DRAM Miniature Card in slot 1"
+    },
+    {
+      "id": "philips_velo_1_dram_8mb",
+      "name": "Philips Velo 1 (8 MB DRAM Miniature Card)",
+      "short_name": "Velo 1",
+      "board_family_id": "philips_velo_1",
+      "support_level": "bootable_full",
+      "internal__spec_divergences": "8 MB DRAM Miniature Card in slot 1"
+    },
+    {
+      "id": "philips_velo_1_dram_16mb",
+      "name": "Philips Velo 1 (16 MB DRAM Miniature Card)",
+      "short_name": "Velo 1",
+      "board_family_id": "philips_velo_1",
+      "support_level": "bootable_full",
+      "internal__spec_divergences": "16 MB DRAM Miniature Card in slot 1"
+    },
+    {
+      "id": "sharp_mobilon_hc4100",
+      "name": "Sharp Mobilon HC-4100",
+      "short_name": "Mobilon HC-4100",
+      "board_family_id": "sharp_mobilon_hc",
+      "support_level": "bootable_full"
+    },
+    {
+      "id": "sharp_mobilon_hc4000",
+      "name": "Sharp Mobilon HC-4000",
+      "short_name": "Mobilon HC-4000",
+      "board_family_id": "sharp_mobilon_hc",
+      "support_level": "unknown_partial",
+      "internal__spec_divergences": "4 MB RAM"
+    },
+    {
+      "id": "sharp_mobilon_hc4500",
+      "name": "Sharp Mobilon HC-4500",
+      "short_name": "Mobilon HC-4500",
+      "board_family_id": "sharp_mobilon_hc",
+      "support_level": "no_support",
+      "internal__spec_divergences": "256-colour STN panel, NiMH battery"
+    },
+    {
+      "id": "sharp_mobilon_hc4600",
+      "name": "Sharp Mobilon HC-4600",
+      "short_name": "Mobilon HC-4600",
+      "board_family_id": "sharp_mobilon_hc",
+      "support_level": "no_support",
+      "internal__spec_divergences": "256-colour panel, 16 MB RAM",
+      "device_year": 1998
+    },
+    {
+      "id": "siemens_mp377",
+      "name": "Siemens SIMATIC MP 377 12\" Touch",
+      "short_name": "SIMATIC MP 377",
+      "board_family_id": "siemens_simatic_mp377",
+      "support_level": "bootable_full"
+    },
+    {
+      "id": "siemens_mp377_12_key",
+      "name": "Siemens SIMATIC MP 377 12\" Key",
+      "short_name": "SIMATIC MP 377",
+      "board_family_id": "siemens_simatic_mp377",
+      "support_level": "bootable_partial",
+      "internal__spec_divergences": "membrane keypad"
+    },
+    {
+      "id": "siemens_mp377_15_touch",
+      "name": "Siemens SIMATIC MP 377 15\" Touch",
+      "short_name": "SIMATIC MP 377",
+      "board_family_id": "siemens_simatic_mp377",
+      "support_level": "bootable_full",
+      "internal__spec_divergences": "15\" 1024x768 panel"
+    },
+    {
+      "id": "siemens_mp377_19_touch",
+      "name": "Siemens SIMATIC MP 377 19\" Touch",
+      "short_name": "SIMATIC MP 377",
+      "board_family_id": "siemens_simatic_mp377",
+      "support_level": "bootable_full",
+      "internal__spec_divergences": "19\" 1280x1024 panel"
+    },
+    {
+      "id": "siemens_mp377_15_daylight",
+      "name": "Siemens SIMATIC MP 377 15\" Touch daylight readable",
+      "short_name": "SIMATIC MP 377",
+      "board_family_id": "siemens_simatic_mp377",
+      "support_level": "no_support",
+      "internal__spec_divergences": "15\" 1024x768 panel, projected-capacitive touch, LED backlight",
+      "device_year": 2009
+    },
+    {
+      "id": "siemens_mp377_15_inox",
+      "name": "Siemens SIMATIC MP 377 15\" INOX",
+      "short_name": "SIMATIC MP 377",
+      "board_family_id": "siemens_simatic_mp377",
+      "support_level": "unknown_partial",
+      "internal__spec_divergences": "15\" 1024x768 panel, LED backlight",
+      "device_year": 2009
+    },
+    {
+      "id": "siemens_p177",
+      "name": "Siemens SIMATIC TP 177B 4\" color PN/DP",
+      "short_name": "SIMATIC TP 177B",
+      "board_family_id": "siemens_simatic_tp177b_4",
+      "support_level": "bootable_full"
+    },
+    {
+      "id": "siemens_siplus_tp177b_4",
+      "name": "Siemens SIPLUS HMI TP 177B 4\"",
+      "short_name": "SIPLUS TP 177B",
+      "board_family_id": "siemens_simatic_tp177b_4",
+      "support_level": "unknown_partial",
+      "internal__spec_divergences": "conformal coating"
+    },
+    {
+      "id": "smartbook_g138",
+      "name": "SmartBook G138",
+      "short_name": "SmartBook G138",
+      "board_family_id": "pangolin",
+      "support_level": "bootable_full"
+    },
+    {
+      "id": "coxion_webbook",
+      "name": "Coxion WebBook",
+      "short_name": "WebBook",
+      "board_family_id": "pangolin",
+      "support_level": "unknown_partial",
+      "internal__spec_divergences": "identical hardware"
+    },
+    {
+      "id": "ford_sync_2",
+      "name": "Ford MyFord Touch",
+      "short_name": "MyFord Touch",
+      "board_family_id": "ford_sync_gen2",
+      "support_level": "bootable_full"
+    },
+    {
+      "id": "lincoln_mylincoln_touch",
+      "name": "Lincoln MyLincoln Touch",
+      "short_name": "MyLincoln Touch",
+      "board_family_id": "ford_sync_gen2",
+      "support_level": "unknown_partial",
+      "internal__spec_divergences": "identical hardware"
+    },
+    {
+      "id": "ford_sync_2_intl",
+      "name": "Ford SYNC 2 (Europe, Asia-Pacific)",
+      "short_name": "SYNC 2",
+      "board_family_id": "ford_sync_gen2",
+      "support_level": "unknown_partial",
+      "internal__spec_divergences": "unknown"
+    },
+    {
+      "id": "symbol_mk500",
+      "name": "Symbol MK500 (T35QM7117 panel)",
+      "short_name": "MK500",
+      "board_family_id": "symbol_hamptons",
+      "support_level": "bootable_full"
+    },
+    {
+      "id": "symbol_mk500_a035qn02",
+      "name": "Symbol MK500 (A035QN02 panel)",
+      "short_name": "MK500",
+      "board_family_id": "symbol_hamptons",
+      "support_level": "bootable_full",
+      "internal__spec_divergences": "A035QN02 panel"
+    },
+    {
+      "id": "symbol_mk590",
+      "name": "Symbol MK590",
+      "short_name": "MK590",
+      "board_family_id": "symbol_hamptons",
+      "support_level": "bootable_partial",
+      "internal__spec_divergences": "802.11a/b/g radio"
+    },
+    {
+      "id": "nokia_lumia_800",
+      "name": "Nokia Lumia 800 (RM-801)",
+      "short_name": "Lumia 800",
+      "board_family_id": "nokia_sea_ray",
+      "support_level": "no_support"
+    },
+    {
+      "id": "nokia_lumia_800_rm819",
+      "name": "Nokia Lumia 800 (RM-819)",
+      "short_name": "Lumia 800",
+      "board_family_id": "nokia_sea_ray",
+      "support_level": "no_support",
+      "internal__spec_divergences": "HSDPA 850/900/1900/2100"
+    }
+  ],
+  "rom_types": [
+    {
+      "id": "primary",
+      "name": "Generic NK/XIP/NB0",
+      "formats": [
+        "bin",
+        "nb0"
+      ]
+    },
+    {
+      "id": "primary",
+      "name": "SmartBook Upgrade Package",
+      "board_family_ids": [
+        "pangolin"
+      ],
+      "formats": [
+        "fim"
+      ]
+    },
+    {
+      "id": "primary",
+      "name": "SYNC 2 Upgrade Package",
+      "board_family_ids": [
+        "ford_sync_gen2"
+      ],
+      "formats": [
+        "sec"
+      ],
+      "optional_for_storage_ids": [
+        "nand"
+      ],
+      "note": "If you don't have a NAND image, CERF will use this package to seed the bootloader, enter factory recovery mode and will transfer it fully into the recovery program via USB."
+    },
+    {
+      "id": "primary",
+      "name": "Mk500 Flash Dump",
+      "board_family_ids": [
+        "symbol_hamptons"
+      ],
+      "formats": [
+        "bin"
+      ]
+    },
+    {
+      "id": "primary",
+      "name": "Simpad Upgrade Package",
+      "board_family_ids": [
+        "siemens_simpad"
+      ]
+    },
+    {
+      "id": "primary",
+      "name": "Lumia 800 Upgrade ROM",
+      "board_family_ids": [
+        "nokia_sea_ray"
+      ],
+      "formats": [
+        "esco"
+      ]
+    },
+    {
+      "id": "lumia800_user_area_erase",
+      "name": "User Area Erase Image",
+      "board_family_ids": [
+        "nokia_sea_ray"
+      ],
+      "formats": [
+        "esco"
+      ]
+    },
+    {
+      "id": "eeprom",
+      "name": "EEPROM",
+      "optional": true,
+      "board_family_ids": [
+        "hp_jornada_700"
+      ],
+      "formats": [
+        "bin",
+        "img"
+      ]
+    },
+    {
+      "id": "primary",
+      "name": "iPAQ Upgrade Package",
+      "board_family_ids": [
+        "compaq_ipaq_h3000"
+      ],
+      "formats": [
+        "nbf"
+      ]
+    },
+    {
+      "id": "ce_dictionary",
+      "name": "Dictionary Dump",
+      "optional": true,
+      "board_family_ids": [
+        "casio_tomcat",
+        "casio_jx670"
+      ],
+      "formats": [
+        "bin"
+      ]
+    }
+  ],
+  "storage_types": [
+    {
+      "id": "nand",
+      "name": "NAND",
+      "picker_type": "existing_or_point",
+      "board_family_ids": [
+        "ford_sync_gen2"
+      ],
+      "formats": [
+        "img"
+      ]
+    },
+    {
+      "id": "hdd",
+      "name": "HDD",
+      "picker_type": "existing_or_point",
+      "board_family_ids": [
+        "toshiba_gigabeat_s"
+      ],
+      "formats": [
+        "img"
+      ],
+      "note": "HDD image with Zune 30 system/user storage partitions. CERF does not boot from it unlike real hardware - the operating system stored in your dump is inert for CERF."
+    },
+    {
+      "id": "emmc",
+      "name": "eMMC",
+      "picker_type": "existing_or_point",
+      "board_family_ids": [
+        "nokia_sea_ray"
+      ],
+      "formats": [
+        "img"
+      ]
+    }
+  ]
+}

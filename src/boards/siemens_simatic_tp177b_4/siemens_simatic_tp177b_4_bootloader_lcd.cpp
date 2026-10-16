@@ -1,0 +1,97 @@
+#include <cerfcore/core/cerf_emulator.h>
+#include <cerfcore/core/log.h>
+#include <cerfcore/core/service.h>
+#include <cerfcore/lcd/lcd_pixel_expand.h>
+#include "../../socs/s3c2410/s3c2410_lcd.h"
+#include <cerfcore/boards/board_context.h>
+#include "siemens_simatic_tp177b_4_family_id.h"
+
+#include <cstdint>
+
+/* Siemens P177 coupled-bootloader LCDC handoff (agent_docs/boot_loaders.md):
+   the CE display driver inherits an already-running LCDC and never writes
+   0x4D000000, so without this preset the controller is dark / screen blank.
+   Register bit layout: S3C2410A UM §15. */
+
+namespace {
+
+constexpr uint32_t kLcdcBase  = 0x4D000000u;
+constexpr uint32_t kLCDCON1   = kLcdcBase + 0x00u;
+constexpr uint32_t kLCDCON2   = kLcdcBase + 0x04u;
+constexpr uint32_t kLCDCON3   = kLcdcBase + 0x08u;
+constexpr uint32_t kLCDCON5   = kLcdcBase + 0x10u;
+constexpr uint32_t kLCDSADDR1 = kLcdcBase + 0x14u;
+constexpr uint32_t kTFTPAL0   = kLcdcBase + 0x400u;
+
+constexpr uint32_t kWidth  = 480u;
+constexpr uint32_t kHeight = 272u;
+constexpr uint32_t kFbPa   = 0x300E0000u;
+
+constexpr uint32_t kSysPalRgb888[256] = {
+    0x000000u, 0x800000u, 0x008000u, 0x808000u, 0x000080u, 0x800080u, 0x008080u, 0xC0C0C0u,
+    0xC0DCC0u, 0xA6CAF0u, 0x000033u, 0x330000u, 0x330033u, 0x003333u, 0x161616u, 0x1C1C1Cu,
+    0x222222u, 0x292929u, 0x555555u, 0x4D4D4Du, 0x424242u, 0x393939u, 0xFF7C80u, 0xFF5050u,
+    0xD60093u, 0xCCECFFu, 0xEFD6C6u, 0xE7E7D6u, 0xADA990u, 0x33FF00u, 0x660000u, 0x990000u,
+    0xCC0000u, 0x003300u, 0x333300u, 0x663300u, 0x993300u, 0xCC3300u, 0xFF3300u, 0x006600u,
+    0x336600u, 0x666600u, 0x996600u, 0xCC6600u, 0xFF6600u, 0x009900u, 0x339900u, 0x669900u,
+    0x999900u, 0xCC9900u, 0xFF9900u, 0x00CC00u, 0x33CC00u, 0x66CC00u, 0x99CC00u, 0xCCCC00u,
+    0xFFCC00u, 0x66FF00u, 0x99FF00u, 0xCCFF00u, 0x00FF33u, 0x3300FFu, 0x660033u, 0x990033u,
+    0xCC0033u, 0xFF0033u, 0x0033FFu, 0x333333u, 0x663333u, 0x993333u, 0xCC3333u, 0xFF3333u,
+    0x006633u, 0x336633u, 0x666633u, 0x996633u, 0xCC6633u, 0xFF6633u, 0x009933u, 0x339933u,
+    0x669933u, 0x999933u, 0xCC9933u, 0xFF9933u, 0x00CC33u, 0x33CC33u, 0x66CC33u, 0x99CC33u,
+    0xCCCC33u, 0xFFCC33u, 0x33FF33u, 0x66FF33u, 0x99FF33u, 0xCCFF33u, 0xFFFF33u, 0x000066u,
+    0x330066u, 0x660066u, 0x990066u, 0xCC0066u, 0xFF0066u, 0x003366u, 0x333366u, 0x663366u,
+    0x993366u, 0xCC3366u, 0xFF3366u, 0x006666u, 0x336666u, 0x666666u, 0x996666u, 0xCC6666u,
+    0x009966u, 0x339966u, 0x669966u, 0x999966u, 0xCC9966u, 0xFF9966u, 0x00CC66u, 0x33CC66u,
+    0x99CC66u, 0xCCCC66u, 0xFFCC66u, 0x00FF66u, 0x33FF66u, 0x99FF66u, 0xCCFF66u, 0xFF00CCu,
+    0xCC00FFu, 0x009999u, 0x993399u, 0x990099u, 0xCC0099u, 0x000099u, 0x333399u, 0x660099u,
+    0xCC3399u, 0xFF0099u, 0x006699u, 0x336699u, 0x663399u, 0x996699u, 0xCC6699u, 0xFF3399u,
+    0x339999u, 0x669999u, 0x999999u, 0xCC9999u, 0xFF9999u, 0x00CC99u, 0x33CC99u, 0x66CC66u,
+    0x99CC99u, 0xCCCC99u, 0xFFCC99u, 0x00FF99u, 0x33FF99u, 0x66CC99u, 0x99FF99u, 0xCCFF99u,
+    0xFFFF99u, 0x0000CCu, 0x330099u, 0x6600CCu, 0x9900CCu, 0xCC00CCu, 0x003399u, 0x3333CCu,
+    0x6633CCu, 0x9933CCu, 0xCC33CCu, 0xFF33CCu, 0x0066CCu, 0x3366CCu, 0x666699u, 0x9966CCu,
+    0xCC66CCu, 0xFF6699u, 0x0099CCu, 0x3399CCu, 0x6699CCu, 0x9999CCu, 0xCC99CCu, 0xFF99CCu,
+    0x00CCCCu, 0x33CCCCu, 0x66CCCCu, 0x99CCCCu, 0xCCCCCCu, 0xFFCCCCu, 0x00FFCCu, 0x33FFCCu,
+    0x66FF99u, 0x99FFCCu, 0xCCFFCCu, 0xFFFFCCu, 0x3300CCu, 0x6600FFu, 0x9900FFu, 0x0033CCu,
+    0x3333FFu, 0x6633FFu, 0x9933FFu, 0xCC33FFu, 0xFF33FFu, 0x0066FFu, 0x3366FFu, 0x6666CCu,
+    0x9966FFu, 0xCC66FFu, 0xFF66CCu, 0x0099FFu, 0x3399FFu, 0x6699FFu, 0x9999FFu, 0xCC99FFu,
+    0xFF99FFu, 0x00CCFFu, 0x33CCFFu, 0x66CCFFu, 0x99CCFFu, 0xCCCCFFu, 0xFFCCFFu, 0x33FFFFu,
+    0x66FFCCu, 0x99FFFFu, 0xCCFFFFu, 0xFF6666u, 0x66FF66u, 0xFFFF66u, 0x6666FFu, 0xFF66FFu,
+    0x66FFFFu, 0xA50021u, 0x5F5F5Fu, 0x777777u, 0x868686u, 0x969696u, 0xCBCBCBu, 0xB2B2B2u,
+    0xD7D7D7u, 0xDDDDDDu, 0xE3E3E3u, 0xEAEAEAu, 0xF1F1F1u, 0xF8F8F8u, 0xFFFBF0u, 0xA0A0A4u,
+    0x808080u, 0xFF0000u, 0x00FF00u, 0xFFFF00u, 0x0000FFu, 0xFF00FFu, 0x00FFFFu, 0xFFFFFFu,
+};
+
+class SiemensSimaticTp177b4BootloaderLcd : public Service {
+public:
+    using Service::Service;
+
+    bool ShouldRegister() override {
+        auto* bd = emu_.TryGet<BoardContext>();
+        return bd && bd->GetBoardFamilyId() == BoardFamilyId::SiemensSimaticTp177b4;
+    }
+
+    void OnReady() override {
+        auto& lcd = emu_.Get<S3C2410Lcd>();
+
+        for (uint32_t i = 0; i < 256u; ++i)
+            lcd.WriteWord(kTFTPAL0 + i * 4u, lcd_pixel::PackRgb565(kSysPalRgb888[i]));
+
+        lcd.WriteWord(kLCDCON2,   (kHeight - 1u) << 14);
+        lcd.WriteWord(kLCDCON3,   (kWidth  - 1u) <<  8);
+        lcd.WriteWord(kLCDCON5,   1u << 11);
+        lcd.WriteWord(kLCDSADDR1, kFbPa >> 1);
+
+        /* LCDCON1 LAST: PNRMODE=3 (TFT) | BPPMODE=11 (8bpp TFT) | ENVID=1.
+           The 0→1 ENVID edge is what fires S3C2410Lcd's OnLcdEnabled. */
+        const uint32_t lcdcon1 = 1u | (11u << 1) | (3u << 5);
+        lcd.WriteWord(kLCDCON1, lcdcon1);
+
+        LOG(Board, "SiemensSimaticTp177b4BootloaderLcd: LCDC preset %ux%u 8bpp "
+                   "palettized, fb PA 0x%08X\n", kWidth, kHeight, kFbPa);
+    }
+};
+
+}  // namespace
+
+REGISTER_SERVICE(SiemensSimaticTp177b4BootloaderLcd);

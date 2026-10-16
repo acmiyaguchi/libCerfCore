@@ -1,0 +1,12 @@
+function(cerfcore_test name)
+    add_executable(${name} ${name}.cpp)
+    target_link_libraries(${name} PRIVATE "$<LINK_LIBRARY:WHOLE_ARCHIVE,cerfcore::cerfcore>")
+    if(MSVC)
+        target_compile_options(${name} PRIVATE /W4 /WX /permissive- /utf-8)
+    else()
+        target_compile_options(${name} PRIVATE -Wall -Wextra -Werror)
+    endif()
+    add_test(NAME ${name} COMMAND ${name})
+endfunction()
+
+cerfcore_test(utf16_test)

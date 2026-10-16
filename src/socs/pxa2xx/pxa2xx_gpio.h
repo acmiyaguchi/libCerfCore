@@ -1,0 +1,117 @@
+#pragma once
+
+#include <cerfcore/peripherals/peripheral_base.h>
+
+#include <cstdint>
+#include <functional>
+#include <mutex>
+#include <vector>
+
+class Pxa2xxGpioSerialSlave {
+public:
+    virtual ~Pxa2xxGpioSerialSlave() = default;
+    virtual void     OnGuestWrite(uint32_t off, uint32_t value) = 0;
+    virtual uint32_t DriveGplr(uint32_t bank) = 0;
+    virtual void SaveState(StateWriter& w) = 0;
+    virtual void RestoreState(StateReader& r) = 0;
+};
+
+/* PXA255 Dev Man §3.5.3: "If a GPIO is to be used as a wake up source from
+   Sleep, it must be programmed as an input in the GPDR". */
+class Pxa2xxGpioWakeSink {
+public:
+    virtual ~Pxa2xxGpioWakeSink() = default;
+    virtual void OnInputEdges(uint32_t rose, uint32_t fell) = 0;
+};
+
+class Pxa2xxGpio : public Peripheral {
+public:
+    static constexpr uint32_t kMaxBanks = 4u;
+
+    struct OutputPins {
+        uint32_t level[kMaxBanks]  = {};
+        uint32_t driven[kMaxBanks] = {};
+
+        bool Driven(uint32_t gpio) const { return (driven[gpio / 32u] >> (gpio % 32u)) & 1u; }
+        bool High(uint32_t gpio) const { return (level[gpio / 32u] >> (gpio % 32u)) & 1u; }
+        bool operator==(const OutputPins& o) const;
+    };
+    using OutputObserver = std::function<void(const OutputPins& pins, bool resync)>;
+
+    using Peripheral::Peripheral;
+
+    void     OnReady() override;
+    uint32_t MmioBase() const override { return 0x40E00000u; }
+    uint32_t MmioSize() const override { return 0x00001000u; }
+    uint32_t ReadWord (uint32_t addr) override;
+    void     WriteWord(uint32_t addr, uint32_t value) override;
+
+    void SetInputLevel(uint32_t gpio, bool high);
+    void SetSerialSlave(Pxa2xxGpioSerialSlave* s) { serial_slave_ = s; }
+    void SetWakeSink(Pxa2xxGpioWakeSink* s) { wake_sink_ = s; }
+
+    void LoadSleepOutputs(const uint32_t* pgsr, uint32_t banks);
+    void ReleaseSleepHold();
+
+    struct PinConfig {
+        bool     output;
+        uint32_t function;
+    };
+    PinConfig Pin(uint32_t gpio) const;
+    void      RegisterPinConfigListener(std::function<void()> fn);
+    void      RegisterOutputObserver(OutputObserver fn);
+
+    void SaveState(StateWriter& w) override;
+    void RestoreState(StateReader& r) override;
+    void PostRestore() override;
+
+protected:
+    enum class Reg { kGplr, kGpdr, kGpsr, kGpcr, kGrer, kGfer, kGedr, kGafr, kNone };
+
+    static constexpr uint32_t kMaxGafr  = 8u;
+
+    virtual uint32_t BankCount() const = 0;
+    virtual uint32_t GafrCount() const = 0;
+    virtual uint32_t CollectiveMask(uint32_t bank) const = 0;
+
+    /* Intel PXA27x Developer's Manual 280000-001 Table 24-41 (pages 24-33,
+       24-34): GPLR0-2 0x00/04/08, GPDR0-2 0x0C/10/14, GPSR0-2 0x18/1C/20,
+       GPCR0-2 0x24/28/2C, GRER0-2 0x30/34/38, GFER0-2 0x3C/40/44, GEDR0-2
+       0x48/4C/50, GAFR0_L..GAFR3_U 0x54..0x70. */
+    virtual Reg Decode(uint32_t off, uint32_t* index) const;
+
+    void ResetRegisters(bool sleep_exit);
+
+private:
+    mutable std::mutex mtx_;
+
+    Pxa2xxGpioSerialSlave* serial_slave_ = nullptr;
+    Pxa2xxGpioWakeSink*    wake_sink_    = nullptr;
+    std::vector<std::function<void()>> pin_config_listeners_;
+    std::vector<OutputObserver>        output_observers_;
+
+    uint32_t in_[kMaxBanks]   = {};
+    uint32_t out_[kMaxBanks]  = {};
+    uint32_t gpdr_[kMaxBanks] = {};
+    uint32_t grer_[kMaxBanks] = {};
+    uint32_t gfer_[kMaxBanks] = {};
+    uint32_t gedr_[kMaxBanks] = {};
+    uint32_t gafr_[kMaxGafr]  = {};
+    uint32_t held_mask_[kMaxBanks]  = {};
+    uint32_t held_level_[kMaxBanks] = {};
+
+    uint32_t PinLevelLocked(uint32_t bank) const {
+        const uint32_t live = (out_[bank] & gpdr_[bank]) | (in_[bank] & ~gpdr_[bank]);
+        return (live & ~held_mask_[bank]) | (held_level_[bank] & held_mask_[bank]);
+    }
+    bool ApplyWriteLocked(Reg reg, uint32_t i, uint32_t off, uint32_t value);
+    template <typename Fn>
+    void ChangeOutputs(Fn&& mutate_locked);
+    static uint32_t AlternatePins(uint32_t gafr);
+    void       CaptureOutputsLocked(OutputPins* pins) const;
+    OutputPins CurrentOutputs() const;
+    void       NotifyOutputs(const OutputPins& pins, bool resync);
+    void CaptureLevels(uint32_t* levels) const;
+    void ApplyEdgesLocked(const uint32_t* before);
+    void UpdateIntcLocked();
+};

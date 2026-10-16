@@ -1,0 +1,79 @@
+#include "ite_it8181.h"
+
+#include <cerfcore/boards/board_context.h>
+#include "../../boards/nec_mobilepro_700/nec_mobilepro_700_family_id.h"
+#include <cerfcore/core/byte_order.h>
+#include <cerfcore/core/cerf_emulator.h>
+#include <cerfcore/core/fatal.h>
+#include <cerfcore/core/log.h>
+#include "../peripheral_dispatcher.h"
+#include <cerfcore/state/state_stream.h>
+
+bool IteIt8181::ShouldRegister() {
+    auto* bd = emu_.TryGet<BoardContext>();
+    return bd && bd->GetBoardFamilyId() == BoardFamilyId::NecMobilepro700;
+}
+
+void IteIt8181::OnReady() {
+    fb_.assign(kVramSize, 0u);
+    emu_.Get<PeripheralDispatcher>().Register(this);
+}
+
+void IteIt8181::PublishScreenSizeOnWriteEdge() {
+    fb_written_ = true;
+    if (size_latch_.PublishOnce(emu_, true)) {
+        LOG(Lcd, "IteIt8181: splash surface %ux%u %ubpp stride=%u\n",
+            GuestW(), GuestH(), Bpp(), StrideBytes());
+    }
+}
+
+uint8_t IteIt8181::ReadByte(uint32_t addr) {
+    const uint32_t off = addr - MmioBase();
+    if (off < kVramSize) return fb_[off];
+    HaltUnsupportedAccess("IteIt8181 ReadByte", addr, 0);
+}
+
+uint16_t IteIt8181::ReadHalf(uint32_t addr) {
+    const uint32_t off = addr - MmioBase();
+    if (off + 1u < kVramSize) return cerf::le::U16(fb_.data(), off);
+    HaltUnsupportedAccess("IteIt8181 ReadHalf", addr, 0);
+}
+
+uint32_t IteIt8181::ReadWord(uint32_t addr) {
+    const uint32_t off = addr - MmioBase();
+    if (off + 3u < kVramSize) return cerf::le::U32(fb_.data(), off);
+    HaltUnsupportedAccess("IteIt8181 ReadWord", addr, 0);
+}
+
+void IteIt8181::WriteByte(uint32_t addr, uint8_t value) {
+    const uint32_t off = addr - MmioBase();
+    if (off < kVramSize) { fb_[off] = value; PublishScreenSizeOnWriteEdge(); return; }
+    HaltUnsupportedAccess("IteIt8181 WriteByte", addr, value);
+}
+
+void IteIt8181::WriteHalf(uint32_t addr, uint16_t value) {
+    const uint32_t off = addr - MmioBase();
+    if (off + 1u < kVramSize) { cerf::le::Put16(fb_.data() + off, value); PublishScreenSizeOnWriteEdge(); return; }
+    HaltUnsupportedAccess("IteIt8181 WriteHalf", addr, value);
+}
+
+void IteIt8181::WriteWord(uint32_t addr, uint32_t value) {
+    const uint32_t off = addr - MmioBase();
+    if (off + 3u < kVramSize) { cerf::le::Put32(fb_.data() + off, value); PublishScreenSizeOnWriteEdge(); return; }
+    HaltUnsupportedAccess("IteIt8181 WriteWord", addr, value);
+}
+
+void IteIt8181::SaveState(StateWriter& w) {
+    w.WriteBytes("fb_pin", fb_.data(), fb_.size());
+    w.Write<uint8_t>("fb_written", fb_written_ ? 1u : 0u);
+    size_latch_.SaveState(w);
+}
+
+void IteIt8181::RestoreState(StateReader& r) {
+    r.ReadBytes("fb_pin", fb_.data(), fb_.size());
+    uint8_t b = 0;
+    r.Read("fb_written", b); fb_written_     = (b != 0);
+    size_latch_.RestoreState(r);
+}
+
+REGISTER_SERVICE(IteIt8181);

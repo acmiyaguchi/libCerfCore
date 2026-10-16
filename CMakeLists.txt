@@ -1,0 +1,103 @@
+cmake_minimum_required(VERSION 3.25)
+project(cerfcore VERSION 1.0.0 LANGUAGES CXX)
+
+set(CERFCORE_ENGINE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libCerfEngine"
+    CACHE PATH "The libCerfEngine checkout that the core builds against")
+if(NOT TARGET cerfengine::cerfengine)
+    add_subdirectory("${CERFCORE_ENGINE_DIR}" cerfengine EXCLUDE_FROM_ALL)
+endif()
+
+option(CERFCORE_DEV_MODE "Build the developer configuration (CERF_DEV_MODE=1)" ON)
+option(CERFCORE_DEVICE_TRACES "Build the per-device trace files under src/tracing/<bundle>/"
+       ${CERFCORE_DEV_MODE})
+
+function(cerfcore_find_library var)
+    if(DEFINED VCPKG_INSTALLED_DIR AND DEFINED VCPKG_TARGET_TRIPLET)
+        set(triplet_dir "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}")
+        find_library(${var}_RELEASE NAMES ${ARGN} PATHS "${triplet_dir}/lib" NO_DEFAULT_PATH REQUIRED)
+        set(debug_names)
+        foreach(name IN LISTS ARGN)
+            list(APPEND debug_names ${name} ${name}d)
+        endforeach()
+        find_library(${var}_DEBUG NAMES ${debug_names} PATHS "${triplet_dir}/debug/lib" NO_DEFAULT_PATH)
+        if(${var}_DEBUG)
+            set(${var} "$<IF:$<CONFIG:Debug>,${${var}_DEBUG},${${var}_RELEASE}>" PARENT_SCOPE)
+        else()
+            set(${var} "${${var}_RELEASE}" PARENT_SCOPE)
+        endif()
+    else()
+        find_library(${var} NAMES ${ARGN} REQUIRED)
+    endif()
+endfunction()
+
+find_package(nlohmann_json CONFIG REQUIRED)
+find_path(CERFCORE_SLIRP_INCLUDE_DIR slirp/libslirp.h REQUIRED)
+cerfcore_find_library(CERFCORE_SLIRP_LIBRARY slirp)
+file(STRINGS "${CERFCORE_SLIRP_INCLUDE_DIR}/slirp/libslirp-version.h" cerfcore_slirp_version
+     REGEX "^#define SLIRP_(MAJOR|MINOR|MICRO)_VERSION [0-9]+")
+string(REGEX REPLACE
+       "^.*SLIRP_MAJOR_VERSION ([0-9]+).*SLIRP_MINOR_VERSION ([0-9]+).*SLIRP_MICRO_VERSION ([0-9]+).*$"
+       "\\1.\\2.\\3" cerfcore_slirp_version "${cerfcore_slirp_version}")
+if(cerfcore_slirp_version VERSION_LESS 4.9)
+    message(FATAL_ERROR "libCerfCore needs libslirp 4.9 or newer, found ${cerfcore_slirp_version} "
+                        "in ${CERFCORE_SLIRP_INCLUDE_DIR}")
+endif()
+set(cerfcore_slirp_libraries "${CERFCORE_SLIRP_LIBRARY}")
+if(WIN32)
+    cerfcore_find_library(CERFCORE_GLIB_LIBRARY glib-2.0)
+    cerfcore_find_library(CERFCORE_INTL_LIBRARY intl)
+    cerfcore_find_library(CERFCORE_ICONV_LIBRARY iconv)
+    cerfcore_find_library(CERFCORE_PCRE2_LIBRARY pcre2-8)
+    list(APPEND cerfcore_slirp_libraries "${CERFCORE_GLIB_LIBRARY}" "${CERFCORE_INTL_LIBRARY}"
+                                         "${CERFCORE_ICONV_LIBRARY}" "${CERFCORE_PCRE2_LIBRARY}")
+endif()
+
+file(GLOB_RECURSE cerfcore_sources CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
+if(WIN32)
+    list(FILTER cerfcore_sources EXCLUDE REGEX "_posix\\.cpp$")
+else()
+    list(FILTER cerfcore_sources EXCLUDE REGEX "_win32\\.cpp$")
+endif()
+if(NOT CERFCORE_DEVICE_TRACES)
+    list(FILTER cerfcore_sources EXCLUDE REGEX "/src/tracing/[^/]+/(.*/)?[^/]+\\.cpp$")
+    file(GLOB cerfcore_nkdbg_sources CONFIGURE_DEPENDS
+         "${CMAKE_CURRENT_SOURCE_DIR}/src/tracing/*/nkdbg/*.cpp")
+    list(APPEND cerfcore_sources ${cerfcore_nkdbg_sources})
+endif()
+
+add_library(cerfcore STATIC ${cerfcore_sources})
+add_library(cerfcore::cerfcore ALIAS cerfcore)
+target_include_directories(cerfcore PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include"
+                                    PRIVATE "${CERFCORE_SLIRP_INCLUDE_DIR}")
+target_compile_features(cerfcore PUBLIC cxx_std_20)
+if(CERFCORE_DEV_MODE)
+    target_compile_definitions(cerfcore PUBLIC CERF_DEV_MODE=1)
+else()
+    target_compile_definitions(cerfcore PUBLIC CERF_DEV_MODE=0)
+endif()
+target_link_libraries(cerfcore PUBLIC "$<LINK_LIBRARY:WHOLE_ARCHIVE,cerfengine::cerfengine>"
+                                      nlohmann_json::nlohmann_json
+                               PRIVATE ${cerfcore_slirp_libraries})
+
+if(WIN32)
+    target_compile_definitions(cerfcore PUBLIC UNICODE _UNICODE)
+    target_link_libraries(cerfcore PUBLIC ws2_32 iphlpapi winmm psapi dbghelp user32 advapi32)
+endif()
+
+if(MSVC)
+    target_compile_options(cerfcore PRIVATE /W4 /WX /permissive- /utf-8 /MP /Gy /Oi)
+else()
+    target_compile_options(cerfcore PRIVATE -Wall -Wextra -Werror)
+endif()
+
+if(CMAKE_SOURCE_DIR STREQUAL PROJECT_SOURCE_DIR)
+    set(cerfcore_is_top_level ON)
+else()
+    set(cerfcore_is_top_level OFF)
+endif()
+option(CERFCORE_BUILD_TESTS "Build the libCerfCore tests" ${cerfcore_is_top_level})
+
+if(CERFCORE_BUILD_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
+endif()

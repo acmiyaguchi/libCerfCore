@@ -1,0 +1,75 @@
+#include <cerfcore/peripherals/peripheral_base.h>
+
+#include <cerfcore/core/cerf_emulator.h>
+#include <cerfcore/boards/board_context.h>
+#include "imx31_id.h"
+#include "../../peripherals/peripheral_dispatcher.h"
+#include <cerfcore/state/state_stream.h>
+
+#include <cstdint>
+
+namespace {
+
+constexpr uint32_t kM3ifBase = 0xB8003000u;
+constexpr uint32_t kM3ifSize = 0x00001000u;
+
+class Imx31M3if : public Peripheral {
+public:
+    using Peripheral::Peripheral;
+
+    bool ShouldRegister() override {
+        auto* bd = emu_.TryGet<BoardContext>();
+        return bd && bd->GetSocId() == SocId::Imx31;
+    }
+    void OnReady() override {
+        emu_.Get<PeripheralDispatcher>().Register(this);
+    }
+
+    uint32_t MmioBase() const override { return kM3ifBase; }
+    uint32_t MmioSize() const override { return kM3ifSize; }
+
+    uint32_t ReadWord (uint32_t addr) override;
+    void     WriteWord(uint32_t addr, uint32_t value) override;
+
+    /* JIT-thread-only register file (no worker thread). */
+    void SaveState(StateWriter& w) override    { w.WriteBytes("regs", regs_, sizeof(regs_)); }
+    void RestoreState(StateReader& r) override { r.ReadBytes("regs", regs_, sizeof(regs_)); }
+
+private:
+    uint32_t regs_[12] = {};
+
+    static bool OffsetToIndex(uint32_t off, uint32_t* index_out) {
+        if (off == 0x000) { *index_out =  0; return true; }
+        if (off >= 0x028 && off <= 0x030 && (off & 0x3u) == 0) {
+            *index_out = 1u + (off - 0x028u) / 4u;
+            return true;
+        }
+        if (off >= 0x034 && off <= 0x038 && (off & 0x3u) == 0) {
+            *index_out = 4u + (off - 0x034u) / 4u;
+            return true;
+        }
+        if (off >= 0x040 && off <= 0x054 && (off & 0x3u) == 0) {
+            *index_out = 6u + (off - 0x040u) / 4u;
+            return true;
+        }
+        return false;
+    }
+};
+
+uint32_t Imx31M3if::ReadWord(uint32_t addr) {
+    const uint32_t off = addr - MmioBase();
+    uint32_t idx;
+    if (!OffsetToIndex(off, &idx)) HaltUnsupportedAccess("ReadWord", addr, 0);
+    return regs_[idx];
+}
+
+void Imx31M3if::WriteWord(uint32_t addr, uint32_t value) {
+    const uint32_t off = addr - MmioBase();
+    uint32_t idx;
+    if (!OffsetToIndex(off, &idx)) HaltUnsupportedAccess("WriteWord", addr, value);
+    regs_[idx] = value;
+}
+
+}  /* namespace */
+
+REGISTER_SERVICE(Imx31M3if);

@@ -1,0 +1,152 @@
+#pragma once
+#include "service.h"
+#include "sd_card_cid.h"
+#include <cstdint>
+#include <string>
+#include <utility>
+#include <vector>
+
+struct BundledUsbMedia {
+    std::string file;
+    std::string name;
+    bool insert_on_launch = false;
+    std::optional<SdCardCid> cid;
+};
+
+struct DeviceMeta {
+    std::string name;
+    std::string device_name;
+    std::string os_name;
+    int         os_ver_major = 0;
+    int         os_ver_minor = 0;
+};
+
+/* One entry of cerf.json "additional_packages.compact_flash_cards": a CF
+   image file shipped inside the device directory plus its insert-menu
+   display name. */
+struct BundledCompactFlashCard {
+    std::string file;   /* image filename, relative to the device directory */
+    std::string name;   /* display name; menu shows "Insert bundled CF: <name>" */
+    bool insert_on_launch = false;
+};
+
+/* Boot action when a saved state image exists in the device directory
+   (--boot=resume|cold|warm). */
+enum class StateBootMode {
+    Resume,   /* full restore from state.img if present, else cold boot */
+    Warm,     /* RAM + flash only (OS reboots) if present, else cold boot */
+    Cold,     /* ignore state.img, cold boot */
+};
+
+enum class CanvasTab {
+    Boot,
+    Hw,
+    Framebuffer,
+};
+
+constexpr uint32_t kDefaultConfigurableScreenWidth  = 800;
+constexpr uint32_t kDefaultConfigurableScreenHeight = 600;
+
+struct DeviceConfig : public Service {
+    using Service::Service;
+
+    /* Populates every field below from the global + per-device cerf.json and
+       the CLI, via ConfigLoader. Lazy: runs on first emu_.Get<DeviceConfig>(). */
+    void OnReady() override;
+
+    std::string device_name;
+
+    std::string board_id;
+
+    DeviceMeta meta;
+
+    uint32_t board_configurable_screen_width  = kDefaultConfigurableScreenWidth;
+    uint32_t board_configurable_screen_height = kDefaultConfigurableScreenHeight;
+
+    /* Guest-additions display DPI override (logical pixels/inch) from
+       --screen-dpi / cerf.json board.configurable_screen_dpi. 0 = no override:
+       the guest driver then falls back to the ROM's registry DPI, then 96. */
+    uint32_t screen_dpi = 0;
+
+    uint32_t board_configurable_screen_bpp = 0;
+
+    uint32_t screen_refresh_rate = 0;
+
+    /* True when the configurable screen size came from cerf.json
+       board.configurable_screen_* or --screen-width/height (not the bare
+       default above). The host window uses this to let an explicit size win
+       over a board's fixed-LCD preferred window size. */
+    bool board_configurable_screen_explicit = false;
+
+    bool        network_enabled = true;
+    std::string network_mac     = "02:CE:5F:00:00:01";
+    uint32_t    network_mtu     = 1500;
+    std::string network_forward_tcp;
+    std::string network_forward_udp;
+
+    std::string              rom_primary;
+    std::vector<std::string> rom_extensions;
+    std::string              rom_recovery;
+
+    std::vector<BundledUsbMedia> bundled_sd_cards;
+    std::vector<BundledUsbMedia> bundled_usb_disks;
+
+    /* Optional serial-config EEPROM image (cerf.json rom.eeprom). A board's
+       SSP/SPI EEPROM peripheral loads it from the device directory; empty
+       when the device has none. */
+    std::string              rom_eeprom;
+
+    std::string              rom_ce_dictionary;
+
+    std::string              rom_lumia800_user_area_erase;
+
+    std::string storage_nand = "nand.img";
+    std::string storage_hdd  = "hdd.img";
+    std::string storage_emmc = "emmc.img";
+
+    /* Optional CF images bundled with the ROM (cerf.json
+       "additional_packages.compact_flash_cards"); the CF insert menu offers
+       each entry whose file is present in the device directory. */
+    std::vector<BundledCompactFlashCard> bundled_compact_flash_cards;
+
+    bool boot_in_recovery = false;
+    bool guest_additions = false;
+    std::string guest_additions_color_scheme;
+    std::vector<std::string> guest_additions_autorun;
+
+    int32_t guest_additions_font_size = 0;
+    bool    guest_additions_font_size_set = false;
+
+    bool guest_additions_cleartype     = false;
+    bool guest_additions_cleartype_set = false;
+
+    /* Startup tab. Dev builds default to the hardware console so debug output
+       shows instantly; production defaults to the boot screen. --tab overrides. */
+    CanvasTab start_tab =
+#if CERF_DEV_MODE
+        CanvasTab::Hw;
+#else
+        CanvasTab::Boot;
+#endif
+
+    /* Dev builds default to cold so iteration never auto-resumes a stale
+       image; production resumes a saved state. --boot overrides either. */
+    StateBootMode boot_mode =
+#if CERF_DEV_MODE
+        StateBootMode::Cold;
+#else
+        StateBootMode::Resume;
+#endif
+
+    std::string share_folder;
+    std::string share_folder_mount_point;
+
+    bool start_fullscreen = false;
+
+    bool no_focus = false;
+
+    /* When true, ConfigLoader overwrites board_configurable_screen_* with the
+       host monitor size (host_w-10 x host_h-40, capped 3840x2160) so a
+       guest-additions display fills the host screen. Read from cerf.json. */
+    bool adopt_guest_additions_resolution_for_host_screen = false;
+};

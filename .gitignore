@@ -1,0 +1,5 @@
+/build*/
+/out/
+src/tracing/*/**
+!src/tracing/*/nkdbg/
+!src/tracing/*/nkdbg/**
