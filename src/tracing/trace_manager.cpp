@@ -1,5 +1,7 @@
 #include "trace_manager.h"
 
+#include <algorithm>
+
 #include <cerfcore/core/cerf_emulator.h>
 #include <cerfcore/core/log.h>
 #include <cerfcore/boot/rom_parser_service.h>
@@ -86,9 +88,15 @@ void TraceManager::GuardUnique(uint32_t runtime_va) {
     CerfFatalExit(CERF_FATAL_RUNTIME_ERROR);
 }
 
+void TraceManager::NoteTracedPc(uint32_t runtime_va) {
+    traced_pcs_.insert(std::lower_bound(traced_pcs_.begin(), traced_pcs_.end(), runtime_va),
+                       runtime_va);
+}
+
 void TraceManager::OnPc(uint32_t runtime_va, TraceHandler handler) {
     GuardUnique(runtime_va);
     pc_traces_[runtime_va] = {std::nullopt, std::move(handler)};
+    NoteTracedPc(runtime_va);
 }
 
 void TraceManager::OnPcFiltered(uint32_t       runtime_va,
@@ -98,11 +106,18 @@ void TraceManager::OnPcFiltered(uint32_t       runtime_va,
     pc_traces_[runtime_va] =
         {std::optional<TracePredicate>{std::move(predicate)},
          std::move(handler)};
+    NoteTracedPc(runtime_va);
 }
 
 bool TraceManager::HasPcTrace(uint32_t pc) const {
     if (pc_traces_.empty()) return false;
     return pc_traces_.count(pc) > 0;
+}
+
+bool TraceManager::HasPcTraceIn(uint32_t first_pc, uint32_t last_pc) const {
+    if (traced_pcs_.empty()) return false;
+    const auto it = std::lower_bound(traced_pcs_.begin(), traced_pcs_.end(), first_pc);
+    return it != traced_pcs_.end() && *it <= last_pc;
 }
 
 void TraceManager::DispatchContext(uint32_t pc, const TraceContext& ctx) {

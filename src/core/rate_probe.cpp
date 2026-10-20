@@ -184,7 +184,8 @@ void RateProbe::LogLoop() {
             "intc_assert=%s intc_deassert=%s jit_pend_set=%s "
             "jit_pend_clr=%s dma_w=%s audio_msg=%s rd_per_run=%llu "
             "run_ms=%llu ost_ms=%llu io_ms=%llu mmu_ms=%llu native_ms=%llu "
-            "mmu_calls=%s jit_compile=%s tc_flush=%s ctx_flush=%s\n",
+            "mmu_calls=%s jit_compile=%s jit_insns=%s jit_host_bytes=%s jit_compile_ns=%s "
+            "tc_flush=%s ctx_flush=%s\n",
             cbuf[static_cast<uint8_t>(Counter::JitRuns)],
             cbuf[static_cast<uint8_t>(Counter::OstReadOscr)],
             cbuf[static_cast<uint8_t>(Counter::OstFires)],
@@ -202,6 +203,9 @@ void RateProbe::LogLoop() {
             (unsigned long long)native_ms,
             cbuf[static_cast<uint8_t>(Counter::MmuXlateCalls)],
             cbuf[static_cast<uint8_t>(Counter::JitCompiles)],
+            cbuf[static_cast<uint8_t>(Counter::JitGuestInsns)],
+            cbuf[static_cast<uint8_t>(Counter::JitHostBytes)],
+            cbuf[static_cast<uint8_t>(Counter::JitCompileNs)],
             cbuf[static_cast<uint8_t>(Counter::TcFlushes)],
             cbuf[static_cast<uint8_t>(Counter::CtxFlushes)]);
     }

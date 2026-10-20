@@ -525,6 +525,12 @@
       "name": "TX39 multiply-add",
       "arch": "MIPS",
       "type": "boolean"
+    },
+    {
+      "id": "cop1_cop2_unusable",
+      "name": "COP1 / COP2 opcodes raise Coprocessor Unusable",
+      "arch": "MIPS",
+      "type": "boolean"
     }
   ],
   "cpu_configs": [
@@ -789,7 +795,8 @@
         "watch": true,
         "vr41xx_power_modes": true,
         "mips16": false,
-        "tx39_multiply_add": false
+        "tx39_multiply_add": false,
+        "cop1_cop2_unusable": true
       }
     },
     {
@@ -836,7 +843,8 @@
         "watch": false,
         "vr41xx_power_modes": false,
         "mips16": false,
-        "tx39_multiply_add": true
+        "tx39_multiply_add": true,
+        "cop1_cop2_unusable": false
       }
     },
     {
@@ -868,7 +876,8 @@
         "watch": true,
         "vr41xx_power_modes": false,
         "mips16": false,
-        "tx39_multiply_add": false
+        "tx39_multiply_add": false,
+        "cop1_cop2_unusable": false
       }
     }
   ],

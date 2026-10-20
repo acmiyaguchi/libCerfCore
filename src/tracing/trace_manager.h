@@ -51,6 +51,7 @@ public:
     /* Hot-path predicate. Single map lookup; empty map = single
        branch on size(). */
     bool HasPcTrace (uint32_t pc) const;
+    bool HasPcTraceIn(uint32_t first_pc, uint32_t last_pc) const;
 
     /* Dispatch sites called from the JIT translator (one per live ISA). */
     void DispatchPc(uint32_t pc, const uint32_t* regs, uint32_t cpsr);
@@ -76,6 +77,7 @@ private:
     /* Halts if a hook is already bound at runtime_va - a VA may be hooked
        exactly once, via OnPc or OnPcFiltered. */
     void GuardUnique(uint32_t runtime_va);
+    void NoteTracedPc(uint32_t runtime_va);
 
     uint32_t bundle_crc32_   = 0;
     uint32_t bundles_matched_ = 0;
@@ -86,6 +88,7 @@ private:
         TraceHandler                  handler;
     };
     std::unordered_map<uint32_t, PcEntry> pc_traces_;
+    std::vector<uint32_t>                 traced_pcs_;
 
 #if CERF_DEV_MODE
     void DispatchIterContext(const TraceContext& ctx);

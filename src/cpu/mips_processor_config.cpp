@@ -51,6 +51,7 @@ void MipsProcessorConfig::OnReady() {
     vr41xx_power_modes_ = c.Boolean("vr41xx_power_modes");
     mips16_             = c.Boolean("mips16");
     tx39_multiply_add_  = c.Boolean("tx39_multiply_add");
+    cop1_cop2_unusable_ = c.Boolean("cop1_cop2_unusable");
 }
 
 }

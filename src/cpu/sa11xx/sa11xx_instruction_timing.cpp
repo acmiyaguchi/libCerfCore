@@ -5,7 +5,6 @@
 #include <cerfcore/boards/board_context.h>
 #include <cerfcore/core/cerf_emulator.h>
 #include <cerfengine/arm/decoded_insn.h>
-#include <cerfengine/arm/place_fns.h>
 #include "../../socs/sa11xx/sa1100_id.h"
 #include "../../socs/sa11xx/sa1110_id.h"
 
@@ -26,16 +25,17 @@ public:
        (DDI 0406C A8.8.112). */
     uint16_t ArmCycleCost(const cerfengine::DecodedInsn& d) const override {
         uint16_t cost = 1;
-        if (d.place_fn == &cerfengine::PlaceBlockDataTransfer) {
+        using cerfengine::ArmInsnKind;
+        if (d.kind == ArmInsnKind::kBlockDataTransfer) {
             const unsigned n = static_cast<unsigned>(std::popcount(d.register_list));
             cost = static_cast<uint16_t>(n < 2 ? 2 : n);
-        } else if (d.place_fn == &cerfengine::PlaceMRSorMSR) {
+        } else if (d.kind == ArmInsnKind::kMrsOrMsr) {
             cost = (d.s != 0u && (d.crn & 0x1u) != 0u) ? 3 : 1;
-        } else if (d.place_fn == &cerfengine::PlaceMSRImmediate) {
+        } else if (d.kind == ArmInsnKind::kMsrImmediate) {
             cost = (d.crn & 0x1u) != 0u ? 3 : 1;
-        } else if (d.place_fn == &cerfengine::PlaceMultiply) {
+        } else if (d.kind == ArmInsnKind::kMultiply) {
             cost = d.op1 >= 4u ? 2 : 1;
-        } else if (d.place_fn == &cerfengine::PlaceLoadStoreExtension) {
+        } else if (d.kind == ArmInsnKind::kLoadStoreExtension) {
             cost = d.op1 == 0u ? 2 : 1;
         }
         return cost;

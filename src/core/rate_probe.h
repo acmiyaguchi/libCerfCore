@@ -43,6 +43,9 @@ public:
         JitCompiles,      /* block translations/sec - high = TC thrash / cold cache. */
         TcFlushes,        /* full translation-cache flushes/sec (FlushAll+arena). */
         CtxFlushes,       /* context-switch jump-cache flushes/sec (FCSE PID switch). */
+        JitGuestInsns,
+        JitHostBytes,
+        JitCompileNs,
         Count,
     };
 
@@ -62,6 +65,10 @@ public:
     void Inc(Counter c) {
         counters_[static_cast<uint8_t>(c)].fetch_add(1u,
                                                      std::memory_order_relaxed);
+    }
+
+    void Add(Counter c, uint32_t n) {
+        counters_[static_cast<uint8_t>(c)].fetch_add(n, std::memory_order_relaxed);
     }
 
     void AddTsc(TimeCounter c, uint64_t ticks) {
@@ -108,6 +115,7 @@ public:
     }
 #else
     void Inc(Counter)                    {}
+    void Add(Counter, uint32_t)          {}
     void AddTsc(TimeCounter, uint64_t)   {}
     void RecordMmioPc(uint32_t, uint32_t){}
     void RecordCtxSlot(uint32_t)         {}

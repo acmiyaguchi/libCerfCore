@@ -88,7 +88,7 @@ constexpr void VisitCpuSection(cerfengine::MipsCpuState& s, F& field) {
     field("btarget_isa", s.btarget_isa);
     field("branch_len", s.branch_len);
     field("idle_kind", s.idle_wait);
-    field.Skip(s.idle_pad);
+    field.Skip(s.chain_exit_request);
 }
 
 }
@@ -106,6 +106,7 @@ void MipsEngineBridge::FillSetup(cerfengine::Setup& setup) {
     setup.mips.mips16             = cfg.HasMips16();
     setup.mips.tx39_multiply_add  = cfg.HasTx39MultiplyAdd();
     setup.mips.vr41xx_power_modes = cfg.HasVr41xxPowerModes();
+    setup.mips.cop1_cop2_unusable = cfg.Cop1Cop2Unusable();
     setup.mips.device_ip_mask     = cfg.DeviceIpMask();
     setup.mips.phys_addr_mask     = cfg.PhysAddrMask();
     setup.mips_tlb                = emu_.Get<MipsTlbModel>().Hooks();

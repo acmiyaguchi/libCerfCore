@@ -29,6 +29,7 @@ public:
     bool HasVr41xxPowerModes() const { return vr41xx_power_modes_; }
     bool HasMips16()           const { return mips16_; }
     bool HasTx39MultiplyAdd()  const { return tx39_multiply_add_; }
+    bool Cop1Cop2Unusable()    const { return cop1_cop2_unusable_; }
 
     bool HasCp0Reg(uint32_t rd) const {
         if (rd == cerfengine::MipsCp0::kCount   || rd == cerfengine::MipsCp0::kCompare) return HasCounter();
@@ -51,6 +52,7 @@ private:
     bool vr41xx_power_modes_ = false;
     bool mips16_             = false;
     bool tx39_multiply_add_  = false;
+    bool cop1_cop2_unusable_ = false;
 };
 
 }

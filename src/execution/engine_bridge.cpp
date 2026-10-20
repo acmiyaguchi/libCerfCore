@@ -73,14 +73,23 @@ void EngineBridge::OnPowerDownRequest() {
     emu_.Get<GuestDeepSleep>().Enter();
 }
 
-void EngineBridge::OnBlockCompiled() {
+void EngineBridge::OnBlockCompiled(const cerfengine::BlockCompileStats& stats) {
 #if CERF_DEV_MODE
     probe_->Inc(RateProbe::Counter::JitCompiles);
+    probe_->Add(RateProbe::Counter::JitGuestInsns, stats.guest_insns);
+    probe_->Add(RateProbe::Counter::JitHostBytes, stats.host_bytes);
+    probe_->Add(RateProbe::Counter::JitCompileNs, static_cast<uint32_t>(stats.compile_ns));
+#else
+    (void)stats;
 #endif
 }
 
 bool EngineBridge::HasPcTrace(uint32_t pc) {
     return trace_->HasPcTrace(pc);
+}
+
+bool EngineBridge::HasPcTraceIn(uint32_t first_pc, uint32_t last_pc) {
+    return trace_->HasPcTraceIn(first_pc, last_pc);
 }
 
 void EngineBridge::OnArmPcTrace(uint32_t pc, const uint32_t* gprs, uint32_t cpsr) {
