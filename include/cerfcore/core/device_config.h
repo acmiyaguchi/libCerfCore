@@ -122,6 +122,8 @@ struct DeviceConfig : public Service {
     bool guest_additions_cleartype     = false;
     bool guest_additions_cleartype_set = false;
 
+    bool guest_additions_allow_untrusted_apps = false;
+
     /* Startup tab. Dev builds default to the hardware console so debug output
        shows instantly; production defaults to the boot screen. --tab overrides. */
     CanvasTab start_tab =

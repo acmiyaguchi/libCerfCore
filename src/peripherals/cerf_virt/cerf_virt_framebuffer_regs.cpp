@@ -30,6 +30,7 @@ using CerfVirt::kFbRegSystemFontHeight;
 using CerfVirt::kFbRegSystemFontPresent;
 using CerfVirt::kFbRegCustomizationsApplied;
 using CerfVirt::kFbRegClearType;
+using CerfVirt::kFbRegAllowUntrustedApps;
 
 class CerfVirtFramebufferRegs : public Peripheral {
 public:
@@ -71,6 +72,8 @@ public:
                 return emu_.Get<DeviceConfig>().guest_additions_font_size_set ? 1u : 0u;
             case kFbRegClearType:
                 return ClearTypeMode();
+            case kFbRegAllowUntrustedApps:
+                return emu_.Get<DeviceConfig>().guest_additions_allow_untrusted_apps ? 1u : 0u;
             default:              return 0u;
         }
     }

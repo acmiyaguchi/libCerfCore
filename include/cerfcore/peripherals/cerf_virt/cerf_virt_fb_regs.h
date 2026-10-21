@@ -35,5 +35,7 @@ const uint32_t kFbClearTypeDefault = 0u;
 const uint32_t kFbClearTypeOn      = 1u;
 const uint32_t kFbClearTypeOff     = 2u;
 
+const uint32_t kFbRegAllowUntrustedApps = 0x3Cu;
+
 }
 }

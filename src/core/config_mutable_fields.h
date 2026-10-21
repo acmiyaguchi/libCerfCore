@@ -19,6 +19,7 @@ inline void CfgResetMutableFields(DeviceConfig& config) {
     config.guest_additions_font_size_set = false;
     config.guest_additions_cleartype     = false;
     config.guest_additions_cleartype_set = false;
+    config.guest_additions_allow_untrusted_apps = false;
     config.share_folder.clear();
     config.share_folder_mount_point.clear();
 }
@@ -114,6 +115,18 @@ inline void CfgLoadGaClearType(const nlohmann::json& ga, DeviceConfig& config,
     config.guest_additions_cleartype_set = true;
 }
 
+inline void CfgLoadGaAllowUntrustedApps(const nlohmann::json& ga,
+                                        DeviceConfig& config,
+                                        const std::string& path) {
+    if (!ga.contains("allow_untrusted_apps")) return;
+    const auto& v = ga["allow_untrusted_apps"];
+    if (v.is_null()) return;
+    if (!v.is_boolean())
+        CfgFatal(path, "'guest_additions.allow_untrusted_apps' must be a boolean "
+                       "(or null)");
+    config.guest_additions_allow_untrusted_apps = v.get<bool>();
+}
+
 inline void CfgLoadMutableFields(const nlohmann::json& root,
                                  DeviceConfig& config,
                                  const std::string& path) {
@@ -128,6 +141,7 @@ inline void CfgLoadMutableFields(const nlohmann::json& root,
             CfgLoadColorScheme(ga, config, path);
             CfgLoadGaFontSize(ga, config, path);
             CfgLoadGaClearType(ga, config, path);
+            CfgLoadGaAllowUntrustedApps(ga, config, path);
             CfgLoadShareFolder(ga, config, path);
             CfgLoadShareFolderMountPoint(ga, config, path);
         }
