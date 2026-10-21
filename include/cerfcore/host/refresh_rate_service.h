@@ -9,6 +9,7 @@ public:
     using Service::Service;
 
     int GetRefreshRate();
+    int FrameIntervalMs();
 
 private:
     int Decide();

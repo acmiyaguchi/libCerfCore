@@ -34,7 +34,7 @@ public:
     ~HpPalmtopVgaCard() override;
 
     std::string DisplayName() const override { return kDisplayName; }
-    const char* IconResource() const override { return "ICON_PCMCIA_VGA"; }
+    const char* IconResource() const override { return "pcmcia_enabled_vga"; }
 
     void OnInserted() override;
     void OnShutdown() override;

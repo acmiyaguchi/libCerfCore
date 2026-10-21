@@ -5,6 +5,7 @@
 #include "wave_out_sink.h"
 
 #include "host_wait_timer.h"
+#include "silent_block_pacer.h"
 
 #include <cerfcore/core/log.h>
 
@@ -44,19 +45,13 @@ public:
     static constexpr UINT kMsgCommand = WM_USER + 41;
 
 private:
-    struct SilentBlock {
-        WAVEHDR*          hdr;
-        Clock::time_point due;
-    };
-
     struct OpenRequest {
         WAVEFORMATEX fmt;
         DWORD        flags;
     };
 
-    static constexpr uint32_t kSilentQueue = 8;
-    static constexpr WPARAM   kSilentDone  = 1;
-    static_assert(kSlots <= kSilentQueue,
+    static constexpr WPARAM kSilentDone = 1;
+    static_assert(kSlots <= SilentBlockPacer::kCapacity,
                   "every busy slot can hold one silent-mode completion");
 
     void ThreadMain(StartHandler on_start, CommandHandler on_command, DoneHandler on_done);
@@ -72,7 +67,6 @@ private:
     void CloseDeviceLocked();
     void LoseDeviceLocked(const char* call, MMRESULT result);
     void RetryOpen();
-    Clock::duration PeriodForLocked(uint32_t length) const;
     void QueueSilentLocked(WAVEHDR* hdr);
     void DeliverDueSilent(const DoneHandler& on_done);
     void CancelSilentLocked();
@@ -82,9 +76,7 @@ private:
 
     mutable std::mutex mtx_;
     WAVEHDR            headers_[kSlots] = {};
-    SilentBlock        silent_[kSilentQueue] = {};
-    uint32_t           silent_count_ = 0;
-    Clock::time_point  silent_tail_{};
+    SilentBlockPacer   silent_;
     host_platform::HostWaitTimer silent_timer_;
     uint32_t           req_rate_     = 0;
     uint16_t           req_channels_ = 0;
@@ -194,66 +186,34 @@ void WaveOutSink::Impl::ArmSilentTimer(Clock::duration delay) {
     }
 }
 
-WaveOutSink::Impl::Clock::duration WaveOutSink::Impl::PeriodForLocked(uint32_t length) const {
-    const uint64_t bytes_per_sec =
-        static_cast<uint64_t>(req_rate_) * static_cast<uint32_t>(req_channels_) *
-        (static_cast<uint32_t>(req_bits_) / 8u);
-    if (bytes_per_sec == 0u) return Clock::duration::zero();
-    return std::chrono::duration_cast<Clock::duration>(
-        std::chrono::duration<double>(static_cast<double>(length) /
-                                      static_cast<double>(bytes_per_sec)));
-}
-
 void WaveOutSink::Impl::QueueSilentLocked(WAVEHDR* hdr) {
     if (!hdr) {
         LOG(Caution, "%s: silent completion for a null header\n", log_tag_);
         CerfFatalExit(CERF_FATAL_RUNTIME_ERROR);
     }
-    for (uint32_t i = 0; i < silent_count_; ++i) {
-        if (silent_[i].hdr != hdr) continue;
-        LOG(Caution, "%s: header %p is already awaiting a silent completion\n",
-            log_tag_, static_cast<void*>(hdr));
-        CerfFatalExit(CERF_FATAL_RUNTIME_ERROR);
+    if (silent_.Queue(reinterpret_cast<uintptr_t>(hdr), hdr->dwBufferLength, req_rate_,
+                      req_channels_, req_bits_, log_tag_)) {
+        ArmSilentTimer(silent_.NextDue() - Clock::now());
     }
-    if (silent_count_ == kSilentQueue) {
-        LOG(Caution, "%s: %u silent blocks already pending\n", log_tag_, kSilentQueue);
-        CerfFatalExit(CERF_FATAL_RUNTIME_ERROR);
-    }
-    const auto period = PeriodForLocked(hdr->dwBufferLength);
-    if (period == Clock::duration::zero()) {
-        LOG(Caution, "%s: cannot pace a silent block at %u Hz x %u ch x %u bit\n",
-            log_tag_, req_rate_, req_channels_, req_bits_);
-        CerfFatalExit(CERF_FATAL_RUNTIME_ERROR);
-    }
-    const auto now = Clock::now();
-    silent_tail_ = std::max(now, silent_tail_) + period;
-    silent_[silent_count_++] = SilentBlock{ hdr, silent_tail_ };
-    if (silent_count_ == 1) ArmSilentTimer(silent_[0].due - now);
 }
 
 void WaveOutSink::Impl::DeliverDueSilent(const DoneHandler& on_done) {
-    WAVEHDR* done[kSilentQueue] = {};
-    uint32_t n = 0;
+    uintptr_t done[SilentBlockPacer::kCapacity] = {};
+    uint32_t  n = 0;
     {
         std::lock_guard<std::mutex> lk(mtx_);
         const auto now = Clock::now();
-        while (n < silent_count_ && silent_[n].due <= now) {
-            done[n] = silent_[n].hdr;
-            ++n;
-        }
-        silent_count_ -= n;
-        for (uint32_t i = 0; i < silent_count_; ++i) silent_[i] = silent_[i + n];
-        if (silent_count_ != 0) ArmSilentTimer(silent_[0].due - now);
+        n = silent_.TakeDue(now, done);
+        if (!silent_.Empty()) ArmSilentTimer(silent_.NextDue() - now);
     }
-    for (uint32_t i = 0; i < n; ++i) OnDone(done[i], on_done);
+    for (uint32_t i = 0; i < n; ++i) OnDone(reinterpret_cast<WAVEHDR*>(done[i]), on_done);
 }
 
 void WaveOutSink::Impl::CancelSilentLocked() {
     silent_timer_.Cancel();
-    for (uint32_t i = 0; i < silent_count_; ++i)
-        Post(MM_WOM_DONE, kSilentDone, reinterpret_cast<LPARAM>(silent_[i].hdr));
-    silent_count_ = 0;
-    silent_tail_  = Clock::time_point{};
+    uintptr_t      done[SilentBlockPacer::kCapacity] = {};
+    const uint32_t n = silent_.TakeAll(done);
+    for (uint32_t i = 0; i < n; ++i) Post(MM_WOM_DONE, kSilentDone, static_cast<LPARAM>(done[i]));
 }
 
 void WaveOutSink::Impl::CloseDeviceLocked() {

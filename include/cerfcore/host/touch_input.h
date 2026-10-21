@@ -17,7 +17,7 @@ public:
 
     /* PointerSource - the stock resistive/stylus panel. */
     std::string    SourceName()       const override { return "Stock stylus"; }
-    const char*    IconResourceName() const override { return "ICON_INPUT_STYLUS"; }
+    const char*    IconResourceName() const override { return "stylus"; }
     int            SourcePriority()   const override { return 0; }
     PointerKind    Kind()             const override { return PointerKind::Stylus; }
 };

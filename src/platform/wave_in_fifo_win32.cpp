@@ -4,6 +4,8 @@
 
 #include "wave_in_fifo.h"
 
+#include "capped_byte_fifo.h"
+
 #include <cerfcore/core/log.h>
 
 #include <algorithm>
@@ -196,15 +198,12 @@ private:
 
     void OnThreadMessage(const MSG& msg);
     void OpenOnThread();
-    void OnRecordedData(const uint8_t* data, uint32_t bytes);
 
     WaveInSink            sink_;
-    std::mutex            mtx_;
-    std::deque<uint8_t>   fifo_;
+    CappedByteFifo        fifo_;
     std::atomic<uint64_t> requested_{0};
-    uint64_t              open_      = 0;
-    size_t                cap_bytes_ = 0;
-    const char*           log_tag_   = "WaveInFifo";
+    uint64_t              open_    = 0;
+    const char*           log_tag_ = "WaveInFifo";
 };
 
 uint64_t WaveInFifo::Impl::FormatKey(uint32_t sample_rate_hz, uint16_t channels, uint16_t bits) {
@@ -213,8 +212,8 @@ uint64_t WaveInFifo::Impl::FormatKey(uint32_t sample_rate_hz, uint16_t channels,
 }
 
 void WaveInFifo::Impl::Start(const char* log_tag, size_t cap_bytes) {
-    log_tag_   = log_tag;
-    cap_bytes_ = cap_bytes;
+    log_tag_ = log_tag;
+    fifo_.SetCap(cap_bytes);
     sink_.Start(nullptr, [this](const MSG& msg) { OnThreadMessage(msg); }, log_tag);
 }
 
@@ -225,22 +224,9 @@ void WaveInFifo::Impl::Request(uint32_t sample_rate_hz, uint16_t channels, uint1
     if (requested_.exchange(key) != key) sink_.Post(kMsgOpen);
 }
 
-void WaveInFifo::Impl::Clear() {
-    std::lock_guard<std::mutex> lk(mtx_);
-    fifo_.clear();
-}
+void WaveInFifo::Impl::Clear() { fifo_.Clear(); }
 
-size_t WaveInFifo::Impl::Take(uint8_t* dst, size_t bytes) {
-    size_t taken = 0;
-    {
-        std::lock_guard<std::mutex> lk(mtx_);
-        taken = std::min(bytes, fifo_.size());
-        std::copy(fifo_.begin(), fifo_.begin() + taken, dst);
-        fifo_.erase(fifo_.begin(), fifo_.begin() + taken);
-    }
-    std::fill(dst + taken, dst + bytes, uint8_t{0});
-    return taken;
-}
+size_t WaveInFifo::Impl::Take(uint8_t* dst, size_t bytes) { return fifo_.Take(dst, bytes); }
 
 void WaveInFifo::Impl::OnThreadMessage(const MSG& msg) {
     if (msg.message == kMsgOpen) {
@@ -248,7 +234,7 @@ void WaveInFifo::Impl::OnThreadMessage(const MSG& msg) {
     } else if (msg.message == MM_WIM_DATA) {
         auto* hdr = reinterpret_cast<LPWAVEHDR>(msg.lParam);
         if (!hdr) return;
-        OnRecordedData(reinterpret_cast<const uint8_t*>(hdr->lpData), hdr->dwBytesRecorded);
+        fifo_.Push(reinterpret_cast<const uint8_t*>(hdr->lpData), hdr->dwBytesRecorded);
         sink_.Requeue(hdr);
     }
 }
@@ -265,13 +251,6 @@ void WaveInFifo::Impl::OpenOnThread() {
         LOG(Caution, "[%s] microphone capture unavailable at %u Hz (host waveIn open failed); "
                      "the guest records silence\n", log_tag_, rate);
     }
-}
-
-void WaveInFifo::Impl::OnRecordedData(const uint8_t* data, uint32_t bytes) {
-    if (bytes == 0u) return;
-    std::lock_guard<std::mutex> lk(mtx_);
-    fifo_.insert(fifo_.end(), data, data + bytes);
-    if (fifo_.size() > cap_bytes_) fifo_.erase(fifo_.begin(), fifo_.end() - cap_bytes_);
 }
 
 WaveInFifo::WaveInFifo() : impl_(std::make_unique<Impl>()) {}

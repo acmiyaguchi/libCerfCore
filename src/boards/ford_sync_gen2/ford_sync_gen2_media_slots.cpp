@@ -34,7 +34,7 @@ public:
         std::string WidgetName() const override { return slot_ == FordSyncGen2MediaHub::kSdPort ? "Media Hub SD" : "Media Hub USB"; }
         WidgetGroup Group() const override { return WidgetGroup::Usb; }
         WidgetIcon Icon() const override {
-            return ResourceIcon{slot_ == FordSyncGen2MediaHub::kSdPort ? "ICON_SD_MAP" : "ICON_USB"};
+            return ResourceIcon{slot_ == FordSyncGen2MediaHub::kSdPort ? "sd_map" : "usb"};
         }
         std::string Tooltip() const override { return WidgetName() + ": " + owner_.MediaName(slot_); }
         std::vector<WidgetControl> Controls() override { return owner_.Controls(slot_); }

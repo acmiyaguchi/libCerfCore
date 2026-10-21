@@ -6,7 +6,7 @@
 namespace cerfcore {
 
 MappedFile::~MappedFile() {
-    if (view_) host_platform::UnmapFileView(view_);
+    if (view_) host_platform::UnmapFileView(view_, view_len_);
     host_platform::CloseMappedFile(mapping_);
 }
 
@@ -33,7 +33,7 @@ bool MappedFile::EnsureWindow(uint64_t offset, size_t len) {
     size_t want = std::max(window_, need);
     if (base + want > size_) want = static_cast<size_t>(size_ - base);
 
-    if (view_) { host_platform::UnmapFileView(view_); view_ = nullptr; view_len_ = 0; }
+    if (view_) { host_platform::UnmapFileView(view_, view_len_); view_ = nullptr; view_len_ = 0; }
     uint8_t* p = host_platform::MapFileView(mapping_, base, want);
     if (!p) return false;
     view_      = p;

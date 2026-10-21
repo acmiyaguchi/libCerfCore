@@ -47,6 +47,11 @@ void MemoryTelemetry::Sample() {
     auto mb = [](uint64_t b) -> unsigned long long { return (unsigned long long)(b / (1024 * 1024)); };
     auto kb = [](uint64_t b) -> unsigned long long { return (unsigned long long)(b / 1024); };
 
+    if (!stacks.sizes_measured) {
+        LOG(Mem, "private=%lluMB ws=%lluMB threads=%llu\n", mb(private_bytes),
+            mb(usage.working_set), (unsigned long long)stacks.count);
+        return;
+    }
     LOG(Mem,
         "private=%lluMB ws=%lluMB "
         "thread_stacks=%lluKB(%llu threads, reserve=%lluMB)\n",

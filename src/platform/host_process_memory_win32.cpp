@@ -28,6 +28,7 @@ ProcessMemoryUsage QueryProcessMemory() {
 
 ThreadStackUsage MeasureThreadStacks() {
     ThreadStackUsage out;
+    out.sizes_measured  = true;
     const DWORD our_pid = ::GetCurrentProcessId();
 
     HANDLE snap = ::CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0);

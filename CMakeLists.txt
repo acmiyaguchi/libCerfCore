@@ -82,6 +82,9 @@ target_link_libraries(cerfcore PUBLIC "$<LINK_LIBRARY:WHOLE_ARCHIVE,cerfengine::
 if(WIN32)
     target_compile_definitions(cerfcore PUBLIC UNICODE _UNICODE)
     target_link_libraries(cerfcore PUBLIC ws2_32 iphlpapi winmm psapi dbghelp user32 advapi32)
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    find_package(ALSA REQUIRED)
+    target_link_libraries(cerfcore PRIVATE ALSA::ALSA)
 endif()
 
 if(MSVC)

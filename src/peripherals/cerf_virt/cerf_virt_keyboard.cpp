@@ -77,7 +77,7 @@ public:
 
     std::string    SourceName() const override { return "Guest Additions keyboard"; }
     int            SourcePriority() const override { return 100; }
-    const char*    IconResourceName() const override { return "ICON_GA_KEYBOARD"; }
+    const char*    IconResourceName() const override { return "ga_keyboard"; }
 
     bool SourceReady() const override {
         return emu_.Get<CerfGuestLiveness>().IsAlive();

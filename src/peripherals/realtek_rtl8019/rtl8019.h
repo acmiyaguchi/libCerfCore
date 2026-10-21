@@ -23,7 +23,7 @@ public:
 
     std::string DisplayName() const override { return kDisplayName; }
     std::string TooltipDetail() const override;
-    const char* IconResource() const override { return "ICON_PCMCIA_ETHERNET"; }
+    const char* IconResource() const override { return "pcmcia_enabled_ethernet"; }
 
     void OnInserted() override;
     void OnShutdown() override;

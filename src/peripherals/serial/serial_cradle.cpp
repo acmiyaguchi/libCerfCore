@@ -140,11 +140,11 @@ std::vector<WidgetControl> SerialCradle::Controls() {
 
 const char* SerialCradle::IconResourceLocked() const {
     switch (kind_) {
-        case Kind::Modem:   return "ICON_SERIAL_MODEM";
-        case Kind::Forward: return "ICON_SERIAL_COM";
-        case Kind::None:    return "ICON_SERIAL_EMPTY";
+        case Kind::Modem:   return "serial_modem";
+        case Kind::Forward: return "serial_com";
+        case Kind::None:    return "serial";
     }
-    return "ICON_SERIAL_EMPTY";
+    return "serial";
 }
 
 WidgetIcon SerialCradle::Icon() const {

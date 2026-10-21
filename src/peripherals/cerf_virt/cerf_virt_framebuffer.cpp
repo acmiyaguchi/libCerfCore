@@ -7,7 +7,7 @@
 #include <cerfcore/core/fatal.h>
 #include <cerfcore/core/log.h>
 #include <cerfcore/host/hw_screen.h>
-#include "../../platform/host_display.h"
+#include <cerfcore/host/host_displays.h>
 #include <cerfcore/socs/guest_cpu_reset.h>
 #include <cerfcore/state/state_stream.h>
 
@@ -28,7 +28,7 @@ uint32_t CerfVirtFramebuffer::MaxPrimaryBytes() const {
     const uint32_t bytes_per_px = bpp_ >> 3u;
     uint32_t mon_w = 0;
     uint32_t mon_h = 0;
-    host_platform::LargestDisplaySize(mon_w, mon_h);
+    emu_.Get<HostDisplays>().LargestDisplaySize(mon_w, mon_h);
     const uint32_t mon_primary = mon_w * mon_h * bytes_per_px;
     const uint32_t configured  = SizeBytes();
     return (mon_primary > configured) ? mon_primary : configured;

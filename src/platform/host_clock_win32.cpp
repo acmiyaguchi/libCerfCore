@@ -24,10 +24,6 @@ void CpuRelax() {
     YieldProcessor();
 }
 
-void LocalCalendarTime(std::time_t t, std::tm& out) {
-    localtime_s(&out, &t);
-}
-
 }
 
 }

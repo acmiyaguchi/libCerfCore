@@ -1,6 +1,6 @@
 #include "bcd_calendar.h"
 
-#include "../../platform/host_clock.h"
+#include <cerfcore/platform/host_local_time.h>
 
 #include <algorithm>
 #include <ctime>

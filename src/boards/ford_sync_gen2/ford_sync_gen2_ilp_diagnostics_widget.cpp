@@ -22,7 +22,7 @@ public:
     WidgetGroup Group() const override { return WidgetGroup::Debug; }
     WidgetIcon Icon() const override {
         const bool rejected = Failures(emu_.Get<FordSyncGen2IlpChannel>().ReadCounters()) > dismissed_failures_;
-        return ResourceIcon{rejected ? "ICON_ILP_DIAGNOSTICS_REJECTED" : "ICON_ILP_DIAGNOSTICS"};
+        return ResourceIcon{rejected ? "ilp_diagnostics_rejected" : "ilp_diagnostics"};
     }
     std::string Tooltip() const override {
         const auto c = emu_.Get<FordSyncGen2IlpChannel>().ReadCounters();

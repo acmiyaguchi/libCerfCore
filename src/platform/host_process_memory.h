@@ -12,9 +12,10 @@ struct ProcessMemoryUsage {
 };
 
 struct ThreadStackUsage {
-    uint64_t count     = 0;
-    uint64_t committed = 0;
-    uint64_t reserved  = 0;
+    uint64_t count          = 0;
+    bool     sizes_measured = false;
+    uint64_t committed      = 0;
+    uint64_t reserved       = 0;
 };
 
 ProcessMemoryUsage QueryProcessMemory();

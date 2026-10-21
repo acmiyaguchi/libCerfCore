@@ -77,7 +77,7 @@ std::vector<WidgetControl> GuestAdditionsWidget::Controls() {
 }
 
 WidgetIcon GuestAdditionsWidget::Icon() const {
-    return ResourceIcon{ResizeEnabled() ? "ICON_GA" : "ICON_GA_DISABLED"};
+    return ResourceIcon{ResizeEnabled() ? "ga_autoresize" : "ga_autoresize_disabled"};
 }
 
 bool GuestAdditionsWidget::PollDirty() {

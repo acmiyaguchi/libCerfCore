@@ -24,7 +24,7 @@ public:
     WidgetGroup Group() const override { return WidgetGroup::Indicator; }
     std::string Tooltip() const override;
     std::vector<WidgetControl> Controls() override;
-    WidgetIcon Icon() const override { return ResourceIcon{"ICON_CAR"}; }
+    WidgetIcon Icon() const override { return ResourceIcon{"car"}; }
     bool PollDirty() override;
     void SaveWidgetState(StateWriter& w) const override;
     void RestoreWidgetState(StateReader& r) override;

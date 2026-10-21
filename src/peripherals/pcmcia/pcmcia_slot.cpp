@@ -357,7 +357,7 @@ std::string PcmciaSlot::Tooltip() const {
 }
 
 const char* PcmciaSlot::IconResourceLocked() const {
-    return card_ ? card_->IconResource() : "ICON_PCMCIA_EMPTY";
+    return card_ ? card_->IconResource() : "pcmcia";
 }
 
 WidgetIcon PcmciaSlot::Icon() const {

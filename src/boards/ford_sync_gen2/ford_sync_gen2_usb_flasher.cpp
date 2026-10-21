@@ -85,7 +85,7 @@ public:
     std::string WidgetName() const override { return "USB"; }
     WidgetGroup Group() const override { return WidgetGroup::Usb; }
     std::string Tooltip() const override { return "USB - [Ford Sync 2] Factory Flashing Tool"; }
-    WidgetIcon  Icon() const override { return ResourceIcon{"ICON_USB_FORD_FLASHER"}; }
+    WidgetIcon  Icon() const override { return ResourceIcon{"usb_ford_flasher"}; }
 
 private:
     enum class Step { kIdle, kDevDesc, kSetAddr, kConfShort, kConfFull, kSetConfig, kConfigured };

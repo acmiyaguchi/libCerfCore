@@ -20,7 +20,7 @@ public:
 
     std::string DisplayName() const override;
     std::string TooltipDetail() const override;
-    const char* IconResource() const override { return "ICON_PCMCIA_CF"; }
+    const char* IconResource() const override { return "pcmcia_enabled_cf"; }
 
     void PowerOn () override;
     void PowerOff() override;

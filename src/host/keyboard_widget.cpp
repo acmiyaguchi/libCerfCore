@@ -55,7 +55,7 @@ std::string KeyboardWidget::Tooltip() const {
 }
 
 WidgetIcon KeyboardWidget::Icon() const {
-    const char* icon = "ICON_KEYBOARD";
+    const char* icon = "keyboard";
     if (auto* a = emu_.Get<KeyboardRouter>().Active()) icon = a->IconResourceName();
     return ResourceIcon{icon};
 }

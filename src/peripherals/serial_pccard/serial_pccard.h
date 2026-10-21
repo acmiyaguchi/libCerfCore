@@ -26,8 +26,8 @@ public:
     }
     std::string TooltipDetail() const override;
     const char* IconResource() const override {
-        return mode_ == Mode::HostForward ? "ICON_PCMCIA_SERIAL_COM"
-                                          : "ICON_PCMCIA_SERIAL_MODEM";
+        return mode_ == Mode::HostForward ? "pcmcia_enabled_serial_com"
+                                          : "pcmcia_enabled_serial_modem";
     }
 
     void OnInserted() override;

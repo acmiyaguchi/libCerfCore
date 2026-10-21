@@ -6,6 +6,7 @@
 | --- | --- |
 | [nlohmann-json](https://github.com/nlohmann/json) | MIT |
 | [libslirp](https://gitlab.freedesktop.org/slirp/libslirp) | BSD-3-Clause |
+| [alsa-lib](https://www.alsa-project.org/) | LGPL-2.1-or-later |
 
 ## Studied references
 
@@ -25,3 +26,5 @@
 - **[Rockbox](https://www.rockbox.org/)**
 - **[Das U-Boot](https://github.com/u-boot/u-boot)**
 - **[handhelds.org bootldr](https://ftp.gwdg.de/pub/linux/handhelds/feeds/bootldr/)**
+- **[pySerial](https://github.com/pyserial/pyserial)**
+- **[Wine](https://www.winehq.org/)**

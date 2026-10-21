@@ -24,7 +24,7 @@ public:
 
     /* PointerSource - concretes override SourceName per controller. */
     std::string    SourceName()       const override { return "Stock mouse"; }
-    const char*    IconResourceName() const override { return "ICON_INPUT_PS2_MOUSE"; }
+    const char*    IconResourceName() const override { return "cursor"; }
     int            SourcePriority()   const override { return 0; }
     PointerKind    Kind()             const override { return PointerKind::Relative; }
 };

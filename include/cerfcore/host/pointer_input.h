@@ -25,7 +25,7 @@ public:
 
     /* PointerSource - absolute GA mouse; outranks stock devices at boot. */
     std::string    SourceName()       const override { return "Guest Additions mouse"; }
-    const char*    IconResourceName() const override { return "ICON_INPUT_GA_POINTER"; }
+    const char*    IconResourceName() const override { return "ga_cursor"; }
     int            SourcePriority()   const override { return 100; }
     PointerKind    Kind()             const override { return PointerKind::Absolute; }
 };

@@ -1,35 +1,168 @@
 #include <cerfcore/platform/host_file.h>
 
+#include <cerrno>
+#include <cstdint>
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#if defined(__linux__)
+#include <linux/falloc.h>
+#endif
+
+#include "host_fd_handle.h"
 #include "host_unimplemented.h"
 
 namespace cerfcore {
 
 namespace host_platform {
 
-HostFile::~HostFile() {
-    if (handle_) NoHostImplementation("HostFile::~HostFile");
+namespace {
+
+int OpenFlags(FileMode mode) {
+    switch (mode) {
+        case FileMode::kReadExisting:      return O_RDONLY;
+        case FileMode::kWriteNew:          return O_WRONLY | O_CREAT | O_TRUNC;
+        case FileMode::kWriteNewShared:    return O_WRONLY | O_CREAT | O_TRUNC;
+        case FileMode::kReadWriteAlways:   return O_RDWR | O_CREAT;
+        case FileMode::kReadWriteExisting: return O_RDWR;
+    }
+    NoHostImplementation("HostFile::Open mode");
 }
 
-bool HostFile::Open(const std::string&, FileMode) { NoHostImplementation("HostFile::Open"); }
-void HostFile::Close() { NoHostImplementation("HostFile::Close"); }
-bool HostFile::Size(uint64_t&) const { NoHostImplementation("HostFile::Size"); }
-bool HostFile::SeekTo(uint64_t) { NoHostImplementation("HostFile::SeekTo"); }
-bool HostFile::SeekToEnd() { NoHostImplementation("HostFile::SeekToEnd"); }
-bool HostFile::Read(void*, uint32_t, uint32_t&) { NoHostImplementation("HostFile::Read"); }
-bool HostFile::Write(const void*, uint32_t, uint32_t&) { NoHostImplementation("HostFile::Write"); }
-void HostFile::MarkSparse() { NoHostImplementation("HostFile::MarkSparse"); }
-bool HostFile::ZeroRange(uint64_t, uint64_t) { NoHostImplementation("HostFile::ZeroRange"); }
-
-DeleteResult DeleteHostFile(const std::string&, uint32_t&) {
-    NoHostImplementation("DeleteHostFile");
+std::string ParentDirectory(const std::string& path) {
+    const size_t slash = path.find_last_of('/');
+    if (slash == std::string::npos) return ".";
+    return slash == 0 ? std::string("/") : path.substr(0, slash);
 }
 
-bool ReplaceHostFile(const std::string&, const std::string&, bool) {
-    NoHostImplementation("ReplaceHostFile");
+[[maybe_unused]] bool WriteZeros(int fd, uint64_t begin, uint64_t end) {
+    static constexpr uint32_t kChunk = 65536u;
+    static const uint8_t      kZeros[kChunk] = {};
+    while (begin < end) {
+        const uint64_t left = end - begin;
+        const size_t   want = static_cast<size_t>(left < kChunk ? left : kChunk);
+        const ssize_t  n    = ::pwrite(fd, kZeros, want, static_cast<off_t>(begin));
+        if (n < 0) {
+            if (errno == EINTR) continue;
+            return false;
+        }
+        if (n == 0) return false;
+        begin += static_cast<uint64_t>(n);
+    }
+    return true;
 }
 
-bool HostFileExists(const std::string&) { NoHostImplementation("HostFileExists"); }
-bool HostPathExists(const std::string&) { NoHostImplementation("HostPathExists"); }
+}
+
+HostFile::~HostFile() { Close(); }
+
+bool HostFile::Open(const std::string& path, FileMode mode) {
+    const int fd = ::open(path.c_str(), OpenFlags(mode) | O_CLOEXEC, 0666);
+    if (fd < 0) return false;
+    handle_ = HandleOf(fd);
+    return true;
+}
+
+void HostFile::Close() {
+    if (handle_) {
+        ::close(FdOf(handle_));
+        handle_ = nullptr;
+    }
+}
+
+bool HostFile::Size(uint64_t& size) const {
+    struct stat st {};
+    if (::fstat(FdOf(handle_), &st) != 0) return false;
+    size = static_cast<uint64_t>(st.st_size);
+    return true;
+}
+
+bool HostFile::SeekTo(uint64_t offset) {
+    return ::lseek(FdOf(handle_), static_cast<off_t>(offset), SEEK_SET) >= 0;
+}
+
+bool HostFile::SeekToEnd() { return ::lseek(FdOf(handle_), 0, SEEK_END) >= 0; }
+
+bool HostFile::Read(void* dst, uint32_t length, uint32_t& done) {
+    done = 0;
+    while (done < length) {
+        const ssize_t n = ::read(FdOf(handle_), static_cast<uint8_t*>(dst) + done, length - done);
+        if (n < 0) {
+            if (errno == EINTR) continue;
+            return false;
+        }
+        if (n == 0) break;
+        done += static_cast<uint32_t>(n);
+    }
+    return true;
+}
+
+bool HostFile::Write(const void* src, uint32_t length, uint32_t& done) {
+    done = 0;
+    while (done < length) {
+        const ssize_t n =
+            ::write(FdOf(handle_), static_cast<const uint8_t*>(src) + done, length - done);
+        if (n < 0) {
+            if (errno == EINTR) continue;
+            return false;
+        }
+        if (n == 0) return false;
+        done += static_cast<uint32_t>(n);
+    }
+    return true;
+}
+
+void HostFile::MarkSparse() {}
+
+bool HostFile::ZeroRange(uint64_t begin, uint64_t end) {
+    if (end <= begin) return true;
+#if defined(__linux__)
+    const int fd = FdOf(handle_);
+    for (;;) {
+        if (::fallocate(fd, FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE,
+                        static_cast<off_t>(begin), static_cast<off_t>(end - begin)) == 0)
+            return true;
+        if (errno == EINTR) continue;
+        if (errno != EOPNOTSUPP) return false;
+        break;
+    }
+    uint64_t size = 0;
+    if (!Size(size)) return false;
+    return WriteZeros(fd, begin, end < size ? end : size);
+#else
+    NoHostImplementation("HostFile::ZeroRange");
+#endif
+}
+
+DeleteResult DeleteHostFile(const std::string& path, uint32_t& error) {
+    if (::unlink(path.c_str()) == 0) {
+        error = 0;
+        return DeleteResult::kDeleted;
+    }
+    error = static_cast<uint32_t>(errno);
+    if (errno == ENOENT || errno == ENOTDIR) return DeleteResult::kMissing;
+    return DeleteResult::kFailed;
+}
+
+bool ReplaceHostFile(const std::string& from, const std::string& to, bool write_through) {
+    if (::rename(from.c_str(), to.c_str()) != 0) return false;
+    if (!write_through) return true;
+    const int dir = ::open(ParentDirectory(to).c_str(), O_RDONLY | O_DIRECTORY | O_CLOEXEC);
+    if (dir < 0) return false;
+    const bool synced = ::fsync(dir) == 0;
+    ::close(dir);
+    return synced;
+}
+
+bool HostFileExists(const std::string& path) {
+    struct stat st {};
+    return ::stat(path.c_str(), &st) == 0 && !S_ISDIR(st.st_mode);
+}
+
+bool HostPathExists(const std::string& path) {
+    struct stat st {};
+    return ::stat(path.c_str(), &st) == 0;
+}
 
 }
 

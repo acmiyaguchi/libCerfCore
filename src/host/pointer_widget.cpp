@@ -70,7 +70,7 @@ std::vector<WidgetControl> PointerWidget::Controls() {
 }
 
 WidgetIcon PointerWidget::Icon() const {
-    const char* icon = "ICON_INPUT_GA_POINTER";
+    const char* icon = "ga_cursor";
     if (auto* a = emu_.Get<PointerRouter>().Active()) icon = a->IconResourceName();
     return ResourceIcon{icon};
 }

@@ -3,7 +3,7 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include <cerfcore/core/device_config.h>
 #include <cerfcore/core/log.h>
-#include "../platform/host_display.h"
+#include <cerfcore/host/host_displays.h>
 
 namespace cerfcore {
 
@@ -27,6 +27,11 @@ int RefreshRateService::GetRefreshRate() {
     return cached_;
 }
 
+int RefreshRateService::FrameIntervalMs() {
+    const int interval = 1000 / GetRefreshRate();
+    return interval < 1 ? 1 : interval;
+}
+
 int RefreshRateService::Decide() {
     auto& dc = emu_.Get<DeviceConfig>();
 
@@ -36,7 +41,7 @@ int RefreshRateService::Decide() {
         return (int)dc.screen_refresh_rate;
     }
 
-    int raw = host_platform::HighestDisplayRefreshRate();
+    int raw = emu_.Get<HostDisplays>().HighestRefreshRate();
     if (raw < 1) raw = 60;
 
     if (dc.guest_additions) {

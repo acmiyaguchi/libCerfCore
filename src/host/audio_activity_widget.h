@@ -23,7 +23,7 @@ public:
         return "Audio - TX: sound output, RX: microphone";
     }
 
-    WidgetIcon Icon() const override { return ResourceIcon{"ICON_SPEAKER"}; }
+    WidgetIcon Icon() const override { return ResourceIcon{"speaker"}; }
 
 private:
     bool registered_ = false;

@@ -7,6 +7,7 @@
 #include <cerfcore/core/log.h>
 #include <cerfcore/lcd/lcd_pixel_expand.h>
 
+#include <cstddef>
 #include <cstdint>
 
 namespace cerfcore {
@@ -25,6 +26,10 @@ public:
 
 protected:
     bool ResolveSurface(const CerfBltSurface& s, uint32_t bpp, Surface* out);
+    static ptrdiff_t PixelOffset(const Surface& s, int32_t x, int32_t y, uint32_t bpp) {
+        return static_cast<ptrdiff_t>(y) * s.desc->stride +
+               static_cast<ptrdiff_t>(x) * static_cast<ptrdiff_t>(bpp);
+    }
     uint8_t* PixelPtr(const Surface& s, int32_t x, int32_t y, uint32_t run_bytes,
                       uint32_t* run);
     uint8_t* RotatedPixelPtr(const Surface& s, int32_t x, int32_t y);
@@ -37,11 +42,11 @@ protected:
                            uint32_t value);
 
     [[noreturn]] void FatalStraddle(const Surface& s, int32_t x, int32_t y,
-                                    uint32_t off) {
+                                    ptrdiff_t off) {
         LOG(Cerf, "[BltSurfaceAccess] pixel byte unaddressable at x=%d y=%d "
-                  "off=%u: buffer=0x%08X is_fb_pa=%u fmt=%u stride=%d "
+                  "off=%lld: buffer=0x%08X is_fb_pa=%u fmt=%u stride=%d "
                   "stage_off=0x%08X stage_len=%u\n",
-            x, y, off, s.desc->buffer, s.desc->is_fb_pa, s.desc->format,
+            x, y, static_cast<long long>(off), s.desc->buffer, s.desc->is_fb_pa, s.desc->format,
             s.desc->stride, s.desc->stage_off, s.desc->stage_len);
         CerfFatalExit();
     }
@@ -113,7 +118,7 @@ inline uint8_t* BltSurfaceAccess::PixelPtr(const Surface& s, int32_t x, int32_t 
         *run = s.bpp;
         return p;
     }
-    const uint32_t off = (uint32_t)y * (uint32_t)s.desc->stride + (uint32_t)x * s.bpp;
+    const ptrdiff_t off = PixelOffset(s, x, y, s.bpp);
     uint8_t* p = s.host_base + off;
     if (p < s.host_lo || p + s.bpp > s.host_hi) return nullptr;
     const uint32_t avail = (uint32_t)(s.host_hi - p);
@@ -123,7 +128,7 @@ inline uint8_t* BltSurfaceAccess::PixelPtr(const Surface& s, int32_t x, int32_t 
 
 inline uint32_t BltSurfaceAccess::ReadStraddlePixel(const Surface& s, int32_t x,
                                                     int32_t y, uint32_t bpp) {
-    const uint32_t off = (uint32_t)y * (uint32_t)s.desc->stride + (uint32_t)x * bpp;
+    const ptrdiff_t off = PixelOffset(s, x, y, bpp);
     uint8_t* p = s.host_base + off;
     if (p < s.host_lo || p + bpp > s.host_hi) FatalStraddle(s, x, y, off);
     return BltPixelOps::ReadPixel(p, bpp);
@@ -132,7 +137,7 @@ inline uint32_t BltSurfaceAccess::ReadStraddlePixel(const Surface& s, int32_t x,
 inline void BltSurfaceAccess::WriteStraddlePixel(const Surface& s, int32_t x,
                                                  int32_t y, uint32_t bpp,
                                                  uint32_t value) {
-    const uint32_t off = (uint32_t)y * (uint32_t)s.desc->stride + (uint32_t)x * bpp;
+    const ptrdiff_t off = PixelOffset(s, x, y, bpp);
     uint8_t* p = s.host_base + off;
     if (p < s.host_lo || p + bpp > s.host_hi) FatalStraddle(s, x, y, off);
     BltPixelOps::WritePixel(p, bpp, value);

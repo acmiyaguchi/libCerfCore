@@ -22,8 +22,7 @@ public:
     virtual std::string SourceName() const { return "Stock keyboard"; }
     virtual int SourcePriority() const { return 0; }
     virtual bool SourceReady() const { return true; }
-    /* cerf.rc ICON resource the keyboard widget draws while this source is active. */
-    virtual const char* IconResourceName() const { return "ICON_KEYBOARD"; }
+    virtual const char* IconResourceName() const { return "keyboard"; }
 };
 
 }
