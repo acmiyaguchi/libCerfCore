@@ -258,6 +258,8 @@ uint32_t Imx28Ssp::ReadWord(uint32_t addr) {
         return 0u;
     }
     if (a.reg_offset == kCtrl0) return ctrl0_;
+    /* Section 17.10.1 SFTRST, CLKGATE; sharp_brain_pw_sh4 nk.exe 80211ad4. */
+    if (a.reg_offset == kStatus) return kStatusReset | status_;
     RequireOperating("ReadWord", ctrl0_, addr, 0);
     if (a.reg_offset >= kSdresp0 && a.reg_offset <= kSdresp3) {
         return sdresp_[(a.reg_offset - kSdresp0) / kRegStride];
@@ -273,7 +275,6 @@ uint32_t Imx28Ssp::ReadWord(uint32_t addr) {
         case kCtrl1:     return ctrl1_;
         case kDdrCtrl:   return ddr_ctrl_;
         case kDllCtrl:   return dll_ctrl_;
-        case kStatus:    return kStatusReset | status_;
         case kVersion:   return kVersionValue;
         case kData:      Die("DATA read", addr, 0u);
         case kDllSts:    Die("DLL_STS read", addr, 0u);
