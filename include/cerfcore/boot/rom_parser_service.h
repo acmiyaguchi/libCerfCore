@@ -115,6 +115,7 @@ struct ParsedRom {
     bool                         is_nosaj     = false;
     bool                         is_arnold    = false;
     bool                         is_nbf       = false;
+    bool                         is_sharp_sdu = false;
     bool                         is_wmstore   = false;
     size_t                       wmstore_payload_off   = 0;
     size_t                       wmstore_payload_bytes = 0;

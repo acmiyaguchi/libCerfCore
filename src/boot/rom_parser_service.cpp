@@ -5,6 +5,7 @@
 #include "ce1_rom_parse.h"
 #include "ce_imgfs_walker.h"
 #include "rom_image_parse.h"
+#include "rom_sharp_sdu_parse.h"
 #include "rom_symbol_flash_parse.h"
 #include "rom_wmstore_parse.h"
 
@@ -41,6 +42,9 @@ using cerf::rom_image_parse::NosajOsXip;
 using cerf::rom_image_parse::ResolveNextStructuralXip;
 using cerf::rom_image_parse::ResolveRomhdrAtEcec;
 using cerf::rom_image_parse::ResolveRomhdrStructural;
+using cerf::rom_image_parse::SharpSduHeaderValid;
+using cerf::rom_image_parse::SharpSduLocateOsXip;
+using cerf::rom_image_parse::SharpSduOsXip;
 using cerf::rom_image_parse::SymbolFlashLocateOsXip;
 using cerf::rom_image_parse::SymbolFlashOsXip;
 using cerf::rom_image_parse::WmstoreLocateOsXip;
@@ -150,6 +154,21 @@ bool RomParserService::ParseOne(ParsedRom& rom) {
                   "span=%.1f MB\n",
             rom.filename.c_str(), os.data_off,
             double(os.flat_size) / 1024.0 / 1024.0);
+    } else if (SharpSduHeaderValid(rom.raw)) {
+        SharpSduOsXip sdu;
+        if (!SharpSduLocateOsXip(rom.raw, sdu)) {
+            LOG(Caution, "RomParser %s: Sharp SDU package but OS XIP not "
+                         "resolvable\n", rom.filename.c_str());
+            return false;
+        }
+        rom.is_sharp_sdu = true;
+        rom.flat         = std::span<const uint8_t>(rom.raw)
+                               .subspan(sdu.data_off, sdu.flat_size);
+        rom.flat_base_va = sdu.base_va;
+        LOG(Boot, "RomParser %s: Sharp SDU package - OS XIP @ file 0x%zX "
+                  "base=0x%08X span=%.1f MB\n",
+            rom.filename.c_str(), sdu.data_off, sdu.base_va,
+            double(sdu.flat_size) / 1024.0 / 1024.0);
     } else if (WmstoreOsXip wm; WmstoreLocateOsXip(rom.raw, wm)) {
         rom.flat         = std::span<const uint8_t>(rom.raw)
                                .subspan(wm.data_off, wm.flat_size);
@@ -288,6 +307,7 @@ bool RomParserService::ParseOne(ParsedRom& rom) {
     }
 
     if (!rom.is_b000ff && !rom.is_nosaj && !rom.is_arnold && !rom.is_nbf
+        && !rom.is_sharp_sdu
         && !rom.is_ce1) {
         ImgfsSuperblock sb;
         if (FindImgfsBase(rom.raw, sb)) {
