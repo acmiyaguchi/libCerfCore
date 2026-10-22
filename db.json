@@ -967,6 +967,16 @@
   ],
   "board_families": [
     {
+      "id": "sharp_brain_pw_sh4",
+      "name": "Sharp Brain PW-SH4",
+      "soc_id": "imx28",
+      "device_year": 2017,
+      "device_features": [],
+      "notes": [],
+      "lcd_panel_size": {"width": 854, "height": 480},
+      "rom_placing_mode": "flat_container"
+    },
+    {
       "id": "samsung_smdk2410",
       "name": "Samsung SMDK2410",
       "soc_id": "s3c2410",
@@ -2008,6 +2018,53 @@
     }
   ],
   "boards": [
+    {
+      "id": "sharp_brain_pw_sh4",
+      "name": "Sharp Brain PW-SH4",
+      "short_name": "PW-SH4",
+      "board_family_id": "sharp_brain_pw_sh4",
+      "support_level": "unknown_partial"
+    },
+    {
+      "id": "sharp_brain_pw_sj4",
+      "name": "Sharp Brain PW-SJ4",
+      "short_name": "PW-SJ4",
+      "board_family_id": "sharp_brain_pw_sh4",
+      "support_level": "unknown_partial",
+      "internal__spec_divergences": "105 content titles (baseline 170)"
+    },
+    {
+      "id": "sharp_brain_pw_sb4",
+      "name": "Sharp Brain PW-SB4",
+      "short_name": "PW-SB4",
+      "board_family_id": "sharp_brain_pw_sh4",
+      "support_level": "unknown_partial",
+      "internal__spec_divergences": "100 content titles (baseline 170), no video content"
+    },
+    {
+      "id": "sharp_brain_pw_sa4",
+      "name": "Sharp Brain PW-SA4",
+      "short_name": "PW-SA4",
+      "board_family_id": "sharp_brain_pw_sh4",
+      "support_level": "unknown_partial",
+      "internal__spec_divergences": "100 content titles (baseline 170), no video content"
+    },
+    {
+      "id": "sharp_brain_pw_h7700",
+      "name": "Sharp Brain PW-H7700",
+      "short_name": "PW-H7700",
+      "board_family_id": "sharp_brain_pw_sh4",
+      "support_level": "unknown_partial",
+      "internal__spec_divergences": "Ships with a case and name label, own update package"
+    },
+    {
+      "id": "sharp_brain_pw_sr2",
+      "name": "Sharp Brain PW-SR2",
+      "short_name": "PW-SR2",
+      "board_family_id": "sharp_brain_pw_sh4",
+      "support_level": "unknown_partial",
+      "internal__spec_divergences": "Released 2017-09 (baseline 2017-01)"
+    },
     {
       "id": "devemu",
       "name": "Device Emulator (QVGA)",
