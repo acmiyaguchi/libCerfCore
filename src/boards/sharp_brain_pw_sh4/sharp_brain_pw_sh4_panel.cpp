@@ -30,10 +30,41 @@ struct SettingCommand {
 /* sharp_brain_pw_sh4 ddraw_mx28.dll PanelGammaVariantSeq c06d75d0 (BCh 26 parameters);
    ILI9806H V091 pages 268-309 (B1h, B4h, C0h, C1h, C6h, C7h, E0h, E1h).
    C1h 8 and C7h 5 parameters in ILI9806H V091; c06d75d0 sends 3 and 4. */
+/* sharp_brain_pw_sh4 ddraw_mx28.dll PanelInitSeq c06d6d10 (FFh, DFh, B6h, F7h, BDh, BEh,
+   FAh, EDh). */
 constexpr SettingCommand kSettingCommands[] = {
     {0xBCu, 26u}, {0xC0u, 1u}, {0xB1u, 3u}, {0xB4u, 3u}, {0xC1u, 3u},
     {0xC6u, 2u},  {0xC7u, 4u}, {0xE0u, 16u}, {0xE1u, 16u},
+    {0xFFu, 3u},  {0xDFu, 3u}, {0xB6u, 1u},  {0xF7u, 1u},  {0xBDu, 8u},
+    {0xBEu, 17u}, {0xFAu, 5u}, {0xEDu, 4u},
 };
+
+struct FixedParamCommand {
+    uint8_t cmd;
+    uint8_t value;
+};
+
+/* MIPI DCS set_address_mode 36h, set_pixel_format 3Ah, set_tear_on 35h;
+   sharp_brain_pw_sh4 ddraw_mx28.dll PanelInitSeq c06d6d10 (D0h, 55h, 00h). */
+constexpr FixedParamCommand kFixedParamCommands[] = {
+    {0x36u, 0xD0u}, {0x3Au, 0x55u}, {0x35u, 0x00u},
+};
+
+/* MIPI DCS exit_sleep_mode 11h, set_display_on 29h;
+   sharp_brain_pw_sh4 ddraw_mx28.dll PanelInitSeq c06d6d10 (22h). */
+constexpr uint8_t kNoParamCommands[] = {0x11u, 0x22u, 0x29u};
+
+const FixedParamCommand* FindFixedParam(uint8_t cmd) {
+    for (const auto& c : kFixedParamCommands)
+        if (c.cmd == cmd) return &c;
+    return nullptr;
+}
+
+bool IsNoParamCommand(uint8_t cmd) {
+    for (uint8_t c : kNoParamCommands)
+        if (c == cmd) return true;
+    return false;
+}
 
 uint32_t SettingParamCount(uint8_t cmd) {
     for (const auto& c : kSettingCommands)
@@ -104,7 +135,7 @@ void SharpBrainPwSh4Panel::WriteCommand(uint32_t bus_word) {
     const uint8_t cmd = static_cast<uint8_t>(bus_word & 0xFFu);
     command_     = cmd;
     param_count_ = 0u;
-    if (SettingParamCount(cmd) != 0u) return;
+    if (SettingParamCount(cmd) != 0u || FindFixedParam(cmd) || IsNoParamCommand(cmd)) return;
     if (cmd != kCaset && cmd != kPaset && cmd != kRamwr) Die("unmodelled command", bus_word);
     if (cmd != kRamwr) return;
     if (window_valid_ != 0x3u) Die("RAMWR before CASET and PASET", bus_word);
@@ -136,6 +167,12 @@ void SharpBrainPwSh4Panel::WriteData(uint32_t bus_word) {
     const uint32_t setting_params = SettingParamCount(command_);
     if (setting_params != 0u) {
         if (param_count_ >= setting_params) Die("extra setting parameter", bus_word);
+        ++param_count_;
+        return;
+    }
+    if (const auto* fixed = FindFixedParam(command_)) {
+        if (param_count_ != 0u) Die("extra fixed parameter", bus_word);
+        if ((bus_word & 0xFFu) != fixed->value) Die("unmodelled parameter value", bus_word);
         ++param_count_;
         return;
     }
