@@ -32,7 +32,7 @@ constexpr uint32_t kCtrl2Ienable0  = 1u << 8;
 constexpr uint32_t kCtrl2Isrc0Mask = 0xFu;
 constexpr uint32_t kCtrl2Isrc0Val  = 0x7u;
 
-class SharpBrainPwSh4Battery : public Imx28LradcInputs {
+class SharpBrainPwSh4LradcInputs : public Imx28LradcInputs {
 public:
     using Imx28LradcInputs::Imx28LradcInputs;
 
@@ -54,7 +54,7 @@ public:
                                (ctrl2 & kCtrl2Isrc0Mask) == kCtrl2Isrc0Val;
         if (pin == kThermistorChan && source_on) return kThermistorMv;
         if (panel_->OwnsPin(pin)) return panel_->PinMillivolts(pin, ctrl0);
-        emu_.Get<Fatal>().Die("SharpBrainPwSh4Battery: pin %u conversion with CTRL0 %08X CTRL2 %08X",
+        emu_.Get<Fatal>().Die("SharpBrainPwSh4LradcInputs: pin %u conversion with CTRL0 %08X CTRL2 %08X",
                               pin, ctrl0, ctrl2);
     }
 
@@ -79,6 +79,6 @@ private:
 
 }  /* namespace */
 
-REGISTER_SERVICE_AS(SharpBrainPwSh4Battery, Imx28LradcInputs);
+REGISTER_SERVICE_AS(SharpBrainPwSh4LradcInputs, Imx28LradcInputs);
 
 }

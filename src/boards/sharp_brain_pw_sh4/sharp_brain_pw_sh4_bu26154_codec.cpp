@@ -22,7 +22,7 @@ constexpr uint8_t kMapconMask  = 0x03u;
 constexpr uint8_t kMapCount    = 3u;
 constexpr uint8_t kSoftrstRead = 0x10u;
 /* sharp_brain_pw_sh4 wavedev2_BU26154.dll c07ab4e8 (table c07a2e70+0x54), c07ab1c0;
-   sharp_brain_pw_sh4 nk.exe OAL_BeepSound. */
+   sharp_brain_pw_sh4 nk.exe OAL_BeepSound 8021435c. */
 constexpr uint8_t kMap2WriteOnlyRead = 0x20u;
 
 /* BU26154MUV datasheet Rev.002 2 wire serial interface: continuous access steps by two. */

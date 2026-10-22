@@ -86,7 +86,7 @@ private:
     }
 
     /* sharp_brain_pw_sh4 sx8650_touchscreen.dll TouchPanelSetCalibration c07c2f68: least-squares
-       affine fit; inverted here as raw = a * x + b * y + c. */
+       affine fit. */
     void FitCalibration() {
         const int dx = kScreenW / 10;
         const int dy = kScreenH / 10;

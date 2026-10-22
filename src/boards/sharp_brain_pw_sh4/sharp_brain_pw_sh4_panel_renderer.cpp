@@ -1,6 +1,7 @@
 #include <cerfcore/boards/board_context.h>
 #include <cerfcore/core/byte_order.h>
 #include <cerfcore/core/cerf_emulator.h>
+#include <cerfcore/core/fatal.h>
 #include <cerfcore/host/panel_frame_renderer.h>
 #include <cerfcore/lcd/lcd_pixel_expand.h>
 #include "../../socs/mpu_lcd_panel.h"
@@ -44,7 +45,10 @@ public:
         const PanelSurface g = emu_.Get<MpuLcdPanel>().Gram();
         const uint32_t w = host_w < kHostWidth ? host_w : kHostWidth;
         const uint32_t h = host_h < kHostHeight ? host_h : kHostHeight;
-        if (g.width != kHostHeight || g.height != kHostWidth) return;
+        if (g.width != kHostHeight || g.height != kHostWidth) {
+            emu_.Get<Fatal>().Die("Panel surface %ux%u, expected %ux%u", g.width, g.height,
+                                  kHostHeight, kHostWidth);
+        }
         for (uint32_t y = 0; y < h; ++y) {
             uint32_t* row = dib + static_cast<size_t>(y) * host_w;
             const uint32_t column = kHostHeight - 1u - y;

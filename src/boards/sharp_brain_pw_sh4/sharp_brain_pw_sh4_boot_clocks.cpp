@@ -3,7 +3,7 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include <cerfcore/boards/board_context.h>
 #include "sharp_brain_pw_sh4_family_id.h"
-#include <cerfcore/execution/jit_runner.h>
+#include "../../state/state_boot_gate.h"
 #include <cerfcore/socs/guest_cpu_reset.h>
 #include "../../socs/imx28/imx28_clkctrl.h"
 
@@ -43,7 +43,7 @@ public:
     }
 
     void OnReady() override {
-        emu_.Get<JitRunner>().RegisterPreStartHook([this] { Apply(); });
+        emu_.Get<StateBootGate>().RegisterColdHandoff([this] { Apply(); });
         emu_.Get<GuestCpuReset>().RegisterResetReleaseListener([this] { Apply(); });
     }
 

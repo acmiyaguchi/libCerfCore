@@ -1,5 +1,6 @@
 #include <cerfcore/boards/board_context.h>
 #include <cerfcore/core/cerf_emulator.h>
+#include <cerfcore/core/fatal.h>
 #include <cerfcore/host/keyboard_input.h>
 #include <cerfcore/host/keyboard_map.h>
 #include <cerfcore/host/keyboard_router.h>
@@ -17,6 +18,8 @@ namespace {
 
 constexpr uint32_t kMatrixCode = 0x100u;
 constexpr uint32_t kRows       = 7u;
+/* RM 9.2.2 MUXSEL 3 = GPIO. */
+constexpr uint32_t kMuxGpio    = 3u;
 constexpr uint32_t kColBank    = 4u;
 
 /* sharp_brain_pw_sh4 keybd_EDNA2.dll KBD_ScanMatrix c0878678: DIN4 pins 0-4, 6, 7. */
@@ -71,6 +74,11 @@ private:
         bool low = false;
         for (uint32_t r = 0; r < kRows && !low; ++r) {
             if (((pressed >> (r * 8u + pin)) & 1u) == 0u) continue;
+            const uint32_t mux = pins_->MuxSelect(kRowPins[r].bank, kRowPins[r].pin);
+            if (mux != kMuxGpio) {
+                emu_.Get<Fatal>().Die("Keyboard row bank %u pin %u MUXSEL %u with key pressed",
+                                      kRowPins[r].bank, kRowPins[r].pin, mux);
+            }
             low = pins_->DrivesLow(kRowPins[r].bank, kRowPins[r].pin);
         }
         *high = !low;

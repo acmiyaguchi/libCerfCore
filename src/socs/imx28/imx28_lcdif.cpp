@@ -24,7 +24,7 @@ using namespace imx28_lcdif;
 /* MCIMX28RM Rev. 2 Table 5-1: source 38 lcdif_irq. */
 constexpr uint32_t kIrqSource = 38u;
 
-/* Section 33.4.1 CTRL fields the model drives at RUN. */
+/* Section 33.4.1 CTRL fields. */
 constexpr uint32_t kCtrlUnmodelled = kCtrlDataFormat16 | kCtrlRgbToYcbcr | kCtrlWordLength |
                                      kCtrlDatabusWidth | kCtrlCscSwizzle | kCtrlInputSwizzle |
                                      kCtrlDotclkMode | kCtrlBypassCount | kCtrlDviMode |
@@ -132,9 +132,20 @@ void Imx28Lcdif::WriteWord(uint32_t addr, uint32_t value) {
         WriteCtrl(a.op, addr, value);
         return;
     }
-    /* Section 33.4.1 CTRL SFTRST: set to one, it forces a block level reset; sharp_brain_pw_sh4
-       ddraw_mx28.dll PanelPowerOn c06d74a0 writes CTRL1 before LcdifResetSeq. */
-    if ((Reg(kCtrl) & kCtrlSftrst) != 0u) return;
+    /* Section 33.4.1 CTRL SFTRST forces a block level reset; section 33.4.2 CTRL1 RESET is not
+       reset by SFTRST. sharp_brain_pw_sh4 ddraw_mx28.dll PanelPowerOn c06d74a0,
+       FUN_c06d8ea0 c06d8ea0 write VDCTRL0, VDCTRL1, VDCTRL3 under SFTRST. */
+    if ((Reg(kCtrl) & kCtrlSftrst) != 0u) {
+        if (a.reg_offset == kCtrl1) {
+            const uint32_t next = Imx28ApplySct(a.op, Reg(kCtrl1), value);
+            if (((next ^ Reg(kCtrl1)) & ~kCtrl1Reset) != 0u) Die("CTRL1 write during SFTRST", addr, value);
+            Reg(kCtrl1) = (Reg(kCtrl1) & ~kCtrl1Reset) | (next & kCtrl1Reset);
+            return;
+        }
+        if (a.reg_offset != kVdctrl0 && a.reg_offset != kVdctrl1 && a.reg_offset != kVdctrl3)
+            Die("write during SFTRST", addr, value);
+        return;
+    }
     RequireOperating("register write", Reg(kCtrl), addr, value);
     if (a.reg_offset == kData) {
         if (a.op != Imx28SctOp::Write) Die("DATA SCT write", addr, value);

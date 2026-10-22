@@ -2,19 +2,22 @@
 
 #include <cerfcore/core/service.h>
 
+#include <functional>
+#include <vector>
+
 namespace cerfcore {
 
-/* Saved-state boot gate. Registers a JitRunner pre-start hook in OnReady;
-   the hook runs on the main thread after Bootstrap, before the JIT spawns. */
 class StateBootGate : public Service {
 public:
     using Service::Service;
     void OnReady() override;
 
+    void RegisterColdHandoff(std::function<void()> fn);
+
 private:
-    /* Pre-start hook (main thread): restore / warm-boot / cold-boot per
-       DeviceConfig::boot_mode when a saved state image exists. */
     void Run();
+
+    std::vector<std::function<void()>> cold_handoffs_;
 };
 
 }

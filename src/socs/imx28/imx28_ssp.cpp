@@ -205,9 +205,15 @@ bool Imx28Ssp::DmaCommandEnded(uint32_t) {
     return true;
 }
 
+uint32_t Imx28Ssp::CheckReserved(uint32_t next, uint32_t writable, uint32_t addr,
+                                 uint32_t value) const {
+    if ((next & ~writable) != 0u) Die("reserved bits", addr, value);
+    return next;
+}
+
 void Imx28Ssp::WriteCtrl0(Imx28SctOp op, uint32_t value, uint32_t addr) {
     const uint32_t old  = ctrl0_;
-    const uint32_t next = (old & ~kCtrl0Writable) | (Imx28ApplySct(op, old, value) & kCtrl0Writable);
+    const uint32_t next = CheckReserved(Imx28ApplySct(op, old, value), kCtrl0Writable, addr, value);
     if (IsSoftReset(old, next)) {
         ResetBlock();
         return;
@@ -229,18 +235,20 @@ void Imx28Ssp::WriteRegister(uint32_t reg, Imx28SctOp op, uint32_t value, uint32
     }
     RequireOperating("WriteWord", ctrl0_, addr, value);
     switch (reg) {
-        case kCmd0:      cmd0_ = Imx28ApplySct(op, cmd0_, value) & kCmd0Writable; return;
+        case kCmd0:
+            cmd0_ = CheckReserved(Imx28ApplySct(op, cmd0_, value), kCmd0Writable, addr, value);
+            return;
         case kCmd1:      cmd1_ = value;                                       return;
         case kXferSize:  xfer_size_ = value;                                  return;
-        case kBlockSize: block_size_ = value & kBlockSizeWritable;            return;
+        case kBlockSize: block_size_ = CheckReserved(value, kBlockSizeWritable, addr, value); return;
         case kCompref:   compref_ = value;                                    return;
         case kCompmask:  compmask_ = value;                                   return;
         case kTiming:    WriteTiming(value, addr);                            return;
-        case kDdrCtrl:   ddr_ctrl_ = value & kDdrCtrlWritable;                return;
-        case kDllCtrl:   dll_ctrl_ = value & kDllCtrlWritable;                return;
+        case kDdrCtrl:   ddr_ctrl_ = CheckReserved(value, kDdrCtrlWritable, addr, value); return;
+        case kDllCtrl:   dll_ctrl_ = CheckReserved(value, kDllCtrlWritable, addr, value); return;
         case kData:      Die("DATA write", addr, value);
         case kCtrl1:
-            ctrl1_ = Imx28ApplySct(op, ctrl1_, value) & kCtrl1Writable;
+            ctrl1_ = CheckReserved(Imx28ApplySct(op, ctrl1_, value), kCtrl1Writable, addr, value);
             DriveLine(false);
             return;
         default:
@@ -309,6 +317,9 @@ void Imx28Ssp::SaveState(StateWriter& w) {
     w.Write("status", status_);
     w.WriteBytes("sdresp", sdresp_, sizeof(sdresp_));
     w.Write<uint8_t>("dma_pio", dma_pio_ ? 1u : 0u);
+    MmcCard* card = Card();
+    w.Write<uint8_t>("card", card != nullptr ? 1u : 0u);
+    if (card != nullptr) card->SaveState(w);
 }
 
 void Imx28Ssp::RestoreState(StateReader& r) {
@@ -328,6 +339,15 @@ void Imx28Ssp::RestoreState(StateReader& r) {
     r.ReadBytes("sdresp", sdresp_, sizeof(sdresp_));
     r.Read("dma_pio", pio);
     dma_pio_ = pio != 0u;
+    uint8_t saved_card = 0u;
+    r.Read("card", saved_card);
+    MmcCard* card = Card();
+    if ((saved_card != 0u) != (card != nullptr))
+        emu_.Get<Fatal>().Die("Imx28 SSP%u: saved card presence %u differs", unit_, saved_card);
+    if (card != nullptr) {
+        card->RestoreState(r);
+        card->PostRestore();
+    }
 }
 
 }

@@ -34,6 +34,7 @@ private:
     void     ResetBlock();
     void     DriveLine(bool force);
     void     WriteRegister(uint32_t reg, Imx28SctOp op, uint32_t value, uint32_t addr);
+    uint32_t CheckReserved(uint32_t next, uint32_t writable, uint32_t addr, uint32_t value) const;
     void     WriteCtrl0(Imx28SctOp op, uint32_t value, uint32_t addr);
     void     WriteTiming(uint32_t value, uint32_t addr);
     MmcCard* Card();

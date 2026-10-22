@@ -1,7 +1,7 @@
 #include <cerfcore/boards/board_context.h>
 #include <cerfcore/core/cerf_emulator.h>
 #include <cerfcore/core/fatal.h>
-#include <cerfcore/execution/jit_runner.h>
+#include "../../state/state_boot_gate.h"
 #include <cerfcore/socs/guest_cpu_reset.h>
 #include <cerfcore/state/state_stream.h>
 #include "../../socs/mpu_lcd_panel.h"
@@ -96,7 +96,7 @@ public:
     void OnReady() override {
         gram_.assign(static_cast<size_t>(kColumns) * kPages, 0u);
         blank_.assign(gram_.size(), 0u);
-        emu_.Get<JitRunner>().RegisterPreStartHook([this] { Handoff(); });
+        emu_.Get<StateBootGate>().RegisterColdHandoff([this] { Handoff(); });
         emu_.Get<GuestCpuReset>().RegisterResetReleaseListener([this] {
             if (!emu_.Get<GuestCpuReset>().DeliveredResetWasResume()) Handoff();
         });

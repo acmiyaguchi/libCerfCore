@@ -53,7 +53,7 @@ void SharpBrainPwSh4TouchPanel::SetContact(bool down, uint32_t raw_x, uint32_t r
     down_  = down;
     raw_x_ = raw_x;
     raw_y_ = raw_y;
-    if (on_change_) on_change_();
+    on_change_();
 }
 
 bool SharpBrainPwSh4TouchPanel::OwnsPin(uint32_t pin) const {

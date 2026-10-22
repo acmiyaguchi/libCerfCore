@@ -29,8 +29,7 @@ public:
 
     bool ShouldRegister() override {
         auto* bd = emu_.TryGet<BoardContext>();
-        if (!bd || bd->GetBoardFamilyId() != BoardFamilyId::SharpBrainPwSh4) return false;
-        return HostFileNonEmpty(StorePath());
+        return bd && bd->GetBoardFamilyId() == BoardFamilyId::SharpBrainPwSh4;
     }
 
     uint32_t SlotIndex() const override { return kEmmcSlotIndex; }
@@ -65,6 +64,10 @@ private:
 
     void OpenStore() {
         path_ = StorePath();
+        if (!HostFileNonEmpty(path_)) {
+            LOG(Caution, "storage.emmc %s is missing or empty\n", path_.c_str());
+            CerfFatalExit(CERF_FATAL_USER_ERROR);
+        }
         host_platform::HostFile file;
         uint64_t bytes = 0u;
         if (!file.Open(path_, host_platform::FileMode::kReadExisting) || !file.Size(bytes)) {

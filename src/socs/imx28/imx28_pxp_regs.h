@@ -42,7 +42,7 @@ struct RegSpec {
 constexpr RegSpec SpecAt(uint32_t offset) {
     switch (offset) {
         case kCtrl:          return {0xC0000000u, 0xCFECFFF7u};
-        case kStat:          return {0x00000000u, 0x000000FFu};
+        case kStat:          return {0x00000000u, 0x0000000Fu};
         case 0x020u:         return {0x00000000u, 0xFFFFFFFFu};
         case 0x030u:         return {0x00000000u, 0xFFFFFFFFu};
         case 0x040u:         return {0x00000000u, 0xFFFFFFFFu};
