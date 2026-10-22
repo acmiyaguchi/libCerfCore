@@ -71,6 +71,19 @@ constexpr uint32_t kStsVddioMarginMv = 500u;
 constexpr uint32_t kStsDcOk          = 1u << 9;
 constexpr uint32_t kStsPswitchShift  = 20u;
 constexpr uint32_t kStsVdd5vFault    = 1u << 12;
+constexpr uint32_t kStsDcdc4p2Bo     = 1u << 10;
+
+/* Section 11.12.9 DCDC4P2: ENABLE_4P2 [23], TRG [18:16] 4.2 V less 0.1 V per step or BATTERY at
+   0b1XX, BO [12:8] 3.6 V plus 25 mV per step. */
+constexpr uint32_t kDcdc4p2Enable4p2 = 1u << 23;
+constexpr uint32_t kDcdc4p2TrgShift  = 16u;
+constexpr uint32_t kDcdc4p2TrgBatt   = 0x4u;
+constexpr uint32_t kDcdc4p2BoShift   = 8u;
+constexpr uint32_t kDcdc4p2BoMask    = 0x1Fu;
+constexpr uint32_t k4p2TrgTopMv      = 4200u;
+constexpr uint32_t k4p2TrgStepMv     = 100u;
+constexpr uint32_t k4p2BoBaseMv      = 3600u;
+constexpr uint32_t k4p2BoStepMv      = 25u;
 
 /* Section 11.12.7 VDDIOCTRL TRG: 2.8 V plus 50 mV per step, codes 0x10-0x1F map to 3.6 V. */
 constexpr uint32_t kVddioBaseMv   = 2800u;
@@ -87,10 +100,9 @@ constexpr uint32_t kBattLvlMask    = 0x1Fu;
 constexpr uint32_t kBattBrwnoutMv  = 2400u;
 constexpr uint32_t kBattLvlStepMv  = 40u;
 
-/* Section 11.12.4 CHARGE PWD_BATTCHRG [16]; section 11.12.9 DCDC4P2 ENABLE_4P2 [23]; section
-   11.12.18 THERMAL PWD [7]; section 11.12.14 SPEED CTRL [1:0]. */
+/* Section 11.12.4 CHARGE PWD_BATTCHRG [16]; section 11.12.18 THERMAL PWD [7]; section 11.12.14
+   SPEED CTRL [1:0]. */
 constexpr uint32_t kChargePwdBattChrg  = 1u << 16;
-constexpr uint32_t kDcdc4p2Enable4p2   = 1u << 23;
 constexpr uint32_t kThermalPwd         = 1u << 7;
 constexpr uint32_t kSpeedCtrl          = 0x3u;
 
@@ -200,7 +212,22 @@ uint32_t Imx28Power::ComposeSts() {
     if (s.vdd5v_gt_vddio) sts |= 1u << 5;
     if (s.batt_bo)   sts |= 1u << 13;
     if (a.vdd5v_mv < a.vddio_mv / 2u) sts |= kStsVdd5vFault;
+    if (Vdd4p2Millivolts(a) < k4p2BoBaseMv + k4p2BoStepMv *
+                                  ((regs_[kPwrDcdc4p2] >> kDcdc4p2BoShift) & kDcdc4p2BoMask)) {
+        sts |= kStsDcdc4p2Bo;
+    }
     return sts;
+}
+
+/* Section 11.12.2 PWD_CHARGE_4P2 [20] and section 11.12.9 ENABLE_4P2, TRG: the 4.2 V regulation
+   circuit drives the DCDC_4P2 pin from 5 V. */
+uint32_t Imx28Power::Vdd4p2Millivolts(const Analog& a) const {
+    const uint32_t d = regs_[kPwrDcdc4p2];
+    if ((regs_[kPwr5vCtrl] & kVctrlPwdCharge4p2) != 0u || (d & kDcdc4p2Enable4p2) == 0u) return 0u;
+    const uint32_t trg    = (d >> kDcdc4p2TrgShift) & 0x7u;
+    const uint32_t target = (trg & kDcdc4p2TrgBatt) != 0u ? a.batt_mv
+                                                          : k4p2TrgTopMv - k4p2TrgStepMv * trg;
+    return std::min(target, a.vdd5v_mv);
 }
 
 /* Section 11.12.1 CTRL: each interrupt status bit is set while its source matches the polarity
@@ -378,15 +405,10 @@ void Imx28Power::WriteReg(uint32_t index, Imx28SctOp op, uint32_t value, uint32_
             emu_.Get<Fatal>().Die("Imx28Power: %s at %08X (value %08X, register %08X -> %08X)", what,
                                   addr, value, old, next);
         };
-        if (index == kPwr5vCtrl && (old & kVctrlPwdCharge4p2) != 0u &&
-            (next & kVctrlPwdCharge4p2) == 0u) {
-            die("4P2 regulation and charger power-up");
-        }
         if (index == kPwrCharge && (old & kChargePwdBattChrg) != 0u &&
             (next & kChargePwdBattChrg) == 0u) {
             die("battery charger enable");
         }
-        if (index == kPwrDcdc4p2 && (next & kDcdc4p2Enable4p2) != 0u) die("ENABLE_4P2");
         if (index == kPwrThermal && (next & kThermalPwd) == 0u) die("thermal sensor enable");
         if (index == kPwrSpeed && (next & kSpeedCtrl) != 0u) die("speed sensor control");
         regs_[index] = next;

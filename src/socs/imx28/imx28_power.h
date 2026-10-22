@@ -76,6 +76,7 @@ private:
     Analog   SampleAnalog();
     Signals  ComputeSignals(const Analog& a) const;
     uint32_t ComposeSts();
+    uint32_t Vdd4p2Millivolts(const Analog& a) const;
     UsbSession SessionOf(uint32_t unit, const Signals& s) const;
     void     Reset();
     void     Refresh();
