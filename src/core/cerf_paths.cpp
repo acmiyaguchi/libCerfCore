@@ -14,10 +14,10 @@ constexpr char kSeparator = static_cast<char>(std::filesystem::path::preferred_s
 }
 
 std::string GetCerfDir() {
-    const std::string exe = host_platform::ExecutablePath();
-    const size_t sep = exe.find_last_of("\\/");
+    const std::string app = host_platform::ApplicationPath();
+    const size_t sep = app.find_last_of("\\/");
     if (sep == std::string::npos) return "";
-    return exe.substr(0, sep + 1);
+    return app.substr(0, sep + 1);
 }
 
 std::string DbJsonPath() {

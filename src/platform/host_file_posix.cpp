@@ -7,6 +7,8 @@
 #include <unistd.h>
 #if defined(__linux__)
 #include <linux/falloc.h>
+#elif defined(__APPLE__)
+#include <sys/mount.h>
 #endif
 
 #include "host_fd_handle.h"
@@ -129,6 +131,28 @@ bool HostFile::ZeroRange(uint64_t begin, uint64_t end) {
     uint64_t size = 0;
     if (!Size(size)) return false;
     return WriteZeros(fd, begin, end < size ? end : size);
+#elif defined(__APPLE__)
+    const int fd   = FdOf(handle_);
+    uint64_t  size = 0;
+    if (!Size(size)) return false;
+    const uint64_t stop = end < size ? end : size;
+    if (begin >= stop) return true;
+    struct statfs fs {};
+    if (::fstatfs(fd, &fs) != 0 || fs.f_bsize == 0u) return WriteZeros(fd, begin, stop);
+    const uint64_t block = fs.f_bsize;
+    const uint64_t first = (begin + block - 1u) / block * block;
+    const uint64_t last  = stop / block * block;
+    if (first >= last) return WriteZeros(fd, begin, stop);
+    fpunchhole_t hole{};
+    hole.fp_offset = static_cast<off_t>(first);
+    hole.fp_length = static_cast<off_t>(last - first);
+    for (;;) {
+        if (::fcntl(fd, F_PUNCHHOLE, &hole) == 0) {
+            return WriteZeros(fd, begin, first) && WriteZeros(fd, last, stop);
+        }
+        if (errno != EINTR) break;
+    }
+    return WriteZeros(fd, begin, stop);
 #else
     NoHostImplementation("HostFile::ZeroRange");
 #endif

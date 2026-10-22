@@ -1,6 +1,9 @@
 #include "host_shared_entry.h"
 
+#include "host_entry_stat.h"
+#include "host_literal_entry.h"
 #include "host_win32_name_rules.h"
+#include "host_xattr.h"
 
 #include <cerfcore/core/utf16.h>
 
@@ -13,7 +16,6 @@
 #include <dirent.h>
 #include <fcntl.h>
 #include <sys/stat.h>
-#include <sys/xattr.h>
 #include <unistd.h>
 #include <vector>
 
@@ -28,27 +30,6 @@ constexpr uint8_t kStoredAttributes  = kSharedHidden | kSharedSystem | kSharedAr
 constexpr int     kDosEpochYear      = 1980;
 constexpr int     kDosLastYear       = 2107;
 
-struct EntryStat {
-    bool     is_dir   = false;
-    bool     writable = false;
-    uint64_t size     = 0;
-    int64_t  mtime    = 0;
-    int64_t  btime    = 0;
-};
-
-bool ReadStatx(int dirfd, const char* path, int flags, EntryStat& out) {
-    struct statx sx {};
-    if (statx(dirfd, path, flags | AT_STATX_SYNC_AS_STAT, STATX_BASIC_STATS | STATX_BTIME, &sx) != 0) {
-        return false;
-    }
-    out.is_dir   = S_ISDIR(sx.stx_mode);
-    out.writable = (sx.stx_mode & 0222u) != 0u;
-    out.size     = sx.stx_size;
-    out.mtime    = sx.stx_mtime.tv_sec;
-    out.btime    = (sx.stx_mask & STATX_BTIME) != 0u ? sx.stx_btime.tv_sec : out.mtime;
-    return true;
-}
-
 bool ParseDosAttrib(char* data, ssize_t len, uint8_t& bits) {
     if (len <= 2 || data[0] != '0' || data[1] != 'x') return false;
     data[len]       = '\0';
@@ -61,7 +42,7 @@ bool ParseDosAttrib(char* data, ssize_t len, uint8_t& bits) {
 
 int StoredDosAttrib(ssize_t len, int err, char* data, bool& has, uint8_t& bits) {
     has = false;
-    if (len < 0) return err == ENODATA || err == ENOTSUP || err == ERANGE ? 0 : err;
+    if (len < 0) return XattrAbsent(err) || err == ENOTSUP || err == ERANGE ? 0 : err;
     has = ParseDosAttrib(data, len, bits);
     return 0;
 }
@@ -83,14 +64,14 @@ void FillInfo(const EntryStat& st, bool stored, uint8_t bits, SharedFsInfo& info
 
 SharedFsStatus WriteDosAttrib(const std::string& path, uint8_t stored, uint8_t implied) {
     if (stored == implied) {
-        if (removexattr(path.c_str(), kDosAttribXattr) != 0 && errno != ENODATA && errno != ENOTSUP) {
+        if (RemoveXattr(path.c_str(), kDosAttribXattr) != 0 && !XattrAbsent(errno) && errno != ENOTSUP) {
             return SharedErrno(errno, path);
         }
         return {};
     }
     char      value[8];
     const int len = std::snprintf(value, sizeof(value), "0x%x", stored);
-    if (setxattr(path.c_str(), kDosAttribXattr, value, static_cast<size_t>(len), 0) != 0) {
+    if (SetXattr(path.c_str(), kDosAttribXattr, value, static_cast<size_t>(len)) != 0) {
         return SharedErrno(errno, path);
     }
     return {};
@@ -164,10 +145,13 @@ void SplitSharedPath(const std::string& host_path, std::string& dir, std::string
 
 bool FindSharedEntry(const std::string& dir, std::u16string_view name, std::string& found) {
     const std::string exact = Utf16ToUtf8(name);
-    struct stat       st {};
-    if (Utf8ToUtf16(exact) == name && lstat(JoinSharedPath(dir, exact).c_str(), &st) == 0) {
-        found = exact;
-        return true;
+    std::string       stored;
+    if (Utf8ToUtf16(exact) == name && LookUpLiteralEntry(dir, exact, stored) == LiteralEntry::kNamed) {
+        const std::u16string stored16 = Utf8ToUtf16(stored);
+        if (Utf16ToUtf8(stored16) == stored && SameWin32Name(stored16, name)) {
+            found = stored;
+            return true;
+        }
     }
     DIR* d = opendir(dir.c_str());
     if (d == nullptr) return false;
@@ -205,11 +189,11 @@ SharedFsStatus LocateSharedEntry(const std::string& host_path, std::string& actu
 
 SharedFsStatus DescribeSharedEntry(const std::string& path, SharedFsInfo& info) {
     EntryStat st;
-    if (!ReadStatx(AT_FDCWD, path.c_str(), 0, st)) return SharedErrno(errno, path);
+    if (!ReadEntryStat(path.c_str(), st)) return SharedErrno(errno, path);
     char          data[65];
     uint8_t       bits = 0;
     bool          has  = false;
-    const ssize_t len  = getxattr(path.c_str(), kDosAttribXattr, data, sizeof(data) - 1u);
+    const ssize_t len  = GetXattr(path.c_str(), kDosAttribXattr, data, sizeof(data) - 1u);
     if (const int err = StoredDosAttrib(len, errno, data, has, bits); err != 0) {
         return SharedErrno(err, path);
     }
@@ -219,11 +203,11 @@ SharedFsStatus DescribeSharedEntry(const std::string& path, SharedFsInfo& info) 
 
 SharedFsStatus DescribeSharedFd(int fd, SharedFsInfo& info) {
     EntryStat st;
-    if (!ReadStatx(fd, "", AT_EMPTY_PATH, st)) return SharedStatus(SharedFsError::kInvalidHandle, errno);
+    if (!ReadEntryStatFd(fd, st)) return SharedStatus(SharedFsError::kInvalidHandle, errno);
     char          data[65];
     uint8_t       bits = 0;
     bool          has  = false;
-    const ssize_t len  = fgetxattr(fd, kDosAttribXattr, data, sizeof(data) - 1u);
+    const ssize_t len  = GetXattrFd(fd, kDosAttribXattr, data, sizeof(data) - 1u);
     if (const int err = StoredDosAttrib(len, errno, data, has, bits); err != 0) {
         return SharedStatus(SharedFsError::kUnmapped, err);
     }
@@ -252,17 +236,17 @@ SharedFsStatus StoreSharedAttributes(const std::string& path, uint8_t attributes
 bool CopySharedAttributes(int from_fd, int to_fd) {
     std::vector<char> data;
     for (;;) {
-        const ssize_t size = fgetxattr(from_fd, kDosAttribXattr, nullptr, 0);
-        if (size < 0) return errno == ENODATA || errno == ENOTSUP;
+        const ssize_t size = GetXattrFd(from_fd, kDosAttribXattr, nullptr, 0);
+        if (size < 0) return XattrAbsent(errno) || errno == ENOTSUP;
         data.resize(static_cast<size_t>(size));
-        const ssize_t len = fgetxattr(from_fd, kDosAttribXattr, data.data(), data.size());
+        const ssize_t len = GetXattrFd(from_fd, kDosAttribXattr, data.data(), data.size());
         if (len >= 0) {
             data.resize(static_cast<size_t>(len));
             break;
         }
-        if (errno != ERANGE) return errno == ENODATA;
+        if (errno != ERANGE) return XattrAbsent(errno);
     }
-    return fsetxattr(to_fd, kDosAttribXattr, data.data(), data.size(), 0) == 0;
+    return SetXattrFd(to_fd, kDosAttribXattr, data.data(), data.size()) == 0;
 }
 
 uint32_t DosDateTimeOf(int64_t utc_seconds) {

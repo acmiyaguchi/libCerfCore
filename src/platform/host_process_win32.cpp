@@ -42,6 +42,8 @@ std::string ExecutablePath() {
     }
 }
 
+std::string ApplicationPath() { return ExecutablePath(); }
+
 uint32_t CurrentProcessId() { return static_cast<uint32_t>(::GetCurrentProcessId()); }
 
 bool StdoutAvailable() { return Usable(GetStdHandle(STD_OUTPUT_HANDLE)); }

@@ -55,7 +55,7 @@ struct Vr41xxPmuModel {
     uint16_t int_watchdog_cause = 0;
 };
 
-template <const std::string_view& Soc, Vr41xxPmuModel M>
+template <const std::string_view& Soc, const Vr41xxPmuModel& M>
 class Vr41xxPmuBase : public Vr41xxPmu, public ResetCauseLatch, public DeepSleepWaker {
 public:
     using Vr41xxPmu::Vr41xxPmu;

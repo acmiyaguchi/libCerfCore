@@ -1,25 +1,17 @@
 #include "host_serial_port.h"
 
-#include "host_clock.h"
+#include <cerfcore/platform/host_descriptor.h>
 
-#include <algorithm>
+#include "host_clock.h"
+#include "host_serial_port_wait.h"
+#include "host_stop_wait.h"
+
 #include <cerrno>
-#include <chrono>
-#include <dirent.h>
 #include <fcntl.h>
-#include <fstream>
-#include <linux/serial.h>
 #include <poll.h>
-#include <sstream>
-#include <sys/eventfd.h>
 #include <sys/ioctl.h>
 #include <termios.h>
-#include <time.h>
 #include <unistd.h>
-
-#if !defined(__linux__)
-#error "host_serial_port_posix.cpp has no serial port code for this host"
-#endif
 
 namespace cerfcore {
 
@@ -32,44 +24,67 @@ struct SpeedCode {
     speed_t  code;
 };
 
+/* QEMU tty_serial_init: the rate times 10/11, rounded up to the
+   next standard speed this host defines, B115200 above the table. */
 constexpr SpeedCode kSpeeds[] = {
-    {50u, B50},           {75u, B75},           {110u, B110},         {134u, B134},
-    {150u, B150},         {200u, B200},         {300u, B300},         {600u, B600},
-    {1200u, B1200},       {1800u, B1800},       {2400u, B2400},       {4800u, B4800},
-    {9600u, B9600},       {19200u, B19200},     {38400u, B38400},     {57600u, B57600},
-    {115200u, B115200},   {230400u, B230400},   {460800u, B460800},   {500000u, B500000},
-    {576000u, B576000},   {921600u, B921600},   {1000000u, B1000000}, {1152000u, B1152000},
-    {1500000u, B1500000}, {2000000u, B2000000}, {2500000u, B2500000}, {3000000u, B3000000},
-    {3500000u, B3500000}, {4000000u, B4000000},
+    {50u, B50},         {75u, B75},         {110u, B110},       {134u, B134},
+    {150u, B150},       {200u, B200},       {300u, B300},       {600u, B600},
+    {1200u, B1200},     {1800u, B1800},     {2400u, B2400},     {4800u, B4800},
+    {9600u, B9600},     {19200u, B19200},   {38400u, B38400},   {57600u, B57600},
+    {115200u, B115200},
+#ifdef B230400
+    {230400u, B230400},
+#endif
+#ifdef B460800
+    {460800u, B460800},
+#endif
+#ifdef B500000
+    {500000u, B500000},
+#endif
+#ifdef B576000
+    {576000u, B576000},
+#endif
+#ifdef B921600
+    {921600u, B921600},
+#endif
+#ifdef B1000000
+    {1000000u, B1000000},
+#endif
+#ifdef B1152000
+    {1152000u, B1152000},
+#endif
+#ifdef B1500000
+    {1500000u, B1500000},
+#endif
+#ifdef B2000000
+    {2000000u, B2000000},
+#endif
+#ifdef B2500000
+    {2500000u, B2500000},
+#endif
+#ifdef B3000000
+    {3000000u, B3000000},
+#endif
+#ifdef B3500000
+    {3500000u, B3500000},
+#endif
+#ifdef B4000000
+    {4000000u, B4000000},
+#endif
 };
 
-/* QEMU chardev/char-serial.c tty_serial_init: the rate times 10/11, rounded up to the
-   next standard speed, B115200 above the table. */
+#ifdef CMSPAR
+constexpr tcflag_t kStickParity = CMSPAR;
+#else
+constexpr tcflag_t kStickParity = 0;
+#endif
+
 speed_t SpeedFor(uint32_t baud) {
     const uint64_t wanted = static_cast<uint64_t>(baud) * 10u / 11u;
     for (const SpeedCode& s : kSpeeds) {
         if (wanted <= s.rate) return s.code;
     }
     return B115200;
-}
-
-enum class WaitResult { kReady, kTimeout, kStopped, kError };
-
-WaitResult WaitFor(int fd, short events, int stop_fd, uint32_t timeout_ms) {
-    pollfd fds[2] = {{fd, events, 0}, {stop_fd, POLLIN, 0}};
-    const auto deadline = std::chrono::steady_clock::now() + std::chrono::milliseconds(timeout_ms);
-    for (;;) {
-        const auto left = std::chrono::duration_cast<std::chrono::milliseconds>(
-            deadline - std::chrono::steady_clock::now());
-        const int ready = ::poll(fds, 2, left.count() > 0 ? static_cast<int>(left.count()) : 0);
-        if (ready < 0) {
-            if (errno == EINTR) continue;
-            return WaitResult::kError;
-        }
-        if ((fds[1].revents & POLLIN) != 0) return WaitResult::kStopped;
-        if (fds[0].revents != 0) return WaitResult::kReady;
-        if (ready == 0) return WaitResult::kTimeout;
-    }
 }
 
 /* PC16550D §8.6.2 LCR bit 2 (p. 20): one stop flag gives 1.5 stop bits with a 5-bit word and
@@ -79,19 +94,22 @@ bool StopBitsFit(SerialPortSettings::StopBits stop, uint8_t data_bits) {
     return (stop == SerialPortSettings::StopBits::kOnePointFive) == (data_bits == 5u);
 }
 
-bool PortHasNoUart(const std::string& name) {
-    std::ifstream type("/sys/class/tty/" + name + "/type");
-    int value = -1;
-    return (type >> value) && value == PORT_UNKNOWN;
+bool ParityFits(SerialPortSettings::Parity parity) {
+    const bool stick = parity == SerialPortSettings::Parity::kMark ||
+                       parity == SerialPortSettings::Parity::kSpace;
+    return !stick || kStickParity != 0;
 }
 
 }
 
 struct HostSerialPort::Impl {
-    int      fd               = -1;
-    int      stop             = -1;
-    uint32_t read_timeout_ms  = 0;
-    uint32_t write_timeout_ms = 0;
+    int            fd               = -1;
+    int            stop             = -1;
+    int            stop_signal      = -1;
+    SerialPortWait io_wait;
+    HostStopWait   pacer;
+    uint32_t       read_timeout_ms  = 0;
+    uint32_t       write_timeout_ms = 0;
 };
 
 HostSerialPort::HostSerialPort() : impl_(std::make_unique<Impl>()) {}
@@ -110,9 +128,21 @@ bool HostSerialPort::Open(const std::string& name, uint32_t& error) {
 }
 
 void HostSerialPort::StartIo(uint32_t read_timeout_ms, uint32_t write_timeout_ms) {
-    impl_->read_timeout_ms  = read_timeout_ms;
-    impl_->write_timeout_ms = write_timeout_ms;
-    impl_->stop             = ::eventfd(0u, EFD_CLOEXEC | EFD_NONBLOCK);
+    Impl& p            = *impl_;
+    p.read_timeout_ms  = read_timeout_ms;
+    p.write_timeout_ms = write_timeout_ms;
+    int ends[2]        = {-1, -1};
+    if (::pipe(ends) == 0) {
+        if (SetCloseOnExecNonBlocking(ends[0]) && SetCloseOnExecNonBlocking(ends[1]) &&
+            p.pacer.Open(ends[0])) {
+            p.stop        = ends[0];
+            p.stop_signal = ends[1];
+        } else {
+            ::close(ends[0]);
+            ::close(ends[1]);
+        }
+    }
+    p.io_wait.Open(p.fd, p.stop);
 }
 
 void HostSerialPort::Close() {
@@ -121,9 +151,15 @@ void HostSerialPort::Close() {
         ::close(p.fd);
         p.fd = -1;
     }
+    p.io_wait.Close();
+    p.pacer.Close();
     if (p.stop >= 0) {
         ::close(p.stop);
         p.stop = -1;
+    }
+    if (p.stop_signal >= 0) {
+        ::close(p.stop_signal);
+        p.stop_signal = -1;
     }
 }
 
@@ -133,7 +169,8 @@ SerialConfigureResult HostSerialPort::Configure(const SerialPortSettings& s, uin
     termios tty{};
     if (::tcgetattr(impl_->fd, &tty) != 0) return SerialConfigureResult::kStateUnreadable;
 
-    if (s.data_bits < 5u || s.data_bits > 8u || !StopBitsFit(s.stop, s.data_bits)) {
+    if (s.data_bits < 5u || s.data_bits > 8u || !StopBitsFit(s.stop, s.data_bits) ||
+        !ParityFits(s.parity)) {
         error = static_cast<uint32_t>(EINVAL);
         return SerialConfigureResult::kRejected;
     }
@@ -145,7 +182,7 @@ SerialConfigureResult HostSerialPort::Configure(const SerialPortSettings& s, uin
                                           ICRNL | IXON | IXOFF);
     tty.c_oflag &= ~static_cast<tcflag_t>(OPOST);
     tty.c_lflag &= ~static_cast<tcflag_t>(ECHO | ECHONL | ICANON | IEXTEN | ISIG);
-    tty.c_cflag &= ~static_cast<tcflag_t>(CSIZE | PARENB | PARODD | CMSPAR | CRTSCTS | CSTOPB);
+    tty.c_cflag &= ~static_cast<tcflag_t>(CSIZE | PARENB | PARODD | kStickParity | CRTSCTS | CSTOPB);
     tty.c_cflag |= CREAD | CLOCAL;
     switch (s.data_bits) {
         case 5u: tty.c_cflag |= CS5; break;
@@ -157,8 +194,8 @@ SerialConfigureResult HostSerialPort::Configure(const SerialPortSettings& s, uin
         case SerialPortSettings::Parity::kNone:  break;
         case SerialPortSettings::Parity::kOdd:   tty.c_cflag |= PARENB | PARODD; break;
         case SerialPortSettings::Parity::kEven:  tty.c_cflag |= PARENB; break;
-        case SerialPortSettings::Parity::kMark:  tty.c_cflag |= PARENB | CMSPAR | PARODD; break;
-        case SerialPortSettings::Parity::kSpace: tty.c_cflag |= PARENB | CMSPAR; break;
+        case SerialPortSettings::Parity::kMark:  tty.c_cflag |= PARENB | kStickParity | PARODD; break;
+        case SerialPortSettings::Parity::kSpace: tty.c_cflag |= PARENB | kStickParity; break;
     }
     if (s.stop != SerialPortSettings::StopBits::kOne) tty.c_cflag |= CSTOPB;
     tty.c_cc[VMIN]  = 0;
@@ -192,13 +229,13 @@ bool HostSerialPort::ModemLines(uint8_t& lines) {
 SerialIoResult HostSerialPort::Read(uint8_t* buf, uint32_t size, uint32_t& got,
                                     uint32_t& error) {
     got = 0;
-    switch (WaitFor(impl_->fd, POLLIN, impl_->stop, impl_->read_timeout_ms)) {
-        case WaitResult::kStopped: return SerialIoResult::kStopped;
-        case WaitResult::kTimeout: return SerialIoResult::kDone;
-        case WaitResult::kError:
+    switch (impl_->io_wait.WaitReadable(impl_->read_timeout_ms)) {
+        case SerialWaitResult::kStopped: return SerialIoResult::kStopped;
+        case SerialWaitResult::kTimeout: return SerialIoResult::kDone;
+        case SerialWaitResult::kError:
             error = static_cast<uint32_t>(errno);
             return SerialIoResult::kFailed;
-        case WaitResult::kReady: break;
+        case SerialWaitResult::kReady: break;
     }
     for (;;) {
         const ssize_t n = ::read(impl_->fd, buf, size);
@@ -215,13 +252,13 @@ SerialIoResult HostSerialPort::Read(uint8_t* buf, uint32_t size, uint32_t& got,
 
 SerialIoResult HostSerialPort::WriteByte(uint8_t value, uint32_t& wrote, uint32_t& error) {
     wrote = 0;
-    switch (WaitFor(impl_->fd, POLLOUT, impl_->stop, impl_->write_timeout_ms)) {
-        case WaitResult::kStopped: return SerialIoResult::kStopped;
-        case WaitResult::kTimeout: return SerialIoResult::kDone;
-        case WaitResult::kError:
+    switch (impl_->io_wait.WaitWritable(impl_->write_timeout_ms)) {
+        case SerialWaitResult::kStopped: return SerialIoResult::kStopped;
+        case SerialWaitResult::kTimeout: return SerialIoResult::kDone;
+        case SerialWaitResult::kError:
             error = static_cast<uint32_t>(errno);
             return SerialIoResult::kFailed;
-        case WaitResult::kReady: break;
+        case SerialWaitResult::kReady: break;
     }
     for (;;) {
         const ssize_t n = ::write(impl_->fd, &value, 1u);
@@ -241,37 +278,15 @@ bool HostSerialPort::PaceWait(int64_t monotonic_ticks) {
     const int64_t freq = MonotonicFrequency();
     const int64_t ns   = monotonic_ticks / freq * 1000000000 +
                          monotonic_ticks % freq * 1000000000 / freq;
-    timespec deadline{};
-    ::clock_gettime(CLOCK_MONOTONIC, &deadline);
-    deadline.tv_sec += static_cast<time_t>(ns / 1000000000);
-    deadline.tv_nsec += static_cast<long>(ns % 1000000000);
-    if (deadline.tv_nsec >= 1000000000) {
-        deadline.tv_sec += 1;
-        deadline.tv_nsec -= 1000000000;
-    }
-    pollfd stop{impl_->stop, POLLIN, 0};
-    for (;;) {
-        timespec now{};
-        ::clock_gettime(CLOCK_MONOTONIC, &now);
-        timespec left{deadline.tv_sec - now.tv_sec, deadline.tv_nsec - now.tv_nsec};
-        if (left.tv_nsec < 0) {
-            left.tv_sec -= 1;
-            left.tv_nsec += 1000000000;
-        }
-        if (left.tv_sec < 0) return true;
-        const int ready = ::ppoll(&stop, 1, &left, nullptr);
-        if (ready == 0) return true;
-        if (ready > 0) return false;
-        if (errno != EINTR) return false;
-    }
+    return impl_->pacer.Sleep(ns);
 }
 
 void HostSerialPort::RequestStop() {
-    if (impl_->stop < 0) return;
-    const uint64_t one = 1u;
-    ssize_t        written;
+    if (impl_->stop_signal < 0) return;
+    const uint8_t one = 1u;
+    ssize_t       written;
     do {
-        written = ::write(impl_->stop, &one, sizeof(one));
+        written = ::write(impl_->stop_signal, &one, sizeof(one));
     } while (written < 0 && errno == EINTR);
 }
 
@@ -282,32 +297,6 @@ bool HostSerialPort::WaitStopped(uint32_t timeout_ms) {
         if (ready < 0 && errno == EINTR) continue;
         return ready > 0;
     }
-}
-
-std::vector<std::string> EnumerateSerialPorts() {
-    std::vector<std::string> prefixes;
-    std::ifstream            drivers("/proc/tty/drivers");
-    std::string              line;
-    while (std::getline(drivers, line)) {
-        std::istringstream fields(line);
-        std::string        driver, device, major, minors, type;
-        if (!(fields >> driver >> device >> major >> minors >> type)) continue;
-        if (type != "serial" || device.rfind("/dev/", 0) != 0) continue;
-        prefixes.push_back(device.substr(5));
-    }
-    std::vector<std::string> ports;
-    DIR* dev = ::opendir("/dev");
-    if (dev == nullptr) return ports;
-    while (const dirent* entry = ::readdir(dev)) {
-        const std::string name = entry->d_name;
-        const bool matches = std::any_of(prefixes.begin(), prefixes.end(), [&](const std::string& p) {
-            return name.size() > p.size() && name.compare(0, p.size(), p) == 0;
-        });
-        if (matches && !PortHasNoUart(name)) ports.push_back("/dev/" + name);
-    }
-    ::closedir(dev);
-    std::sort(ports.begin(), ports.end());
-    return ports;
 }
 
 }

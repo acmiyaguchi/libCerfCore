@@ -6,6 +6,7 @@
 
 #include "host_wait_timer.h"
 #include "silent_block_pacer.h"
+#include "wave_out_reopen_policy.h"
 
 #include <cerfcore/core/log.h>
 
@@ -20,7 +21,7 @@
 
 namespace cerfcore {
 
-class WaveOutSink::Impl {
+class WaveOutSink::Impl final : private WaveOutDevice {
 public:
     using Clock = std::chrono::steady_clock;
 
@@ -59,11 +60,9 @@ private:
     void PlayHeader(WAVEHDR* hdr);
     void Unprepare(WAVEHDR* hdr);
     void ArmSilentTimer(Clock::duration delay);
-    bool FormatMatchesLocked() const;
     OpenRequest BeginOpenLocked();
     MMRESULT OpenDevice(const OpenRequest& req, HWAVEOUT& device) const;
     bool FinishOpenLocked(const OpenRequest& req, MMRESULT r, HWAVEOUT device);
-    bool OpenLocked();
     void CloseDeviceLocked();
     void LoseDeviceLocked(const char* call, MMRESULT result);
     void RetryOpen();
@@ -71,32 +70,27 @@ private:
     void DeliverDueSilent(const DoneHandler& on_done);
     void CancelSilentLocked();
 
-    static constexpr UINT kMsgRetryOpen = WM_USER + 907;
-    static constexpr Clock::duration kReopenInterval = std::chrono::seconds(1);
+    bool DeviceOpenLocked() const override { return out_device_ != nullptr; }
+    void CloseDeviceLocked(std::unique_lock<std::mutex>&) override { CloseDeviceLocked(); }
+    bool OpenDeviceLocked(std::unique_lock<std::mutex>& lk) override;
 
-    mutable std::mutex mtx_;
-    WAVEHDR            headers_[kSlots] = {};
-    SilentBlockPacer   silent_;
+    static constexpr UINT kMsgRetryOpen = WM_USER + 907;
+
+    mutable std::mutex  mtx_;
+    WAVEHDR             headers_[kSlots] = {};
+    SilentBlockPacer    silent_;
     host_platform::HostWaitTimer silent_timer_;
-    uint32_t           req_rate_     = 0;
-    uint16_t           req_channels_ = 0;
-    uint16_t           req_bits_     = 0;
-    bool               req_allow_resampler_ = false;
-    Clock::time_point  last_attempt_{};
-    MMRESULT           last_fail_    = MMSYSERR_NOERROR;
-    bool               retry_posted_ = false;
-    uint32_t           generation_   = 0;
+    WaveOutReopenPolicy policy_;
+    MMRESULT            last_fail_  = MMSYSERR_NOERROR;
+    uint32_t            generation_ = 0;
 
     DWORD             thread_id_   = 0;
     HANDLE            ready_event_ = nullptr;
     std::thread       thread_;
     std::atomic<bool> shutdown_{false};
 
-    HWAVEOUT    out_device_     = nullptr;
-    uint32_t    open_rate_      = 0;
-    uint16_t    open_channels_  = 0;
-    uint16_t    open_bits_      = 0;
-    const char* log_tag_        = "WaveOutSink";
+    HWAVEOUT    out_device_ = nullptr;
+    const char* log_tag_    = "WaveOutSink";
 };
 
 WaveOutSink::Impl::~Impl() {
@@ -191,8 +185,9 @@ void WaveOutSink::Impl::QueueSilentLocked(WAVEHDR* hdr) {
         LOG(Caution, "%s: silent completion for a null header\n", log_tag_);
         CerfFatalExit(CERF_FATAL_RUNTIME_ERROR);
     }
-    if (silent_.Queue(reinterpret_cast<uintptr_t>(hdr), hdr->dwBufferLength, req_rate_,
-                      req_channels_, req_bits_, log_tag_)) {
+    const WaveOutFormat& format = policy_.Requested();
+    if (silent_.Queue(reinterpret_cast<uintptr_t>(hdr), hdr->dwBufferLength, format.rate_hz,
+                      format.channels, format.bits, log_tag_)) {
         ArmSilentTimer(silent_.NextDue() - Clock::now());
     }
 }
@@ -234,28 +229,24 @@ void WaveOutSink::Impl::LoseDeviceLocked(const char* call, MMRESULT result) {
     LOG(Caution, "%s: host audio device lost (%s mmresult=%u, reset %u, close %u) "
             "- silent-mode (blocks paced from their own duration)\n",
             log_tag_, call, result, reset, close);
-    out_device_   = nullptr;
-    last_fail_    = result;
-    last_attempt_ = Clock::now();
-}
-
-bool WaveOutSink::Impl::FormatMatchesLocked() const {
-    return out_device_ != nullptr && open_rate_ == req_rate_ &&
-           open_channels_ == req_channels_ && open_bits_ == req_bits_;
+    out_device_ = nullptr;
+    last_fail_  = result;
+    policy_.NoteAttempt();
 }
 
 WaveOutSink::Impl::OpenRequest WaveOutSink::Impl::BeginOpenLocked() {
-    last_attempt_ = Clock::now();
+    policy_.NoteAttempt();
+    const WaveOutFormat& format = policy_.Requested();
     OpenRequest req{};
     req.fmt.wFormatTag      = WAVE_FORMAT_PCM;
-    req.fmt.nChannels       = req_channels_;
-    req.fmt.nSamplesPerSec  = req_rate_;
-    req.fmt.wBitsPerSample  = req_bits_;
-    req.fmt.nBlockAlign     = static_cast<uint16_t>((req_bits_ / 8) * req_channels_);
-    req.fmt.nAvgBytesPerSec = req_rate_ * req.fmt.nBlockAlign;
+    req.fmt.nChannels       = format.channels;
+    req.fmt.nSamplesPerSec  = format.rate_hz;
+    req.fmt.wBitsPerSample  = format.bits;
+    req.fmt.nBlockAlign     = static_cast<uint16_t>((format.bits / 8) * format.channels);
+    req.fmt.nAvgBytesPerSec = format.rate_hz * req.fmt.nBlockAlign;
     req.fmt.cbSize          = 0;
     req.flags = CALLBACK_THREAD |
-                (req_allow_resampler_ ? 0u : static_cast<DWORD>(WAVE_FORMAT_DIRECT));
+                (format.allow_resampler ? 0u : static_cast<DWORD>(WAVE_FORMAT_DIRECT));
     return req;
 }
 
@@ -277,17 +268,15 @@ bool WaveOutSink::Impl::FinishOpenLocked(const OpenRequest& req, MMRESULT r, HWA
         last_fail_ = r;
         return false;
     }
-    out_device_    = device;
-    open_rate_     = rate;
-    open_channels_ = channels;
-    open_bits_     = bits;
-    last_fail_     = MMSYSERR_NOERROR;
+    out_device_ = device;
+    last_fail_  = MMSYSERR_NOERROR;
+    policy_.NoteOpened();
     ++generation_;
     LOG(Periph, "[%s] waveOut opened %u Hz x %u ch x %u bit\n", log_tag_, rate, channels, bits);
     return true;
 }
 
-bool WaveOutSink::Impl::OpenLocked() {
+bool WaveOutSink::Impl::OpenDeviceLocked(std::unique_lock<std::mutex>&) {
     const OpenRequest req = BeginOpenLocked();
     HWAVEOUT device = nullptr;
     const MMRESULT r = OpenDevice(req, device);
@@ -296,28 +285,16 @@ bool WaveOutSink::Impl::OpenLocked() {
 
 bool WaveOutSink::Impl::EnsureFormat(uint32_t sample_rate_hz, uint16_t channels,
                               uint16_t bits, bool allow_resampler, bool busy) {
-    std::lock_guard<std::mutex> lk(mtx_);
-    const bool changed = sample_rate_hz != req_rate_ || channels != req_channels_ ||
-                         bits != req_bits_ || allow_resampler != req_allow_resampler_;
-    req_rate_            = sample_rate_hz;
-    req_channels_        = channels;
-    req_bits_            = bits;
-    req_allow_resampler_ = allow_resampler;
-    if (FormatMatchesLocked()) return true;
-    if (out_device_) {
-        if (busy) return true;
-        CloseDeviceLocked();
-    }
-    if (!changed && Clock::now() - last_attempt_ < kReopenInterval) return false;
-    return OpenLocked();
+    std::unique_lock<std::mutex> lk(mtx_);
+    return policy_.EnsureFormat(WaveOutFormat{sample_rate_hz, channels, bits, allow_resampler},
+                                busy, *this, lk);
 }
 
 void WaveOutSink::Impl::RetryOpen() {
     OpenRequest req{};
     {
         std::lock_guard<std::mutex> lk(mtx_);
-        retry_posted_ = false;
-        if (out_device_ || Clock::now() - last_attempt_ < kReopenInterval) return;
+        if (!policy_.BeginRetry(out_device_ != nullptr)) return;
         req = BeginOpenLocked();
     }
     HWAVEOUT device = nullptr;
@@ -370,10 +347,7 @@ void WaveOutSink::Impl::PlayHeader(WAVEHDR* hdr) {
         LoseDeviceLocked(call, r);
     }
     QueueSilentLocked(hdr);
-    if (!retry_posted_ && Clock::now() - last_attempt_ >= kReopenInterval) {
-        retry_posted_ = true;
-        Post(kMsgRetryOpen);
-    }
+    if (policy_.ShouldPostRetry()) Post(kMsgRetryOpen);
 }
 
 void WaveOutSink::Impl::Unprepare(WAVEHDR* hdr) {

@@ -9,6 +9,7 @@ namespace cerfcore {
 namespace host_platform {
 
 std::string ExecutablePath();
+std::string ApplicationPath();
 uint32_t    CurrentProcessId();
 
 bool StdoutAvailable();

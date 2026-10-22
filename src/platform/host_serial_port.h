@@ -3,7 +3,6 @@
 #include <cstdint>
 #include <memory>
 #include <string>
-#include <vector>
 
 namespace cerfcore {
 
@@ -58,8 +57,6 @@ private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
 };
-
-std::vector<std::string> EnumerateSerialPorts();
 
 }
 

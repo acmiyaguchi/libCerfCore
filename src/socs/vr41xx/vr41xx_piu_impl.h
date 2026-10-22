@@ -28,7 +28,7 @@ namespace cerfcore {
 namespace cerf_vr41xx_piu_detail {
 
 
-template <const std::string_view& Soc, Vr41xxPiuModel M>
+template <const std::string_view& Soc, const Vr41xxPiuModel& M>
 class Vr41xxPiuBase : public Vr41xxPiu {
 public:
     using Vr41xxPiu::Vr41xxPiu;

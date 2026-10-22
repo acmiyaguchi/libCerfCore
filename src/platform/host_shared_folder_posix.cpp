@@ -1,5 +1,7 @@
 #include "host_shared_folder.h"
 
+#include "host_entry_stat.h"
+#include "host_rename_entry.h"
 #include "host_share_modes.h"
 #include "host_shared_entry.h"
 #include "host_win32_name_rules.h"
@@ -18,10 +20,6 @@
 #include <unistd.h>
 #include <utility>
 #include <vector>
-
-#if !defined(__linux__)
-#error "host_shared_folder_posix.cpp has no shared-folder code for this host"
-#endif
 
 namespace cerfcore {
 
@@ -118,7 +116,7 @@ SharedFsStatus MoveAcrossDevices(const std::string& src, const std::string& dst)
     bool ok = CopyContents(in, out) && CopySharedAttributes(in, out);
     int  err = ok ? 0 : errno;
     if (ok) {
-        const struct timespec times[2] = {{0, UTIME_OMIT}, st.st_mtim};
+        const struct timespec times[2] = {{0, UTIME_OMIT}, StatModifiedTime(st)};
         ok = futimens(out, times) == 0 && fchmod(out, mode) == 0;
         if (!ok) err = errno;
     }
@@ -236,9 +234,8 @@ SharedFsStatus MoveSharedFile(const std::u16string& from, const std::u16string& 
     const bool        renames_self = FindSharedEntry(dir, name16, found) &&
                                      SameInode(JoinSharedPath(dir, found), src);
     if (!found.empty() && !renames_self) return SharedStatus(SharedFsError::kAlreadyExists, EEXIST);
-    const unsigned flags = renames_self ? 0u : RENAME_NOREPLACE;
-    if (renameat2(AT_FDCWD, src.c_str(), AT_FDCWD, dst.c_str(), flags) == 0) return {};
-    if (errno == EINVAL && rename(src.c_str(), dst.c_str()) == 0) return {};
+    if (RenameEntry(src.c_str(), dst.c_str(), !renames_self) == 0) return {};
+    if (RenameNoReplaceUnsupported(errno) && rename(src.c_str(), dst.c_str()) == 0) return {};
     if (errno == EEXIST) return SharedStatus(SharedFsError::kAlreadyExists, errno);
     if (errno == EXDEV) return MoveAcrossDevices(src, dst);
     return SharedErrno(errno, dst);

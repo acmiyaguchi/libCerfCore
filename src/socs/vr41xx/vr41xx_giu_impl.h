@@ -56,7 +56,7 @@ struct Vr41xxGiuModel {
     bool     podat_h_retained_on_reset;  /* GIUPODATH After-reset / Other-resets column */
 };
 
-template <const std::string_view& Soc, Vr41xxGiuModel M>
+template <const std::string_view& Soc, const Vr41xxGiuModel& M>
 class Vr41xxGiuBase : public Vr41xxGiu {
 public:
     using Vr41xxGiu::Vr41xxGiu;

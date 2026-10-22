@@ -138,6 +138,8 @@ void BoardDatabase::OnReady() {
             ? RequirePositiveInt(v.Owner("ga_color_depth"), "ga_color_depth", path,
                                  v.OwnerCtx("ga_color_depth"))
             : kDefaultGaColorDepth;
+        row.has_high_dpi = CfgReadOptBool(v.Owner("has_high_dpi"), "has_high_dpi", path,
+                                          v.OwnerCtx("has_high_dpi"));
         row.rom_placing_mode = ParseRomPlacingMode(
             CfgRequireString(v.Owner("rom_placing_mode"), "rom_placing_mode", path,
                              v.OwnerCtx("rom_placing_mode")),

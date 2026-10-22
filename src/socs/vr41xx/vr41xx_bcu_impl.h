@@ -26,7 +26,7 @@ constexpr bool WritableAndWrite0Partition(const Vr41xxRegWindowModel& m, uint32_
     return (r.wmask & r.fatal_on_set) == 0u && (r.wmask | r.fatal_on_set) == 0xFFFFu;
 }
 
-template <const std::string_view& Soc, Vr41xxRegWindowModel M>
+template <const std::string_view& Soc, const Vr41xxRegWindowModel& M>
 class Vr41xxBcuBase : public Vr41xxRegWindowBase<Soc, M> {
     using Base = Vr41xxRegWindowBase<Soc, M>;
 

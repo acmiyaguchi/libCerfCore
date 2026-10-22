@@ -4,7 +4,11 @@
 #include <cstdlib>
 #include <fcntl.h>
 #include <unistd.h>
+#if defined(__APPLE__)
+#include <mach-o/dyld.h>
+#endif
 
+#include "host_app_bundle.h"
 #include "host_unimplemented.h"
 
 namespace cerfcore {
@@ -42,9 +46,30 @@ std::string ExecutablePath() {
         if (buf.size() >= 32768) return {};
         buf.resize(buf.size() * 2);
     }
+#elif defined(__APPLE__)
+    std::string path(1024, '\0');
+    uint32_t    size = static_cast<uint32_t>(path.size());
+    if (::_NSGetExecutablePath(&path[0], &size) != 0) {
+        path.assign(size, '\0');
+        if (::_NSGetExecutablePath(&path[0], &size) != 0) return {};
+    }
+    char* real = ::realpath(path.c_str(), nullptr);
+    if (real == nullptr) return {};
+    std::string resolved(real);
+    std::free(real);
+    return resolved;
 #else
     NoHostImplementation("ExecutablePath");
 #endif
+}
+
+std::string ApplicationPath() {
+    const std::string exe = ExecutablePath();
+#if defined(__APPLE__)
+    const size_t bundle = AppBundleLength(exe.data(), exe.size());
+    if (bundle != 0) return exe.substr(0, bundle);
+#endif
+    return exe;
 }
 
 uint32_t CurrentProcessId() { return static_cast<uint32_t>(::getpid()); }

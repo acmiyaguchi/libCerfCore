@@ -1,20 +1,16 @@
 #include "wave_in_fifo.h"
 
 #include "capped_byte_fifo.h"
+#include "wave_in_request.h"
 
 #include <cerfcore/core/log.h>
 
 #include <alsa/asoundlib.h>
 
-#include <atomic>
 #include <condition_variable>
 #include <mutex>
 #include <thread>
 #include <vector>
-
-#if !defined(__linux__)
-#error "wave_in_fifo_posix.cpp has no audio input for this host"
-#endif
 
 namespace cerfcore {
 
@@ -42,10 +38,7 @@ public:
     }
 
     void Request(uint32_t sample_rate_hz, uint16_t channels, uint16_t bits) {
-        const uint64_t key = static_cast<uint64_t>(sample_rate_hz) |
-                             (static_cast<uint64_t>(channels) << 32) |
-                             (static_cast<uint64_t>(bits) << 48);
-        if (requested_.exchange(key) == key) return;
+        if (!request_.Set(sample_rate_hz, channels, bits)) return;
         std::lock_guard<std::mutex> lk(mtx_);
         if (pcm_ != nullptr) snd_pcm_drop(pcm_);
         cv_.notify_all();
@@ -60,7 +53,7 @@ private:
     static constexpr unsigned kBufferUs = 92880;
 
     void ThreadMain();
-    void OpenLocked(uint64_t key);
+    void OpenLocked(const WaveInFormat& format);
     void CloseLocked();
 
     std::mutex              mtx_;
@@ -68,16 +61,16 @@ private:
     snd_pcm_t*              pcm_         = nullptr;
     uint32_t                frame_bytes_ = 0;
     bool                    stop_        = false;
-    std::atomic<uint64_t>   requested_{0};
+    WaveInRequest           request_;
     CappedByteFifo          fifo_;
     std::thread             thread_;
     const char*             log_tag_ = "WaveInFifo";
 };
 
-void WaveInFifo::Impl::OpenLocked(uint64_t key) {
-    const uint32_t   rate     = static_cast<uint32_t>(key);
-    const uint16_t   channels = static_cast<uint16_t>(key >> 32);
-    const uint16_t   bits     = static_cast<uint16_t>(key >> 48);
+void WaveInFifo::Impl::OpenLocked(const WaveInFormat& requested) {
+    const uint32_t   rate     = requested.rate_hz;
+    const uint16_t   channels = requested.channels;
+    const uint16_t   bits     = requested.bits;
     snd_pcm_format_t format   = SND_PCM_FORMAT_UNKNOWN;
     if (bits == 16u) format = SND_PCM_FORMAT_S16_LE;
     if (bits == 8u) format = SND_PCM_FORMAT_U8;
@@ -114,19 +107,17 @@ void WaveInFifo::Impl::CloseLocked() {
    pcm.c snd_pcm_recover leaves the stream prepared, so capture is started again. */
 void WaveInFifo::Impl::ThreadMain() {
     std::vector<uint8_t>         buf(kRecordBufBytes);
-    uint64_t                     open_key = 0;
     std::unique_lock<std::mutex> lk(mtx_);
     while (!stop_) {
-        const uint64_t key = requested_.load();
-        if (key != open_key) {
+        WaveInFormat format;
+        if (request_.TakeChange(format)) {
             CloseLocked();
-            open_key = key;
             fifo_.Clear();
-            OpenLocked(key);
+            OpenLocked(format);
             continue;
         }
         if (pcm_ == nullptr) {
-            cv_.wait(lk, [&] { return stop_ || requested_.load() != open_key; });
+            cv_.wait(lk, [&] { return stop_ || request_.Pending(); });
             continue;
         }
         snd_pcm_t* const        pcm         = pcm_;
@@ -135,7 +126,7 @@ void WaveInFifo::Impl::ThreadMain() {
         const snd_pcm_sframes_t n = snd_pcm_readi(pcm, buf.data(), kRecordBufBytes / frame_bytes);
         if (n > 0) fifo_.Push(buf.data(), static_cast<size_t>(n) * frame_bytes);
         lk.lock();
-        if (n >= 0 || stop_ || requested_.load() != open_key) continue;
+        if (n >= 0 || stop_ || request_.Pending()) continue;
         int err = snd_pcm_recover(pcm, static_cast<int>(n), 1);
         if (err == 0) err = snd_pcm_start(pcm);
         if (err < 0) {

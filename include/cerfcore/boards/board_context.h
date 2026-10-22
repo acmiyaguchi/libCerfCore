@@ -27,6 +27,7 @@ public:
     const char* SocName()        const;
 
     uint32_t ResolveGuestAdditionsColorDepth() const;
+    bool     HasHighDpi() const;
 
     virtual uint32_t GuestAdditionsWindowBase() const { return 0xF0000000u; }
     virtual uint32_t GuestAdditionsWindowSize() const;

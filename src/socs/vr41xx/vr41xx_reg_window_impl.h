@@ -54,7 +54,7 @@ struct Vr41xxRegWindowModel {
     Vr41xxRegSpec reg[kMaxRegs];
 };
 
-template <const std::string_view& Soc, Vr41xxRegWindowModel M, class Base = Peripheral>
+template <const std::string_view& Soc, const Vr41xxRegWindowModel& M, class Base = Peripheral>
 class Vr41xxRegWindowBase : public Base {
 public:
     using Base::Base;

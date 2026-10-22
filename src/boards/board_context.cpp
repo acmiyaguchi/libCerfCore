@@ -71,4 +71,8 @@ uint32_t BoardContext::ResolveGuestAdditionsColorDepth() const {
     return board_->ga_color_depth;
 }
 
+bool BoardContext::HasHighDpi() const {
+    return board_ && board_->has_high_dpi;
+}
+
 }

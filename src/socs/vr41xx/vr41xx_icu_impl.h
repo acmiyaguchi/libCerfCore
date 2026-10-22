@@ -97,7 +97,7 @@ struct Vr41xxIcuModel {
     uint16_t mfir_writable;
 };
 
-template <const std::string_view& Soc, Vr41xxIcuModel M>
+template <const std::string_view& Soc, const Vr41xxIcuModel& M>
 class Vr41xxIcuBase : public Vr41xxIcu {
 public:
     using Vr41xxIcu::Vr41xxIcu;

@@ -1,7 +1,7 @@
 #include "serial_forward_insert_entry.h"
 
 #include <cerfcore/core/cerf_emulator.h>
-#include "../../platform/host_serial_port.h"
+#include "../../platform/host_serial_port_list.h"
 
 #include <utility>
 

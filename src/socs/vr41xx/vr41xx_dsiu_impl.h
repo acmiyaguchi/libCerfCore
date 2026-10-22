@@ -75,7 +75,7 @@ struct Vr41xxDsiuModel {
     bool     portreg_retained_on_reset;   /* PORTREG After-reset row */
 };
 
-template <const std::string_view& Soc, Vr41xxDsiuModel M>
+template <const std::string_view& Soc, const Vr41xxDsiuModel& M>
 class Vr41xxDsiuBase : public Peripheral {
 public:
     using Peripheral::Peripheral;

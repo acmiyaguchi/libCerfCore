@@ -5,6 +5,7 @@
 #include "wave_in_fifo.h"
 
 #include "capped_byte_fifo.h"
+#include "wave_in_request.h"
 
 #include <cerfcore/core/log.h>
 
@@ -194,22 +195,14 @@ public:
     size_t Take(uint8_t* dst, size_t bytes);
 
 private:
-    static uint64_t FormatKey(uint32_t sample_rate_hz, uint16_t channels, uint16_t bits);
-
     void OnThreadMessage(const MSG& msg);
     void OpenOnThread();
 
-    WaveInSink            sink_;
-    CappedByteFifo        fifo_;
-    std::atomic<uint64_t> requested_{0};
-    uint64_t              open_    = 0;
-    const char*           log_tag_ = "WaveInFifo";
+    WaveInSink     sink_;
+    CappedByteFifo fifo_;
+    WaveInRequest  request_;
+    const char*    log_tag_ = "WaveInFifo";
 };
-
-uint64_t WaveInFifo::Impl::FormatKey(uint32_t sample_rate_hz, uint16_t channels, uint16_t bits) {
-    return static_cast<uint64_t>(sample_rate_hz) | (static_cast<uint64_t>(channels) << 32) |
-           (static_cast<uint64_t>(bits) << 48);
-}
 
 void WaveInFifo::Impl::Start(const char* log_tag, size_t cap_bytes) {
     log_tag_ = log_tag;
@@ -220,8 +213,7 @@ void WaveInFifo::Impl::Start(const char* log_tag, size_t cap_bytes) {
 void WaveInFifo::Impl::Stop() { sink_.Stop(); }
 
 void WaveInFifo::Impl::Request(uint32_t sample_rate_hz, uint16_t channels, uint16_t bits) {
-    const uint64_t key = FormatKey(sample_rate_hz, channels, bits);
-    if (requested_.exchange(key) != key) sink_.Post(kMsgOpen);
+    if (request_.Set(sample_rate_hz, channels, bits)) sink_.Post(kMsgOpen);
 }
 
 void WaveInFifo::Impl::Clear() { fifo_.Clear(); }
@@ -240,16 +232,12 @@ void WaveInFifo::Impl::OnThreadMessage(const MSG& msg) {
 }
 
 void WaveInFifo::Impl::OpenOnThread() {
-    const uint64_t key = requested_.load();
-    if (key == open_) return;
-    open_ = key;
+    WaveInFormat format;
+    if (!request_.TakeChange(format)) return;
     Clear();
-    const uint32_t rate     = static_cast<uint32_t>(key);
-    const uint16_t channels = static_cast<uint16_t>(key >> 32);
-    const uint16_t bits     = static_cast<uint16_t>(key >> 48);
-    if (!sink_.EnsureFormat(rate, channels, bits)) {
+    if (!sink_.EnsureFormat(format.rate_hz, format.channels, format.bits)) {
         LOG(Caution, "[%s] microphone capture unavailable at %u Hz (host waveIn open failed); "
-                     "the guest records silence\n", log_tag_, rate);
+                     "the guest records silence\n", log_tag_, format.rate_hz);
     }
 }
 

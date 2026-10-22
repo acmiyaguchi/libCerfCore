@@ -1998,7 +1998,8 @@
       "lcd_panel_size": {
         "width": 480,
         "height": 640
-      }
+      },
+      "has_high_dpi": true
     },
     {
       "id": "devemu_wqvga",

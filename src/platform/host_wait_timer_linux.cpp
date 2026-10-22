@@ -63,7 +63,7 @@ bool HostWaitTimer::WaitOrEvent(void* event) {
         if (ready < 0 && errno == EINTR) continue;
         if (ready < 0) return false;
         if ((fds[0].revents & POLLIN) != 0) {
-            Drain(fds[0].fd);
+            cerfengine::ConsumeWakeEvent(event);
             return false;
         }
         if ((fds[1].revents & POLLIN) != 0) {
