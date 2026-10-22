@@ -33,6 +33,11 @@
       "arch": "ARM"
     },
     {
+      "id": "arm926ejs",
+      "name": "ARM926EJ-S",
+      "arch": "ARM"
+    },
+    {
       "id": "arm1136",
       "name": "ARM1136",
       "arch": "ARM"
@@ -98,6 +103,11 @@
       "id": "s3c2410",
       "name": "Samsung S3C2410",
       "family_id": "arm920t"
+    },
+    {
+      "id": "imx28",
+      "name": "Freescale i.MX28",
+      "family_id": "arm926ejs"
     },
     {
       "id": "omap3530",
@@ -665,6 +675,23 @@
         "base_restored_abort_model": true,
         "dsp": true,
         "load_store_double": true
+      }
+    },
+    {
+      "soc_id": "imx28",
+      "inherits_cpu_config_id": "arm",
+      "values": {
+        "midr": "0x41069265",
+        "ctr": "0x1D192152",
+        "pc_store_offset": "plus_12",
+        "base_restored_abort_model": true,
+        "dsp": true,
+        "load_store_double": true,
+        "preload": true,
+        "clz": true,
+        "blx_reg": true,
+        "armv5_unconditional_space": true,
+        "load_to_pc_interworking": true
       }
     },
     {
