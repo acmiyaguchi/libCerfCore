@@ -199,12 +199,14 @@ void Imx28Clkctrl::RegisterApbxListener(std::function<void()> fn) {
 void Imx28Clkctrl::ApplyRates() {
     auto& clock = emu_.Get<GuestCycleClock>();
     clock.SetClockRate(CpuRate());
-    const uint64_t hz = clock.CpuHz();
-    if (hz != applied_hz_) {
-        LOG(SocClkpwr, "Imx28Clkctrl: clk_p %llu -> %llu Hz (CLKSEQ %08X CPU %08X FRAC0 %08X)\n",
-            static_cast<unsigned long long>(applied_hz_), static_cast<unsigned long long>(hz),
+    const GuestCycleClock::Rate rate = clock.ClockRate();
+    if (!(rate == applied_rate_)) {
+        LOG(SocClkpwr, "Imx28Clkctrl: clk_p %llu/%llu -> %llu/%llu Hz (CLKSEQ %08X CPU %08X FRAC0 "
+            "%08X)\n", static_cast<unsigned long long>(applied_rate_.num),
+            static_cast<unsigned long long>(applied_rate_.den),
+            static_cast<unsigned long long>(rate.num), static_cast<unsigned long long>(rate.den),
             regs_[kClkClkseq], regs_[kClkCpu], regs_[kClkFrac0]);
-        applied_hz_ = hz;
+        applied_rate_ = rate;
     }
 }
 

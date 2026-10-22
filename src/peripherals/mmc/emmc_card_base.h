@@ -104,6 +104,8 @@ public:
     void SaveState(StateWriter& w) override;
     void RestoreState(StateReader& r) override;
 
+    void ReadSector(uint32_t sector, uint8_t* out) { ReadBlock(sector, out); }
+
 protected:
     virtual SdCardCid                       Cid() const = 0;
     virtual EmmcCsdFields                   Csd() const = 0;

@@ -50,6 +50,8 @@ constexpr uint32_t kCtrlWritable    = 0x41FFEC0Fu;
 constexpr uint32_t kCtrlXtalGate    = 1u << 30;
 constexpr uint32_t kCtrlUsbGates    = 0x00010004u;
 constexpr uint32_t kCtrlSaifClkmux  = 0x00000C00u;
+constexpr uint32_t kCtrlJtagShield  = 1u << 1;
+constexpr uint32_t kCtrlLatchEntropy = 1u << 0;
 
 /* Section 19.4.2 STATUS reset FF00_0000h: USB0/USB1 *_PRESENT [31:24], WRITTEN [0]. */
 constexpr uint32_t kStatusReset     = 0xFF000000u;
@@ -158,11 +160,12 @@ uint32_t Imx28Digctl::ReadWord(uint32_t addr) {
 }
 
 /* Section 19.4.1 CTRL: XTAL24M_GATE [30], USB1_CLKGATE [16], SAIF_CLKMUX_SEL [11:10],
-   USB0_CLKGATE [2]. */
+   USB0_CLKGATE [2], JTAG_SHIELD [1], LATCH_ENTROPY [0]. */
 void Imx28Digctl::WriteCtrl(Imx28SctOp op, uint32_t value, uint32_t addr) {
     const uint32_t old  = ctrl_;
     const uint32_t raw  = Imx28ApplySct(op, old, value);
-    const uint32_t modelled = kCtrlXtalGate | kCtrlUsbGates | kCtrlSaifClkmux;
+    const uint32_t modelled =
+        kCtrlXtalGate | kCtrlUsbGates | kCtrlSaifClkmux | kCtrlJtagShield | kCtrlLatchEntropy;
     if (((raw ^ kCtrlReset) & kCtrlWritable & ~modelled) != 0u) {
         HaltUnsupportedAccess("WriteWord", addr, value);
     }

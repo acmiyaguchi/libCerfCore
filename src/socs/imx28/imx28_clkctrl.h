@@ -60,7 +60,7 @@ private:
                                          Imx28SctOp* sct_op) const;
 
     uint32_t regs_[kImx28ClkctrlRegCount] = {};
-    uint64_t applied_hz_ = 0u;
+    GuestCycleClock::Rate applied_rate_{};
     bool     digital_only_reset_ = false;
     std::vector<std::function<void()>> apbx_listeners_;
 };
