@@ -22,6 +22,25 @@ constexpr uint8_t kCaset = 0x2Au;
 constexpr uint8_t kPaset = 0x2Bu;
 constexpr uint8_t kRamwr = 0x2Cu;
 
+struct SettingCommand {
+    uint8_t  cmd;
+    uint32_t params;
+};
+
+/* sharp_brain_pw_sh4 ddraw_mx28.dll PanelGammaVariantSeq c06d75d0 (BCh 26 parameters);
+   ILI9806H V091 pages 268-309 (B1h, B4h, C0h, C1h, C6h, C7h, E0h, E1h).
+   C1h 8 and C7h 5 parameters in ILI9806H V091; c06d75d0 sends 3 and 4. */
+constexpr SettingCommand kSettingCommands[] = {
+    {0xBCu, 26u}, {0xC0u, 1u}, {0xB1u, 3u}, {0xB4u, 3u}, {0xC1u, 3u},
+    {0xC6u, 2u},  {0xC7u, 4u}, {0xE0u, 16u}, {0xE1u, 16u},
+};
+
+uint32_t SettingParamCount(uint8_t cmd) {
+    for (const auto& c : kSettingCommands)
+        if (c.cmd == cmd) return c.params;
+    return 0u;
+}
+
 class SharpBrainPwSh4Panel : public MpuLcdPanel {
 public:
     using MpuLcdPanel::MpuLcdPanel;
@@ -83,12 +102,10 @@ private:
 /* ILI9341 V1.11 section 8.2.22: any other command stops a frame write. */
 void SharpBrainPwSh4Panel::WriteCommand(uint32_t bus_word) {
     const uint8_t cmd = static_cast<uint8_t>(bus_word & 0xFFu);
-    if (cmd != kCaset && cmd != kPaset && cmd != kRamwr) {
-        command_ = cmd;
-        Die("unmodelled command", bus_word);
-    }
     command_     = cmd;
     param_count_ = 0u;
+    if (SettingParamCount(cmd) != 0u) return;
+    if (cmd != kCaset && cmd != kPaset && cmd != kRamwr) Die("unmodelled command", bus_word);
     if (cmd != kRamwr) return;
     if (window_valid_ != 0x3u) Die("RAMWR before CASET and PASET", bus_word);
     cursor_[0] = window_[0];
@@ -114,6 +131,12 @@ void SharpBrainPwSh4Panel::WriteData(uint32_t bus_word) {
         if (param_count_ >= 4u) Die("extra address parameter", bus_word);
         params_[param_count_++] = static_cast<uint8_t>(bus_word & 0xFFu);
         if (param_count_ == 4u) EndAddressSet();
+        return;
+    }
+    const uint32_t setting_params = SettingParamCount(command_);
+    if (setting_params != 0u) {
+        if (param_count_ >= setting_params) Die("extra setting parameter", bus_word);
+        ++param_count_;
         return;
     }
     if (command_ != kRamwr) Die("data with no open command", bus_word);
