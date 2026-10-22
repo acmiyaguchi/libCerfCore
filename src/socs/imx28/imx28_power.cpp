@@ -195,6 +195,8 @@ Imx28Power::Signals Imx28Power::ComputeSignals(const Analog& a) const {
     const uint32_t bm = regs_[kPwrBattMonitor];
     s.batt_bo = (bm & kBattBrwnoutPwd) == 0u &&
                 a.batt_mv < kBattBrwnoutMv + kBattLvlStepMv * (bm & kBattLvlMask);
+    s.bo4p2 = Vdd4p2Millivolts(a) < k4p2BoBaseMv + k4p2BoStepMv *
+                                        ((regs_[kPwrDcdc4p2] >> kDcdc4p2BoShift) & kDcdc4p2BoMask);
     return s;
 }
 
@@ -212,10 +214,7 @@ uint32_t Imx28Power::ComposeSts() {
     if (s.vdd5v_gt_vddio) sts |= 1u << 5;
     if (s.batt_bo)   sts |= 1u << 13;
     if (a.vdd5v_mv < a.vddio_mv / 2u) sts |= kStsVdd5vFault;
-    if (Vdd4p2Millivolts(a) < k4p2BoBaseMv + k4p2BoStepMv *
-                                  ((regs_[kPwrDcdc4p2] >> kDcdc4p2BoShift) & kDcdc4p2BoMask)) {
-        sts |= kStsDcdc4p2Bo;
-    }
+    if (s.bo4p2)     sts |= kStsDcdc4p2Bo;
     return sts;
 }
 
@@ -236,6 +235,7 @@ void Imx28Power::LatchInterrupts(const Signals& s) {
     uint32_t& c = regs_[kPwrCtrl];
     if (s.batt_bo) c |= kCtrlBattBoIrq;
     if (s.droop)   c |= kCtrlVdd5vDroopIrq;
+    if (s.bo4p2)   c |= kCtrl4p2BoIrq;
     if (s.vdd5v_gt_vddio == ((c & kCtrlPolVdd5vGt) != 0u)) c |= kCtrlVdd5vGtIrq;
     if (s.vbusvalid == ((c & kCtrlPolVbusValid) != 0u)) c |= kCtrlVbusValidIrq;
     const bool dc_ok_cond = (c & kCtrlPolDcOk) != 0u ? true : !s.vdd5v_gt_vddio;
@@ -435,6 +435,8 @@ void Imx28Power::SaveState(StateWriter& w) {
     w.Write("lines", lines_);
     w.Write("pswitch", pswitch_);
     w.Write<uint8_t>("pwd_sleep", pwd_sleep_.load() ? 1u : 0u);
+    w.Write<uint8_t>("powered_down", powered_down_ ? 1u : 0u);
+    w.Write("event_since_ns", event_since_ns_);
 }
 
 void Imx28Power::RestoreState(StateReader& r) {
@@ -445,6 +447,10 @@ void Imx28Power::RestoreState(StateReader& r) {
     uint8_t pwd_sleep = 0;
     r.Read("pwd_sleep", pwd_sleep);
     pwd_sleep_.store(pwd_sleep != 0);
+    uint8_t powered_down = 0;
+    r.Read("powered_down", powered_down);
+    powered_down_ = powered_down != 0;
+    r.Read("event_since_ns", event_since_ns_);
     const Signals s = ComputeSignals(SampleAnalog());
     vdd5v_gt_vddio_ = s.vdd5v_gt_vddio;
     for (uint32_t u = 0; u < 2u; ++u) sessions_[u] = SessionOf(u, s);

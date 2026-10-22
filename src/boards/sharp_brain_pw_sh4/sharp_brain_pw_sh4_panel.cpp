@@ -1,6 +1,8 @@
 #include <cerfcore/boards/board_context.h>
 #include <cerfcore/core/cerf_emulator.h>
 #include <cerfcore/core/fatal.h>
+#include <cerfcore/execution/jit_runner.h>
+#include <cerfcore/socs/guest_cpu_reset.h>
 #include <cerfcore/state/state_stream.h>
 #include "../../socs/mpu_lcd_panel.h"
 #include "sharp_brain_pw_sh4_family_id.h"
@@ -50,10 +52,17 @@ constexpr FixedParamCommand kFixedParamCommands[] = {
     {0x36u, 0xD0u}, {0x3Au, 0x55u}, {0x35u, 0x00u},
 };
 
-/* MIPI DCS enter_sleep_mode 10h, exit_sleep_mode 11h, enter_normal_mode 13h, set_display_off 28h,
-   set_display_on 29h; sharp_brain_pw_sh4 ddraw_mx28.dll PanelInitSeq c06d6d10 (22h), PanelPowerOff
-   c06d7424 (10h), LcdifUpdateRegion c06d7df0 (13h), PanelDisplayOnOff c06d865c (28h). */
-constexpr uint8_t kNoParamCommands[] = {0x10u, 0x11u, 0x13u, 0x22u, 0x28u, 0x29u};
+/* ILI9806H V091 datasheet pages 199-208 (10h, 11h, 13h, 22h, 28h, 29h); sharp_brain_pw_sh4
+   ddraw_mx28.dll PanelInitSeq c06d6d10 (22h), PanelPowerOff c06d7424 (10h), LcdifUpdateRegion
+   c06d7df0 (13h), PanelDisplayOnOff c06d865c (28h). */
+constexpr uint8_t kSleepIn    = 0x10u;
+constexpr uint8_t kSleepOut   = 0x11u;
+constexpr uint8_t kNormalOn   = 0x13u;
+constexpr uint8_t kAllPixOff  = 0x22u;
+constexpr uint8_t kDisplayOff = 0x28u;
+constexpr uint8_t kDisplayOn  = 0x29u;
+constexpr uint8_t kNoParamCommands[] = {kSleepIn, kSleepOut, kNormalOn, kAllPixOff, kDisplayOff,
+                                        kDisplayOn};
 
 const FixedParamCommand* FindFixedParam(uint8_t cmd) {
     for (const auto& c : kFixedParamCommands)
@@ -82,13 +91,24 @@ public:
         return bd && bd->GetBoardFamilyId() == BoardFamilyId::SharpBrainPwSh4;
     }
 
-    void OnReady() override { gram_.assign(static_cast<size_t>(kColumns) * kPages, 0u); }
+    /* sharp_brain_pw_sh4 ddraw_mx28.dll LcdifObjInit c06d86bc (no panel init), PanelPowerOn
+       c06d74a0 (not called at boot). */
+    void OnReady() override {
+        gram_.assign(static_cast<size_t>(kColumns) * kPages, 0u);
+        blank_.assign(gram_.size(), 0u);
+        emu_.Get<JitRunner>().RegisterPreStartHook([this] { Handoff(); });
+        emu_.Get<GuestCpuReset>().RegisterResetReleaseListener([this] {
+            if (!emu_.Get<GuestCpuReset>().DeliveredResetWasResume()) Handoff();
+        });
+    }
 
     void WriteCommand(uint32_t bus_word) override;
     void WriteData(uint32_t bus_word) override;
 
     PanelSurface Gram() const override {
-        return PanelSurface{.fb     = reinterpret_cast<const uint8_t*>(gram_.data()),
+        const bool visible = sleep_ == 0u && display_on_ != 0u && all_pixels_off_ == 0u;
+        return PanelSurface{.fb     = reinterpret_cast<const uint8_t*>(visible ? gram_.data()
+                                                                                : blank_.data()),
                             .stride = kColumns * 2u,
                             .width  = kColumns,
                             .height = kPages};
@@ -102,6 +122,9 @@ public:
         w.Write("params", params_);
         w.Write("param_count", param_count_);
         w.Write<uint8_t>("window_valid", window_valid_);
+        w.Write<uint8_t>("sleep", sleep_);
+        w.Write<uint8_t>("display_on", display_on_);
+        w.Write<uint8_t>("all_pixels_off", all_pixels_off_);
     }
 
     void RestoreState(StateReader& r) override {
@@ -112,6 +135,9 @@ public:
         r.Read("params", params_);
         r.Read("param_count", param_count_);
         r.Read("window_valid", window_valid_);
+        r.Read("sleep", sleep_);
+        r.Read("display_on", display_on_);
+        r.Read("all_pixels_off", all_pixels_off_);
     }
 
 private:
@@ -122,21 +148,49 @@ private:
 
     void EndAddressSet();
 
+    void SetDisplayState(uint8_t cmd);
+    void Handoff() {
+        sleep_          = 0u;
+        display_on_     = 1u;
+        all_pixels_off_ = 0u;
+    }
+
     std::vector<uint16_t> gram_;
+    std::vector<uint16_t> blank_;
     uint32_t window_[4]   = {};
     uint32_t cursor_[2]   = {};
     uint8_t  params_[4]   = {};
     uint32_t param_count_ = 0u;
     uint8_t  command_     = 0u;
     uint8_t  window_valid_ = 0u;
+    uint8_t  sleep_           = 1u;
+    uint8_t  display_on_      = 0u;
+    uint8_t  all_pixels_off_  = 0u;
 };
+
+/* ILI9806H V091 datasheet pages 199-208 default and blank states. */
+void SharpBrainPwSh4Panel::SetDisplayState(uint8_t cmd) {
+    switch (cmd) {
+        case kSleepIn:    sleep_ = 1u; break;
+        case kSleepOut:   sleep_ = 0u; break;
+        case kNormalOn:   all_pixels_off_ = 0u; break;
+        case kAllPixOff:  all_pixels_off_ = 1u; break;
+        case kDisplayOff: display_on_ = 0u; break;
+        case kDisplayOn:  display_on_ = 1u; break;
+        default:          break;
+    }
+}
 
 /* ILI9341 V1.11 section 8.2.22: any other command stops a frame write. */
 void SharpBrainPwSh4Panel::WriteCommand(uint32_t bus_word) {
     const uint8_t cmd = static_cast<uint8_t>(bus_word & 0xFFu);
     command_     = cmd;
     param_count_ = 0u;
-    if (SettingParamCount(cmd) != 0u || FindFixedParam(cmd) || IsNoParamCommand(cmd)) return;
+    if (IsNoParamCommand(cmd)) {
+        SetDisplayState(cmd);
+        return;
+    }
+    if (SettingParamCount(cmd) != 0u || FindFixedParam(cmd)) return;
     if (cmd != kCaset && cmd != kPaset && cmd != kRamwr) Die("unmodelled command", bus_word);
     if (cmd != kRamwr) return;
     if (window_valid_ != 0x3u) Die("RAMWR before CASET and PASET", bus_word);

@@ -175,16 +175,17 @@ GuestCycleClock::Rate Imx28Clkctrl::XbusRate() const {
 }
 
 /* Section 35.2.1: saif_clk from a 16-bit fractional divider of the 480 MHz PLL reference;
-   section 10.8.26 BYPASS_SAIF0 [0] / BYPASS_SAIF1 [1]. */
+   section 10.8.26 BYPASS_SAIF0 [0] / BYPASS_SAIF1 [1]; section 10.8.17 DIV_FRAC_EN always one. */
 GuestCycleClock::Rate Imx28Clkctrl::SaifRate(uint32_t unit) const {
     const uint32_t reg = regs_[unit == 0u ? kClkSaif0 : kClkSaif1];
     const bool bypass = ((regs_[kClkClkseq] >> unit) & 1u) != 0u;
-    if (bypass || (reg & kClkGate) != 0u || (regs_[kClkPll0Ctrl0] & kPllPower) == 0u) {
+    if (bypass || (reg & kClkGate) != 0u || (reg & kSaifFracEn) == 0u ||
+        (regs_[kClkPll0Ctrl0] & kPllPower) == 0u) {
         emu_.Get<Fatal>().Die("Imx28Clkctrl: SAIF%u clock used with SAIF %08X CLKSEQ %08X PLL0CTRL0 "
                               "%08X", unit, reg, regs_[kClkClkseq], regs_[kClkPll0Ctrl0]);
     }
     return DividerRate(GuestCycleClock::Rate{kPll0Hz, 1u}, reg & 0xFFFFu,
-                       (reg & kSaifFracEn) != 0u, 16u, "SAIF DIV");
+                       true, 16u, "SAIF DIV");
 }
 
 bool Imx28Clkctrl::WatchdogPorDisabled() const {

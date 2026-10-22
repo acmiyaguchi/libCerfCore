@@ -77,9 +77,11 @@ void Imx28Saif::OnReady() {
 }
 
 void Imx28Saif::ResetBlock() {
-    ctrl_    = kCtrlReset;
-    stat_    = 0u;
-    playing_ = 0u;
+    if (playing_ != 0u) host_->Finish();
+    ctrl_      = kCtrlReset;
+    stat_      = 0u;
+    playing_   = 0u;
+    remaining_ = 0u;
     block_.clear();
     clock_->Disarm(event_);
 }
@@ -100,8 +102,12 @@ void Imx28Saif::WriteCtrl(Imx28SctOp op, uint32_t value, uint32_t addr) {
     if ((next & kCtrlReserved) != 0u) Die("CTRL RSRVD2 bits", addr, value);
     if ((next & kCtrlIrqEnables) != 0u) Die("CTRL FIFO IRQ enable", addr, value);
     if ((next & kCtrlRun) != 0u) {
-        if ((old & kCtrlRun) != 0u && next != old) Die("CTRL change with RUN set", addr, value);
-        if (Gated(next)) Die("RUN with SFTRST or CLKGATE", addr, value);
+        if ((old & kCtrlRun) != 0u) {
+            if (((next ^ old) & ~kCtrlClkgate) != 0u) Die("CTRL change with RUN set", addr, value);
+            if ((next & kCtrlSftrst) != 0u) Die("RUN with SFTRST", addr, value);
+        } else if (Gated(next)) {
+            Die("RUN with SFTRST or CLKGATE", addr, value);
+        }
         if ((next & kCtrlReadMode) != 0u) Die("RUN in READ_MODE", addr, value);
         if ((next & kCtrlChannelMask) == kCtrlChannelRsvd) {
             Die("RUN with CHANNEL_NUM_SELECT 3", addr, value);
@@ -110,7 +116,21 @@ void Imx28Saif::WriteCtrl(Imx28SctOp op, uint32_t value, uint32_t addr) {
         Die("RUN cleared with BUSY set", addr, value);
     }
     ctrl_ = next;
+    if (playing_ != 0u) GateClock((old & kCtrlClkgate) != 0u, (next & kCtrlClkgate) != 0u);
     if ((next & kCtrlRun) != 0u && (old & kCtrlRun) == 0u && !block_.empty()) StartBlock();
+}
+
+/* Section 35.3.1 CLKGATE gates the SAIF clocks and keeps the configuration; BUSY holds;
+   sharp_brain_pw_sh4 nk.exe 80211ad4 sets and restores it. */
+void Imx28Saif::GateClock(bool was, bool now) {
+    if (!was && now) {
+        const uint64_t at = frames_.Now();
+        remaining_ = end_ > at ? end_ - at : 0u;
+        clock_->Disarm(event_);
+    } else if (was && !now) {
+        end_ = frames_.Now() + remaining_;
+        frames_.ArmAt(event_, end_);
+    }
 }
 
 /* Section 35.3.2 FIFO_UNDERFLOW_IRQ [6], FIFO_OVERFLOW_IRQ [5]: reset through the SCT clear
@@ -182,11 +202,12 @@ void Imx28Saif::OnBlockEnd() {
 
 void Imx28Saif::Rescale() {
     frames_.Rescale();
-    if (playing_ != 0u) frames_.ArmAt(event_, end_);
+    if (playing_ != 0u && (ctrl_ & kCtrlClkgate) == 0u) frames_.ArmAt(event_, end_);
 }
 
 void Imx28Saif::DmaPioWrite(uint32_t, uint32_t index, uint32_t value) {
-    Die("DMA PIO write, index", index, value);
+    emu_.Get<Fatal>().Die("Imx28 SAIF%u: DMA PIO write, index %u at %08X (value %08X, CTRL %08X)",
+                          unit_, index, base_ + kCtrl, value, ctrl_);
 }
 
 Imx28ApbDmaDevice::Transfer Imx28Saif::DmaToMemory(uint32_t, uint8_t*, uint32_t count) {
@@ -219,6 +240,7 @@ void Imx28Saif::SaveState(StateWriter& w) {
     w.Write("stat", stat_);
     w.Write("playing", playing_);
     w.Write("end", end_);
+    w.Write("remaining", remaining_);
     w.Write("block_size", static_cast<uint32_t>(block_.size()));
     w.WriteBytes("block", block_.data(), block_.size());
     frames_.Save(w, "frames_");
@@ -230,6 +252,7 @@ void Imx28Saif::RestoreState(StateReader& r) {
     r.Read("stat", stat_);
     r.Read("playing", playing_);
     r.Read("end", end_);
+    r.Read("remaining", remaining_);
     r.Read("block_size", size);
     block_.resize(size);
     r.ReadBytes("block", block_.data(), block_.size());
@@ -238,8 +261,8 @@ void Imx28Saif::RestoreState(StateReader& r) {
 
 void Imx28Saif::PostRestore() {
     host_->Stop();
-    if (playing_ != 0u) frames_.ArmAt(event_, end_);
-    else                clock_->Disarm(event_);
+    if (playing_ != 0u && (ctrl_ & kCtrlClkgate) == 0u) frames_.ArmAt(event_, end_);
+    else                                                 clock_->Disarm(event_);
 }
 
 }

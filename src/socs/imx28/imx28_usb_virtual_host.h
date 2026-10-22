@@ -32,6 +32,7 @@ private:
     void OnPrime();
     void Step();
     void StartRequest();
+    void RetryEnumeration();
     void StepData();
     void StepStatus();
     void FinishRequest();
@@ -48,6 +49,8 @@ private:
     uint32_t                 armed_   = 0;
     uint32_t                 linked_  = 0;
     int64_t                  due_ns_  = 0;
+    uint32_t                 polls_   = 0;
+    uint32_t                 resets_  = 0;
     uint8_t                  setup_[8] = {};
     std::vector<uint8_t>     data_;
     std::vector<uint8_t>     config_;

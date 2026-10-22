@@ -39,6 +39,7 @@ private:
     void     WriteStat(Imx28SctOp op, uint32_t value, uint32_t addr);
     uint32_t ComposeStat() const;
     void     StartBlock();
+    void     GateClock(bool was, bool now);
     void     OnBlockEnd();
     void     Rescale();
     [[noreturn]] void Die(const char* what, uint32_t addr, uint32_t value) const;
@@ -63,6 +64,7 @@ private:
     std::vector<uint8_t> block_;
     uint8_t              playing_ = 0u;
     uint64_t             end_     = 0u;
+    uint64_t             remaining_ = 0u;
 };
 
 }

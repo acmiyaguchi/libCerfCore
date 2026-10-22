@@ -71,6 +71,7 @@ private:
         bool sessend;
         bool droop;
         bool batt_bo;
+        bool bo4p2;
     };
 
     Analog   SampleAnalog();

@@ -23,6 +23,8 @@ constexpr int64_t kResetNs    = 50000000;
 constexpr int64_t kRecoveryNs = 10000000;
 constexpr int64_t kAddressNs  = 2000000;
 constexpr int64_t kFrameNs    = 125000;
+constexpr uint32_t kAddressPolls = 8000u;
+constexpr uint32_t kMaxResets    = 3u;
 
 /* Section 31.3.39 ENDPTCOMPLETE: EP0 RX bit 0, EP0 TX bit 16. */
 constexpr uint32_t kEp0Rx = 0u;
@@ -91,6 +93,8 @@ void Imx28UsbVirtualHost::OnLink() {
     if (now == linked_) return;
     linked_  = now;
     request_ = kReqAddress;
+    polls_   = 0u;
+    resets_  = 0u;
     if (now != 0u) {
         stage_ = kDebounce;
         Arm(kAttachNs);
@@ -129,7 +133,15 @@ void Imx28UsbVirtualHost::Step() {
 /* USB 2.0 section 9.3 Table 9-2 setup data: bmRequestType, bRequest, wValue, wIndex, wLength. */
 void Imx28UsbVirtualHost::StartRequest() {
     const uint32_t addr = request_ == kReqAddress ? 0u : kAddress;
-    if (port_->DeviceAddress() != addr) Die("device address", port_->DeviceAddress(), addr);
+    if (port_->DeviceAddress() != addr) {
+        if (++polls_ < kAddressPolls) {
+            Arm(kFrameNs);
+            return;
+        }
+        RetryEnumeration();
+        return;
+    }
+    polls_ = 0u;
     uint8_t  type = kDirIn, req = kGetDescriptor;
     uint32_t value = 0u;
     switch (request_) {
@@ -163,6 +175,20 @@ void Imx28UsbVirtualHost::StartRequest() {
     port_->Setup(setup);
     stage_ = (type & kDirIn) != 0u && length_ != 0u ? kData : kStatus;
     Arm(kFrameNs);
+}
+
+void Imx28UsbVirtualHost::RetryEnumeration() {
+    polls_   = 0u;
+    request_ = kReqAddress;
+    LOG(UsbOtg, "Imx28UsbVirtualHost: device address %u not set, reset %u\n", port_->DeviceAddress(),
+        resets_);
+    if (++resets_ > kMaxResets) {
+        stage_ = kIdle;
+        return;
+    }
+    port_->BusReset();
+    stage_ = kReset;
+    Arm(kResetNs);
 }
 
 /* USB 2.0 section 5.5.3: the data stage ends on wLength bytes or a short packet. */
@@ -221,6 +247,8 @@ void Imx28UsbVirtualHost::SaveState(StateWriter& w) {
     w.Write("armed", armed_);
     w.Write("linked", linked_);
     w.Write("due_ns", due_ns_);
+    w.Write("polls", polls_);
+    w.Write("resets", resets_);
     w.Write("setup", setup_);
     w.Write("data_size", static_cast<uint32_t>(data_.size()));
     w.WriteBytes("data", data_.data(), data_.size());
@@ -236,6 +264,8 @@ void Imx28UsbVirtualHost::RestoreState(StateReader& r) {
     r.Read("armed", armed_);
     r.Read("linked", linked_);
     r.Read("due_ns", due_ns_);
+    r.Read("polls", polls_);
+    r.Read("resets", resets_);
     r.Read("setup", setup_);
     r.Read("data_size", size);
     data_.resize(size);
