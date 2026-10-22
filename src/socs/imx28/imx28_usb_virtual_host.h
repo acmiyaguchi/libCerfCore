@@ -2,6 +2,7 @@
 
 #include <cerfcore/core/service.h>
 #include "../../execution/guest_cycle_clock.h"
+#include "imx28_usb_bot_host.h"
 
 #include <cstdint>
 #include <vector>
@@ -15,7 +16,7 @@ class StateWriter;
 /* USB 2.0 chapter 9 enumeration of the device on USBCTRL0. */
 class Imx28UsbVirtualHost : public Service {
 public:
-    using Service::Service;
+    explicit Imx28UsbVirtualHost(CerfEmulator& emu) : Service(emu), bot_(emu) {}
 
     bool ShouldRegister() override;
     void OnReady() override;
@@ -26,12 +27,13 @@ public:
     void PostRestore();
 
 private:
-    enum Stage : uint32_t { kIdle, kDebounce, kReset, kRecovery, kData, kStatus };
+    enum Stage : uint32_t { kIdle, kDebounce, kReset, kRecovery, kData, kStatus, kBulk };
 
     void OnLink();
     void OnPrime();
     void Step();
     void StartRequest();
+    void StartBulk();
     void RetryEnumeration();
     void StepData();
     void StepStatus();
@@ -54,6 +56,7 @@ private:
     uint8_t                  setup_[8] = {};
     std::vector<uint8_t>     data_;
     std::vector<uint8_t>     config_;
+    Imx28UsbBotHost          bot_;
 };
 
 }

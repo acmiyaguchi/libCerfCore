@@ -44,6 +44,15 @@ constexpr uint32_t kDeviceLength  = 18u;
 constexpr uint32_t kConfigLength  = 9u;
 constexpr uint32_t kAddress       = 1u;
 
+/* USB 2.0 Table 9-13 bEndpointAddress [7] IN, [3:0] number; bmAttributes [1:0] 2 Bulk.
+   USB MSC Class Specification Overview 1.4 class 08h, SCSI transparent 06h, Bulk-Only 50h. */
+constexpr uint8_t  kEpIn          = 0x80u;
+constexpr uint8_t  kEpNumberMask  = 0x0Fu;
+constexpr uint8_t  kEpTypeMask    = 0x03u;
+constexpr uint8_t  kEpBulk        = 2u;
+constexpr uint32_t kMscBot        = 0x00080650u;
+constexpr uint32_t kNoEndpoint    = 0xFFFFFFFFu;
+
 enum Request : uint32_t { kReqAddress, kReqDevice, kReqConfigHead, kReqConfig, kReqSetConfig };
 
 std::string Hex(const std::vector<uint8_t>& bytes) {
@@ -107,7 +116,7 @@ void Imx28UsbVirtualHost::OnLink() {
 
 /* MCIMX28RM Rev. 2 Table 31-67: a primed endpoint answers the next IN or OUT token. */
 void Imx28UsbVirtualHost::OnPrime() {
-    if (stage_ == kData || stage_ == kStatus) Arm(kFrameNs);
+    if (stage_ == kData || stage_ == kStatus || stage_ == kBulk) Arm(kFrameNs);
 }
 
 void Imx28UsbVirtualHost::Step() {
@@ -126,6 +135,9 @@ void Imx28UsbVirtualHost::Step() {
         case kRecovery: StartRequest(); return;
         case kData:     StepData(); return;
         case kStatus:   StepStatus(); return;
+        case kBulk:
+            if (bot_.Step(*port_)) Arm(kFrameNs);
+            return;
         default:        return;
     }
 }
@@ -153,19 +165,9 @@ void Imx28UsbVirtualHost::StartRequest() {
             length_ = config_[2] | (config_[3] << 8);
             break;
         case kReqSetConfig:  type = 0u; req = kSetConfig; value = config_[5]; length_ = 0u; break;
-        default: {
-            uint32_t iface = 0u, eps = 0u;
-            for (size_t i = 0; i + 1 < config_.size() && config_[i] != 0u; i += config_[i]) {
-                if (config_[i + 1] == kDescInterface && i + 7 < config_.size()) {
-                    iface = (config_[i + 5] << 16) | (config_[i + 6] << 8) | config_[i + 7];
-                }
-                if (config_[i + 1] == kDescEndpoint && i + 2 < config_.size()) {
-                    eps = (eps << 8) | config_[i + 2];
-                }
-            }
-            Die("bulk transfer after SET_CONFIGURATION, interface class/subclass/protocol, endpoints",
-                iface, eps);
-        }
+        default:
+            StartBulk();
+            return;
     }
     const uint8_t setup[8] = {type, req, static_cast<uint8_t>(value), static_cast<uint8_t>(value >> 8),
                               0u, 0u, static_cast<uint8_t>(length_), static_cast<uint8_t>(length_ >> 8)};
@@ -174,6 +176,29 @@ void Imx28UsbVirtualHost::StartRequest() {
     data_.clear();
     port_->Setup(setup);
     stage_ = (type & kDirIn) != 0u && length_ != 0u ? kData : kStatus;
+    Arm(kFrameNs);
+}
+
+/* USB 2.0 section 9.6.5 interface descriptor [5..7] class/subclass/protocol; section 9.6.6 endpoint
+   descriptor [2] bEndpointAddress, [3] bmAttributes. MCIMX28RM Rev. 2 section 31.3.36: RX bit n, TX bit 16+n. */
+void Imx28UsbVirtualHost::StartBulk() {
+    uint32_t iface = 0u, in_bit = kNoEndpoint, out_bit = kNoEndpoint;
+    for (size_t i = 0; i + 3 < config_.size() && config_[i] != 0u; i += config_[i]) {
+        if (config_[i + 1] == kDescInterface && i + 7 < config_.size()) {
+            iface = (config_[i + 5] << 16) | (config_[i + 6] << 8) | config_[i + 7];
+        }
+        if (config_[i + 1] == kDescEndpoint && (config_[i + 3] & kEpTypeMask) == kEpBulk) {
+            const uint32_t n = config_[i + 2] & kEpNumberMask;
+            if ((config_[i + 2] & kEpIn) != 0u) in_bit = 16u + n;
+            else                                out_bit = n;
+        }
+    }
+    if (iface != kMscBot || in_bit == kNoEndpoint || out_bit == kNoEndpoint) {
+        Die("interface class/subclass/protocol, bulk IN/OUT", iface, (in_bit << 16) | (out_bit & 0xFFFFu));
+    }
+    LOG(UsbOtg, "Imx28UsbVirtualHost: bulk-only mass storage, IN bit %u OUT bit %u\n", in_bit, out_bit);
+    bot_.Start(in_bit, out_bit);
+    stage_ = kBulk;
     Arm(kFrameNs);
 }
 
@@ -254,6 +279,7 @@ void Imx28UsbVirtualHost::SaveState(StateWriter& w) {
     w.WriteBytes("data", data_.data(), data_.size());
     w.Write("config_size", static_cast<uint32_t>(config_.size()));
     w.WriteBytes("config", config_.data(), config_.size());
+    bot_.SaveState(w);
 }
 
 void Imx28UsbVirtualHost::RestoreState(StateReader& r) {
@@ -273,6 +299,7 @@ void Imx28UsbVirtualHost::RestoreState(StateReader& r) {
     r.Read("config_size", size);
     config_.resize(size);
     r.ReadBytes("config", config_.data(), config_.size());
+    bot_.RestoreState(r);
 }
 
 void Imx28UsbVirtualHost::PostRestore() {
