@@ -131,12 +131,23 @@ void Imx28Power::OnReady() {
 /* Section 11.12 memory map, Reset value column; section 11.3.5: a chip reset resets the power
    module control bits. */
 void Imx28Power::Reset() {
-    std::lock_guard<std::mutex> guard(mtx_);
-    for (uint32_t i = 0; i < kPwrRegCount; ++i) regs_[i] = kImx28PowerRegs[i].reset;
-    const Signals s = ComputeSignals(SampleAnalog());
-    LatchInterrupts(s);
-    vdd5v_gt_vddio_ = s.vdd5v_gt_vddio;
-    for (uint32_t u = 0; u < 2u; ++u) sessions_[u] = SessionOf(u, s);
+    bool changed[2] = {};
+    {
+        std::lock_guard<std::mutex> guard(mtx_);
+        for (uint32_t i = 0; i < kPwrRegCount; ++i) regs_[i] = kImx28PowerRegs[i].reset;
+        const Signals s = ComputeSignals(SampleAnalog());
+        LatchInterrupts(s);
+        vdd5v_gt_vddio_ = s.vdd5v_gt_vddio;
+        for (uint32_t u = 0; u < 2u; ++u) {
+            const UsbSession now = SessionOf(u, s);
+            changed[u]   = !(now == sessions_[u]);
+            sessions_[u] = now;
+        }
+    }
+    for (uint32_t u = 0; u < 2u; ++u) {
+        if (!changed[u]) continue;
+        for (auto& fn : session_listeners_[u]) fn();
+    }
 }
 
 Imx28Power::Analog Imx28Power::SampleAnalog() {
