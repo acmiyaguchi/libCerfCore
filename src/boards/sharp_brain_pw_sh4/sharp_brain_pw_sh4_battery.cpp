@@ -5,6 +5,7 @@
 #include "../../host/battery_widget.h"
 #include "../../socs/imx28/imx28_lradc_inputs.h"
 #include "sharp_brain_pw_sh4_family_id.h"
+#include "sharp_brain_pw_sh4_touch_panel.h"
 
 #include <cstdint>
 
@@ -44,12 +45,15 @@ public:
         battery_.SetInitialState(true, 100);
         battery_.SetChangeHandler([this] { NotifyChanged(); });
         emu_.Get<HostWidgetRegistry>().Register(&battery_);
+        panel_ = &emu_.Get<SharpBrainPwSh4TouchPanel>();
+        panel_->SetChangeHandler([this] { NotifyChanged(); });
     }
 
     uint32_t PinMillivolts(uint32_t pin, uint32_t ctrl0, uint32_t ctrl2) override {
         const bool source_on = (ctrl2 & kCtrl2Ienable0) != 0u &&
                                (ctrl2 & kCtrl2Isrc0Mask) == kCtrl2Isrc0Val;
         if (pin == kThermistorChan && source_on) return kThermistorMv;
+        if (panel_->OwnsPin(pin)) return panel_->PinMillivolts(pin, ctrl0);
         emu_.Get<Fatal>().Die("SharpBrainPwSh4Battery: pin %u conversion with CTRL0 %08X CTRL2 %08X",
                               pin, ctrl0, ctrl2);
     }
@@ -65,11 +69,12 @@ public:
 
     uint32_t Vdd5vMillivolts() override { return battery_.IsOnBattery() ? 0u : kVdd5vMv; }
 
-    bool TouchDetected(uint32_t) override { return false; }
+    bool TouchDetected(uint32_t ctrl0) override { return panel_->Detected(ctrl0); }
     bool ButtonDetected(uint32_t, uint32_t) override { return false; }
 
 private:
     BatteryWidget battery_;
+    SharpBrainPwSh4TouchPanel* panel_ = nullptr;
 };
 
 }  /* namespace */
