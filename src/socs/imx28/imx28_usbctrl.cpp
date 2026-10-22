@@ -1,7 +1,6 @@
 #include <cerfcore/boards/board_context.h>
 #include <cerfcore/core/cerf_emulator.h>
 #include <cerfcore/core/fatal.h>
-#include <cerfcore/cpu/emulated_memory.h>
 #include <cerfcore/socs/guest_cpu_reset.h>
 #include <cerfcore/state/state_stream.h>
 #include "../../execution/guest_cycle_clock.h"
@@ -50,18 +49,32 @@ constexpr uint32_t kPortPr   = 1u << 8;
 constexpr uint32_t kPortSusp = 1u << 7;
 constexpr uint32_t kPortFpr  = 1u << 6;
 
-/* Section 31.2.6.5.1 Table 31-53: 64-byte dQH per endpoint direction, RX then TX; Current dTD
-   at +0x04, overlay from Next dTD at +0x08 through Buffer Pointer (Page 4); Table 31-57 dTD. */
-constexpr uint32_t kQhStride       = 0x40u;
-constexpr uint32_t kQhCurrentDtd   = 0x04u;
-constexpr uint32_t kQhOverlay      = 0x08u;
-constexpr uint32_t kOverlayWords   = 7u;
-constexpr uint32_t kDtdTerminate   = 1u << 0;
-constexpr uint32_t kDtdPointerMask = 0xFFFFFFE0u;
+/* Section 31.3.32 PORTSC1: PSPD [27:26] 2 high speed, PFSC [24], HSP [9], CCS [0]. */
+constexpr uint32_t kPortPspdHigh = 2u << 26;
+constexpr uint32_t kPortPfsc     = 1u << 24;
+constexpr uint32_t kPortHsp      = 1u << 9;
+constexpr uint32_t kPortCcs      = 1u << 0;
+
+/* Section 31.3.18 USBSTS: URI [6], PCI [2], UI [0]. */
+constexpr uint32_t kStsUri = 1u << 6;
+constexpr uint32_t kStsPci = 1u << 2;
+constexpr uint32_t kStsUi  = 1u << 0;
+
+/* Sections 31.3.22 DEVICEADDR USBADR [31:25], USBADRA [24]; 31.3.34 USBMODE SLOM [3]. */
+constexpr uint32_t kAddrShift = 25u;
+constexpr uint32_t kAddrAdra  = 1u << 24;
+constexpr uint32_t kModeSlom  = 1u << 3;
+
+/* Section 31.3.39 ENDPTCOMPLETE and 31.3.35 ENDPTSETUPSTAT: EP0 RX bit 0, EP0 TX bit 16. */
+constexpr uint32_t kEp0Rx   = 1u << 0;
+constexpr uint32_t kEp0Tx   = 1u << 16;
+constexpr uint32_t kEp0Bits = kEp0Rx | kEp0Tx;
 
 /* Sections 31.3.40-31.3.47 ENDPTCTRLn TXE [23], RXE [7]. */
 constexpr uint32_t kEpTxe = 1u << 23;
 constexpr uint32_t kEpRxe = 1u << 7;
+constexpr uint32_t kEpTxs = 1u << 16;
+constexpr uint32_t kEpRxs = 1u << 0;
 
 /* Table 5-1 sources 93 usb0_irq and 92 usb1_irq. */
 constexpr uint32_t kIrqSource[2] = {93u, 92u};
@@ -106,6 +119,7 @@ void Imx28Usbctrl::ResetLocked() {
     r_[kBurst]     = kBurstReset;
     r_[kOtgsc]     = kUsbOtgscReset;
     r_[kDciVersion] = kDciReset;
+    port_          = 0u;
     mode_locked_   = false;
     onems_ack_     = emu_.Get<GuestCycleClock>().NowNs() / kNsPerMs;
     session_       = power_->Session(unit_);
@@ -137,7 +151,7 @@ uint32_t Imx28Usbctrl::ComposeOtgsc() {
 /* Section 31.3.32 default values by mode: device PE 1 and PP 1, WKDS and WKCN 0, line state
    undefined; section 32.2.4.5: both lines high with no cable attached. */
 uint32_t Imx28Usbctrl::ComposePortsc() const {
-    uint32_t v = kUsbPortReset | r_[kPortsc] | kUsbPortLsUndef;
+    uint32_t v = kUsbPortReset | r_[kPortsc] | kUsbPortLsUndef | port_;
     if (Mode() == kUsbModeDevice) {
         v |= kUsbPortPe | kUsbPortHostPp;
         v &= ~kUsbPortWakeHost;
@@ -209,6 +223,7 @@ void Imx28Usbctrl::WriteCmd(uint32_t value, uint32_t addr) {
         Die("host controller run", addr, value);
     }
     r_[kCmd] = value & kUsbCmdWritable;
+    if ((value & kUsbCmdRs) == 0u) port_ = 0u;
 }
 
 /* Section 31.3.34 CM: "this register can only be written once after reset"; section 31.3.17
@@ -261,7 +276,10 @@ void Imx28Usbctrl::WriteReg(uint32_t off, uint32_t value, uint32_t addr) {
         case kUsbSts:        r_[kSts] &= ~(value & kUsbStsW1c); return;
         case kUsbIntr:       r_[kIntr] = value & kUsbIntrWritable; return;
         case kUsbFrIndex:    r_[kFrIndex] = value & kFrIndexMask; return;
-        case kUsbAddrBase:   r_[kAddrBase] = value & (host ? kAddrMaskHost : kAddrMaskDevice); return;
+        case kUsbAddrBase:
+            if (!host && (value & kAddrAdra) != 0u) Die("DEVICEADDR USBADRA", addr, value);
+            r_[kAddrBase] = value & (host ? kAddrMaskHost : kAddrMaskDevice);
+            return;
         case kUsbListAddr:   r_[kListAddr] = value & (host ? kListMaskHost : kListMaskDevice); return;
         case kUsbTtCtrl:     r_[kTtCtrl] = value & kTtCtrlMask; return;
         case kUsbBurstSize:  r_[kBurst] = value & kBurstMask; return;
@@ -283,8 +301,9 @@ void Imx28Usbctrl::WriteReg(uint32_t off, uint32_t value, uint32_t addr) {
     }
     if (off >= kUsbEndptCtrl0 && off < kUsbMapEnd) {
         const uint32_t ep = (off - kUsbEndptCtrl0) / 4u;
-        endptctrl_[ep] = ep == 0u ? (kUsbEp0Reset | (value & kUsbEp0Writable))
-                                  : (value & kUsbEpWritable);
+        uint32_t ep0 = kUsbEp0Reset | (value & kUsbEp0Writable);
+        if ((r_[kSetupStat] & kEp0Rx) != 0u) ep0 &= ~(kEpTxs | kEpRxs);
+        endptctrl_[ep] = ep == 0u ? ep0 : (value & kUsbEpWritable);
         return;
     }
     HaltUnsupportedAccess("WriteWord", addr, value);
@@ -302,12 +321,12 @@ void Imx28Usbctrl::WriteWord(uint32_t addr, uint32_t value) {
         WriteReg(off, value, addr);
     }
     DriveLine(false);
+    NotifyLink();
 }
 
-/* Sections 31.3.36 and 31.3.38, 31.2.6.6.2.6.3: priming fetches the dTD named by the dQH into the
-   dQH overlay, clears the prime bit and sets the ENDPTSTAT ready bit. */
+/* Sections 31.3.36 and 31.3.38: priming fetches the dTD, clears the prime bit and sets the
+   ENDPTSTAT ready bit. */
 void Imx28Usbctrl::Prime(uint32_t bits, uint32_t addr, uint32_t value) {
-    auto& mem = emu_.Get<EmulatedMemory>();
     for (uint32_t bit = 0; bit < 32u; ++bit) {
         if (((bits >> bit) & 1u) == 0u) continue;
         const uint32_t ep = bit & 0x7u;
@@ -315,22 +334,103 @@ void Imx28Usbctrl::Prime(uint32_t bits, uint32_t addr, uint32_t value) {
         if (ep != 0u && (endptctrl_[ep] & (tx ? kEpTxe : kEpRxe)) == 0u) {
             Die("ENDPTPRIME of a disabled endpoint", addr, value);
         }
-        const uint32_t qh = r_[kListAddr] + (ep * 2u + (tx ? 1u : 0u)) * kQhStride;
-        uint32_t next = 0u;
-        if (mem.TryCopyOut(qh + kQhOverlay, reinterpret_cast<uint8_t*>(&next), 4u) != 4u) {
-            Die("ENDPTPRIME dQH read failed", qh, value);
-        }
-        if ((next & kDtdTerminate) != 0u) Die("ENDPTPRIME with terminated dTD list", qh, next);
-        const uint32_t dtd = next & kDtdPointerMask;
-        uint32_t overlay[kOverlayWords] = {};
-        auto* raw = reinterpret_cast<uint8_t*>(overlay);
-        if (mem.TryCopyOut(dtd, raw, sizeof(overlay)) != sizeof(overlay) ||
-            mem.TryCopyIn(qh + kQhOverlay, raw, sizeof(overlay)) != sizeof(overlay) ||
-            mem.TryCopyIn(qh + kQhCurrentDtd, reinterpret_cast<const uint8_t*>(&dtd), 4u) != 4u) {
-            Die("ENDPTPRIME dTD fetch failed", dtd, value);
-        }
+        endpoints_.Fetch(r_[kListAddr], bit, value);
         r_[kEndptStat] |= 1u << bit;
     }
+    if (bits != 0u && on_prime_) on_prime_();
+}
+
+void Imx28Usbctrl::AttachHost(std::function<void()> on_link, std::function<void()> on_prime) {
+    on_link_  = std::move(on_link);
+    on_prime_ = std::move(on_prime);
+}
+
+void Imx28Usbctrl::NotifyLink() {
+    if (on_link_) on_link_();
+}
+
+/* Section 31.2.6.6.2 Figure 31-33: Run/Stop moves the device to the attach state; sharp_brain_pw_sh4
+   usbfn.dll c06a1818 treats OTGSC BSV clear as detach. */
+bool Imx28Usbctrl::Linked() {
+    std::lock_guard<std::mutex> guard(mtx_);
+    return Mode() == kUsbModeDevice && (r_[kCmd] & kUsbCmdRs) != 0u && session_.bvalid;
+}
+
+void Imx28Usbctrl::Raise(uint32_t sts) {
+    {
+        std::lock_guard<std::mutex> guard(mtx_);
+        r_[kSts] |= sts;
+    }
+    DriveLine(false);
+}
+
+/* Section 31.2.6.6.2.1: a bus reset sets the address to 0, disables endpoints 1-7, cancels primed
+   transfers and sets URI; section 31.3.32 PR is the device-mode reset status. */
+void Imx28Usbctrl::BusReset() {
+    {
+        std::lock_guard<std::mutex> guard(mtx_);
+        r_[kAddrBase] = 0u;
+        for (uint32_t ep = 1u; ep < kEndpoints; ++ep) endptctrl_[ep] &= ~(kEpTxe | kEpRxe);
+        r_[kEndptStat] = 0u;
+        port_ |= kPortPr;
+    }
+    Raise(kStsUri);
+}
+
+/* Section 31.3.18 PCI: set when the port enters the full or high-speed state; section 31.3.32
+   PFSC disables the high-speed chirp, PSPD and HSP give the speed, CCS the attach. */
+void Imx28Usbctrl::BusResetEnd() {
+    {
+        std::lock_guard<std::mutex> guard(mtx_);
+        const uint32_t speed = (r_[kPortsc] & kPortPfsc) != 0u ? 0u : (kPortPspdHigh | kPortHsp);
+        port_ = (port_ & ~kPortPr) | kPortCcs | speed;
+    }
+    Raise(kStsPci);
+}
+
+/* Sections 31.2.6.6.3.2.1-31.2.6.6.3.2.2, 31.3.40 ENDPTCTRL0 TXS/RXS and Table 31-54 IOS: a SETUP
+   fills the setup buffer, sets ENDPTSETUPSTAT, clears the EP0 stall and prime status. */
+void Imx28Usbctrl::Setup(const uint8_t* setup) {
+    {
+        std::lock_guard<std::mutex> guard(mtx_);
+        if (Mode() != kUsbModeDevice) Die("SETUP outside device mode", base_ + kUsbMode, r_[kMode]);
+        if ((r_[kSetupStat] & kEp0Rx) != 0u && (r_[kMode] & kModeSlom) == 0u) {
+            Die("SETUP with setup lockout engaged", base_ + kUsbEndptSetupStat, r_[kSetupStat]);
+        }
+        endpoints_.WriteSetup(r_[kListAddr], setup);
+        r_[kSetupStat] |= kEp0Rx;
+        r_[kEndptStat] &= ~kEp0Bits;
+        endptctrl_[0] &= ~(kEpTxs | kEpRxs);
+        if (endpoints_.InterruptOnSetup(r_[kListAddr])) r_[kSts] |= kStsUi;
+    }
+    DriveLine(false);
+}
+
+/* Table 31-67: a primed endpoint transfers, an unprimed one NAKs, a stalled one STALLs; sections
+   31.3.39 ENDPTCOMPLETE and 31.3.18 UI (IOC or short packet received). */
+bool Imx28Usbctrl::Transact(uint32_t bit, uint8_t* data, uint32_t length,
+                            Imx28UsbEndpoints::Transfer& out) {
+    {
+        std::lock_guard<std::mutex> guard(mtx_);
+        const uint32_t ep = bit & 0x7u;
+        const bool     tx = bit >= 16u;
+        if (Mode() != kUsbModeDevice) Die("transfer outside device mode", base_ + kUsbMode, r_[kMode]);
+        if ((endptctrl_[ep] & (tx ? kEpTxs : kEpRxs)) != 0u) {
+            Die("host transfer to a stalled endpoint", base_ + kUsbEndptCtrl0 + ep * 4u, endptctrl_[ep]);
+        }
+        if ((r_[kEndptStat] & (1u << bit)) == 0u) return false;
+        out = endpoints_.Execute(r_[kListAddr], bit, data, length);
+        if (!out.more) r_[kEndptStat] &= ~(1u << bit);
+        r_[kComplete] |= 1u << bit;
+        if (out.ioc || (!tx && out.short_packet)) r_[kSts] |= kStsUi;
+    }
+    DriveLine(false);
+    return true;
+}
+
+uint32_t Imx28Usbctrl::DeviceAddress() {
+    std::lock_guard<std::mutex> guard(mtx_);
+    return r_[kAddrBase] >> kAddrShift;
 }
 
 /* Section 31.3.33 BSEIS, BSVIS, ASVIS and AVVIS: a session comparator changed. */
@@ -345,6 +445,7 @@ void Imx28Usbctrl::OnSessionChange() {
         session_ = now;
     }
     DriveLine(false);
+    NotifyLink();
 }
 
 /* Sections 31.3.18-31.3.19 and 31.3.33: a status bit with its enable raises the unit interrupt. */
@@ -367,6 +468,7 @@ void Imx28Usbctrl::SaveState(StateWriter& w) {
     w.Write("endptctrl", endptctrl_);
     w.Write("regs", r_);
     w.Write("onems_ack", onems_ack_);
+    w.Write("port", port_);
     w.Write<uint8_t>("mode_locked", mode_locked_ ? 1u : 0u);
 }
 
@@ -379,6 +481,7 @@ void Imx28Usbctrl::RestoreState(StateReader& r) {
     r.Read("endptctrl", endptctrl_);
     r.Read("regs", r_);
     r.Read("onems_ack", onems_ack_);
+    r.Read("port", port_);
     r.Read("mode_locked", locked);
     mode_locked_ = locked != 0u;
     session_ = power_->Session(unit_);

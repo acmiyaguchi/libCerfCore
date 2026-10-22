@@ -3,9 +3,11 @@
 #include <cerfcore/state/state_stream.h>
 #include "imx28_apb_peripheral.h"
 #include "imx28_power.h"
+#include "imx28_usb_endpoints.h"
 #include "imx28_usbctrl_regs.h"
 
 #include <cstdint>
+#include <functional>
 #include <mutex>
 
 namespace cerfcore {
@@ -17,7 +19,7 @@ class Imx28Icoll;
 class Imx28Usbctrl : public Imx28ApbPeripheral {
 public:
     Imx28Usbctrl(CerfEmulator& emu, uint32_t unit, uint32_t base)
-        : Imx28ApbPeripheral(emu), base_(base), unit_(unit) {}
+        : Imx28ApbPeripheral(emu), base_(base), unit_(unit), endpoints_(emu, base) {}
 
     bool ShouldRegister() override;
     void OnReady() override;
@@ -30,6 +32,14 @@ public:
     void     SaveState(StateWriter& w) override;
     void     RestoreState(StateReader& r) override;
     void     PostRestore() override { DriveLine(true); }
+
+    void     AttachHost(std::function<void()> on_link, std::function<void()> on_prime);
+    bool     Linked();
+    void     BusReset();
+    void     BusResetEnd();
+    void     Setup(const uint8_t* setup);
+    bool     Transact(uint32_t bit, uint8_t* data, uint32_t length, Imx28UsbEndpoints::Transfer& out);
+    uint32_t DeviceAddress();
 
 protected:
     bool HasSct() const override { return false; }
@@ -49,6 +59,8 @@ private:
     void     WritePortsc(uint32_t value, uint32_t addr);
     void     WriteOtgsc(uint32_t value, uint32_t addr);
     void     Prime(uint32_t bits, uint32_t addr, uint32_t value);
+    void     Raise(uint32_t sts);
+    void     NotifyLink();
     void     OnSessionChange();
     void     DriveLine(bool force);
     [[noreturn]] void Die(const char* what, uint32_t addr, uint32_t value) const;
@@ -60,12 +72,16 @@ private:
     Imx28Digctl* digctl_ = nullptr;
     Imx28Power*  power_  = nullptr;
     Imx28Power::UsbSession session_{};
+    Imx28UsbEndpoints      endpoints_;
+    std::function<void()>  on_link_;
+    std::function<void()>  on_prime_;
 
     uint32_t gptld_[2]   = {};
     uint32_t gptctrl_[2] = {};
     uint32_t gptcnt_[2]  = {};
     uint32_t endptctrl_[kEndpoints] = {};
     uint32_t r_[20] = {};
+    uint32_t port_ = 0;
     int64_t  onems_ack_ = 0;
     bool     mode_locked_ = false;
     bool     line_ = false;
