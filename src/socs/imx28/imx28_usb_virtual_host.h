@@ -2,7 +2,7 @@
 
 #include <cerfcore/core/service.h>
 #include "../../execution/guest_cycle_clock.h"
-#include "imx28_usb_bot_host.h"
+#include "../../peripherals/usb/usb_bot_host.h"
 
 #include <cstdint>
 #include <vector>
@@ -56,7 +56,7 @@ private:
     uint8_t                  setup_[8] = {};
     std::vector<uint8_t>     data_;
     std::vector<uint8_t>     config_;
-    Imx28UsbBotHost          bot_;
+    UsbBotHost               bot_;
 };
 
 }

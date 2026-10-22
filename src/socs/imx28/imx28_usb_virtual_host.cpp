@@ -4,13 +4,12 @@
 #include <cerfcore/core/log.h>
 #include <cerfcore/state/state_stream.h>
 #include "imx28_id.h"
+#include "../../peripherals/usb/usb_hex.h"
 #include "imx28_usb_virtual_host.h"
 #include "imx28_usbctrl.h"
 
 #include <algorithm>
 #include <cstdint>
-#include <cstdio>
-#include <string>
 
 namespace cerfcore {
 
@@ -54,16 +53,6 @@ constexpr uint32_t kMscBot        = 0x00080650u;
 constexpr uint32_t kNoEndpoint    = 0xFFFFFFFFu;
 
 enum Request : uint32_t { kReqAddress, kReqDevice, kReqConfigHead, kReqConfig, kReqSetConfig };
-
-std::string Hex(const std::vector<uint8_t>& bytes) {
-    std::string out;
-    char b[4];
-    for (uint8_t v : bytes) {
-        std::snprintf(b, sizeof(b), "%02X ", v);
-        out += b;
-    }
-    return out;
-}
 
 }  /* namespace */
 
@@ -136,7 +125,14 @@ void Imx28UsbVirtualHost::Step() {
         case kData:     StepData(); return;
         case kStatus:   StepStatus(); return;
         case kBulk:
-            if (bot_.Step(*port_)) Arm(kFrameNs);
+            if (bot_.Step([this](uint32_t bit, uint8_t* data, uint32_t length, UsbBotHost::Result& out) {
+                    Imx28UsbEndpoints::Transfer t{};
+                    const bool done = port_->Transact(bit, data, length, t);
+                    out = {t.moved, t.short_packet};
+                    return done;
+                })) {
+                Arm(kFrameNs);
+            }
             return;
         default:        return;
     }
@@ -243,7 +239,7 @@ void Imx28UsbVirtualHost::FinishRequest() {
             Arm(kAddressNs);
             break;
         case kReqDevice:
-            LOG(UsbOtg, "Imx28UsbVirtualHost: device descriptor %s\n", Hex(data_).c_str());
+            LOG(UsbOtg, "Imx28UsbVirtualHost: device descriptor %s\n", UsbHex(data_.data(), data_.size()).c_str());
             if (data_.size() != kDeviceLength || data_[1] != kDescDevice) {
                 Die("device descriptor length/type", static_cast<uint32_t>(data_.size()), data_[1]);
             }
@@ -251,7 +247,7 @@ void Imx28UsbVirtualHost::FinishRequest() {
             break;
         case kReqConfigHead:
         case kReqConfig:
-            LOG(UsbOtg, "Imx28UsbVirtualHost: configuration descriptor %s\n", Hex(data_).c_str());
+            LOG(UsbOtg, "Imx28UsbVirtualHost: configuration descriptor %s\n", UsbHex(data_.data(), data_.size()).c_str());
             if (data_.size() < kConfigLength || data_[1] != kDescConfig) {
                 Die("configuration descriptor length/type", static_cast<uint32_t>(data_.size()), data_[1]);
             }
