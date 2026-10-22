@@ -21,6 +21,9 @@ constexpr uint8_t kMapconRead  = 0x1Cu;
 constexpr uint8_t kMapconMask  = 0x03u;
 constexpr uint8_t kMapCount    = 3u;
 constexpr uint8_t kSoftrstRead = 0x10u;
+/* sharp_brain_pw_sh4 wavedev2_BU26154.dll c07ab4e8 (table c07a2e70+0x54), c07ab1c0;
+   sharp_brain_pw_sh4 nk.exe OAL_BeepSound. */
+constexpr uint8_t kMap2WriteOnlyRead = 0x20u;
 
 /* BU26154MUV datasheet Rev.002 2 wire serial interface: continuous access steps by two. */
 constexpr uint8_t kIndexStep = 2u;
@@ -105,6 +108,10 @@ void SharpBrainPwSh4Bu26154Codec::TxnWriteByte(uint8_t, uint8_t byte) {
             Die("MAPCON write", at, byte);
         }
         map_ = byte;
+        return;
+    }
+    if (map_ == 2u && read_index == kMap2WriteOnlyRead) {
+        regs_[map_][read_index] = byte;
         return;
     }
     const SharpBrainPwSh4Bu26154Register* reg = Find(read_index);
