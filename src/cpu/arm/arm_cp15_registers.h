@@ -57,6 +57,7 @@ struct ArmCp15File {
     uint32_t tpidruro       = 0;
     uint32_t tpidrprw       = 0;
     uint32_t l2_aux_control = 0;
+    uint32_t context_id     = 0;  /* ARM DDI 0198E s2.3.13 (p. 2-32): "The process identifier is set to 0 at reset." */
 };
 
 class ArmCp15Registers : public Service {
@@ -102,6 +103,7 @@ public:
         field("tpidruro", s.tpidruro);
         field("tpidrprw", s.tpidrprw);
         field("l2_aux_control", s.l2_aux_control);
+        field("context_id", s.context_id);
     }
 
 private:
