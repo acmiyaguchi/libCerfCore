@@ -265,7 +265,10 @@ void Imx28Clkctrl::WriteRegister(uint32_t index, Imx28SctOp op, uint32_t value) 
            section 11.3.5 "continue to maintain the power supply rails during the reset". */
         const uint32_t req = op == Imx28SctOp::Clr ? 0u
                                                    : regs_[index] & value & (kResetChip | kResetDig);
-        if (req != 0u) emu_.Get<GuestCpuReset>().WarmReset();
+        if (req != 0u) {
+            digital_only_reset_ = (req & kResetChip) == 0u;
+            emu_.Get<GuestCpuReset>().WarmReset();
+        }
         return;
     }
     const bool rate = index == kClkCpu || index == kClkClkseq || index == kClkFrac0 ||

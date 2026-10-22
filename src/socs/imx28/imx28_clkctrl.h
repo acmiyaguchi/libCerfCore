@@ -36,6 +36,14 @@ public:
     bool                  WatchdogPorDisabled() const;
     void                  RegisterApbxListener(std::function<void()> fn);
 
+    /* Section 11.3.5: RESET.DIG leaves the power module control bits unreset, RESET.CHIP resets
+       them. */
+    bool ConsumeDigitalOnlyReset() {
+        const bool v = digital_only_reset_;
+        digital_only_reset_ = false;
+        return v;
+    }
+
 private:
     uint32_t                 ComposeRead(uint32_t index) const;
     bool                     PllLocked(uint32_t pll) const;
@@ -52,6 +60,7 @@ private:
 
     uint32_t regs_[kImx28ClkctrlRegCount] = {};
     uint64_t applied_hz_ = 0u;
+    bool     digital_only_reset_ = false;
     std::vector<std::function<void()>> apbx_listeners_;
 };
 

@@ -10,6 +10,7 @@
 #include "imx28_lradc_adc.h"
 #include "imx28_lradc_delay.h"
 #include "imx28_lradc_inputs.h"
+#include "imx28_power.h"
 #include "imx28_sct_reg.h"
 
 #include <cstdint>
@@ -285,10 +286,12 @@ void Imx28Lradc::ConvertChannel(uint32_t n) {
     const uint32_t select = (ctrl4_ >> (4u * n)) & 0xFu;
     const uint32_t sample = adc_->Convert(n, select, ctrl0_, ctrl2_, conversion_);
     /* Section 38.5.20 AUTOMATIC: "compute the scaled battery voltage each time an LRADC Channel 7
-       (BATT) conversion takes place"; SCALED_BATT_VOLTAGE is battery voltage times 29/128. */
+       (BATT) conversion takes place"; SCALED_BATT_VOLTAGE is battery voltage times 29/128;
+       section 11.12.15 BATT_VAL. */
     if (select == kBattSelect && (conversion_ & kConvAutomatic) != 0u) {
         conversion_ = (conversion_ & ~kConvScaledMask) |
                       ((sample * kConvLiIonNumerator / kConvLiIonDenominator) & kConvScaledMask);
+        emu_.Get<Imx28Power>().LoadBattVal(conversion_ & kConvScaledMask);
     }
     c.toggle ^= 1u;
     c.value = c.accumulate != 0u ? (c.value + sample) & kChValueMask : sample;

@@ -17,6 +17,7 @@ public:
 
     virtual uint32_t PinMillivolts(uint32_t pin, uint32_t ctrl0, uint32_t ctrl2) = 0;
     virtual uint32_t BatteryMillivolts() = 0;
+    virtual uint32_t Vdd5vMillivolts() = 0;
     virtual bool     TouchDetected(uint32_t ctrl0) = 0;
     virtual bool     ButtonDetected(uint32_t button, uint32_t ctrl0) = 0;
 

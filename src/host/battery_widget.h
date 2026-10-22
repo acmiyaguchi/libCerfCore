@@ -19,6 +19,11 @@ public:
     int  FillPercent() const;   /* 0..100, 100 = full */
     bool IsOnBattery() const;   /* true = on battery, false = on AC */
 
+    void SetInitialState(bool on_battery, int fill) {
+        on_battery_   = on_battery;
+        fill_percent_ = fill;
+    }
+
     /* Invoked (outside the state lock) after any menu-driven state change, so an
        owner can push the new state onto its hardware model (e.g. AC GPIO pins). */
     void SetChangeHandler(std::function<void()> cb) { on_change_ = std::move(cb); }

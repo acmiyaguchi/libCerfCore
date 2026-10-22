@@ -14,10 +14,13 @@ constexpr uint32_t kFullScaleMv = 1850u;
 constexpr uint32_t kCodeMax     = 0xFFFu;
 constexpr uint32_t kCodeCount   = 0x1000u;
 
-/* Table 38-1 channels 0-6 pins, 7 BATT; section 38.2 BATT built-in 4:1 divider. */
-constexpr uint32_t kLastPin     = 6u;
-constexpr uint32_t kBattChannel = 7u;
-constexpr uint32_t kBattDivider = 4u;
+/* Table 38-1 channels 0-6 pins, 7 BATT, 15 VDD5V; section 38.2 BATT and channel 15 built-in 4:1
+   dividers. */
+constexpr uint32_t kLastPin      = 6u;
+constexpr uint32_t kBattChannel  = 7u;
+constexpr uint32_t kVdd5vChannel = 15u;
+constexpr uint32_t kBattDivider  = 4u;
+constexpr uint32_t kVdd5vDivider = 4u;
 
 /* Section 38.5.3 CTRL2 DIVIDE_BY_TWO [31:24]; section 38.5.20 CONVERSION SCALE_FACTOR [17:16],
    0x2 LI_ION. */
@@ -49,6 +52,13 @@ uint32_t Imx28LradcAdc::Convert(uint32_t channel, uint32_t select, uint32_t ctrl
         }
         mv      = inputs->BatteryMillivolts();
         divisor = kBattDivider;
+    } else if (select == kVdd5vChannel) {
+        if (divide) {
+            fatal.Die("Imx28 %08X: channel %u VDD5V conversion with CTRL2 %08X", kImx28LradcBase,
+                      channel, ctrl2);
+        }
+        mv      = inputs->Vdd5vMillivolts();
+        divisor = kVdd5vDivider;
     } else {
         fatal.Die("Imx28 %08X: channel %u select %u conversion with no source model", kImx28LradcBase,
                   channel, select);
