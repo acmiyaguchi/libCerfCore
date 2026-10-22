@@ -1,6 +1,7 @@
 #include <cerfcore/boards/board_context.h>
 #include <cerfcore/core/cerf_emulator.h>
 #include <cerfcore/core/fatal.h>
+#include <cerfcore/cpu/emulated_memory.h>
 #include <cerfcore/socs/guest_cpu_reset.h>
 #include <cerfcore/state/state_stream.h>
 #include "../../execution/guest_cycle_clock.h"
@@ -48,6 +49,19 @@ constexpr int64_t kNsPerMs = 1000000;
 constexpr uint32_t kPortPr   = 1u << 8;
 constexpr uint32_t kPortSusp = 1u << 7;
 constexpr uint32_t kPortFpr  = 1u << 6;
+
+/* Section 31.2.6.5.1 Table 31-53: 64-byte dQH per endpoint direction, RX then TX; Current dTD
+   at +0x04, overlay from Next dTD at +0x08 through Buffer Pointer (Page 4); Table 31-57 dTD. */
+constexpr uint32_t kQhStride       = 0x40u;
+constexpr uint32_t kQhCurrentDtd   = 0x04u;
+constexpr uint32_t kQhOverlay      = 0x08u;
+constexpr uint32_t kOverlayWords   = 7u;
+constexpr uint32_t kDtdTerminate   = 1u << 0;
+constexpr uint32_t kDtdPointerMask = 0xFFFFFFE0u;
+
+/* Sections 31.3.40-31.3.47 ENDPTCTRLn TXE [23], RXE [7]. */
+constexpr uint32_t kEpTxe = 1u << 23;
+constexpr uint32_t kEpRxe = 1u << 7;
 
 /* Table 5-1 sources 93 usb0_irq and 92 usb1_irq. */
 constexpr uint32_t kIrqSource[2] = {93u, 92u};
@@ -159,6 +173,7 @@ uint32_t Imx28Usbctrl::ReadReg(uint32_t off, uint32_t addr) {
         case kUsbMode:           return r_[kMode];
         case kUsbEndptSetupStat: return r_[kSetupStat];
         case kUsbEndptPrime:     return 0u;
+        case kUsbEndptStat:      return r_[kEndptStat];
         case kUsbEndptFlush:     return 0u;
         case kUsbEndptComplete:  return r_[kComplete];
         default:                 break;
@@ -259,9 +274,10 @@ void Imx28Usbctrl::WriteReg(uint32_t off, uint32_t value, uint32_t addr) {
         case kUsbMode:       WriteMode(value, addr); return;
         case kUsbEndptSetupStat: r_[kSetupStat] &= ~value; return;
         case kUsbEndptPrime:
-            if ((value & kEndptBits) != 0u) Die("ENDPTPRIME", addr, value);
+            if (host && (value & kEndptBits) != 0u) Die("ENDPTPRIME in host mode", addr, value);
+            Prime(value & kEndptBits, addr, value);
             return;
-        case kUsbEndptFlush: return;
+        case kUsbEndptFlush: r_[kEndptStat] &= ~(value & kEndptBits); return;
         case kUsbEndptComplete: r_[kComplete] &= ~value; return;
         default: break;
     }
@@ -286,6 +302,35 @@ void Imx28Usbctrl::WriteWord(uint32_t addr, uint32_t value) {
         WriteReg(off, value, addr);
     }
     DriveLine(false);
+}
+
+/* Sections 31.3.36 and 31.3.38, 31.2.6.6.2.6.3: priming fetches the dTD named by the dQH into the
+   dQH overlay, clears the prime bit and sets the ENDPTSTAT ready bit. */
+void Imx28Usbctrl::Prime(uint32_t bits, uint32_t addr, uint32_t value) {
+    auto& mem = emu_.Get<EmulatedMemory>();
+    for (uint32_t bit = 0; bit < 32u; ++bit) {
+        if (((bits >> bit) & 1u) == 0u) continue;
+        const uint32_t ep = bit & 0x7u;
+        const bool     tx = bit >= 16u;
+        if (ep != 0u && (endptctrl_[ep] & (tx ? kEpTxe : kEpRxe)) == 0u) {
+            Die("ENDPTPRIME of a disabled endpoint", addr, value);
+        }
+        const uint32_t qh = r_[kListAddr] + (ep * 2u + (tx ? 1u : 0u)) * kQhStride;
+        uint32_t next = 0u;
+        if (mem.TryCopyOut(qh + kQhOverlay, reinterpret_cast<uint8_t*>(&next), 4u) != 4u) {
+            Die("ENDPTPRIME dQH read failed", qh, value);
+        }
+        if ((next & kDtdTerminate) != 0u) Die("ENDPTPRIME with terminated dTD list", qh, next);
+        const uint32_t dtd = next & kDtdPointerMask;
+        uint32_t overlay[kOverlayWords] = {};
+        auto* raw = reinterpret_cast<uint8_t*>(overlay);
+        if (mem.TryCopyOut(dtd, raw, sizeof(overlay)) != sizeof(overlay) ||
+            mem.TryCopyIn(qh + kQhOverlay, raw, sizeof(overlay)) != sizeof(overlay) ||
+            mem.TryCopyIn(qh + kQhCurrentDtd, reinterpret_cast<const uint8_t*>(&dtd), 4u) != 4u) {
+            Die("ENDPTPRIME dTD fetch failed", dtd, value);
+        }
+        r_[kEndptStat] |= 1u << bit;
+    }
 }
 
 /* Section 31.3.33 BSEIS, BSVIS, ASVIS and AVVIS: a session comparator changed. */

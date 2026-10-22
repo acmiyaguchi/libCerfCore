@@ -48,6 +48,7 @@ private:
     void     WriteMode(uint32_t value, uint32_t addr);
     void     WritePortsc(uint32_t value, uint32_t addr);
     void     WriteOtgsc(uint32_t value, uint32_t addr);
+    void     Prime(uint32_t bits, uint32_t addr, uint32_t value);
     void     OnSessionChange();
     void     DriveLine(bool force);
     [[noreturn]] void Die(const char* what, uint32_t addr, uint32_t value) const;
@@ -64,14 +65,14 @@ private:
     uint32_t gptctrl_[2] = {};
     uint32_t gptcnt_[2]  = {};
     uint32_t endptctrl_[kEndpoints] = {};
-    uint32_t r_[19] = {};
+    uint32_t r_[20] = {};
     int64_t  onems_ack_ = 0;
     bool     mode_locked_ = false;
     bool     line_ = false;
 
     enum RegSlot : uint32_t {
         kSbusCfg, kCmd, kSts, kIntr, kFrIndex, kAddrBase, kListAddr, kTtCtrl, kBurst, kTxFill,
-        kIcUsb, kNak, kNakEn, kPortsc, kOtgsc, kMode, kDciVersion, kSetupStat, kComplete
+        kIcUsb, kNak, kNakEn, kPortsc, kOtgsc, kMode, kDciVersion, kSetupStat, kComplete, kEndptStat
     };
 };
 

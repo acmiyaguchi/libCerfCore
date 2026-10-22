@@ -32,7 +32,7 @@ constexpr Imx28UsbConst kImx28UsbConsts[] = {
     {kUsbId, 0xE401FA05u},        {kUsbHwGeneral, 0x00000015u}, {kUsbHwHost, 0x10020001u},
     {kUsbHwDevice, 0x00000011u},  {kUsbHwTxBuf, 0x80070A10u},   {kUsbHwRxBuf, 0x00000810u},
     {kUsbCapLength, 0x01000040u}, {kUsbHcsParams, 0x00010011u}, {kUsbHccParams, 0x00000006u},
-    {kUsbDccParams, 0x00000188u}, {kUsbEndptStat, 0x00000000u}, {kUsbUlpi, 0x00000000u},
+    {kUsbDccParams, 0x00000188u}, {kUsbUlpi, 0x00000000u},
 };
 
 /* Section 31.3.17 USBCMD: ITC [23:16], FS2 15, ATDTW 14, SUTW 13, ASPE 11, ASP [9:8], IAA 6,
