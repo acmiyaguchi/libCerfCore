@@ -4,6 +4,7 @@
 #include "imx28_apb_peripheral.h"
 #include "imx28_power_regs.h"
 
+#include <atomic>
 #include <cstdint>
 #include <functional>
 #include <mutex>
@@ -11,6 +12,7 @@
 
 namespace cerfcore {
 
+class GuestDeepSleep;
 class Imx28Icoll;
 class Imx28LradcInputs;
 
@@ -48,6 +50,9 @@ public:
     /* Section 11.4 Table 11-1: HW_POWER_STS_PSWITCH level of the pin, 0x0 low, 0x1 mid, 0x3 high. */
     void SetPswitchLevel(uint32_t level);
 
+    /* Section 11.12.16 RESET.PWD: the sleep in progress began with the PWD write. */
+    bool SleptByPwd() const { return pwd_sleep_.load(std::memory_order_acquire); }
+
     void SaveState(StateWriter& w) override;
     void RestoreState(StateReader& r) override;
     void PostRestore() override;
@@ -78,15 +83,24 @@ private:
     void     DriveLines(bool force);
     void     WriteReg(uint32_t index, Imx28SctOp op, uint32_t value, uint32_t addr);
     void     WriteReset(Imx28SctOp op, uint32_t value);
+    bool     PowerUpEvent();
+    void     EnterPoweredDown();
+    bool     PowerUpDue();
+    int64_t  PowerUpDueNs();
 
     mutable std::mutex mtx_;
     Imx28Icoll*       icoll_  = nullptr;
     Imx28LradcInputs* inputs_ = nullptr;
+    GuestDeepSleep*   sleep_  = nullptr;
     uint32_t regs_[kPwrRegCount] = {};
     uint32_t lines_ = 0u;
     UsbSession sessions_[2] = {};
     bool       vdd5v_gt_vddio_ = false;
     uint32_t   pswitch_ = 0u;
+    bool       powered_down_   = false;
+    std::atomic<bool> pwd_write_{false};
+    std::atomic<bool> pwd_sleep_{false};
+    int64_t    event_since_ns_ = -1;
     std::vector<std::function<void()>> session_listeners_[2];
 };
 

@@ -29,6 +29,7 @@ public:
        later reboot would re-read the stale cause and resume from a now-invalid
        save block. Cleared on every SetResetPending(is_resume=false). */
     virtual void ClearSleepWakeCause() = 0;
+    virtual bool WakeResumes() { return true; }
 };
 
 /* A board whose boot ROM resumes the guest at a saved vector on a sleep wake

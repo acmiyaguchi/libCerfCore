@@ -25,10 +25,9 @@ constexpr uint32_t kGptRun    = 1u << 31;
 constexpr uint32_t kGptRst    = 1u << 30;
 constexpr uint32_t kGptMode   = 1u << 24;
 
-/* Section 31.3.11 SBUSCFG [2:0]; 31.3.22 DEVICEADDR [31:24]; 31.3.21 PERIODICLISTBASE [31:12];
-   31.3.24 ENDPOINTLISTADDR [31:11]; 31.3.23 ASYNCLISTADDR [31:5]; 31.3.25 TTCTRL [30:24];
-   31.3.26 BURSTSIZE [15:0] reset 0x1010; 31.3.28 IC_USB [3:0]; 31.3.20 FRINDEX [13:0];
-   31.3.15 DCIVERSION [15:0]; 31.3.31 ENDPTNAKEN [23:16],[7:0]. */
+/* Sections 31.3.11 SBUSCFG [2:0], 31.3.22 DEVICEADDR [31:24], 31.3.21 PERIODICLISTBASE [31:12],
+   31.3.24 ENDPOINTLISTADDR [31:11], 31.3.23 ASYNCLISTADDR [31:5], 31.3.25 TTCTRL [30:24], 31.3.26
+   BURSTSIZE [15:0] = 0x1010, 31.3.28 IC_USB [3:0], 31.3.20 FRINDEX [13:0], 31.3.15, 31.3.31 [23:16],[7:0]. */
 constexpr uint32_t kSbusCfgMask    = 0x7u;
 constexpr uint32_t kAddrMaskDevice = 0xFF000000u;
 constexpr uint32_t kAddrMaskHost   = 0xFFFFF000u;
@@ -168,10 +167,11 @@ uint32_t Imx28Usbctrl::ReadReg(uint32_t off, uint32_t addr) {
     HaltUnsupportedAccess("ReadWord", addr, 0);
 }
 
+/* Section 19.4.1 HW_DIGCTL_CTRL USB0_CLKGATE: USBSTS_URI "should be not be polled" while gated;
+   sharp_brain_pw_sh4 usbfn.dll c069f998 reads USBINTR while gated. */
 uint32_t Imx28Usbctrl::ReadWord(uint32_t addr) {
     const uint32_t off = addr - base_;
     if (off >= kUsbMapEnd || (off & 0x3u) != 0u) HaltUnsupportedAccess("ReadWord", addr, 0);
-    if (digctl_->UsbClockGated(unit_)) Die("ReadWord with USBn_CLKGATE set", addr, 0u);
     std::lock_guard<std::mutex> guard(mtx_);
     return ReadReg(off, addr);
 }

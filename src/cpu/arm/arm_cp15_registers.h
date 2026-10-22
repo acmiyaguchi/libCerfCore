@@ -58,6 +58,9 @@ struct ArmCp15File {
     uint32_t tpidrprw       = 0;
     uint32_t l2_aux_control = 0;
     uint32_t context_id     = 0;  /* ARM DDI 0198E s2.3.13 (p. 2-32): "The process identifier is set to 0 at reset." */
+    uint32_t tcm_region[2]  = {};  /* ARM DDI 0198E 2.3.10 Table 2-22: c9 c1 0 data, c9 c1 1 instruction. */
+    uint32_t tlb_lockdown   = 0;   /* ARM DDI 0198E 2.3.11 Figure 2-14. */
+    uint32_t debug_test_address = 0;  /* ARM DDI 0198E B.1.2. */
 };
 
 class ArmCp15Registers : public Service {
@@ -95,6 +98,10 @@ public:
         field("ttbcr", s.ttbcr);
         field("prrr", s.prrr);
         field("nmrr", s.nmrr);
+        field("dtcm_region", s.tcm_region[0]);
+        field("itcm_region", s.tcm_region[1]);
+        field("tlb_lockdown", s.tlb_lockdown);
+        field("debug_test_address", s.debug_test_address);
     }
 
     template <typename F>

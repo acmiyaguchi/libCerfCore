@@ -42,12 +42,10 @@ void Imx28ApbPeripheral::WriteHalf(uint32_t addr, uint16_t value) {
     WriteWord(addr & ~0x3u, MergeNarrow(addr, shift, 0xFFFFu, value));
 }
 
+/* Sections 33.3, 39.5.10: the soft reset runs on the block clock and ends by setting CLKGATE; with
+   CLKGATE already set the bits latch only (sharp_brain_pw_sh4 ddraw_mx28.dll LcdifSoftReset c06d8934). */
 bool Imx28ApbPeripheral::IsSoftReset(uint32_t old_ctrl, uint32_t next_ctrl) const {
     if ((next_ctrl & kCtrlSftrst) == 0u || (old_ctrl & kCtrlSftrst) != 0u) return false;
-    if ((next_ctrl & kCtrlClkgate) != 0u && (old_ctrl & kCtrlClkgate) != 0u) {
-        emu_.Get<Fatal>().Die("Imx28 %08X: SFTRST set with CLKGATE already set (CTRL %08X -> "
-                              "%08X)", MmioBase(), old_ctrl, next_ctrl);
-    }
     return (next_ctrl & kCtrlClkgate) == 0u;
 }
 

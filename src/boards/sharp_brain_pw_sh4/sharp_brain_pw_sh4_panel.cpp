@@ -50,9 +50,10 @@ constexpr FixedParamCommand kFixedParamCommands[] = {
     {0x36u, 0xD0u}, {0x3Au, 0x55u}, {0x35u, 0x00u},
 };
 
-/* MIPI DCS exit_sleep_mode 11h, set_display_on 29h;
-   sharp_brain_pw_sh4 ddraw_mx28.dll PanelInitSeq c06d6d10 (22h). */
-constexpr uint8_t kNoParamCommands[] = {0x11u, 0x22u, 0x29u};
+/* MIPI DCS enter_sleep_mode 10h, exit_sleep_mode 11h, enter_normal_mode 13h, set_display_off 28h,
+   set_display_on 29h; sharp_brain_pw_sh4 ddraw_mx28.dll PanelInitSeq c06d6d10 (22h), PanelPowerOff
+   c06d7424 (10h), LcdifUpdateRegion c06d7df0 (13h), PanelDisplayOnOff c06d865c (28h). */
+constexpr uint8_t kNoParamCommands[] = {0x10u, 0x11u, 0x13u, 0x22u, 0x28u, 0x29u};
 
 const FixedParamCommand* FindFixedParam(uint8_t cmd) {
     for (const auto& c : kFixedParamCommands)

@@ -132,6 +132,9 @@ void Imx28Lcdif::WriteWord(uint32_t addr, uint32_t value) {
         WriteCtrl(a.op, addr, value);
         return;
     }
+    /* Section 33.4.1 CTRL SFTRST: set to one, it forces a block level reset; sharp_brain_pw_sh4
+       ddraw_mx28.dll PanelPowerOn c06d74a0 writes CTRL1 before LcdifResetSeq. */
+    if ((Reg(kCtrl) & kCtrlSftrst) != 0u) return;
     RequireOperating("register write", Reg(kCtrl), addr, value);
     if (a.reg_offset == kData) {
         if (a.op != Imx28SctOp::Write) Die("DATA SCT write", addr, value);

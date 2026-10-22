@@ -271,11 +271,11 @@ void Imx28Icoll::WriteCtrl(Imx28SctOp op, uint32_t value) {
 }
 
 /* Section 5.4.10: "Modifying the priority of an enabled interrupt may result in undefined
-   behavior." */
+   behavior."; sharp_brain_pw_sh4 nk.exe 8020e1c4 clears ENABLE and PRIORITY in one CLR write. */
 void Imx28Icoll::WriteInterrupt(uint32_t n, Imx28SctOp op, uint32_t value) {
     const uint32_t old  = interrupt_[n];
     const uint32_t next = Imx28ApplySct(op, old, value) & kIntWritable;
-    if ((old & kIntEnable) != 0u && ((old ^ next) & kIntPriority) != 0u) {
+    if ((old & next & kIntEnable) != 0u && ((old ^ next) & kIntPriority) != 0u) {
         emu_.Get<Fatal>().Die("Imx28Icoll: INTERRUPT%u priority %u -> %u while enabled", n,
                               old & kIntPriority, next & kIntPriority);
     }
@@ -288,8 +288,10 @@ uint32_t Imx28Icoll::ComposeRead(uint32_t index, uint32_t addr) {
     const Decoded d = Decode(index);
     switch (d.kind) {
         case Kind::kVector: {
+            /* Sections 5.2.1, 5.4.1 VECTOR, 5.4.3 ARM_RSE_MODE: the read signals in-service for the
+               presented interrupt; sharp_brain_pw_sh4 nk.exe 8020d8f8 reads with none presented. */
             const uint32_t v = held_vector_;
-            if ((ctrl_ & kCtrlArmRse) != 0u) EnterService();
+            if ((ctrl_ & kCtrlArmRse) != 0u && pending_) EnterService();
             return v;
         }
         case Kind::kLevelAck:  return 0u;
@@ -345,7 +347,13 @@ void Imx28Icoll::WriteLocked(uint32_t addr, uint32_t value) {
     RequireOperating("WriteWord", ctrl_, addr, value);
     switch (d.kind) {
         case Kind::kVector:
-            if ((ctrl_ & kCtrlArmRse) != 0u) HaltUnsupportedAccess("WriteWord-RSE", addr, value);
+            /* Section 5.4.1: IRQVECTOR [31:2] is writable and "held until a new ISR is entered";
+               sharp_brain_pw_sh4 nk.exe 8020de2c writes it in ARM_RSE_MODE with none presented. */
+            if ((ctrl_ & kCtrlArmRse) != 0u) {
+                if (pending_) HaltUnsupportedAccess("WriteWord-RSE", addr, value);
+                held_vector_ = value & ~0x3u;
+                return;
+            }
             EnterService();
             return;
         case Kind::kLevelAck:  AcknowledgeLevel(value); return;

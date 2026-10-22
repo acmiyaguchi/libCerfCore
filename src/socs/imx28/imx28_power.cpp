@@ -106,6 +106,11 @@ constexpr uint32_t kUsb1Bvalid    = 1u << 2;
 constexpr uint32_t kUsb1Vbusvalid = 1u << 1;
 constexpr uint32_t kUsb1Sessend   = 1u << 0;
 
+/* Section 11.3.3: power-up starts once PSWITCH >= MID level or VDD5V > 4.25 V lasts 100 ms. */
+constexpr uint32_t kPowerUpVdd5vMv = 4250u;
+constexpr int64_t  kPowerUpHoldNs  = 100000000;
+constexpr int64_t  kNoPowerUpEvent = -1;
+
 bool HasSctAlias(uint32_t index) { return index != kPwrSts && index != kPwrVersion; }
 
 }  /* namespace */
@@ -122,9 +127,15 @@ void Imx28Power::OnReady() {
     Reset();
     emu_.Get<GuestCpuReset>().RegisterResetListener([this](ResetLineKind) {
         if (!emu_.Get<Imx28Clkctrl>().ConsumeDigitalOnlyReset()) Reset();
+        powered_down_ = false;
         DriveLines(false);
     });
     inputs_->RegisterChangeListener([this] { Refresh(); });
+    auto& sleep = emu_.Get<GuestDeepSleep>();
+    sleep_ = &sleep;
+    sleep.RegisterSleepEntryListener([this] { EnterPoweredDown(); });
+    sleep.RegisterParkWakeSource([this] { return PowerUpDue(); });
+    sleep.RegisterParkWakeDue([this] { return PowerUpDueNs(); });
     emu_.Get<PeripheralDispatcher>().Register(this);
 }
 
@@ -266,6 +277,36 @@ void Imx28Power::Refresh() {
     if (down) emu_.Get<GuestDeepSleep>().Enter();
 }
 
+/* Sections 11.3.3, 11.3.4.1: from the off state a power-up event lasting 100 ms powers up the chip. */
+bool Imx28Power::PowerUpEvent() {
+    std::lock_guard<std::mutex> guard(mtx_);
+    return (pswitch_ & 0x1u) != 0u || inputs_->Vdd5vMillivolts() > kPowerUpVdd5vMv;
+}
+
+void Imx28Power::EnterPoweredDown() {
+    powered_down_ = true;
+    pwd_sleep_.store(pwd_write_.load(std::memory_order_acquire), std::memory_order_release);
+    event_since_ns_ = PowerUpEvent() ? sleep_->SleptNs() : kNoPowerUpEvent;
+}
+
+bool Imx28Power::PowerUpDue() {
+    if (!powered_down_) return false;
+    if (!PowerUpEvent()) {
+        event_since_ns_ = kNoPowerUpEvent;
+        return false;
+    }
+    const int64_t now = sleep_->SleptNs();
+    if (event_since_ns_ == kNoPowerUpEvent) event_since_ns_ = now;
+    if (now - event_since_ns_ < kPowerUpHoldNs) return false;
+    powered_down_ = false;
+    return true;
+}
+
+int64_t Imx28Power::PowerUpDueNs() {
+    if (!powered_down_ || event_since_ns_ == kNoPowerUpEvent) return GuestDeepSleep::kNoParkWake;
+    return event_since_ns_ + kPowerUpHoldNs;
+}
+
 void Imx28Power::SetPswitchLevel(uint32_t level) {
     {
         std::lock_guard<std::mutex> guard(mtx_);
@@ -306,21 +347,25 @@ uint32_t Imx28Power::ReadWord(uint32_t addr) {
     return index == kPwrSts ? ComposeSts() : regs_[index];
 }
 
-/* Section 11.12.16: the lower bits take a write only while the same write carries UNLOCK 0x3E77;
-   section 11.3.4: PWD powers down the chip and PWD_OFF disables the power-down paths. */
+/* Section 11.12.16: the lower bits take a write only while UNLOCK holds 0x3E77 (sharp_brain_pw_sh4
+   nk.exe 8020ed80: SCT SET of the key, then CLR/SET of the low bits); section 11.3.4: PWD powers
+   down the chip and PWD_OFF disables the power-down paths. */
 void Imx28Power::WriteReset(Imx28SctOp op, uint32_t value) {
     bool down = false;
     {
         std::lock_guard<std::mutex> guard(mtx_);
         const uint32_t old  = regs_[kPwrReset];
         const uint32_t next = Imx28ApplySct(op, old, value);
-        const bool     key  = (value >> 16) == kResetKey;
+        const bool     key  = (next >> 16) == kResetKey;
         regs_[kPwrReset] = (next & 0xFFFF0000u) |
                            ((key ? next : old) & kResetLowMask);
         const uint32_t r = regs_[kPwrReset];
         down = key && (r & kResetPwd) != 0u && (r & kResetPwdOff) == 0u;
     }
-    if (down) emu_.Get<GuestDeepSleep>().Enter();
+    if (!down) return;
+    pwd_write_.store(true, std::memory_order_release);
+    emu_.Get<GuestDeepSleep>().Enter();
+    pwd_write_.store(false, std::memory_order_release);
 }
 
 void Imx28Power::WriteReg(uint32_t index, Imx28SctOp op, uint32_t value, uint32_t addr) {
@@ -367,6 +412,7 @@ void Imx28Power::SaveState(StateWriter& w) {
     w.Write("regs", regs_);
     w.Write("lines", lines_);
     w.Write("pswitch", pswitch_);
+    w.Write<uint8_t>("pwd_sleep", pwd_sleep_.load() ? 1u : 0u);
 }
 
 void Imx28Power::RestoreState(StateReader& r) {
@@ -374,6 +420,9 @@ void Imx28Power::RestoreState(StateReader& r) {
     r.Read("regs", regs_);
     r.Read("lines", lines_);
     r.Read("pswitch", pswitch_);
+    uint8_t pwd_sleep = 0;
+    r.Read("pwd_sleep", pwd_sleep);
+    pwd_sleep_.store(pwd_sleep != 0);
     const Signals s = ComputeSignals(SampleAnalog());
     vdd5v_gt_vddio_ = s.vdd5v_gt_vddio;
     for (uint32_t u = 0; u < 2u; ++u) sessions_[u] = SessionOf(u, s);

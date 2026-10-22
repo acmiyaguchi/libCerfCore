@@ -2,6 +2,7 @@
 
 #include <cerfcore/boards/board_context.h>
 #include <cerfcore/core/cerf_emulator.h>
+#include <cerfcore/core/fatal.h>
 #include "../../socs/imx28/imx28_id.h"
 #include "../arm/arm_cp15_decisions.h"
 #include "../arm/arm_cp15_registers.h"
@@ -9,6 +10,13 @@
 namespace cerfcore {
 
 namespace {
+
+/* ARM DDI 0198E Figure 2-13: base [31:12], size [5:2] (0 = absent), enable [0]; MCIMX28RM Rev. 2
+   section 1.2 lists caches and no TCM. Figure 2-14: victim [28:26], preserve [0]. */
+constexpr uint32_t kTcmBaseEnable  = 0xFFFFF001u;
+constexpr uint32_t kTcmEnable      = 1u << 0;
+constexpr uint32_t kTlbLockdownMask = 0x1C000001u;
+constexpr uint32_t kTlbPreserve    = 1u << 0;
 
 using cerfengine::ArmCoprocAccess;
 using cerfengine::ArmCoprocDecision;
@@ -46,6 +54,20 @@ protected:
             return {.action = A::kRegister, .reg = &regs_->File().context_id};
         }
 
+        /* ARM DDI 0198E 2.3.10 Table 2-22, 2.3.11 Table 2-25, B.1.2. */
+        if (a.opc1 == 0u && a.crn == 9u && a.crm == 1u && a.opc2 <= 1u) {
+            if (a.read) return {.action = A::kRegister, .reg = &regs_->File().tcm_region[a.opc2]};
+            return {.action = A::kWriteCallbackKeyed, .context = this, .key = a.opc2,
+                    .write_keyed = &WriteTcmRegion};
+        }
+        if (a.opc1 == 0u && a.crn == 10u && a.crm == 0u && a.opc2 == 0u) {
+            if (a.read) return {.action = A::kRegister, .reg = &regs_->File().tlb_lockdown};
+            return {.action = A::kWriteCallback, .context = this, .write = &WriteTlbLockdown};
+        }
+        if (a.opc1 == 0u && a.crn == 15u && a.crm == 1u && a.opc2 == 0u) {
+            return {.action = A::kRegister, .reg = &regs_->File().debug_test_address};
+        }
+
         return Cp15().Decide(a);
     }
 
@@ -58,6 +80,23 @@ protected:
     }
 
 private:
+    static void CERFENGINE_FASTCALL WriteTcmRegion(void* ctx, uint32_t key, uint32_t value) {
+        auto* self = static_cast<Arm926ejsCoprocProvider*>(ctx);
+        if ((value & kTcmEnable) != 0u) {
+            self->emu_.Get<Fatal>().Die("ARM926EJ-S: TCM region %u enable with no TCM (value %08X)",
+                                        key, value);
+        }
+        self->regs_->File().tcm_region[key] = value & kTcmBaseEnable;
+    }
+
+    static void CERFENGINE_FASTCALL WriteTlbLockdown(void* ctx, uint32_t value) {
+        auto* self = static_cast<Arm926ejsCoprocProvider*>(ctx);
+        if ((value & kTlbPreserve) != 0u) {
+            self->emu_.Get<Fatal>().Die("ARM926EJ-S: TLB lockdown preserve bit (value %08X)", value);
+        }
+        self->regs_->File().tlb_lockdown = value & kTlbLockdownMask;
+    }
+
     ArmCp15Registers* regs_ = nullptr;
 };
 

@@ -34,10 +34,20 @@ protected:
     bool HasSct() const override { return false; }
 
 private:
-    void ResetBlock() { ctl22_ = 0u; }
+    void ResetBlock() {
+        ctl17_ = 0u;
+        ctl22_ = 0u;
+    }
 
+    uint32_t ctl17_ = 0u;
     uint32_t ctl22_ = 0u;
 };
+
+/* Section 14.8.18 HW_DRAM_CTL17 0x044: reset 0; AUTO_REFRESH_MODE [24], AREFRESH [16] write-only
+   and reads 0, ENABLE_QUICK_SREFRESH [8], SREFRESH [0]. */
+constexpr uint32_t kOffCtl17      = 0x044u;
+constexpr uint32_t kCtl17Stored   = 0x01000101u;
+constexpr uint32_t kCtl17Writable = 0x01010101u;
 
 /* Section 14.8.20 HW_DRAM_CTL22 0x058: reset 0; LOWPOWER_REFRESH_ENABLE [19:16],
    LOWPOWER_CONTROL [12:8], LOWPOWER_AUTO_ENABLE [4:0]. */
@@ -58,13 +68,24 @@ void Imx28Dram::OnReady() {
 }
 
 uint32_t Imx28Dram::ReadWord(uint32_t addr) {
-    if (addr - MmioBase() != kOffCtl22) HaltUnsupportedAccess("ReadWord", addr, 0);
+    const uint32_t off = addr - MmioBase();
+    if (off == kOffCtl17) return ctl17_;
+    if (off != kOffCtl22) HaltUnsupportedAccess("ReadWord", addr, 0);
     return ctl22_;
 }
 
-/* Section 14.8.20; sharp_brain_pw_sh4 nk.exe 8021225c (OCRAM 0x3000). */
+/* Sections 14.8.18, 14.8.20; sharp_brain_pw_sh4 nk.exe 8020ed38 (CTL17), 8021225c (CTL22). */
 void Imx28Dram::WriteWord(uint32_t addr, uint32_t value) {
-    if (addr - MmioBase() != kOffCtl22) HaltUnsupportedAccess("WriteWord", addr, value);
+    const uint32_t off = addr - MmioBase();
+    if (off == kOffCtl17) {
+        if ((value & ~kCtl17Writable) != 0u) {
+            emu_.Get<Fatal>().Die("Imx28 DRAM: CTL17 reserved bits at %08X (value %08X, CTL17 %08X)",
+                                  addr, value, ctl17_);
+        }
+        ctl17_ = value & kCtl17Stored;
+        return;
+    }
+    if (off != kOffCtl22) HaltUnsupportedAccess("WriteWord", addr, value);
     if ((value & ~kCtl22Writable) != 0u) {
         emu_.Get<Fatal>().Die("Imx28 DRAM: CTL22 reserved bits at %08X (value %08X, CTL22 %08X)",
                               addr, value, ctl22_);
@@ -72,9 +93,15 @@ void Imx28Dram::WriteWord(uint32_t addr, uint32_t value) {
     ctl22_ = value;
 }
 
-void Imx28Dram::SaveState(StateWriter& w) { w.Write("ctl22", ctl22_); }
+void Imx28Dram::SaveState(StateWriter& w) {
+    w.Write("ctl17", ctl17_);
+    w.Write("ctl22", ctl22_);
+}
 
-void Imx28Dram::RestoreState(StateReader& r) { r.Read("ctl22", ctl22_); }
+void Imx28Dram::RestoreState(StateReader& r) {
+    r.Read("ctl17", ctl17_);
+    r.Read("ctl22", ctl22_);
+}
 
 REGISTER_SERVICE(Imx28Dram);
 

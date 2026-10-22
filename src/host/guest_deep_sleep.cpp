@@ -200,6 +200,11 @@ void GuestDeepSleep::DeliverWake(ResumeSource src) {
         emu_.Get<GuestColdBoot>().RequestHardReset();
         return;
     }
+    if (!waker_->WakeResumes()) {
+        emu_.Get<GuestPowerNotifier>().NotifyResume(src);
+        emu_.Get<GuestColdBoot>().RequestHardReset();
+        return;
+    }
     waker_->LatchSleepWakeCause();
     if (resume_vector_provider_) resume_vector_provider_->ApplyPendingResume();
     emu_.Get<EngineBridge>().Guest().SetResetPending(true);
