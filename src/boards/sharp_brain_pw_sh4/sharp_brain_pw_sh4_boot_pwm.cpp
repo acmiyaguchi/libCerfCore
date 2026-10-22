@@ -3,6 +3,7 @@
 #include <cerfcore/core/cerf_emulator.h>
 #include <cerfcore/boards/board_context.h>
 #include "sharp_brain_pw_sh4_family_id.h"
+#include <cerfcore/execution/jit_runner.h>
 #include <cerfcore/socs/guest_cpu_reset.h>
 #include "../../peripherals/peripheral_dispatcher.h"
 
@@ -27,6 +28,7 @@ public:
     }
 
     void OnReady() override {
+        emu_.Get<JitRunner>().RegisterPreStartHook([this] { Apply(); });
         emu_.Get<GuestCpuReset>().RegisterResetReleaseListener([this] { Apply(); });
     }
 
