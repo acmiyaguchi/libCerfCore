@@ -71,6 +71,7 @@ void Imx28Pinctrl::OnReady() {
 /* Section 9.4 memory map "Reset value"; section 9.2.1: pins come out of reset as GPIO inputs;
    "Ethernet pins ... will only reset when power is on. Software reset will not affect them." */
 void Imx28Pinctrl::LoadResetValues(bool power_on) {
+    std::lock_guard<std::recursive_mutex> guard(mtx_);
     uint32_t kept[sizeof(kEnetRetain) / sizeof(kEnetRetain[0])];
     for (uint32_t k = 0; k < sizeof(kept) / sizeof(kept[0]); ++k) {
         kept[k] = Reg(kEnetRetain[k].offset) & kEnetRetain[k].mask;
@@ -86,9 +87,9 @@ void Imx28Pinctrl::LoadResetValues(bool power_on) {
     DriveLines(false);
 }
 
-void Imx28Pinctrl::SetPinLevelProvider(PinLevelFn fn) {
-    if (pin_level_) emu_.Get<Fatal>().Die("Imx28Pinctrl: second pin level provider");
-    pin_level_ = std::move(fn);
+void Imx28Pinctrl::AddPinLevelProvider(PinLevelFn fn) {
+    std::lock_guard<std::recursive_mutex> guard(mtx_);
+    pin_level_.push_back(std::move(fn));
 }
 
 void Imx28Pinctrl::SetDinConsumedProvider(DinConsumedFn fn) {
@@ -147,12 +148,19 @@ uint32_t Imx28Pinctrl::BankLevels(uint32_t bank, uint32_t* known) const {
             if ((dout & bit) != 0u) level |= bit;
             continue;
         }
-        bool high = false;
-        if (pin_level_ && pin_level_(bank, pin, &high)) {
+        uint32_t claims = 0u;
+        for (const PinLevelFn& fn : pin_level_) {
+            bool high = false;
+            if (!fn(bank, pin, &high)) continue;
+            ++claims;
             k |= bit;
             if (high) level |= bit;
-            continue;
         }
+        if (claims > 1u) {
+            emu_.Get<Fatal>().Die("Imx28Pinctrl: %u level providers for bank %u pin %u",
+                                  claims, bank, pin);
+        }
+        if (claims != 0u) continue;
         if (MuxSelect(bank, pin) == kMuxGpio && (up & bit) != 0u) {
             k |= bit;
             level |= bit;
@@ -162,7 +170,16 @@ uint32_t Imx28Pinctrl::BankLevels(uint32_t bank, uint32_t* known) const {
     return level;
 }
 
+/* Section 9.2.3.1 DOUT "driven on the pin" while DOE is set; section 9.2.2 MUXSEL 3 = GPIO. */
+bool Imx28Pinctrl::DrivesLow(uint32_t bank, uint32_t pin) const {
+    std::lock_guard<std::recursive_mutex> guard(mtx_);
+    const uint32_t bit = 1u << pin;
+    return MuxSelect(bank, pin) == kMuxGpio && (Reg(kDoe + bank * 0x10u) & bit) != 0u &&
+           (Reg(kDout + bank * 0x10u) & bit) == 0u;
+}
+
 void Imx28Pinctrl::NotifyPinLevelChanged(uint32_t bank, uint32_t pin) {
+    std::lock_guard<std::recursive_mutex> guard(mtx_);
     if (bank >= kBanks || pin >= 32u || (kImx28PinctrlPinMask[bank] & (1u << pin)) == 0u) {
         emu_.Get<Fatal>().Die("Imx28Pinctrl: level change on nonexistent bank %u pin %u", bank, pin);
     }
@@ -170,6 +187,7 @@ void Imx28Pinctrl::NotifyPinLevelChanged(uint32_t bank, uint32_t pin) {
 }
 
 bool Imx28Pinctrl::SamplePin(uint32_t bank, uint32_t pin, const char* who) const {
+    std::lock_guard<std::recursive_mutex> guard(mtx_);
     uint32_t known = 0u;
     const uint32_t level = BankLevels(bank, &known);
     if ((known & (1u << pin)) == 0u) {
@@ -216,7 +234,10 @@ void Imx28Pinctrl::DriveLines(bool force) {
     }
 }
 
-void Imx28Pinctrl::PostRestore() { DriveLines(true); }
+void Imx28Pinctrl::PostRestore() {
+    std::lock_guard<std::recursive_mutex> guard(mtx_);
+    DriveLines(true);
+}
 
 uint32_t Imx28Pinctrl::ComposeRead(uint32_t row, uint32_t lanes) {
     const uint32_t off = kImx28PinctrlRegs[row].offset;
@@ -245,6 +266,7 @@ uint32_t Imx28Pinctrl::ComposeRead(uint32_t row, uint32_t lanes) {
 }
 
 uint32_t Imx28Pinctrl::ReadLanes(uint32_t word_addr, uint32_t lanes) {
+    std::lock_guard<std::recursive_mutex> guard(mtx_);
     Imx28SctOp op;
     const uint32_t row = DecodeRow("Read", word_addr, 0, &op);
     if (op != Imx28SctOp::Write) return 0u;   /* RM 39.3: SCT registers read back 0 */
@@ -255,6 +277,7 @@ uint32_t Imx28Pinctrl::ReadLanes(uint32_t word_addr, uint32_t lanes) {
 }
 
 uint32_t Imx28Pinctrl::PeekLanes(uint32_t word_addr, uint32_t lanes) {
+    std::lock_guard<std::recursive_mutex> guard(mtx_);
     Imx28SctOp op;
     const uint32_t row = DecodeRow("WriteWord", word_addr, 0, &op);
     if (kImx28PinctrlRegs[row].offset != kCtrlOffset) {
@@ -269,6 +292,7 @@ uint32_t Imx28Pinctrl::ReadWord(uint32_t addr) { return ReadLanes(addr, 0xFFFFFF
    "Software may clear any bit in this register by writing a 1 to the bit at the SCT clear
    address". */
 void Imx28Pinctrl::WriteWord(uint32_t addr, uint32_t value) {
+    std::lock_guard<std::recursive_mutex> guard(mtx_);
     Imx28SctOp op;
     const uint32_t row = DecodeRow("WriteWord", addr, value, &op);
     const Imx28PinctrlReg& def = kImx28PinctrlRegs[row];
@@ -288,12 +312,14 @@ void Imx28Pinctrl::WriteWord(uint32_t addr, uint32_t value) {
 }
 
 void Imx28Pinctrl::SaveState(StateWriter& w) {
+    std::lock_guard<std::recursive_mutex> guard(mtx_);
     w.WriteBytes("regs", regs_, sizeof(regs_));
     w.WriteBytes("level", level_, sizeof(level_));
     w.WriteBytes("armed", armed_, sizeof(armed_));
 }
 
 void Imx28Pinctrl::RestoreState(StateReader& r) {
+    std::lock_guard<std::recursive_mutex> guard(mtx_);
     r.ReadBytes("regs", regs_, sizeof(regs_));
     r.ReadBytes("level", level_, sizeof(level_));
     r.ReadBytes("armed", armed_, sizeof(armed_));

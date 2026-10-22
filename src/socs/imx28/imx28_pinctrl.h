@@ -7,6 +7,8 @@
 
 #include <cstdint>
 #include <functional>
+#include <mutex>
+#include <vector>
 
 namespace cerfcore {
 
@@ -31,7 +33,7 @@ public:
     void PostRestore() override;
 
     using PinLevelFn = std::function<bool(uint32_t bank, uint32_t pin, bool* high)>;
-    void SetPinLevelProvider(PinLevelFn fn);
+    void AddPinLevelProvider(PinLevelFn fn);
 
     using DinConsumedFn = std::function<uint32_t(uint32_t bank)>;
     void SetDinConsumedProvider(DinConsumedFn fn);
@@ -40,6 +42,7 @@ public:
 
     uint32_t MuxSelect(uint32_t bank, uint32_t pin) const;
     bool     SamplePin(uint32_t bank, uint32_t pin, const char* who) const;
+    bool     DrivesLow(uint32_t bank, uint32_t pin) const;
 
 protected:
     uint32_t ReadLanes(uint32_t word_addr, uint32_t lanes) override;
@@ -62,7 +65,8 @@ private:
     uint32_t armed_[kBanks] = {};
     uint32_t line_ = 0u;
     Imx28Icoll* icoll_ = nullptr;
-    PinLevelFn pin_level_;
+    std::vector<PinLevelFn> pin_level_;
+    mutable std::recursive_mutex mtx_;
     DinConsumedFn din_consumed_;
 };
 
