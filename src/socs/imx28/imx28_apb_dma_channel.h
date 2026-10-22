@@ -34,6 +34,7 @@ public:
     void IncrementSemaphore(uint32_t count);
     void Resume();
     void EndCommand();
+    void TransferDone();
 
     uint32_t Current() const { return cur_; }
     uint32_t Next() const { return nxt_; }
@@ -46,7 +47,7 @@ public:
     void Restore(StateReader& r);
 
 private:
-    enum class State : uint8_t { Idle, Pending, WaitEnd, HaltAfterTerminate };
+    enum class State : uint8_t { Idle, Pending, WaitEnd, HaltAfterTerminate, ReadRequest, CheckWait };
 
     struct Descriptor {
         uint32_t cmd;

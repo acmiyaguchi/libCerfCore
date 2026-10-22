@@ -42,13 +42,15 @@ constexpr uint32_t kHeaderBytes = 12u;
 }  /* namespace */
 
 /* Sections 6.5.13, 7.5.11 CHn_DEBUG1 reset 00A0_0000h (RD_FIFO_EMPTY, WR_FIFO_EMPTY); STATEMACHINE
-   0x00 IDLE, 0x15 WAIT_END, 0x1D HALT_AFTER_TERM. */
+   0x00 IDLE, 0x0D READ_REQ, 0x15 WAIT_END, 0x1D HALT_AFTER_TERM, 0x1E CHECK_WAIT. */
 uint32_t Imx28ApbDmaChannel::Debug1() const {
     constexpr uint32_t kFifosEmpty = 0x00A00000u;
     switch (state_) {
         case State::Idle:               return kFifosEmpty | 0x00u;
         case State::WaitEnd:            return kFifosEmpty | 0x15u;
         case State::HaltAfterTerminate: return kFifosEmpty | 0x1Du;
+        case State::ReadRequest:        return kFifosEmpty | 0x0Du;
+        case State::CheckWait:          return kFifosEmpty | 0x1Eu;
         default:                        break;
     }
     Die("DEBUG1 read in state", static_cast<uint32_t>(state_));
@@ -89,6 +91,12 @@ void Imx28ApbDmaChannel::EndCommand() {
     if (Complete(cmd_)) Run();
 }
 
+void Imx28ApbDmaChannel::TransferDone() {
+    if (state_ != State::ReadRequest) Die("transfer done in state", static_cast<uint32_t>(state_));
+    state_ = State::Idle;
+    if (Complete(cmd_)) Run();
+}
+
 void Imx28ApbDmaChannel::ReadGuest(uint32_t pa, void* dst, uint32_t bytes) const {
     const uint32_t got = emu_.Get<EmulatedMemory>().TryCopyOut(pa, static_cast<uint8_t*>(dst),
                                                                 bytes);
@@ -104,7 +112,10 @@ void Imx28ApbDmaChannel::WriteGuest(uint32_t pa, const void* src, uint32_t bytes
 void Imx28ApbDmaChannel::Run() {
     visited_.clear();
     for (;;) {
-        if (state_ == State::WaitEnd || state_ == State::HaltAfterTerminate) return;
+        if (state_ == State::WaitEnd || state_ == State::HaltAfterTerminate ||
+            state_ == State::ReadRequest || state_ == State::CheckWait) {
+            return;
+        }
         if (sema_ == 0u) {
             state_ = State::Idle;
             return;
@@ -170,6 +181,11 @@ bool Imx28ApbDmaChannel::MoveData(const Descriptor& d) {
         ReadGuest(d.bar, buf.data(), count);
         t = device_->DmaFromMemory(index_, buf.data(), count);
         if (t.bytes > count || (!t.terminated && t.bytes != count)) Die("device read bytes", t.bytes);
+        if (t.deferred) {
+            if (t.terminated || (d.cmd & kCmdWait4End) != 0u) Die("deferred transfer, command", d.cmd);
+            state_ = State::ReadRequest;
+            return true;
+        }
     }
     return t.terminated && Terminated(d.cmd);
 }
@@ -197,7 +213,8 @@ bool Imx28ApbDmaChannel::Complete(uint32_t cmd) {
         return false;
     }
     if ((cmd & kCmdChain) != 0u) return true;
-    Die("CHAIN clear with semaphore nonzero, command", cmd);
+    state_ = State::CheckWait;
+    return false;
 }
 
 void Imx28ApbDmaChannel::Save(StateWriter& w) const {

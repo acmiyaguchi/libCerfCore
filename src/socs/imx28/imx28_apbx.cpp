@@ -9,11 +9,12 @@ namespace cerfcore {
 namespace {
 
 /* Section 7.5.1 CTRL0 reset C000_0000h, RSVD0 [29:0]; section 7.5.118 VERSION 0202_0000h;
-   section 7.5.8 CMD RSVD1 [11:8] and RSVD0 [5:4]. */
+   section 7.5.8 CMD RSVD1 [11:8] and RSVD0 [5:4], Figure 7-2 TERMINATEFLUSH [9], HALTONTERMINATE [8];
+   sharp_brain_pw_sh4 wavedev2_BU26154.dll c07a999c. */
 constexpr uint32_t kCtrl0Reset    = 0xC0000000u;
 constexpr uint32_t kCtrl0Writable = 0xC0000000u;
 constexpr uint32_t kVersionValue  = 0x02020000u;
-constexpr uint32_t kCmdReserved   = 0x00000F30u;
+constexpr uint32_t kCmdReserved   = 0x00000C30u;
 
 /* Table 7-1 channels; Table 5-1 sources 66 spdif_dma_irq, 68-69 i2c0-1_dma_irq, 70-77
    auart0-3 rx/tx, 78-79 auart4 rx/tx, 80-81 saif0-1_dma_irq. */

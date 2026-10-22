@@ -33,6 +33,7 @@ public:
     void PostRestore() override;
 
     GuestCycleClock::Rate XbusRate() const;
+    GuestCycleClock::Rate SaifRate(uint32_t unit) const;
     bool                  WatchdogPorDisabled() const;
     void                  RegisterApbxListener(std::function<void()> fn);
 

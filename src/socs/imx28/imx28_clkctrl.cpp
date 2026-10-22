@@ -101,7 +101,7 @@ void Imx28Clkctrl::LoadResetValues() {
 }
 
 /* Sections 10.8.1 / 10.8.3 POWER note "Allow 10 us"; 10.8.2 / 10.8.4 LOCK_COUNT 0x4B0,
-   FORCE_LOCK "force pll lock sequence to start". */
+   FORCE_LOCK. */
 bool Imx28Clkctrl::PllLocked(uint32_t pll) const {
     const bool pll0_on = (regs_[kClkPll0Ctrl0] & kPllPower) != 0u;
     if (pll == 0u) return pll0_on;
@@ -172,6 +172,19 @@ GuestCycleClock::Rate Imx28Clkctrl::XbusRate() const {
     const uint32_t xbus = regs_[kClkXbus];
     return DividerRate(GuestCycleClock::Rate{kXtalHz, 1u}, xbus & kXbusDivMask,
                        (xbus & kXbusDivFracEn) != 0u, 10u, "XBUS DIV");
+}
+
+/* Section 35.2.1: saif_clk from a 16-bit fractional divider of the 480 MHz PLL reference;
+   section 10.8.26 BYPASS_SAIF0 [0] / BYPASS_SAIF1 [1]. */
+GuestCycleClock::Rate Imx28Clkctrl::SaifRate(uint32_t unit) const {
+    const uint32_t reg = regs_[unit == 0u ? kClkSaif0 : kClkSaif1];
+    const bool bypass = ((regs_[kClkClkseq] >> unit) & 1u) != 0u;
+    if (bypass || (reg & kClkGate) != 0u || (regs_[kClkPll0Ctrl0] & kPllPower) == 0u) {
+        emu_.Get<Fatal>().Die("Imx28Clkctrl: SAIF%u clock used with SAIF %08X CLKSEQ %08X PLL0CTRL0 "
+                              "%08X", unit, reg, regs_[kClkClkseq], regs_[kClkPll0Ctrl0]);
+    }
+    return DividerRate(GuestCycleClock::Rate{kPll0Hz, 1u}, reg & 0xFFFFu,
+                       (reg & kSaifFracEn) != 0u, 16u, "SAIF DIV");
 }
 
 bool Imx28Clkctrl::WatchdogPorDisabled() const {
@@ -261,7 +274,7 @@ void Imx28Clkctrl::WriteRegister(uint32_t index, Imx28SctOp op, uint32_t value) 
     regs_[index] = merged;
     if (index == kClkFrac0 || index == kClkFrac1) ToggleStableBits(index, old);
     if (index == kClkReset) {
-        /* Section 10.7 "reset themselves during a soft reset sequence"; Figure 11-3;
+        /* Section 10.7 soft reset sequence; Figure 11-3;
            section 11.3.5 "continue to maintain the power supply rails during the reset". */
         const uint32_t req = op == Imx28SctOp::Clr ? 0u
                                                    : regs_[index] & value & (kResetChip | kResetDig);

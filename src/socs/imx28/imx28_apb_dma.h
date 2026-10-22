@@ -26,6 +26,7 @@ public:
 
     void AttachDevice(uint32_t channel, Imx28ApbDmaDevice* device);
     void NotifyEndCommand(uint32_t channel);
+    void NotifyTransferDone(uint32_t channel);
 
     void SaveState(StateWriter& w) override;
     void RestoreState(StateReader& r) override;

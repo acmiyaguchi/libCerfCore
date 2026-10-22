@@ -10,6 +10,7 @@ public:
     struct Transfer {
         uint32_t bytes;
         bool     terminated;
+        bool     deferred = false;
     };
 
     virtual ~Imx28ApbDmaDevice() = default;

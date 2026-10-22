@@ -84,6 +84,14 @@ void Imx28ApbDma::NotifyEndCommand(uint32_t channel) {
     DriveLines(false);
 }
 
+void Imx28ApbDma::NotifyTransferDone(uint32_t channel) {
+    if (channel >= kImx28ApbDmaChannels) {
+        emu_.Get<Fatal>().Die("Imx28 %08X: transfer done on channel %u", MmioBase(), channel);
+    }
+    Channel(channel).TransferDone();
+    DriveLines(false);
+}
+
 /* Sections 6.5 and 7.5 register tables, Reset value column. */
 void Imx28ApbDma::LoadResetValues() {
     const Imx28ApbDmaSpec& spec = Spec();
