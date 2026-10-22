@@ -41,10 +41,16 @@ constexpr uint32_t kFracMin         = 18u;
 constexpr uint32_t kFracMax         = 35u;
 constexpr uint64_t kFracNumerator   = 18u;
 
+/* Section 10.8.8 XBUS: AUTO_CLEAR_DIV_ENABLE [11], DIV_FRAC_EN [10], DIV [9:0]. */
+constexpr uint32_t kXbusAutoClear    = 1u << 11;
+constexpr uint32_t kXbusDivMask      = 0x3FFu;
+constexpr uint32_t kXbusDivFracEn    = 1u << 10;
+
 /* Section 10.8.26 CLKSEQ BYPASS_CPU [18]. */
 constexpr uint32_t kBypassCpu       = 1u << 18;
 
-/* Section 10.8.27 RESET: CHIP [1], DIG [0]. */
+/* Section 10.8.27 RESET: WDOG_POR_DISABLE [5], CHIP [1], DIG [0]. */
+constexpr uint32_t kResetWdogPorDisable = 1u << 5;
 constexpr uint32_t kResetChip       = 1u << 1;
 constexpr uint32_t kResetDig        = 1u << 0;
 
@@ -94,13 +100,8 @@ void Imx28Clkctrl::LoadResetValues() {
     }
 }
 
-/* Sections 10.8.1 / 10.8.3 POWER note "Allow 10 us" and 10.8.2 / 10.8.4 "asserted after 50 us"
-   (LOCK_COUNT reaches 0x4B0 = 1200 xtal cycles at 24 MHz): the lock completes at once on
-   guest time, per timers_clocks.md "An operation that needs no chip speed does not run at chip
-   speed" (a lock stays instant until a log shows a guest that fails). LOCK_COUNT therefore
-   reads 0x4B0, the only count value the RM states, while locked, and 0 (its reset) while
-   unlocked. FORCE_LOCK (10.8.2, "force pll lock sequence to start") restarts a sequence
-   that is already instant, so it is stored and has no further effect. */
+/* Sections 10.8.1 / 10.8.3 POWER note "Allow 10 us"; 10.8.2 / 10.8.4 LOCK_COUNT 0x4B0,
+   FORCE_LOCK "force pll lock sequence to start". */
 bool Imx28Clkctrl::PllLocked(uint32_t pll) const {
     const bool pll0_on = (regs_[kClkPll0Ctrl0] & kPllPower) != 0u;
     if (pll == 0u) return pll0_on;
@@ -127,25 +128,20 @@ uint32_t Imx28Clkctrl::ComposeRead(uint32_t index) const {
     return v;
 }
 
-/* Section 10.3.1: integer mode divides the reference by DIV, "Divide by zero is NOT a valid
-   programming value". Sections 10.3.2 / 10.3.3: with FRAC_EN set the DIV field is a binary
-   fraction of 2^N (N = DIV field width), the output carrying DIV/2^N of the reference
-   edges (8:3 example: 0.01100 -> 3/8; 4/3 gated example). */
+/* Section 10.3.1 "Divide by zero is NOT a valid programming value"; sections 10.3.2 / 10.3.3
+   fractional divider, DIV/2^N of the reference edges. */
 GuestCycleClock::Rate Imx28Clkctrl::DividerRate(GuestCycleClock::Rate ref, uint32_t div,
                                                 bool frac_en, uint32_t div_bits,
                                                 const char* what) const {
     if (div == 0u) {
-        emu_.Get<Fatal>().Die("Imx28Clkctrl: %s divider programmed to 0 (RM 10.3.1: not valid)",
-                              what);
+        emu_.Get<Fatal>().Die("Imx28Clkctrl: %s divider programmed to 0", what);
     }
     if (!frac_en) return ref.Scaled(1u, div).Reduced();
     return ref.Scaled(div, 1u << div_bits).Reduced();
 }
 
-/* Section 10.2.3.1: clk_p is ref_xtal through the 10-bit DIV_XTAL divider, or ref_cpu through
-   the 6-bit DIV_CPU divider. Section 10.8.26: BYPASS_CPU 1 selects ref_xtal. Section 10.8.24:
-   ref_cpu is PLL0 (10.8.1, 480 MHz) 480 * (18/CPUFRAC), gated by CLKGATECPU; section 10.6
-   step 2-5: PLL on, then PFD gate cleared, before the bypass is switched off. */
+/* Section 10.2.3.1 clk_p; 10.8.26 BYPASS_CPU; 10.8.24 ref_cpu 480 * (18/CPUFRAC), CLKGATECPU;
+   10.6 steps 2-5. */
 GuestCycleClock::Rate Imx28Clkctrl::CpuRate() const {
     const uint32_t cpu = regs_[kClkCpu];
     if ((regs_[kClkClkseq] & kBypassCpu) != 0u) {
@@ -156,19 +152,34 @@ GuestCycleClock::Rate Imx28Clkctrl::CpuRate() const {
     const uint32_t frac0 = regs_[kClkFrac0];
     const uint32_t cpufrac = frac0 & kFracMask;
     if ((regs_[kClkPll0Ctrl0] & kPllPower) == 0u || (frac0 & kFrac0GateCpu) != 0u) {
-        emu_.Get<Fatal>().Die("Imx28Clkctrl: BYPASS_CPU cleared while ref_cpu is not running "
-                              "(PLL0CTRL0 %08X FRAC0 %08X); clk_p would stop (RM 10.6)",
-                              regs_[kClkPll0Ctrl0], frac0);
+        emu_.Get<Fatal>().Die("Imx28Clkctrl: BYPASS_CPU cleared with ref_cpu stopped "
+                              "(PLL0CTRL0 %08X FRAC0 %08X)", regs_[kClkPll0Ctrl0], frac0);
     }
     if ((regs_[kClkPll0Ctrl0] & kPllDivSel) != 0u) {
-        emu_.Get<Fatal>().Die("Imx28Clkctrl: PLL0CTRL0 DIV_SEL %u is a test mode 'currently NOT "
-                              "supported' (RM 10.8.1)", (regs_[kClkPll0Ctrl0] >> 20) & 0x3u);
+        emu_.Get<Fatal>().Die("Imx28Clkctrl: PLL0CTRL0 DIV_SEL %u",
+                              (regs_[kClkPll0Ctrl0] >> 20) & 0x3u);
     }
     if (cpufrac < kFracMin || cpufrac > kFracMax) {
-        emu_.Get<Fatal>().Die("Imx28Clkctrl: CPUFRAC %u outside 18-35 (RM 10.8.24)", cpufrac);
+        emu_.Get<Fatal>().Die("Imx28Clkctrl: CPUFRAC %u", cpufrac);
     }
     return DividerRate(GuestCycleClock::Rate{kPll0Hz * kFracNumerator, cpufrac},
                        cpu & kCpuDivCpuMask, false, 6u, "CPU DIV_CPU");
+}
+
+/* Table 10-1: clk_x is ref_xtal through a 10-bit divider; section 10.8.8: "CLK_X is sourced
+   from the 24-MHz XTAL through this divider. Do NOT divide by 0." */
+GuestCycleClock::Rate Imx28Clkctrl::XbusRate() const {
+    const uint32_t xbus = regs_[kClkXbus];
+    return DividerRate(GuestCycleClock::Rate{kXtalHz, 1u}, xbus & kXbusDivMask,
+                       (xbus & kXbusDivFracEn) != 0u, 10u, "XBUS DIV");
+}
+
+bool Imx28Clkctrl::WatchdogPorDisabled() const {
+    return (regs_[kClkReset] & kResetWdogPorDisable) != 0u;
+}
+
+void Imx28Clkctrl::RegisterApbxListener(std::function<void()> fn) {
+    apbx_listeners_.push_back(std::move(fn));
 }
 
 void Imx28Clkctrl::ApplyRates() {
@@ -199,12 +210,8 @@ uint32_t Imx28Clkctrl::DecodeIndex(const char* op, uint32_t addr, uint32_t value
     return index;
 }
 
-/* Sections 10.8.24 / 10.8.25 note "can only be addressed by byte instructions". Stock ROM
-   sh4-sdu nk.exe does word accesses to both: OAL_ClockSetupA (80209c34) word-writes FRAC0_CLR
-   0x1B8 and FRAC0_SET 0x1B4 and word read-modify-writes FRAC0 0x1B0; OAL_ClockSetupB (80209cc4)
-   word-writes FRAC1_CLR 0x1C8 / FRAC1_SET 0x1C4 and word read-modify-writes FRAC1 0x1C0. The
-   shipped device runs that code, so all widths are accepted; the byte lane merge in WriteByte
-   gives the byte-instruction result of the RM example. */
+/* Sections 10.8.24 / 10.8.25 "can only be addressed by byte instructions";
+   sharp_brain_pw_sh4 nk.exe OAL_ClockSetupA 80209c34, OAL_ClockSetupB 80209cc4 (word accesses). */
 uint32_t Imx28Clkctrl::ReadWord(uint32_t addr) {
     Imx28SctOp op;
     const uint32_t index = DecodeIndex("ReadWord", addr, 0, &op);
@@ -222,29 +229,26 @@ void Imx28Clkctrl::ToggleStableBits(uint32_t index, uint32_t old_value) {
     }
 }
 
-/* Sections 10.8.10-14, 10.8.17-20: "When [CLKGATE] is modified, or when it is high, the DIV
-   field should not change its value. The DIV field can change ONLY when this clock gate bit
-   field is low." Section 10.8.17/18: DIV_FRAC_EN "Always set to one (1) for functional
-   operation", so a SAIF DIV is only programmed with it set. Section 10.8.7 SLOW_DIV [18:16]
-   defines 0x0-0x5 only. Stock ROM sh4-sdu cspddk.dll DDKClockConfigBaud (c0603af0) follows the
-   same order: gate cleared, FRAC_EN set, DIV written, gate restored. */
+/* Sections 10.8.10-14, 10.8.17-20 "The DIV field can change ONLY when this clock gate bit
+   field is low"; 10.8.17/18 DIV_FRAC_EN "Always set to one (1)"; 10.8.7 SLOW_DIV [18:16];
+   sharp_brain_pw_sh4 cspddk.dll DDKClockConfigBaud c0603af0. */
 void Imx28Clkctrl::CheckDividerWrite(uint32_t index, uint32_t old, uint32_t next) {
     const uint32_t div = kImx28ClkctrlRegs[index].gated_div;
     if (div != 0u && ((old ^ next) & div) != 0u) {
         if (((old | next) & kClkGate) != 0u) {
             emu_.Get<Fatal>().Die("Imx28Clkctrl: reg %03X DIV changed with CLKGATE set or "
-                                  "changing (%08X -> %08X); RM 10.8.10-20: DIV may change only "
-                                  "when CLKGATE = 0", index << 4, old, next);
+                                  "changing (%08X -> %08X)", index << 4, old, next);
         }
         if ((index == kClkSaif0 || index == kClkSaif1) && (next & kSaifFracEn) == 0u) {
-            emu_.Get<Fatal>().Die("Imx28Clkctrl: SAIF%u DIV programmed with DIV_FRAC_EN = 0 "
-                                  "(%08X); RM 10.8.17/18: always one for functional operation",
+            emu_.Get<Fatal>().Die("Imx28Clkctrl: SAIF%u DIV programmed with DIV_FRAC_EN 0 (%08X)",
                                   index == kClkSaif0 ? 0u : 1u, next);
         }
     }
+    if (index == kClkXbus && (next & kXbusAutoClear) != 0u) {
+        emu_.Get<Fatal>().Die("Imx28Clkctrl: XBUS %08X sets AUTO_CLEAR_DIV_ENABLE", next);
+    }
     if (index == kClkHbus && ((next >> 16) & 0x7u) > 5u) {
-        emu_.Get<Fatal>().Die("Imx28Clkctrl: HBUS SLOW_DIV %u undefined (RM 10.8.7: 0-5)",
-                              (next >> 16) & 0x7u);
+        emu_.Get<Fatal>().Die("Imx28Clkctrl: HBUS SLOW_DIV %u", (next >> 16) & 0x7u);
     }
 }
 
@@ -257,18 +261,8 @@ void Imx28Clkctrl::WriteRegister(uint32_t index, Imx28SctOp op, uint32_t value) 
     regs_[index] = merged;
     if (index == kClkFrac0 || index == kClkFrac1) ToggleStableBits(index, old);
     if (index == kClkReset) {
-        /* Section 10.7: both soft-reset bits "reset themselves during a soft reset
-           sequence", so they take their Reset row at reset delivery (LoadResetValues). A reset
-           is requested only by a SET/write of a 1 bit (RM 39.3: SCT 1 bit performs the op,
-           0 bit unaffected); CHIP reads 1 at reset (10.8.27), so the stored value alone is
-           no request. Figure 11-3 labels DIG "warm boot" and CHIP "Reset DCDC and Digital";
-           section 11.3.5: for both "The DC-DC converter and/or linear regulators continue to
-           maintain the power supply rails during the reset", so DRAM keeps power and RAM
-           survives: WarmReset (GuestCpuReset: RAM preserved). The cold path in Figure 11-3 is
-           HW_POWER_RESET_PWD (power module, not here). The RM has no reset-cause register
-           for these two bits (the only cause bits, HW_RTC_PERSISTENT0 THERMAL_RESET /
-           EXTERNAL_RESET, are set on power-up after those events, 22.8.7), so no
-           ResetCauseLatch is needed here. */
+        /* Section 10.7 "reset themselves during a soft reset sequence"; Figure 11-3;
+           section 11.3.5 "continue to maintain the power supply rails during the reset". */
         const uint32_t req = op == Imx28SctOp::Clr ? 0u
                                                    : regs_[index] & value & (kResetChip | kResetDig);
         if (req != 0u) emu_.Get<GuestCpuReset>().WarmReset();
@@ -277,6 +271,10 @@ void Imx28Clkctrl::WriteRegister(uint32_t index, Imx28SctOp op, uint32_t value) 
     const bool rate = index == kClkCpu || index == kClkClkseq || index == kClkFrac0 ||
                       index == kClkPll0Ctrl0;
     if (rate && old != regs_[index]) ApplyRates();
+    const bool apbx = index == kClkXbus;
+    if (apbx && old != regs_[index]) {
+        for (auto& fn : apbx_listeners_) fn();
+    }
 }
 
 void Imx28Clkctrl::WriteWord(uint32_t addr, uint32_t value) {
@@ -296,34 +294,6 @@ void Imx28Clkctrl::RestoreState(StateReader& r) {
 
 void Imx28Clkctrl::PostRestore() {
     ApplyRates();
-}
-
-uint8_t Imx28Clkctrl::ReadByte(uint32_t addr) {
-    const uint32_t shift = (addr & 0x3u) * 8u;
-    return static_cast<uint8_t>((ReadWord(addr & ~0x3u) >> shift) & 0xFFu);
-}
-
-uint16_t Imx28Clkctrl::ReadHalf(uint32_t addr) {
-    if ((addr & 0x1u) != 0) HaltUnsupportedAccess("ReadHalf-unaligned", addr, 0);
-    const uint32_t shift = (addr & 0x2u) * 8u;
-    return static_cast<uint16_t>((ReadWord(addr & ~0x3u) >> shift) & 0xFFFFu);
-}
-
-/* An SCT address reads back 0, so a narrow write merges into 0 and only the written lane
-   takes part (RM 39.3); a primary register merges into its current value. */
-void Imx28Clkctrl::WriteByte(uint32_t addr, uint8_t value) {
-    const uint32_t base  = addr & ~0x3u;
-    const uint32_t shift = (addr & 0x3u) * 8u;
-    const uint32_t old   = ReadWord(base);
-    WriteWord(base, (old & ~(0xFFu << shift)) | (static_cast<uint32_t>(value) << shift));
-}
-
-void Imx28Clkctrl::WriteHalf(uint32_t addr, uint16_t value) {
-    if ((addr & 0x1u) != 0) HaltUnsupportedAccess("WriteHalf-unaligned", addr, value);
-    const uint32_t base  = addr & ~0x3u;
-    const uint32_t shift = (addr & 0x2u) * 8u;
-    const uint32_t old   = ReadWord(base);
-    WriteWord(base, (old & ~(0xFFFFu << shift)) | (static_cast<uint32_t>(value) << shift));
 }
 
 REGISTER_SERVICE(Imx28Clkctrl);

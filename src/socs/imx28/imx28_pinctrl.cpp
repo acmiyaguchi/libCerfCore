@@ -5,20 +5,21 @@
 #include <cerfcore/core/fatal.h>
 #include <cerfcore/socs/guest_cpu_reset.h>
 #include "../../peripherals/peripheral_dispatcher.h"
+#include "imx28_icoll.h"
 #include "imx28_id.h"
 
 namespace cerfcore {
 
 namespace {
 
-/* Section 9.4.1 CTRL: SFTRST [31], CLKGATE [30]. */
+/* Section 9.4.1 CTRL at offset 0. */
 constexpr uint32_t kCtrlOffset  = 0x000u;
-constexpr uint32_t kCtrlSftrst  = 1u << 31;
-constexpr uint32_t kCtrlClkgate = 1u << 30;
+
+/* Section 9.4.1 CTRL IRQOUT4-0 [4:0]: "Read-only view of the interrupt collector GPIOn signal". */
+constexpr uint32_t kCtrlIrqOutMask = 0x1Fu;
 
 /* Section 9.4 memory map: per-bank register arrays, one register per 0x10 bytes. */
 constexpr uint32_t kMuxsel    = 0x100u;
-constexpr uint32_t kPull      = 0x600u;
 constexpr uint32_t kDout      = 0x700u;
 constexpr uint32_t kDin       = 0x900u;
 constexpr uint32_t kDoe       = 0xB00u;
@@ -28,6 +29,9 @@ constexpr uint32_t kIrqLevel  = 0x1200u;
 constexpr uint32_t kIrqPol    = 0x1300u;
 constexpr uint32_t kIrqStat   = 0x1400u;
 constexpr uint32_t kMapEnd    = 0x1C00u;
+
+/* Table 5-1 sources 127 (pinctrl0_irq) down to 123 (pinctrl4_irq): bank b is source 127 - b. */
+constexpr uint32_t kIrqBank0  = 127u;
 
 /* Section 9.2.2: MUXSELx two bits per pin, 3 = GPIO; banks 0-4 use MUXSEL(2b) and MUXSEL(2b+1)
    (section 9.4.2-9.4.11: bank pins 0-15 then 16-). */
@@ -56,6 +60,7 @@ bool Imx28Pinctrl::ShouldRegister() {
 }
 
 void Imx28Pinctrl::OnReady() {
+    icoll_ = &emu_.Get<Imx28Icoll>();
     LoadResetValues(true);
     emu_.Get<GuestCpuReset>().RegisterResetListener(
         [this](ResetLineKind kind) { LoadResetValues(kind == ResetLineKind::Rtc); });
@@ -71,11 +76,13 @@ void Imx28Pinctrl::LoadResetValues(bool power_on) {
     }
     for (uint32_t i = 0; i < kImx28PinctrlRegCount; ++i) regs_[i] = kImx28PinctrlRegs[i].reset;
     for (uint32_t b = 0; b < kBanks; ++b) level_[b] = armed_[b] = 0u;
-    if (power_on) return;
-    for (uint32_t k = 0; k < sizeof(kept) / sizeof(kept[0]); ++k) {
-        uint32_t& r = RegRef(kEnetRetain[k].offset);
-        r = (r & ~kEnetRetain[k].mask) | kept[k];
+    if (!power_on) {
+        for (uint32_t k = 0; k < sizeof(kept) / sizeof(kept[0]); ++k) {
+            uint32_t& r = RegRef(kEnetRetain[k].offset);
+            r = (r & ~kEnetRetain[k].mask) | kept[k];
+        }
     }
+    DriveLines(false);
 }
 
 void Imx28Pinctrl::SetPinLevelProvider(PinLevelFn fn) {
@@ -117,20 +124,9 @@ uint32_t Imx28Pinctrl::Reg(uint32_t offset) const {
     emu_.Get<Fatal>().Die("Imx28Pinctrl: no register at offset %03X", offset);
 }
 
-/* Section 9.4.1 SFTRST: "must be set to zero to enable operation of any of the PINCTRL banks";
-   CLKGATE: "disables the block clock". */
-void Imx28Pinctrl::RequireOperating(const char* op, uint32_t addr, uint32_t value) const {
-    if ((Reg(kCtrlOffset) & (kCtrlSftrst | kCtrlClkgate)) != 0u) {
-        emu_.Get<Fatal>().Die("Imx28Pinctrl: %s at %08X (value %08X) while CTRL %08X holds "
-                              "SFTRST/CLKGATE set", op, addr, value, Reg(kCtrlOffset));
-    }
-}
-
-/* MCIMX28RM section 9.2.3.1: "Once set, the logic value the HW_PINCTRL_DOUTx bit will be driven
-   on the pin" (MUXSEL = GPIO, DOE set); section 9.4.48: DIN "accurately reflects the state of the
-   pin regardless of the setting of the HW_PINCTRL_MUXSELx or HW_PINCTRL_DOEx registers". Any other
-   pin level comes from the board hook; bits without one are absent from *known. Pins absent from
-   the bank (kImx28PinctrlPinMask) read DIN 0 (section 9.4.48 DIN reset 0) and skip the hook. */
+/* MCIMX28RM section 9.2.3.1 "Once set, the logic value the HW_PINCTRL_DOUTx bit will be driven
+   on the pin"; section 9.4.48 DIN "accurately reflects the state of the pin regardless of the
+   setting of the HW_PINCTRL_MUXSELx or HW_PINCTRL_DOEx registers", reset 0. */
 uint32_t Imx28Pinctrl::BankLevels(uint32_t bank, uint32_t* known) const {
     const uint32_t dout  = Reg(kDout + bank * 0x10u);
     const uint32_t doe   = Reg(kDoe + bank * 0x10u);
@@ -171,10 +167,9 @@ bool Imx28Pinctrl::SamplePin(uint32_t bank, uint32_t pin, const char* who) const
     return (level & (1u << pin)) != 0u;
 }
 
-/* Section 9.2.3.3 / figure 9-5: IRQSTAT sets on the selected pin's level (IRQLEVEL 1) or edge (0)
-   of polarity IRQPOL (1 = high / rising); IRQSTAT & IRQEN raises interrupt GPIOn to the interrupt
-   collector. Section 9.4.78: level status bits "cannot be cleared unless either the actual pin is
-   in the non-interrupting state, or the pin has been disabled as an interrupt source". */
+/* Section 9.2.3.3 / figure 9-5 IRQLEVEL, IRQPOL; section 9.4.78 level status bits "cannot be
+   cleared unless either the actual pin is in the non-interrupting state, or the pin has been
+   disabled as an interrupt source". */
 void Imx28Pinctrl::UpdateBanks() {
     for (uint32_t b = 0; b < kBanks; ++b) {
         const uint32_t sel = Reg(kPin2Irq + b * 0x10u);
@@ -193,13 +188,23 @@ void Imx28Pinctrl::UpdateBanks() {
         RegRef(kIrqStat + b * 0x10u) |= sel & (level_hit | rise | fall);
         level_[b] = (level_[b] & ~sel) | (level & sel);
         armed_[b] = sel;
-        if ((Reg(kIrqStat + b * 0x10u) & Reg(kIrqEn + b * 0x10u)) != 0u) {
-            emu_.Get<Fatal>().Die("Imx28Pinctrl: GPIO%u interrupt asserted (IRQSTAT %08X IRQEN %08X); "
-                                  "no ICOLL to deliver it", b, Reg(kIrqStat + b * 0x10u),
-                                  Reg(kIrqEn + b * 0x10u));
-        }
+    }
+    DriveLines(false);
+}
+
+/* Section 9.2.3.3: IRQSTAT & IRQEN raises the bank's interrupt; Table 5-1 maps bank b to ICOLL
+   source 127 - b. */
+void Imx28Pinctrl::DriveLines(bool force) {
+    for (uint32_t b = 0; b < kBanks; ++b) {
+        const bool level = (Reg(kIrqStat + b * 0x10u) & Reg(kIrqEn + b * 0x10u)) != 0u;
+        if (!force && level == (((line_ >> b) & 1u) != 0u)) continue;
+        line_ = (line_ & ~(1u << b)) | (level ? 1u << b : 0u);
+        if (level) icoll_->AssertSource(kIrqBank0 - b);
+        else       icoll_->DeassertSource(kIrqBank0 - b);
     }
 }
+
+void Imx28Pinctrl::PostRestore() { DriveLines(true); }
 
 uint32_t Imx28Pinctrl::ComposeRead(uint32_t row, uint32_t lanes) {
     const uint32_t off = kImx28PinctrlRegs[row].offset;
@@ -214,30 +219,47 @@ uint32_t Imx28Pinctrl::ComposeRead(uint32_t row, uint32_t lanes) {
         }
         return level;
     }
+    if (off == kCtrlOffset) {
+        uint32_t irqout = 0u;
+        for (uint32_t b = 0; b < kBanks; ++b) {
+            if ((Reg(kIrqStat + b * 0x10u) & Reg(kIrqEn + b * 0x10u)) != 0u) irqout |= 1u << b;
+        }
+        return (regs_[row] & ~kCtrlIrqOutMask) | irqout;
+    }
     return regs_[row];
 }
 
-uint32_t Imx28Pinctrl::ReadReg(uint32_t addr, uint32_t lanes) {
+uint32_t Imx28Pinctrl::ReadLanes(uint32_t word_addr, uint32_t lanes) {
     Imx28SctOp op;
-    const uint32_t row = DecodeRow("Read", addr, 0, &op);
+    const uint32_t row = DecodeRow("Read", word_addr, 0, &op);
     if (op != Imx28SctOp::Write) return 0u;   /* RM 39.3: SCT registers read back 0 */
-    if (kImx28PinctrlRegs[row].offset != kCtrlOffset) RequireOperating("Read", addr, 0);
+    if (kImx28PinctrlRegs[row].offset != kCtrlOffset) {
+        RequireOperating("Read", Reg(kCtrlOffset), word_addr, 0);
+    }
     return ComposeRead(row, lanes);
 }
 
-uint32_t Imx28Pinctrl::ReadWord(uint32_t addr) { return ReadReg(addr, 0xFFFFFFFFu); }
+uint32_t Imx28Pinctrl::PeekLanes(uint32_t word_addr, uint32_t lanes) {
+    Imx28SctOp op;
+    const uint32_t row = DecodeRow("WriteWord", word_addr, 0, &op);
+    if (kImx28PinctrlRegs[row].offset != kCtrlOffset) {
+        RequireOperating("WriteWord", Reg(kCtrlOffset), word_addr, 0);
+    }
+    return ComposeRead(row, lanes);
+}
 
-/* Section 9.4 memory map lists IRQSTAT R/W; figure 9-4: "Write zero to HW_PINCTRL_IRQSTATx
-   register bit to clear interrupts"; section 9.4.78: "Software may clear any bit in this register
-   by writing a 1 to the bit at the SCT clear address". Plain, SET, CLR and TOG take the common
-   SCT path; UpdateBanks re-asserts level bits whose pin still interrupts. */
+uint32_t Imx28Pinctrl::ReadWord(uint32_t addr) { return ReadLanes(addr, 0xFFFFFFFFu); }
+
+/* Figure 9-4 "Write zero to HW_PINCTRL_IRQSTATx register bit to clear interrupts"; section 9.4.78
+   "Software may clear any bit in this register by writing a 1 to the bit at the SCT clear
+   address". */
 void Imx28Pinctrl::WriteWord(uint32_t addr, uint32_t value) {
     Imx28SctOp op;
     const uint32_t row = DecodeRow("WriteWord", addr, value, &op);
     const Imx28PinctrlReg& def = kImx28PinctrlRegs[row];
     const uint32_t off = def.offset;
     if (def.writable == 0u) HaltUnsupportedAccess("WriteWord", addr, value);
-    if (off != kCtrlOffset) RequireOperating("WriteWord", addr, value);
+    if (off != kCtrlOffset) RequireOperating("WriteWord", Reg(kCtrlOffset), addr, value);
     const uint32_t old = regs_[row];
     const uint32_t next = Imx28ApplySct(op, old, value);
     regs_[row] = (old & ~def.writable) | (next & def.writable);
@@ -248,30 +270,6 @@ void Imx28Pinctrl::WriteWord(uint32_t addr, uint32_t value) {
         return;
     }
     if (off != kCtrlOffset) UpdateBanks();
-}
-
-uint8_t Imx28Pinctrl::ReadByte(uint32_t addr) {
-    const uint32_t shift = (addr & 0x3u) * 8u;
-    return static_cast<uint8_t>((ReadReg(addr & ~0x3u, 0xFFu << shift) >> shift) & 0xFFu);
-}
-
-uint16_t Imx28Pinctrl::ReadHalf(uint32_t addr) {
-    if ((addr & 0x1u) != 0) HaltUnsupportedAccess("ReadHalf-unaligned", addr, 0);
-    const uint32_t shift = (addr & 0x2u) * 8u;
-    return static_cast<uint16_t>((ReadReg(addr & ~0x3u, 0xFFFFu << shift) >> shift) & 0xFFFFu);
-}
-
-void Imx28Pinctrl::WriteByte(uint32_t addr, uint8_t value) {
-    const uint32_t shift = (addr & 0x3u) * 8u;
-    const uint32_t old   = ReadReg(addr & ~0x3u, 0xFFu << shift);
-    WriteWord(addr & ~0x3u, (old & ~(0xFFu << shift)) | (static_cast<uint32_t>(value) << shift));
-}
-
-void Imx28Pinctrl::WriteHalf(uint32_t addr, uint16_t value) {
-    if ((addr & 0x1u) != 0) HaltUnsupportedAccess("WriteHalf-unaligned", addr, value);
-    const uint32_t shift = (addr & 0x2u) * 8u;
-    const uint32_t old   = ReadReg(addr & ~0x3u, 0xFFFFu << shift);
-    WriteWord(addr & ~0x3u, (old & ~(0xFFFFu << shift)) | (static_cast<uint32_t>(value) << shift));
 }
 
 void Imx28Pinctrl::SaveState(StateWriter& w) {

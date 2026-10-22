@@ -6,6 +6,7 @@
 #include <cerfcore/socs/guest_cpu_reset.h>
 #include "../../peripherals/peripheral_dispatcher.h"
 #include "../../tracing/kernel_debug_sink.h"
+#include "imx28_icoll.h"
 #include "imx28_id.h"
 #include "imx28_pinctrl.h"
 
@@ -69,6 +70,9 @@ constexpr uint32_t kDmacrMask = 0x7u;
 constexpr uint32_t kIntMask   = 0x7FFu;
 constexpr uint32_t kTxInt     = 1u << 5;
 
+/* Table 5-1 source 47: duart_irq. */
+constexpr uint32_t kIrqDuart  = 47u;
+
 }  /* namespace */
 
 bool Imx28Duart::ShouldRegister() {
@@ -77,6 +81,7 @@ bool Imx28Duart::ShouldRegister() {
 }
 
 void Imx28Duart::OnReady() {
+    icoll_ = &emu_.Get<Imx28Icoll>();
     LoadResetValues();
     emu_.Get<GuestCpuReset>().RegisterResetListener([this](ResetLineKind) { LoadResetValues(); });
     emu_.Get<PeripheralDispatcher>().Register(this);
@@ -87,6 +92,7 @@ void Imx28Duart::LoadResetValues() {
     ilpr_ = ibrd_ = fbrd_ = lcr_h_ = div_ = imsc_ = ris_ = dmacr_ = 0u;
     cr_ = kCrReset;
     ifls_ = kIflsReset;
+    DriveLine(false);
 }
 
 void Imx28Duart::FlushLine() {
@@ -95,18 +101,18 @@ void Imx28Duart::FlushLine() {
 }
 
 /* Section 24.3.12: MIS is RIS gated by IMSC; section 24.1: one combined interrupt, asserted when
-   any individual interrupt is asserted and unmasked. */
-void Imx28Duart::CheckInterruptLine(const char* cause) {
-    const uint32_t mis = ris_ & imsc_;
-    if (mis != 0u) {
-        emu_.Get<Fatal>().Die("Imx28Duart: interrupt asserted unmasked after %s (RIS %03X IMSC %03X); "
-                              "no ICOLL to deliver it", cause, ris_, imsc_);
-    }
+   any individual interrupt is asserted and unmasked; Table 5-1 source 47. */
+void Imx28Duart::DriveLine(bool force) {
+    const bool level = (ris_ & imsc_) != 0u;
+    if (!force && level == line_) return;
+    line_ = level;
+    if (level) icoll_->AssertSource(kIrqDuart);
+    else       icoll_->DeassertSource(kIrqDuart);
 }
 
-/* Figure 24-1 shows only UART1RXD, UART1TXD, UART2RTS and UART2CTS pins on the Debug UART, so
-   DSR, DCD and RI have no input and keep the section 24.3.3 reset value 0. nUARTCTS is wired to
-   its pad only while BANK3_PIN00 is muxed to duart_cts, otherwise CTS holds the reset value 0. */
+void Imx28Duart::PostRestore() { DriveLine(true); }
+
+/* Figure 24-1 Debug UART pins; section 24.3.3 FR reset value; section 9.4.8 MUXSEL6 BANK3_PIN00. */
 uint32_t Imx28Duart::ReadFr() {
     auto* pins = emu_.TryGet<Imx28Pinctrl>();
     if (pins == nullptr || pins->MuxSelect(kCtsBank, kCtsPin) != kCtsMux) return kFrReset;
@@ -147,7 +153,7 @@ void Imx28Duart::Transmit(uint8_t ch) {
     /* DDI0183G section 2.8.3 UARTTXINTR: FIFOs disabled, holding register empties. */
     if ((lcr_h_ & kLcrHFen) == 0u) {
         ris_ |= kTxInt;
-        CheckInterruptLine("transmit");
+        DriveLine(false);
     }
 }
 
@@ -184,49 +190,35 @@ void Imx28Duart::WriteWord(uint32_t addr, uint32_t value) {
             return;
         case kImsc:
             imsc_ = value & kIntMask;
-            CheckInterruptLine("IMSC write");
+            DriveLine(false);
             return;
         case kIcr:
             ris_ &= ~(value & kIntMask);
+            DriveLine(false);
             return;
         case kDmacr: dmacr_ = value & kDmacrMask; return;
         default:     HaltUnsupportedAccess("WriteWord", addr, value);
     }
 }
 
-uint8_t Imx28Duart::ReadByte(uint32_t addr) {
-    const uint32_t shift = (addr & 0x3u) * 8u;
-    return static_cast<uint8_t>((ReadWord(addr & ~0x3u) >> shift) & 0xFFu);
-}
-
-uint16_t Imx28Duart::ReadHalf(uint32_t addr) {
-    if ((addr & 0x1u) != 0) HaltUnsupportedAccess("ReadHalf-unaligned", addr, 0);
-    const uint32_t shift = (addr & 0x2u) * 8u;
-    return static_cast<uint16_t>((ReadWord(addr & ~0x3u) >> shift) & 0xFFFFu);
-}
-
 /* Section 24.3.1 DR: "The UART IP only implements 16 and 8-bit registers"; only DATA [7:0] of DR
    is a transmit field, so a sub-word DR write must carry its value in byte lane 0. */
-void Imx28Duart::WriteSub(uint32_t addr, uint32_t shift, uint32_t lane_mask, uint32_t value) {
-    const uint32_t base = addr & ~0x3u;
-    if (base - MmioBase() == kDr) {
-        if (shift != 0u || (value & ~0xFFu) != 0u) {
-            HaltUnsupportedAccess("WriteSub-DR-lane", addr, value);
-        }
-        WriteWord(base, value);
-        return;
+void Imx28Duart::RequireDrLane(uint32_t addr, uint32_t value) const {
+    if (((addr & ~0x3u) - MmioBase()) != kDr) return;
+    if ((addr & 0x3u) != 0u || (value & ~0xFFu) != 0u) {
+        HaltUnsupportedAccess("WriteSub-DR-lane", addr, value);
     }
-    const uint32_t old = ReadWord(base);
-    WriteWord(base, (old & ~(lane_mask << shift)) | (value << shift));
 }
 
 void Imx28Duart::WriteByte(uint32_t addr, uint8_t value) {
-    WriteSub(addr, (addr & 0x3u) * 8u, 0xFFu, value);
+    RequireDrLane(addr, value);
+    Imx28ApbPeripheral::WriteByte(addr, value);
 }
 
 void Imx28Duart::WriteHalf(uint32_t addr, uint16_t value) {
     if ((addr & 0x1u) != 0) HaltUnsupportedAccess("WriteHalf-unaligned", addr, value);
-    WriteSub(addr, (addr & 0x2u) * 8u, 0xFFFFu, value);
+    RequireDrLane(addr, value);
+    Imx28ApbPeripheral::WriteHalf(addr, value);
 }
 
 void Imx28Duart::SaveState(StateWriter& w) {

@@ -4,12 +4,8 @@
 
 namespace cerfcore {
 
-/* MCIMX28RM Rev. 2 section 9.4 "HW_PINCTRL memory map": reset values per register; section
-   9.4.x lists _SET/_CLR/_TOG addresses for every register including DRIVE19 (9.4.35) and
-   DIN0-4 (9.4.48-52), but both are "R" in the 9.4 memory map and 39.3 says "The SCT registers
-   are not implemented if the primary register is read-only", so sct is false for them. Writable masks are the fields the 9.4.x field tables do not mark "Always write
-   zeroes" / "Empty Description" (reserved); CTRL writes only SFTRST [31] and CLKGATE [30]
-   (PRESENT [24:20] and IRQOUT [4:0] are read-only); DRIVE1 is reserved entirely. */
+/* MCIMX28RM Rev. 2 section 9.4 "HW_PINCTRL memory map" reset values; DRIVE19 (9.4.35) and
+   DIN0-4 (9.4.48-52) "R"; section 39.3 "not implemented if the primary register is read-only". */
 struct Imx28PinctrlReg {
     uint16_t offset;
     uint32_t reset;

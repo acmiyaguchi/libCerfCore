@@ -1,22 +1,23 @@
 #pragma once
 
-#include <cerfcore/peripherals/peripheral_base.h>
-
 #include <cerfcore/boards/board_context.h>
 #include <cerfcore/core/cerf_emulator.h>
 #include <cerfcore/state/state_stream.h>
 #include "../../execution/guest_cycle_clock.h"
+#include "imx28_apb_peripheral.h"
 #include "imx28_clkctrl_regs.h"
 #include "imx28_sct_reg.h"
 
 #include <cstdint>
+#include <functional>
+#include <vector>
 
 namespace cerfcore {
 
 /* MCIMX28RM Rev. 2 chapter 10 (CLKCTRL) at 0x8004_0000. */
-class Imx28Clkctrl : public Peripheral {
+class Imx28Clkctrl : public Imx28ApbPeripheral {
 public:
-    using Peripheral::Peripheral;
+    using Imx28ApbPeripheral::Imx28ApbPeripheral;
 
     bool ShouldRegister() override;
     void OnReady() override;
@@ -24,16 +25,16 @@ public:
     uint32_t MmioBase() const override { return 0x80040000u; }
     uint32_t MmioSize() const override { return 0x00002000u; }
 
-    uint8_t  ReadByte (uint32_t addr) override;
-    uint16_t ReadHalf (uint32_t addr) override;
     uint32_t ReadWord (uint32_t addr) override;
-    void     WriteByte(uint32_t addr, uint8_t  value) override;
-    void     WriteHalf(uint32_t addr, uint16_t value) override;
     void     WriteWord(uint32_t addr, uint32_t value) override;
 
     void SaveState(StateWriter& w) override;
     void RestoreState(StateReader& r) override;
     void PostRestore() override;
+
+    GuestCycleClock::Rate XbusRate() const;
+    bool                  WatchdogPorDisabled() const;
+    void                  RegisterApbxListener(std::function<void()> fn);
 
 private:
     uint32_t                 ComposeRead(uint32_t index) const;
@@ -51,6 +52,7 @@ private:
 
     uint32_t regs_[kImx28ClkctrlRegCount] = {};
     uint64_t applied_hz_ = 0u;
+    std::vector<std::function<void()>> apbx_listeners_;
 };
 
 }

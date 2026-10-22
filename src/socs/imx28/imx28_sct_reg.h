@@ -4,12 +4,8 @@
 
 namespace cerfcore {
 
-/* MCIMX28RM Rev. 2 section 39.3 (Register Macro Usage, Background): most registers are
-   implemented as a set with registers that set, clear or toggle (SCT) individual bits of
-   the primary register; a 1 bit in the written value performs the operation, a 0 bit is
-   unaffected; "The SCT registers always read back 0"; they "are not implemented if the
-   primary register is read-only". The address layout is the per-register listing, e.g.
-   section 10.8.1: HW_CLKCTRL_PLL0CTRL0 0x000, _SET 0x004, _CLR 0x008, _TOG 0x00C. */
+/* MCIMX28RM Rev. 2 section 39.3 (Register Macro Usage, Background) "The SCT registers always
+   read back 0"; section 10.8.1: HW_CLKCTRL_PLL0CTRL0 0x000, _SET 0x004, _CLR 0x008, _TOG 0x00C. */
 enum class Imx28SctOp : uint32_t { Write = 0u, Set = 1u, Clr = 2u, Tog = 3u };
 
 struct Imx28SctAccess {

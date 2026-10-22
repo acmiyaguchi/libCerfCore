@@ -8,11 +8,11 @@ namespace cerfcore {
    bytes from 0x8004_0000 to 0x8004_0200, none between 0x170 and 0x1AF. */
 struct Imx28ClkctrlReg {
     bool     present;
-    bool     sct;        /* section 10.8.x lists _SET/_CLR/_TOG addresses */
-    uint32_t reset;      /* memory map "Reset value" */
-    uint32_t writable;   /* bits the field tables mark as software-writable */
-    uint32_t derived;    /* read-only status bits computed at read time */
-    uint32_t gated_div = 0;   /* DIV field mask when CLKGATE [31] gates DIV changes (10.8.10-14, 17-20) */
+    bool     sct;
+    uint32_t reset;
+    uint32_t writable;
+    uint32_t derived;
+    uint32_t gated_div = 0;
 };
 
 constexpr uint32_t kImx28ClkctrlRegCount = 0x21u;
@@ -24,6 +24,7 @@ constexpr uint32_t kClkPll1Ctrl1 = 0x30u >> 4;
 constexpr uint32_t kClkCpu       = 0x50u >> 4;
 constexpr uint32_t kClkEnet      = 0x140u >> 4;
 constexpr uint32_t kClkHbus     = 0x60u >> 4;
+constexpr uint32_t kClkXbus     = 0x70u >> 4;
 constexpr uint32_t kClkSaif0    = 0x100u >> 4;
 constexpr uint32_t kClkSaif1    = 0x110u >> 4;
 constexpr uint32_t kClkFlexcan   = 0x160u >> 4;
@@ -32,19 +33,8 @@ constexpr uint32_t kClkFrac1     = 0x1C0u >> 4;
 constexpr uint32_t kClkClkseq    = 0x1D0u >> 4;
 constexpr uint32_t kClkReset     = 0x1E0u >> 4;
 
-/* Reset-value rule: where a field table says "Always set to zero" / "Reserved" for a bit but
-   the register's own bit-diagram Reset row shows 1, the Reset row wins for the value read
-   back, because it is the only statement of register state and the section 10.8 memory map
-   repeats it identically. The field table decides writability, so such bits are not in the
-   writable mask. Affected: XTAL bit 30 (RSRVD3, 10.8.9) reset 1 -> 0x60000001; CLKSEQ bits
-   22 / 15 / 9 (RSRVD0 / RSRVD1 / RSRVD2, 10.8.26) reset 1 -> 0x004483FF; ENET TIME_SEL
-   [20:19] = 2 and DIV_TIME [26:21] = 0 (10.8.21; its DIV_TIME prose "divide by 1 at power-on
-   reset" is not modelled, no ENET timer here) -> 0xE0100000. RESET.CHIP [1] reads 1 at reset
-   (10.8.27 Reset row and memory map, 0x12). ENET RESET_BY_SW_CHIP / RESET_BY_SW [17:16] and
-   RESET.WDOG_POR_DISABLE [5] "reflect OTP fuse" (10.8.21, 10.8.27): the Reset row is 0.
-   Row order is offset / 0x10. Reset values: section 10.8 memory map. Writable masks: the
-   10.8.x field tables, excluding "Always set to zero" / "Reserved" fields and read-only
-   BUSY / STABLE / STATUS / LOCK fields. DIV widths follow each section's bit diagram. */
+/* Section 10.8 memory map "Reset value"; 10.8.9 XTAL RSRVD3, 10.8.26 CLKSEQ RSRVD0-2,
+   10.8.21 ENET TIME_SEL / DIV_TIME, 10.8.27 RESET.CHIP Reset rows. */
 constexpr Imx28ClkctrlReg kImx28ClkctrlRegs[kImx28ClkctrlRegCount] = {
     /* 0x000 PLL0CTRL0  10.8.1  LFR_SEL 29:28 CP_SEL 25:24 DIV_SEL 21:20 EN_USB_CLKS 18 POWER 17 */
     {true,  true,  0x00000000u, 0x33360000u, 0},
