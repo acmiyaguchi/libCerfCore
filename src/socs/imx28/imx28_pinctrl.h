@@ -33,6 +33,9 @@ public:
     using PinLevelFn = std::function<bool(uint32_t bank, uint32_t pin, bool* high)>;
     void SetPinLevelProvider(PinLevelFn fn);
 
+    using DinConsumedFn = std::function<uint32_t(uint32_t bank)>;
+    void SetDinConsumedProvider(DinConsumedFn fn);
+
     void NotifyPinLevelChanged(uint32_t bank, uint32_t pin);
 
     uint32_t MuxSelect(uint32_t bank, uint32_t pin) const;
@@ -60,6 +63,7 @@ private:
     uint32_t line_ = 0u;
     Imx28Icoll* icoll_ = nullptr;
     PinLevelFn pin_level_;
+    DinConsumedFn din_consumed_;
 };
 
 }

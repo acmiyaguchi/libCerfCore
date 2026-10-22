@@ -109,4 +109,10 @@ constexpr uint32_t kImx28PinctrlPinMask[5] = {
     0x1FFF00FFu, 0xFFFFFFFFu, 0x0F3FF7FFu, 0x7FF7FFFFu, 0x0011FFFFu,
 };
 
+/* Section 9.4.36-9.4.40 PULLn fields "enable the internal pullup on pin"; the other pins' fields
+   "disable the internal keeper on pin". */
+constexpr uint32_t kImx28PinctrlPullUpMask[5] = {
+    0x1DFF00FFu, 0x00000000u, 0x0E3EF3FFu, 0x000403C0u, 0x000001DFu,
+};
+
 }

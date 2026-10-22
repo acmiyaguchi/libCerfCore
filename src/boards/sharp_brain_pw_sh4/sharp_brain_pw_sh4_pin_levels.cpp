@@ -19,6 +19,7 @@ struct PinLevel {
    c07a9bac: bank 0 pin 24, model string at PA 0x400EA110 not "SA3". keybd_EDNA2.dll
    KBD_ScanMatrix c0878678: bank 4 pins 0-4, 6, 7. */
 constexpr PinLevel kLevels[] = {
+    {0u, 5u, false},   /* sharp_brain_pw_sh4 sdhc.dll BSPSDHCIsCardPresent c078250c */
     {0u, 6u, false},
     {0u, 7u, true},
     {0u, 24u, true},

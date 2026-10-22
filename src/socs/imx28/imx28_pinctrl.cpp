@@ -15,11 +15,12 @@ namespace {
 /* Section 9.4.1 CTRL at offset 0. */
 constexpr uint32_t kCtrlOffset  = 0x000u;
 
-/* Section 9.4.1 CTRL IRQOUT4-0 [4:0]: "Read-only view of the interrupt collector GPIOn signal". */
+/* Section 9.4.1 CTRL IRQOUT4-0 [4:0]: "Read-only view of the interrupt collector GPIO0 signal". */
 constexpr uint32_t kCtrlIrqOutMask = 0x1Fu;
 
 /* Section 9.4 memory map: per-bank register arrays, one register per 0x10 bytes. */
 constexpr uint32_t kMuxsel    = 0x100u;
+constexpr uint32_t kPull      = 0x600u;
 constexpr uint32_t kDout      = 0x700u;
 constexpr uint32_t kDin       = 0x900u;
 constexpr uint32_t kDoe       = 0xB00u;
@@ -90,6 +91,11 @@ void Imx28Pinctrl::SetPinLevelProvider(PinLevelFn fn) {
     pin_level_ = std::move(fn);
 }
 
+void Imx28Pinctrl::SetDinConsumedProvider(DinConsumedFn fn) {
+    if (din_consumed_) emu_.Get<Fatal>().Die("Imx28Pinctrl: second DIN consumed-bits provider");
+    din_consumed_ = std::move(fn);
+}
+
 uint32_t Imx28Pinctrl::MuxSelect(uint32_t bank, uint32_t pin) const {
     return (Reg(kMuxsel + (bank * 2u + pin / 16u) * 0x10u) >> ((pin % 16u) * 2u)) & 0x3u;
 }
@@ -126,10 +132,11 @@ uint32_t Imx28Pinctrl::Reg(uint32_t offset) const {
 
 /* MCIMX28RM section 9.2.3.1 "Once set, the logic value the HW_PINCTRL_DOUTx bit will be driven
    on the pin"; section 9.4.48 DIN "accurately reflects the state of the pin regardless of the
-   setting of the HW_PINCTRL_MUXSELx or HW_PINCTRL_DOEx registers", reset 0. */
+   setting of the HW_PINCTRL_MUXSELx or HW_PINCTRL_DOEx registers"; section 9.2.2.3 pullups. */
 uint32_t Imx28Pinctrl::BankLevels(uint32_t bank, uint32_t* known) const {
     const uint32_t dout  = Reg(kDout + bank * 0x10u);
     const uint32_t doe   = Reg(kDoe + bank * 0x10u);
+    const uint32_t up    = Reg(kPull + bank * 0x10u) & kImx28PinctrlPullUpMask[bank];
     const uint32_t valid = kImx28PinctrlPinMask[bank];
     uint32_t level = 0u, k = 0u;
     for (uint32_t pin = 0; pin < 32u; ++pin) {
@@ -144,6 +151,11 @@ uint32_t Imx28Pinctrl::BankLevels(uint32_t bank, uint32_t* known) const {
         if (pin_level_ && pin_level_(bank, pin, &high)) {
             k |= bit;
             if (high) level |= bit;
+            continue;
+        }
+        if (MuxSelect(bank, pin) == kMuxGpio && (up & bit) != 0u) {
+            k |= bit;
+            level |= bit;
         }
     }
     *known = k;
@@ -212,10 +224,13 @@ uint32_t Imx28Pinctrl::ComposeRead(uint32_t row, uint32_t lanes) {
         const uint32_t bank = (off - kDin) / 0x10u;
         uint32_t known = 0u;
         const uint32_t level = BankLevels(bank, &known);
-        const uint32_t missing = kImx28PinctrlPinMask[bank] & lanes & ~known;
+        const uint32_t consumed = din_consumed_ ? din_consumed_(bank) : 0xFFFFFFFFu;
+        const uint32_t missing = kImx28PinctrlPinMask[bank] & lanes & consumed & ~known;
         if (missing != 0u) {
-            emu_.Get<Fatal>().Die("Imx28Pinctrl: DIN%u read needs pins %08X with no pin level model",
-                                  bank, missing);
+            emu_.Get<Fatal>().Die("Imx28Pinctrl: DIN%u read needs pins %08X with no pin level model "
+                                  "(MUXSEL %08X %08X PULL %08X DOE %08X)", bank, missing,
+                                  Reg(kMuxsel + bank * 0x20u), Reg(kMuxsel + bank * 0x20u + 0x10u),
+                                  Reg(kPull + bank * 0x10u), Reg(kDoe + bank * 0x10u));
         }
         return level;
     }
