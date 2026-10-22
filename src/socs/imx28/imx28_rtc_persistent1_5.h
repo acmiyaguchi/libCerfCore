@@ -10,7 +10,7 @@ constexpr uint32_t kP1BootRomBits = 0xFu;
 
 /* Section 22.1: PERSISTENT1-5 "are completely software-defined". sharp_brain_pw_sh4 nk.exe
    OALIoCtl_101300c 8020a00c writes PERSISTENT1, OALIoCtl_1013014 8020a1c8 writes
-   PERSISTENT2 with a caller value; no ROM path writes PERSISTENT3-5. */
+   PERSISTENT2 with a caller value. */
 inline const char* Imx28RtcPersistReject(uint32_t index, uint32_t old_value, uint32_t next) {
     switch (index) {
         case 1u:

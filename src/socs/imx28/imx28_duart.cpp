@@ -202,7 +202,7 @@ void Imx28Duart::WriteWord(uint32_t addr, uint32_t value) {
 }
 
 /* Section 24.3.1 DR: "The UART IP only implements 16 and 8-bit registers"; only DATA [7:0] of DR
-   is a transmit field, so a sub-word DR write must carry its value in byte lane 0. */
+   is a transmit field. */
 void Imx28Duart::RequireDrLane(uint32_t addr, uint32_t value) const {
     if (((addr & ~0x3u) - MmioBase()) != kDr) return;
     if ((addr & 0x3u) != 0u || (value & ~0xFFu) != 0u) {
