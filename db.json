@@ -9,7 +9,8 @@
     "ddi_mq200.dll",
     "ddi_ragexl.dll",
     "ddraw_ipu.dll",
-    "ddi_vgx.dll"
+    "ddi_vgx.dll",
+    "ddraw_mx28.dll"
   ],
   "soc_families": [
     {
