@@ -42,7 +42,7 @@ constexpr uint32_t kHeaderBytes = 12u;
 }  /* namespace */
 
 /* Sections 6.5.13, 7.5.11 CHn_DEBUG1 reset 00A0_0000h (RD_FIFO_EMPTY, WR_FIFO_EMPTY); STATEMACHINE
-   0x00 IDLE, 0x0D READ_REQ, 0x15 WAIT_END, 0x1D HALT_AFTER_TERM, 0x1E CHECK_WAIT. */
+   0x00 IDLE, 0x0C WRITE, 0x0D READ_REQ, 0x15 WAIT_END, 0x1D HALT_AFTER_TERM, 0x1E CHECK_WAIT. */
 uint32_t Imx28ApbDmaChannel::Debug1() const {
     constexpr uint32_t kFifosEmpty = 0x00A00000u;
     switch (state_) {
@@ -50,6 +50,7 @@ uint32_t Imx28ApbDmaChannel::Debug1() const {
         case State::WaitEnd:            return kFifosEmpty | 0x15u;
         case State::HaltAfterTerminate: return kFifosEmpty | 0x1Du;
         case State::ReadRequest:        return kFifosEmpty | 0x0Du;
+        case State::WriteRequest:       return kFifosEmpty | 0x0Cu;
         case State::CheckWait:          return kFifosEmpty | 0x1Eu;
         default:                        break;
     }
@@ -92,7 +93,15 @@ void Imx28ApbDmaChannel::EndCommand() {
 }
 
 void Imx28ApbDmaChannel::TransferDone() {
-    if (state_ != State::ReadRequest) Die("transfer done in state", static_cast<uint32_t>(state_));
+    if (state_ == State::WriteRequest) {
+        const uint32_t count = TransferCount(cmd_);
+        std::vector<uint8_t> buf(count);
+        const Imx28ApbDmaDevice::Transfer t = device_->DmaToMemory(index_, buf.data(), count);
+        if (t.deferred || t.terminated || t.bytes != count) Die("device wrote bytes", t.bytes);
+        WriteGuest(bar_, buf.data(), count);
+    } else if (state_ != State::ReadRequest) {
+        Die("transfer done in state", static_cast<uint32_t>(state_));
+    }
     state_ = State::Idle;
     if (Complete(cmd_)) Run();
 }
@@ -113,7 +122,8 @@ void Imx28ApbDmaChannel::Run() {
     visited_.clear();
     for (;;) {
         if (state_ == State::WaitEnd || state_ == State::HaltAfterTerminate ||
-            state_ == State::ReadRequest || state_ == State::CheckWait) {
+            state_ == State::ReadRequest || state_ == State::CheckWait ||
+            state_ == State::WriteRequest) {
             return;
         }
         if (sema_ == 0u) {
@@ -168,13 +178,24 @@ bool Imx28ApbDmaChannel::Execute(const Descriptor& d) {
     return true;
 }
 
+uint32_t Imx28ApbDmaChannel::TransferCount(uint32_t cmd) {
+    const uint32_t count = cmd >> kCmdCountShift;
+    return count == 0u ? kZeroCount : count;
+}
+
 bool Imx28ApbDmaChannel::MoveData(const Descriptor& d) {
-    uint32_t count = d.cmd >> kCmdCountShift;
-    if (count == 0u) count = kZeroCount;
+    const uint32_t count = TransferCount(d.cmd);
     std::vector<uint8_t> buf(count);
     Imx28ApbDmaDevice::Transfer t{};
     if ((d.cmd & kCmdKind) == kKindWrite) {
         t = device_->DmaToMemory(index_, buf.data(), count);
+        if (t.deferred) {
+            if (t.terminated || t.bytes != 0u || (d.cmd & kCmdWait4End) != 0u) {
+                Die("deferred transfer, command", d.cmd);
+            }
+            state_ = State::WriteRequest;
+            return true;
+        }
         if (t.bytes > count || (!t.terminated && t.bytes != count)) Die("device wrote bytes", t.bytes);
         WriteGuest(d.bar, buf.data(), t.bytes);
     } else {

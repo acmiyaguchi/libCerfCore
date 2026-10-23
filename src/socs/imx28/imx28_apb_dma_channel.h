@@ -47,7 +47,9 @@ public:
     void Restore(StateReader& r);
 
 private:
-    enum class State : uint8_t { Idle, Pending, WaitEnd, HaltAfterTerminate, ReadRequest, CheckWait };
+    enum class State : uint8_t {
+        Idle, Pending, WaitEnd, HaltAfterTerminate, ReadRequest, CheckWait, WriteRequest
+    };
 
     struct Descriptor {
         uint32_t cmd;
@@ -59,6 +61,7 @@ private:
     void     Run();
     void     Fetch(Descriptor& d);
     bool     Execute(const Descriptor& d);
+    static uint32_t TransferCount(uint32_t cmd);
     bool     MoveData(const Descriptor& d);
     bool     Terminated(uint32_t cmd);
     bool     Complete(uint32_t cmd);

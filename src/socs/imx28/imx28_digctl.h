@@ -28,6 +28,9 @@ public:
     /* Section 19.4.1 CTRL USB0_CLKGATE [2], USB1_CLKGATE [16]. */
     bool UsbClockGated(uint32_t unit) const { return ((ctrl_ >> (unit == 0u ? 2u : 16u)) & 1u) != 0u; }
 
+    /* Section 19.4.1 CTRL SAIF_CLKMUX_SEL [11:10]. */
+    uint32_t SaifClkmux() const { return (ctrl_ >> 10) & 0x3u; }
+
 private:
     void     LoadResetValues();
     void     WriteCtrl(Imx28SctOp op, uint32_t value, uint32_t addr);
