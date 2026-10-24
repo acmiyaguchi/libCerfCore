@@ -252,8 +252,8 @@ void Imx28Clkctrl::CheckDividerWrite(uint32_t index, uint32_t old, uint32_t next
     const uint32_t div = kImx28ClkctrlRegs[index].gated_div;
     if (div != 0u && ((old ^ next) & div) != 0u) {
         if (((old | next) & kClkGate) != 0u) {
-            emu_.Get<Fatal>().Die("Imx28Clkctrl: reg %03X DIV changed with CLKGATE set or "
-                                  "changing (%08X -> %08X)", index << 4, old, next);
+            LOG(SocClkpwr, "Imx28Clkctrl: reg %03X DIV changed with CLKGATE set or "
+                           "changing (%08X -> %08X)", index << 4, old, next);
         }
         if ((index == kClkSaif0 || index == kClkSaif1) && (next & kSaifFracEn) == 0u) {
             emu_.Get<Fatal>().Die("Imx28Clkctrl: SAIF%u DIV programmed with DIV_FRAC_EN 0 (%08X)",

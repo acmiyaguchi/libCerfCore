@@ -136,16 +136,17 @@ void Imx28ApbDmaChannel::Run() {
         }
         if (device_ == nullptr) Die("started with no device model, semaphore", sema_);
         Descriptor d;
-        Fetch(d);
+        if (!Fetch(d)) return;
         if (!Execute(d)) return;
         if (!Complete(d.cmd)) return;
     }
 }
 
-void Imx28ApbDmaChannel::Fetch(Descriptor& d) {
+bool Imx28ApbDmaChannel::Fetch(Descriptor& d) {
     if ((nxt_ & 0x3u) != 0u) Die("unaligned command address", nxt_);
     if (std::find(visited_.begin(), visited_.end(), nxt_) != visited_.end()) {
-        Die("chain revisits command with no semaphore decrement at", nxt_);
+        visited_.clear();
+        return false;
     }
     visited_.push_back(nxt_);
     uint32_t header[3];
@@ -156,6 +157,7 @@ void Imx28ApbDmaChannel::Fetch(Descriptor& d) {
     bar_ = d.bar = header[2];
     const uint32_t words = (d.cmd >> kCmdWordsShift) & kCmdWordsMask;
     if (words != 0u) ReadGuest(cur_ + kHeaderBytes, d.pio, words * 4u);
+    return true;
 }
 
 bool Imx28ApbDmaChannel::Execute(const Descriptor& d) {

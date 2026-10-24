@@ -117,9 +117,15 @@ void Imx28TimrotTimer::Rebase(uint64_t now) {
 /* MCIMX28RM Rev. 2 sections 23.2.1 and 23.4.3 PRESCALE. */
 GuestCycleClock::Rate Imx28TimrotTimer::TickRate() const {
     if (!clocks_.operating) return GuestCycleClock::Rate{0u, 1u};
-    if ((ctrl_ & kSelectMask) == kSelAlways) {
-        return clocks_.xbus.Scaled(1u, 1u << ((ctrl_ >> kPrescaleShift) & 0x3u)).Reduced();
+    const uint32_t sel = ctrl_ & kSelectMask;
+    const uint32_t prescale = 1u << ((ctrl_ >> kPrescaleShift) & 0x3u);
+    if (sel == kSelAlways) {
+        return clocks_.xbus.Scaled(1u, prescale).Reduced();
     }
+    if (sel == 0xBu) return GuestCycleClock::Rate{32000u, prescale}.Reduced();
+    if (sel == 0xCu) return GuestCycleClock::Rate{8000u, prescale}.Reduced();
+    if (sel == 0xDu) return GuestCycleClock::Rate{4000u, prescale}.Reduced();
+    if (sel == 0xEu) return GuestCycleClock::Rate{1000u, prescale}.Reduced();
     return GuestCycleClock::Rate{0u, 1u};
 }
 
@@ -211,10 +217,6 @@ void Imx28TimrotTimer::WriteCtrl(Imx28SctOp op, uint32_t value) {
     if (sel > kSelNever && sel <= kSelPinMax) {
         emu_.Get<Fatal>().Die("Imx28Timrot: timer %u SELECT %X PWM/rotary pin (CTRL %08X)",
                               index_, sel, next);
-    }
-    if (sel >= kSel32k && sel <= kSel1k) {
-        emu_.Get<Fatal>().Die("Imx28Timrot: timer %u SELECT %X clk_32k (CTRL %08X)", index_, sel,
-                              next);
     }
     if ((next & kPolarity) != 0u && sel != kSelNever) {
         emu_.Get<Fatal>().Die("Imx28Timrot: timer %u POLARITY set (CTRL %08X)", index_, next);

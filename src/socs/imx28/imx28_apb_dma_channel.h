@@ -59,7 +59,7 @@ private:
 
     [[noreturn]] void Die(const char* what, uint32_t value) const;
     void     Run();
-    void     Fetch(Descriptor& d);
+    bool     Fetch(Descriptor& d);
     bool     Execute(const Descriptor& d);
     static uint32_t TransferCount(uint32_t cmd);
     bool     MoveData(const Descriptor& d);

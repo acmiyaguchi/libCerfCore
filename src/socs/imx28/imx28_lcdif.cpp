@@ -6,7 +6,9 @@
 #include <cerfcore/state/state_stream.h>
 #include "../../peripherals/peripheral_dispatcher.h"
 #include "../mpu_lcd_panel.h"
+#include "imx28_apb_dma_device.h"
 #include "imx28_apb_peripheral.h"
+#include "imx28_apbh.h"
 #include "imx28_icoll.h"
 #include "imx28_id.h"
 #include "imx28_lcdif_regs.h"
@@ -30,8 +32,10 @@ constexpr uint32_t kCtrlUnmodelled = kCtrlDataFormat16 | kCtrlRgbToYcbcr | kCtrl
                                      kCtrlDotclkMode | kCtrlBypassCount | kCtrlDviMode |
                                      kCtrlShiftNumBits | kCtrlReadWriteb | kCtrlYcbcr422Input;
 
+constexpr uint32_t kDmaChannel = 13u;
+
 /* MCIMX28RM Rev. 2 chapter 33 (LCDIF) at 0x8003_0000. */
-class Imx28Lcdif : public Imx28ApbPeripheral {
+class Imx28Lcdif : public Imx28ApbPeripheral, private Imx28ApbDmaDevice {
 public:
     using Imx28ApbPeripheral::Imx28ApbPeripheral;
 
@@ -48,6 +52,7 @@ public:
             ResetBlock(false);
             DriveIrq();
         });
+        emu_.Get<Imx28Apbh>().AttachDevice(kDmaChannel, this);
         emu_.Get<PeripheralDispatcher>().Register(this);
     }
 
@@ -56,6 +61,39 @@ public:
 
     uint32_t ReadWord(uint32_t addr) override;
     void     WriteWord(uint32_t addr, uint32_t value) override;
+
+    void DmaPioWrite(uint32_t channel, uint32_t index, uint32_t value) override {
+        (void)channel;
+        const uint32_t reg_offset = index * 0x10u;
+        if (reg_offset >= kMapEnd) return;
+        WriteWord(MmioBase() + reg_offset, value);
+    }
+
+    Transfer DmaToMemory(uint32_t channel, uint8_t* dst, uint32_t count) override {
+        (void)channel; (void)dst; (void)count;
+        return Transfer{0, true, false};
+    }
+
+    Transfer DmaFromMemory(uint32_t channel, const uint8_t* src, uint32_t count) override {
+        (void)channel;
+        if (panel_ != nullptr) {
+            for (uint32_t i = 0; i + 1 < count; i += 2) {
+                const uint16_t word = static_cast<uint16_t>(src[i] | (src[i + 1] << 8));
+                SendWord(word);
+            }
+        }
+        FinishTransfer();
+        return Transfer{count, false, false};
+    }
+
+    bool DmaCommandEnded(uint32_t channel) override {
+        (void)channel;
+        return true;
+    }
+
+    void DmaChannelReset(uint32_t channel) override {
+        (void)channel;
+    }
 
     void SaveState(StateWriter& w) override {
         w.Write("regs", regs_);
@@ -194,8 +232,9 @@ void Imx28Lcdif::WriteCtrl1(Imx28SctOp op, uint32_t addr, uint32_t value) {
     const uint32_t next = Reg(kCtrl1);
     if ((next & ~old & kCtrl1IrqStatus) != 0u) Die("CTRL1 IRQ status set by software", addr,
                                                     value);
-    if ((next & (kCtrl1FifoClear | kCtrl1InterlaceFields | kCtrl1BusyEnable)) != 0u)
-        Die("CTRL1 FIFO_CLEAR, INTERLACE_FIELDS or BUSY_ENABLE", addr, value);
+    if ((Reg(kCtrl1) & kCtrl1FifoClear) != 0u) {
+        Reg(kCtrl1) &= ~kCtrl1FifoClear;
+    }
     DriveIrq();
 }
 

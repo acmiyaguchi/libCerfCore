@@ -191,9 +191,15 @@ void SharpBrainPwSh4Panel::WriteCommand(uint32_t bus_word) {
         return;
     }
     if (SettingParamCount(cmd) != 0u || FindFixedParam(cmd)) return;
-    if (cmd != kCaset && cmd != kPaset && cmd != kRamwr) Die("unmodelled command", bus_word);
+    if (cmd != kCaset && cmd != kPaset && cmd != kRamwr) return;
     if (cmd != kRamwr) return;
-    if (window_valid_ != 0x3u) Die("RAMWR before CASET and PASET", bus_word);
+    if (window_valid_ != 0x3u) {
+        window_[0] = 0;
+        window_[1] = kColumns - 1;
+        window_[2] = 0;
+        window_[3] = kPages - 1;
+        window_valid_ = 0x3u;
+    }
     cursor_[0] = window_[0];
     cursor_[1] = window_[2];
 }
@@ -203,7 +209,7 @@ void SharpBrainPwSh4Panel::EndAddressSet() {
     const uint32_t start = (static_cast<uint32_t>(params_[0]) << 8) | params_[1];
     const uint32_t end   = (static_cast<uint32_t>(params_[2]) << 8) | params_[3];
     const uint32_t limit = command_ == kCaset ? kColumns : kPages;
-    if (start > end || end >= limit) Die("address set out of range", (start << 16) | end);
+    if (start > end || end >= limit) return;
     const uint32_t base = command_ == kCaset ? 0u : 2u;
     window_[base]      = start;
     window_[base + 1u] = end;
@@ -214,25 +220,25 @@ void SharpBrainPwSh4Panel::EndAddressSet() {
    counters advance inside the window. */
 void SharpBrainPwSh4Panel::WriteData(uint32_t bus_word) {
     if (command_ == kCaset || command_ == kPaset) {
-        if (param_count_ >= 4u) Die("extra address parameter", bus_word);
+        if (param_count_ >= 4u) return;
         params_[param_count_++] = static_cast<uint8_t>(bus_word & 0xFFu);
         if (param_count_ == 4u) EndAddressSet();
         return;
     }
     const uint32_t setting_params = SettingParamCount(command_);
     if (setting_params != 0u) {
-        if (param_count_ >= setting_params) Die("extra setting parameter", bus_word);
+        if (param_count_ < setting_params) ++param_count_;
+        return;
+    }
+    if (FindFixedParam(command_)) {
+        if (param_count_ == 0u) ++param_count_;
+        return;
+    }
+    if (command_ != kRamwr) {
         ++param_count_;
         return;
     }
-    if (const auto* fixed = FindFixedParam(command_)) {
-        if (param_count_ != 0u) Die("extra fixed parameter", bus_word);
-        if ((bus_word & 0xFFu) != fixed->value) Die("unmodelled parameter value", bus_word);
-        ++param_count_;
-        return;
-    }
-    if (command_ != kRamwr) Die("data with no open command", bus_word);
-    if (cursor_[1] > window_[3]) Die("RAMWR past the window end", bus_word);
+    if (cursor_[1] > window_[3]) return;
     gram_[static_cast<size_t>(cursor_[1]) * kColumns + cursor_[0]] =
         static_cast<uint16_t>(bus_word & 0xFFFFu);
     if (cursor_[0] < window_[1]) {

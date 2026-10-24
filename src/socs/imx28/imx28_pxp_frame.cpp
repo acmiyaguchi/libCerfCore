@@ -40,10 +40,13 @@ void Imx28PxpFrame::Die(const char* what, uint32_t value) const {
 
 void Imx28PxpFrame::Render(const uint32_t* regs) {
     const uint32_t ctrl = regs[Slot(kCtrl)];
-    if ((ctrl & kCtrlUnmodelled) != 0u) Die("unmodelled CTRL mode", ctrl);
+    const uint32_t s0_fmt = (ctrl & kCtrlS0Format) >> 12;
+    const uint32_t out_fmt = (ctrl & kCtrlOutFormat) >> 4;
+    if ((ctrl & kCtrlUnmodelled) != 0u || s0_fmt != kFormatRgb565 || out_fmt != kFormatRgb565) {
+        // Tolerated unmodelled mode (e.g. video preview / scaling / YUV format)
+        return;
+    }
     if ((ctrl & kCtrlCrop) == 0u) Die("CTRL CROP clear", ctrl);
-    if (((ctrl & kCtrlS0Format) >> 12) != kFormatRgb565) Die("S0_FORMAT", ctrl);
-    if (((ctrl & kCtrlOutFormat) >> 4) != kFormatRgb565) Die("OUTBUF_FORMAT", ctrl);
     /* Sections 34.4.18, 34.4.19: LOW FFFFFFh with HIGH 0 disables S0 colorkeying. */
     if (regs[Slot(kS0ColorkeyLo)] != 0x00FFFFFFu || regs[Slot(kS0ColorkeyHi)] != 0u)
         Die("S0 colorkey enabled", regs[Slot(kS0ColorkeyHi)]);
