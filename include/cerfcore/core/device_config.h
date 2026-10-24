@@ -105,6 +105,7 @@ struct DeviceConfig : public Service {
     std::string storage_nand = "nand.img";
     std::string storage_hdd  = "hdd.img";
     std::string storage_emmc = "emmc.img";
+    std::string storage_sd   = "";
 
     /* Optional CF images bundled with the ROM (cerf.json
        "additional_packages.compact_flash_cards"); the CF insert menu offers

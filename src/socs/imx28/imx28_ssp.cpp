@@ -3,8 +3,10 @@
 #include <cerfcore/boards/board_context.h>
 #include <cerfcore/core/cerf_emulator.h>
 #include <cerfcore/core/fatal.h>
+#include <cerfcore/core/log.h>
 #include <cerfcore/socs/guest_cpu_reset.h>
 #include "../../peripherals/mmc/mmc_card.h"
+#include "../../peripherals/mmc/mmc_slot_provider.h"
 #include "../../peripherals/peripheral_dispatcher.h"
 #include "imx28_apbh.h"
 #include "imx28_icoll.h"
@@ -78,6 +80,9 @@ void Imx28Ssp::DriveLine(bool force) {
 }
 
 MmcCard* Imx28Ssp::Card() {
+    if (auto* provider = emu_.TryGet<MmcSlotProvider>()) {
+        return provider->CardForSlot(unit_);
+    }
     auto* card = emu_.TryGet<MmcCard>();
     return (card != nullptr && card->SlotIndex() == unit_) ? card : nullptr;
 }
@@ -87,9 +92,6 @@ MmcCard* Imx28Ssp::Card() {
 void Imx28Ssp::CheckRun(uint32_t addr) const {
     RequireOperating("RUN", ctrl0_, addr, ctrl0_);
     if ((ctrl1_ & kCtrl1ModeMask) != kCtrl1ModeSdMmc) Die("RUN with SSP_MODE", addr, ctrl1_);
-    if (((ctrl1_ >> kCtrl1WordLenShift) & kCtrl1WordLenMask) != kCtrl1WordLen8Bits) {
-        Die("RUN with WORD_LENGTH", addr, ctrl1_);
-    }
     if ((ctrl1_ & kCtrl1SlaveMode) != 0u) Die("RUN with SLAVE_MODE", addr, ctrl1_);
     if ((ctrl0_ & kCtrl0Enable) == 0u) Die("RUN with ENABLE clear", addr, ctrl0_);
     if ((ctrl0_ & (kCtrl0SdioIrqCheck | kCtrl0CheckResp | kCtrl0WaitForCmd | kCtrl0LockCs)) != 0u) {
@@ -113,6 +115,9 @@ bool Imx28Ssp::IssueCommand(uint32_t addr) {
     const MmcCommandResult result =
         card != nullptr ? card->Command(static_cast<uint8_t>(cmd0_ & kCmd0CmdIndex), cmd1_, resp)
                         : MmcCommandResult::NoResponse;
+    LOG(Boot, "SSP%u: Command %u arg %08X -> result %u, card %p\n",
+        unit_, static_cast<uint8_t>(cmd0_ & kCmd0CmdIndex), cmd1_,
+        static_cast<unsigned>(result), card);
     if ((ctrl0_ & kCtrl0GetResp) == 0u) return true;
     if (result == MmcCommandResult::NoResponse) {
         ctrl1_  |= kCtrl1RespTimeoutIrq;
