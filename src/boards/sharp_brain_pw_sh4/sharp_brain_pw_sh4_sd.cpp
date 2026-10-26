@@ -51,7 +51,13 @@ void SharpBrainPwSh4Sd::OpenStore() {
                               kSdSlotIndex, path_.c_str(),
                               static_cast<unsigned long long>(bytes));
     }
-    if (!store_.Open(path_, bytes, false)) {
+    const DeviceConfig& cfg = emu_.Get<DeviceConfig>();
+    const bool opened =
+        cfg.storage_sd_overlay.empty()
+            ? store_.Open(path_, bytes, false)
+            : store_.OpenOverlay(path_, ResolveDeviceFile(cfg.device_name, cfg.storage_sd_overlay),
+                                 bytes);
+    if (!opened) {
         emu_.Get<Fatal>().Die("SD card in slot %u: storage.sd %s cannot be opened",
                               kSdSlotIndex, path_.c_str());
     }

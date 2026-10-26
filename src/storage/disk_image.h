@@ -4,6 +4,7 @@
 
 #include <cstdint>
 #include <string>
+#include <vector>
 
 namespace cerfcore {
 
@@ -21,6 +22,9 @@ public:
     /* Removable media can require an existing file instead of creating a blank. */
     bool Open(const std::string& path, uint64_t size_bytes, bool create_if_missing = true);
 
+    bool OpenOverlay(const std::string& base_path, const std::string& overlay_path,
+                     uint64_t size_bytes);
+
     bool     IsOpen()      const { return file_.IsOpen(); }
     uint64_t SectorCount() const { return sector_count_; }
 
@@ -34,7 +38,17 @@ public:
     bool PunchHole(uint64_t lba, uint32_t count);
 
 private:
+    static bool ReadRange(host_platform::HostFile& file, uint64_t lba, uint32_t count,
+                          uint8_t* out);
+
+    bool InOverlay(uint64_t lba) const { return (overlay_map_[lba / 8u] >> (lba % 8u)) & 1u; }
+    bool MarkOverlay(uint64_t lba, uint32_t count);
+
     host_platform::HostFile file_;
+    host_platform::HostFile base_;
+    host_platform::HostFile map_file_;
+    std::vector<uint8_t>    overlay_map_;
+    bool                    overlay_      = false;
     uint64_t                sector_count_ = 0;
 };
 

@@ -80,7 +80,13 @@ private:
                                   kEmmcSlotIndex, path_.c_str(),
                                   static_cast<unsigned long long>(bytes));
         }
-        if (!store_.Open(path_, bytes, false)) {
+        const DeviceConfig& cfg = emu_.Get<DeviceConfig>();
+        const bool opened =
+            cfg.storage_emmc_overlay.empty()
+                ? store_.Open(path_, bytes, false)
+                : store_.OpenOverlay(path_, ResolveDeviceFile(cfg.device_name, cfg.storage_emmc_overlay),
+                                     bytes);
+        if (!opened) {
             emu_.Get<Fatal>().Die("eMMC card in slot %u: storage.emmc %s cannot be opened",
                                   kEmmcSlotIndex, path_.c_str());
         }

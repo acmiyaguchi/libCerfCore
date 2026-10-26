@@ -206,6 +206,8 @@ void LoadStorage(const json& root, DeviceConfig& config, const std::string& path
     SetNonEmptyString(config.storage_hdd,  s, "hdd",  path, "storage");
     SetNonEmptyString(config.storage_emmc, s, "emmc", path, "storage");
     SetNonEmptyString(config.storage_sd,   s, "sd",   path, "storage");
+    SetNonEmptyString(config.storage_emmc_overlay, s, "emmc_overlay", path, "storage");
+    SetNonEmptyString(config.storage_sd_overlay,   s, "sd_overlay",   path, "storage");
 }
 
 void LoadUsbMedia(const json& packages, const char* key, bool sd,
