@@ -12,7 +12,7 @@ uint8_t EmmcCardBase::PartExtCsd(uint32_t offset) const {
     return 0u;
 }
 
-// JEDEC JESD84-A43 printed pp. 84-85, ERASE_GRP_SIZE and WP_GRP_SIZE; section 8.4 HC_WP_GRP_SIZE
+// JEDEC JESD84-A43 printed pp. 84-85, ERASE_GRP_SIZE and WP_GRP_SIZE; § 8.4 HC_WP_GRP_SIZE
 // with ERASE_GROUP_DEF enabled: 512KB * HC_ERASE_GRP_SIZE * HC_WP_GRP_SIZE
 uint32_t EmmcCardBase::WpGroupSectors() const {
     const uint32_t hc_wp = PartExtCsd(kExtCsdHcWpGrpSize);

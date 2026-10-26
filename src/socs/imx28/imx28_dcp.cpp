@@ -49,7 +49,7 @@ private:
     uint32_t chopts_[kChannels] = {};
 };
 
-/* Section 13.3 memory map: CTRL 0x000, STAT 0x010, CHANNELCTRL 0x020, CAPABILITY0 0x030,
+/* § 13.3 memory map: CTRL 0x000, STAT 0x010, CHANNELCTRL 0x020, CAPABILITY0 0x030,
    CAPABILITY1 0x040, CONTEXT 0x050; CHnCMDPTR 0x100, CHnSEMA 0x110, CHnSTAT 0x120, CHnOPTS 0x130
    at 0x40 per channel. */
 constexpr uint32_t kOffCtrl        = 0x000u;
@@ -65,26 +65,26 @@ constexpr uint32_t kChSema         = 0x10u;
 constexpr uint32_t kChStat         = 0x20u;
 constexpr uint32_t kChOpts         = 0x30u;
 
-/* Section 13.3.1 CTRL: reset F080_0000h; PRESENT_CRYPTO [29], PRESENT_SHA [28] read-only;
+/* § 13.3.1 CTRL: reset F080_0000h; PRESENT_CRYPTO [29], PRESENT_SHA [28] read-only;
    GATHER_RESIDUAL_WRITES [23], ENABLE_CONTEXT_CACHING [22], ENABLE_CONTEXT_SWITCHING [21],
    CHANNEL_INTERRUPT_ENABLE [7:0]. */
 constexpr uint32_t kCtrlReset    = 0xF0800000u;
 constexpr uint32_t kCtrlWritable = 0xC0E000FFu;
 constexpr uint32_t kCtrlPresent  = 0x30000000u;
 
-/* Section 13.3.2 STAT: reset 1000_0000h, OTP_KEY_READY [28], IRQ [3:0]. */
+/* § 13.3.2 STAT: reset 1000_0000h, OTP_KEY_READY [28], IRQ [3:0]. */
 constexpr uint32_t kStatReset = 0x10000000u;
 constexpr uint32_t kStatIrq   = 0x0000000Fu;
 
-/* Section 13.3.3 CHANNELCTRL: CH0_IRQ_MERGED [16], HIGH_PRIORITY_CHANNEL [15:8],
+/* § 13.3.3 CHANNELCTRL: CH0_IRQ_MERGED [16], HIGH_PRIORITY_CHANNEL [15:8],
    ENABLE_CHANNEL [7:0]. */
 constexpr uint32_t kChannelCtrlWritable = 0x0001FFFFu;
 
-/* Sections 13.3.4 CAPABILITY0 reset 0000_0404h, 13.3.5 CAPABILITY1 reset 0007_0001h. */
+/* § 13.3.4 CAPABILITY0 reset 0000_0404h, 13.3.5 CAPABILITY1 reset 0007_0001h. */
 constexpr uint32_t kCapability0 = 0x00000404u;
 constexpr uint32_t kCapability1 = 0x00070001u;
 
-/* Section 13.3 register summary: SET/CLR/TOG addresses for CTRL, STAT, CHANNELCTRL, CHnSTAT, CHnOPTS. */
+/* § 13.3 register summary: SET/CLR/TOG addresses for CTRL, STAT, CHANNELCTRL, CHnSTAT, CHnOPTS. */
 bool Imx28Dcp::HasSctAlias(uint32_t reg) {
     if (reg == kOffCtrl || reg == kOffStat || reg == kOffChannelCtrl) return true;
     if (reg < kOffChannel0 || reg >= kOffChannel0 + kChannels * kChannelStride) return false;
@@ -118,7 +118,7 @@ void Imx28Dcp::Die(const char* what, uint32_t addr, uint32_t value) const {
                           ctrl_);
 }
 
-/* Section 13.3.1 SFTRST and CLKGATE; sections 5.3, 39.5.10 soft reset. */
+/* § 13.3.1 SFTRST and CLKGATE; § 5.3, 39.5.10 soft reset. */
 void Imx28Dcp::WriteCtrl(Imx28SctOp op, uint32_t value, uint32_t addr) {
     const uint32_t old  = ctrl_;
     if (op != Imx28SctOp::Clr && (value & ~(kCtrlWritable | kCtrlPresent)) != 0u) {
@@ -132,8 +132,8 @@ void Imx28Dcp::WriteCtrl(Imx28SctOp op, uint32_t value, uint32_t addr) {
     ctrl_ = next;
 }
 
-/* Section 13.3.17 CHnSEMA: an increment starts the channel on the packet at CHnCMDPTR;
-   sections 13.3.18, 13.3.19 CHnSTAT and CHnOPTS have SCT aliases. */
+/* § 13.3.17 CHnSEMA: an increment starts the channel on the packet at CHnCMDPTR;
+   § 13.3.18, 13.3.19 CHnSTAT and CHnOPTS have SCT aliases. */
 void Imx28Dcp::WriteChannel(uint32_t ch, uint32_t reg, Imx28SctOp op, uint32_t value,
                             uint32_t addr) {
     switch (reg) {

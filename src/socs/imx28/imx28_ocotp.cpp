@@ -43,8 +43,8 @@ private:
     uint32_t words_[kWords] = {};
 };
 
-/* Section 20.4 memory map: CTRL 0x000, DATA 0x010, 40 OTP words from CUST0 0x020 to SRK7 0x290
-   at 0x10 apart, VERSION 0x2A0; only CTRL has SCT aliases (section 20.4.1). */
+/* § 20.4 memory map: CTRL 0x000, DATA 0x010, 40 OTP words from CUST0 0x020 to SRK7 0x290
+   at 0x10 apart, VERSION 0x2A0; only CTRL has SCT aliases (§ 20.4.1). */
 constexpr uint32_t kOffCtrl    = 0x000u;
 constexpr uint32_t kOffData    = 0x010u;
 constexpr uint32_t kOffWord0   = 0x020u;
@@ -52,8 +52,8 @@ constexpr uint32_t kWordStride = 0x010u;
 constexpr uint32_t kOffVersion = 0x2A0u;
 constexpr uint32_t kMapEnd     = 0x2B0u;
 
-/* Section 20.4 memory map word order: CUST0-3, CRYPTO0-3, HWCAP0-5, SWCAP, CUSTCAP, LOCK,
-   OPS0-6, ROM0-7, SRK0-7. Section 20.2.4: HWCAP0-5, SWCAP and LOCK are shadowed; section
+/* § 20.4 memory map word order: CUST0-3, CRYPTO0-3, HWCAP0-5, SWCAP, CUSTCAP, LOCK,
+   OPS0-6, ROM0-7, SRK0-7. § 20.2.4: HWCAP0-5, SWCAP and LOCK are shadowed; section
    20.2.1: HW/SW capability, CUSTCAP, ROM and SRK shadows are writable. */
 constexpr uint32_t kWordHwcap0  = 8u;
 constexpr uint32_t kWordCustcap = 15u;
@@ -68,7 +68,7 @@ bool IsWritableShadow(uint32_t word) {
     return (word >= kWordHwcap0 && word <= kWordCustcap) || word >= kWordRom0;
 }
 
-/* Section 20.4.1 CTRL: WR_UNLOCK [31:16], RSRVD2 [15:14], RELOAD_SHADOWS [13], RD_BANK_OPEN [12],
+/* § 20.4.1 CTRL: WR_UNLOCK [31:16], RSRVD2 [15:14], RELOAD_SHADOWS [13], RD_BANK_OPEN [12],
    RSRVD1 [11:10], ERROR [9], BUSY [8], RSRVD0 [7:6], ADDR [5:0]. */
 constexpr uint32_t kCtrlWrUnlock     = 0xFFFF0000u;
 constexpr uint32_t kCtrlReloadShadow = 1u << 13;
@@ -78,13 +78,13 @@ constexpr uint32_t kCtrlAddr         = 0x0000003Fu;
 constexpr uint32_t kCtrlWritable     = kCtrlWrUnlock | kCtrlReloadShadow | kCtrlRdBankOpen |
                                        kCtrlError | kCtrlAddr;
 
-/* Section 20.2.1 step 4: a read of an unopened bank returns 0xBADA_BADA and sets ERROR. */
+/* § 20.2.1 step 4: a read of an unopened bank returns 0xBADA_BADA and sets ERROR. */
 constexpr uint32_t kBadRead = 0xBADABADAu;
 
-/* Section 20.4.43 VERSION reset 0105_0000h. */
+/* § 20.4.43 VERSION reset 0105_0000h. */
 constexpr uint32_t kVersion = 0x01050000u;
 
-/* Section 20.3 loads the shadows from the fuses after reset; the fuse contents of a device are
+/* § 20.3 loads the shadows from the fuses after reset; the fuse contents of a device are
    ungroundable, and an unprogrammed fuse reads 0. */
 constexpr uint32_t kUnprogrammedFuse = 0u;
 
@@ -106,7 +106,7 @@ void Imx28Ocotp::ResetBlock() {
     for (uint32_t& w : words_) w = kUnprogrammedFuse;
 }
 
-/* Section 20.2.4: RELOAD_SHADOWS copies the fuses into the shadows and the controller clears it. */
+/* § 20.2.4: RELOAD_SHADOWS copies the fuses into the shadows and the controller clears it. */
 void Imx28Ocotp::ReloadShadows() {
     for (uint32_t w = 0; w < kWords; ++w) {
         if (IsShadowed(w)) words_[w] = kUnprogrammedFuse;
@@ -118,7 +118,7 @@ void Imx28Ocotp::Die(const char* what, uint32_t addr, uint32_t value) const {
                           ctrl_);
 }
 
-/* Section 20.4.1 field descriptions; section 20.2.2 write sequence. */
+/* § 20.4.1 field descriptions; § 20.2.2 write sequence. */
 void Imx28Ocotp::WriteCtrl(Imx28SctOp op, uint32_t value, uint32_t addr) {
     if ((value & ~kCtrlWritable) != 0u) Die("CTRL read-only or reserved bits", addr, value);
     if (op != Imx28SctOp::Clr && (value & kCtrlWrUnlock) != 0u) {

@@ -9,7 +9,7 @@ namespace cerfcore {
 
 using namespace imx28_i2c;
 
-/* Section 27.3.1 steps 1-3; a read that fits the four byte receive FIFO ends the command (Linux
+/* § 27.3.1 steps 1-3; a read that fits the four byte receive FIFO ends the command (Linux
    v6.1 drivers/i2c/busses/i2c-mxs.c mxs_i2c_pio_setup_xfer waits for RUN clear, then reads). */
 void Imx28I2c::StartPio(uint32_t addr) {
     RequireOperating("RUN", ctrl0_, addr, 0u);
@@ -31,7 +31,7 @@ void Imx28I2c::StartPio(uint32_t addr) {
     if (pio_ != Pio::Idle) debug0_ |= kDebug0DmaReq;
 }
 
-/* Section 27.3.1 step 4; Figure 27-9 (word 0x03020156 sends 0x56 first); Linux v6.1
+/* § 27.3.1 step 4; Figure 27-9 (word 0x03020156 sends 0x56 first); Linux v6.1
    i2c-mxs.c mxs_i2c_pio_trigger_write_cmd writes DATA before setting RUN. */
 void Imx28I2c::WriteData(uint32_t value, uint32_t addr) {
     if (pio_ == Pio::Idle && !tx_held_ && (ctrl0_ & kCtrl0Run) == 0u &&
@@ -51,7 +51,7 @@ void Imx28I2c::WriteData(uint32_t value, uint32_t addr) {
     Transmit(pio_buf_.data());
 }
 
-/* Table 27-1 No Slave Ack sets NO_SLAVE_ACK_IRQ; section 27.5.6 GOT_A_NAK; Linux v6.1 i2c-mxs.c
+/* Table 27-1 No Slave Ack sets NO_SLAVE_ACK_IRQ; § 27.5.6 GOT_A_NAK; Linux v6.1 i2c-mxs.c
    mxs_i2c_xfer_msg: after a NAK "the controller halts until it gets told to return to idle". */
 void Imx28I2c::Transmit(const uint8_t* data) {
     if (master_.Transmit(Decode(), data)) {
@@ -67,7 +67,7 @@ void Imx28I2c::Transmit(const uint8_t* data) {
     DriveLine(false);
 }
 
-/* Section 27.3.1 steps 17-20 (word layout not defined); Figure 27-9 byte order; Linux v6.1
+/* § 27.3.1 steps 17-20 (word layout not defined); Figure 27-9 byte order; Linux v6.1
    i2c-mxs.c mxs_i2c_pio_setup_xfer takes the first byte from bits 7:0. */
 uint32_t Imx28I2c::ReadData(uint32_t addr) {
     if (pio_ != Pio::Drain) Die("DATA read with no receive pending", addr, 0u);
@@ -85,8 +85,8 @@ uint32_t Imx28I2c::ReadData(uint32_t addr) {
     return word;
 }
 
-/* Section 27.5.1 PRE_SEND_START, POST_SEND_STOP cleared by hardware, RUN reset at the end of the
-   command, CLOCK_HELD set after RETAIN_CLOCK; section 27.5.5 DATA_ENGINE_CMPLT_IRQ; Table 27-1
+/* § 27.5.1 PRE_SEND_START, POST_SEND_STOP cleared by hardware, RUN reset at the end of the
+   command, CLOCK_HELD set after RETAIN_CLOCK; § 27.5.5 DATA_ENGINE_CMPLT_IRQ; Table 27-1
    BUS_FREE_IRQ on stop. */
 void Imx28I2c::Complete(bool keep_rx) {
     const bool retain = (ctrl0_ & kCtrl0Retain) != 0u;

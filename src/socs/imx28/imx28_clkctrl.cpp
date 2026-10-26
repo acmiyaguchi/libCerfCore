@@ -49,8 +49,8 @@ constexpr uint32_t kXbusDivFracEn    = 1u << 10;
 /* Section 10.8.26 CLKSEQ BYPASS_CPU [18]. */
 constexpr uint32_t kBypassCpu       = 1u << 18;
 
-/* Section 10.8.26 CLKSEQ BYPASS_DIS_LCDIF [14]; section 10.8.25 FRAC1 CLKGATEPIX [7],
-   PIXFRAC [5:0]; section 10.8.19 DIS_LCDIF DIV_FRAC_EN [13], DIV [12:0]. */
+/* § 10.8.26 CLKSEQ BYPASS_DIS_LCDIF [14]; § 10.8.25 FRAC1 CLKGATEPIX [7],
+   PIXFRAC [5:0]; § 10.8.19 DIS_LCDIF DIV_FRAC_EN [13], DIV [12:0]. */
 constexpr uint32_t kBypassDisLcdif  = 1u << 14;
 constexpr uint32_t kFrac1GatePix    = 1u << 7;
 constexpr uint32_t kDisLcdifFracEn  = 1u << 13;
@@ -196,8 +196,8 @@ GuestCycleClock::Rate Imx28Clkctrl::SaifRate(uint32_t unit) const {
                        true, 16u, "SAIF DIV");
 }
 
-/* Section 10.8.19 CLK_DIS_LCDIF divides ref_xtal or ref_pix; section 10.8.26 BYPASS_DIS_LCDIF;
-   section 10.8.25 ref_pix 480 * (18/PIXFRAC), PIXFRAC 18-35. */
+/* § 10.8.19 CLK_DIS_LCDIF divides ref_xtal or ref_pix; § 10.8.26 BYPASS_DIS_LCDIF;
+   § 10.8.25 ref_pix 480 * (18/PIXFRAC), PIXFRAC 18-35. */
 GuestCycleClock::Rate Imx28Clkctrl::LcdifRate() const {
     const uint32_t reg = regs_[kClkDisLcdif];
     if ((reg & kClkGate) != 0u) {

@@ -6,7 +6,7 @@ namespace cerfcore {
 
 namespace imx28_i2c {
 
-/* MCIMX28RM Rev. 2 section 27.5 memory map. */
+/* MCIMX28RM Rev. 2 § 27.5 memory map. */
 constexpr uint32_t kCtrl0      = 0x000u;
 constexpr uint32_t kTiming0    = 0x010u;
 constexpr uint32_t kTiming1    = 0x020u;
@@ -23,7 +23,7 @@ constexpr uint32_t kDebug1     = 0x0C0u;
 constexpr uint32_t kVersion    = 0x0D0u;
 constexpr uint32_t kMapEnd     = 0x0E0u;
 
-/* Section 27.5 memory map, Reset value column. */
+/* § 27.5 memory map, Reset value column. */
 constexpr uint32_t kCtrl0Reset     = 0xC0000000u;
 constexpr uint32_t kTiming0Reset   = 0x00780030u;
 constexpr uint32_t kTiming1Reset   = 0x00800030u;
@@ -34,7 +34,7 @@ constexpr uint32_t kDebug0Reset    = 0x00100000u;
 constexpr uint32_t kDebug1Reset    = 0xC0000000u;
 constexpr uint32_t kVersionValue   = 0x01040000u;
 
-/* Section 27.5.1 CTRL0. */
+/* § 27.5.1 CTRL0. */
 constexpr uint32_t kCtrl0Run         = 1u << 29;
 constexpr uint32_t kCtrl0Rsvd2       = 1u << 28;
 constexpr uint32_t kCtrl0PreAck      = 1u << 27;
@@ -52,10 +52,10 @@ constexpr uint32_t kCtrl0CountMask   = 0xFFFFu;
 constexpr uint32_t kCtrl0Unsupported = kCtrl0Rsvd2 | kCtrl0PreAck | kCtrl0Acknowledge |
                                        kCtrl0Rsvd1 | kCtrl0MultiMaster | kCtrl0SlaveEnable;
 
-/* Sections 27.5.2-27.5.4: RSVD2 [31:26] and RSVD1 [15:10] are always zero. */
+/* § 27.5.2-27.5.4: RSVD2 [31:26] and RSVD1 [15:10] are always zero. */
 constexpr uint32_t kTimingMask = 0x03FF03FFu;
 
-/* Section 27.5.5 CTRL1. */
+/* § 27.5.5 CTRL1. */
 constexpr uint32_t kCtrl1Rsvd1       = 1u << 31;
 constexpr uint32_t kCtrl1QueueIrqs   = 3u << 29;
 constexpr uint32_t kCtrl1ClrGotNak   = 1u << 28;
@@ -69,7 +69,7 @@ constexpr uint32_t kCtrl1EnableShift = 8u;
 constexpr uint32_t kCtrl1BusFreeIrq  = 1u << 7;
 constexpr uint32_t kCtrl1DataEngineCmplt = 1u << 6;
 
-/* Section 27.5.6 STAT. */
+/* § 27.5.6 STAT. */
 constexpr uint32_t kStatPresent     = 0xC0000000u;
 constexpr uint32_t kStatAnyIrq      = 1u << 29;
 constexpr uint32_t kStatGotNak      = 1u << 28;
@@ -77,7 +77,7 @@ constexpr uint32_t kStatDmaWait     = 1u << 12;
 constexpr uint32_t kStatBusBusy     = 1u << 11;
 constexpr uint32_t kStatEngineBusy  = 1u << 9;
 
-/* Section 27.5.12 DEBUG0 DMAREQ [31]. */
+/* § 27.5.12 DEBUG0 DMAREQ [31]. */
 constexpr uint32_t kDebug0DmaReq = 1u << 31;
 
 constexpr uint32_t kWordBytes = 4u;

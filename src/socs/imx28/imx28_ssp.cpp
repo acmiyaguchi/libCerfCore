@@ -142,7 +142,7 @@ bool Imx28Ssp::IssueCommand(uint32_t addr) {
     return true;
 }
 
-/* Section 17.10.1 DATA_XFER transfers XFER_SIZE bytes; U-Boot 2021.07 drivers/mmc/mxsmmc.c
+/* § 17.10.1 DATA_XFER transfers XFER_SIZE bytes; U-Boot 2021.07 drivers/mmc/mxsmmc.c
    mxsmmc_send_cmd sets RUN by software for data commands, then moves the data through a
    descriptor with no PIO words (DMA_ENABLE set) or through HW_SSP_DATA (DMA_ENABLE clear). */
 void Imx28Ssp::StartRun(uint32_t addr) {
@@ -172,7 +172,7 @@ void Imx28Ssp::RunCommandOnly(uint32_t addr) {
     DriveLine(false);
 }
 
-/* Section 17.8.2.1 block size and count. */
+/* § 17.8.2.1 block size and count. */
 uint32_t Imx28Ssp::DataBlockBytes(uint32_t addr) const {
     const uint32_t blocks_less_one = (block_size_ >> kBlockCountShift) & kBlockCountMask;
     const uint32_t block =
@@ -183,8 +183,8 @@ uint32_t Imx28Ssp::DataBlockBytes(uint32_t addr) const {
     return block;
 }
 
-/* Section 17.8.2 Figure 17-11: the DMA sets RUN after the PIO cycle; section 17.10.9 DMA_ENABLE;
-   section 17.8.2.1: one or more DMA descriptors move the XFER_SIZE bytes of the data phase (Linux
+/* § 17.8.2 Figure 17-11: the DMA sets RUN after the PIO cycle; § 17.10.9 DMA_ENABLE;
+   § 17.8.2.1: one or more DMA descriptors move the XFER_SIZE bytes of the data phase (Linux
    v6.1 drivers/mmc/host/mxs-mmc.c mxs_mmc_adtc chains one descriptor per scatterlist entry). */
 void Imx28Ssp::BeginDmaData(bool to_memory, uint32_t count) {
     const uint32_t addr = base_ + kCtrl0;
@@ -252,9 +252,9 @@ void Imx28Ssp::EndData() {
     DriveLine(false);
 }
 
-/* Section 17.10.10: with RUN set, HW_SSP_DATA reads and writes move the FIFO pointers; one access
+/* § 17.10.10: with RUN set, HW_SSP_DATA reads and writes move the FIFO pointers; one access
    holds four 8-bit or two 16-bit words. U-Boot 2021.07 mxsmmc_init sets EIGHT_BITS over the reset
-   WORD_LENGTH 8h, which leaves Fh. Section 17.10.9 DMA_ENABLE routes the FIFO to the DMA. */
+   WORD_LENGTH 8h, which leaves Fh. § 17.10.9 DMA_ENABLE routes the FIFO to the DMA. */
 void Imx28Ssp::RequirePioData(bool read, uint32_t addr, uint32_t value) const {
     if (!sw_data_ || (ctrl0_ & kCtrl0Run) == 0u) Die("DATA access with no data phase", addr, value);
     if ((ctrl1_ & kCtrl1DmaEnable) != 0u) Die("DATA access with DMA_ENABLE set", addr, ctrl1_);
@@ -302,7 +302,7 @@ Imx28ApbDmaDevice::Transfer Imx28Ssp::DmaFromMemory(uint32_t, const uint8_t* src
     return Transfer{count, false};
 }
 
-/* Section 17.8: one PIO setup performs a card register operation; Linux v6.1
+/* § 17.8: one PIO setup performs a card register operation; Linux v6.1
    drivers/mmc/host/mxs-mmc.c mxs_mmc_ac sends CTRL0 without RUN in a WAIT4END descriptor with no
    data transfer. */
 bool Imx28Ssp::DmaCommandEnded(uint32_t) {

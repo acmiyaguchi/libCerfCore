@@ -30,7 +30,7 @@ constexpr uint32_t kMis   = 0x40u;
 constexpr uint32_t kIcr   = 0x44u;
 constexpr uint32_t kDmacr = 0x48u;
 
-/* ARM DDI 0183G sections 3.3.15 and 3.3.16: UARTPeriphID0-3 at 0xFE0-0xFEC (part 0x011, designer
+/* ARM DDI 0183G § 3.3.15 and 3.3.16: UARTPeriphID0-3 at 0xFE0-0xFEC (part 0x011, designer
    0x41, configuration 0), UARTPCellID0-3 at 0xFF0-0xFFC (0xB105F00D); revision as QEMU
    hw/char/pl011.c pl011_id_arm. */
 constexpr uint32_t kPrimeCellId    = 0xFE0u;

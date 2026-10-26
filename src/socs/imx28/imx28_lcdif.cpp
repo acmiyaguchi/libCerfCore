@@ -37,7 +37,7 @@ constexpr uint32_t kCtrlUnmodelled = kCtrlDataFormat16 | kCtrlRgbToYcbcr | kCtrl
 
 constexpr uint32_t kDmaChannel = 13u;
 
-/* Section 33.4.7 TIMING: CMD_HOLD [31:24], CMD_SETUP [23:16], DATA_HOLD [15:8], DATA_SETUP [7:0],
+/* § 33.4.7 TIMING: CMD_HOLD [31:24], CMD_SETUP [23:16], DATA_HOLD [15:8], DATA_SETUP [7:0],
    in CLK_DIS_LCDIF cycles, each non-zero for the system mode. */
 constexpr uint32_t kTiming = 0x060u;
 
@@ -101,7 +101,7 @@ public:
         return Transfer{count, false, false};
     }
 
-    /* Section 33.2.8: the block clears RUN and toggles dma_end_cmd when the transfer completes. */
+    /* § 33.2.8: the block clears RUN and toggles dma_end_cmd when the transfer completes. */
     bool DmaCommandEnded(uint32_t channel) override {
         (void)channel;
         if ((Reg(kCtrl) & kCtrlRun) == 0u) return true;
@@ -324,8 +324,8 @@ void Imx28Lcdif::RunFrameDma() {
     ArmTransferEnd(h_count * v_count);
 }
 
-/* Section 33.2.6 Figure 33-11: TCS (CMD_SETUP), TDS + TDH (DATA_SETUP + DATA_HOLD) per bus
-   beat, TCH (CMD_HOLD); section 10.8.19 CLK_DIS_LCDIF. */
+/* § 33.2.6 Figure 33-11: TCS (CMD_SETUP), TDS + TDH (DATA_SETUP + DATA_HOLD) per bus
+   beat, TCH (CMD_HOLD); § 10.8.19 CLK_DIS_LCDIF. */
 void Imx28Lcdif::ArmTransferEnd(uint32_t beats) {
     const uint32_t timing = Reg(kTiming);
     const uint64_t cmd_hold   = timing >> 24;

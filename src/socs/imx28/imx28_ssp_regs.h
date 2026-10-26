@@ -88,7 +88,7 @@ constexpr uint32_t kDdrCtrlWritable = 0xC0000003u;
 /* Section 17.10.16 DLL_CTRL register figure: RSVD1 [19:16], RSVD0 [8]. */
 constexpr uint32_t kDllCtrlWritable = 0xFFF0FEFFu;
 
-/* Section 17.10.17 STATUS reset E000_0020h: PRESENT, RSVD4, SD_PRESENT, FIFO_EMPTY;
+/* § 17.10.17 STATUS reset E000_0020h: PRESENT, RSVD4, SD_PRESENT, FIFO_EMPTY;
    RESP_TIMEOUT [14], FIFO_EMPTY [5], DATA_BUSY [2], BUSY [0]. */
 constexpr uint32_t kStatusReset       = 0xE0000020u;
 constexpr uint32_t kStatusRespTimeout = 1u << 14;

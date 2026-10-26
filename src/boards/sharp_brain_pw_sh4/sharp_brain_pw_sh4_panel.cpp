@@ -53,9 +53,9 @@ constexpr FixedParamCommand kFixedParamCommands[] = {
 };
 
 /* ILI9806H V091 page 224 MADCTL 36h: MY [7], MX [6], MV [5], ML [4], BGR [3], MH [2], SS [1],
-   GS [0]; sharp_brain_pw_sh4 ddraw_mx28.dll PanelInitSeq c06d6d10 sends D0h, the orientation
-   the frame memory below is held in. Pages 209, 211: SC/EC above 1DFh (MV 0) or 35Fh (MV 1)
-   and SP/EP above 35Fh (MV 0) or 1DFh (MV 1) are out of range. */
+   GS [0]; sharp_brain_pw_sh4 ddraw_mx28.dll PanelInitSeq c06d6d10 sends D0h. */
+/* ILI9806H V091 page 209 and page 211: SC/EC above 1DFh (MV 0) or 35Fh (MV 1) and SP/EP above 35Fh
+   (MV 0) or 1DFh (MV 1) are out of range. */
 constexpr uint8_t  kMadctl     = 0x36u;
 constexpr uint8_t  kMadctlMy   = 1u << 7;
 constexpr uint8_t  kMadctlMx   = 1u << 6;
@@ -230,7 +230,7 @@ void SharpBrainPwSh4Panel::EndAddressSet() {
     const uint32_t start = (static_cast<uint32_t>(params_[0]) << 8) | params_[1];
     uint32_t       end   = (static_cast<uint32_t>(params_[2]) << 8) | params_[3];
     if (start > end) return;
-    /* ILI9806H V091 pages 209, 211 NOTE1: SC/SP and the window size count in pixel pairs. */
+    /* ILI9806H V091 page 209 and page 211 NOTE1: SC/SP and the window size count in pixel pairs. */
     if (end > start && ((end - start + 1u) & 1u) != 0u) --end;
     const uint32_t base = command_ == kCaset ? 0u : 2u;
     window_[base]      = start;

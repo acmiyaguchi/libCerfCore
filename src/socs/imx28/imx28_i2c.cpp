@@ -56,7 +56,7 @@ void Imx28I2c::ResetBlock() {
     DriveLine(false);
 }
 
-/* Section 27.2.1: interrupt request is a CTRL1 status bit ANDed with its enable bit. */
+/* § 27.2.1: interrupt request is a CTRL1 status bit ANDed with its enable bit. */
 void Imx28I2c::DriveLine(bool force) {
     const bool on = (ctrl1_ & (ctrl1_ >> kCtrl1EnableShift) & kCtrl1StatusMask) != 0u;
     if (!force && on == line_) return;
@@ -65,7 +65,7 @@ void Imx28I2c::DriveLine(bool force) {
     else    icoll_->DeassertSource(error_irq_);
 }
 
-/* Section 27.5.6 STAT: [7:0] are the CTRL1 status bits ANDed with their enables. */
+/* § 27.5.6 STAT: [7:0] are the CTRL1 status bits ANDed with their enables. */
 uint32_t Imx28I2c::ComposeStat() const {
     const uint32_t summary = ctrl1_ & (ctrl1_ >> kCtrl1EnableShift) & kCtrl1StatusMask;
     uint32_t stat = kStatPresent | summary;
@@ -82,7 +82,7 @@ Imx28I2cMaster::Command Imx28I2c::Decode() const {
                                    (ctrl0_ & kCtrl0PostStop) != 0u, ctrl0_ & kCtrl0CountMask};
 }
 
-/* Section 27.5.1 RSVD2, PRE_ACK, ACKNOWLEDGE, RSVD1, MULTI_MASTER, SLAVE_ADDRESS_ENABLE. */
+/* § 27.5.1 RSVD2, PRE_ACK, ACKNOWLEDGE, RSVD1, MULTI_MASTER, SLAVE_ADDRESS_ENABLE. */
 void Imx28I2c::CheckCtrl0(uint32_t value, uint32_t addr) const {
     if ((value & kCtrl0Unsupported) != 0u) Die("CTRL0 bits", addr, value);
 }
@@ -109,7 +109,7 @@ void Imx28I2c::WriteTiming(uint32_t& reg, Imx28SctOp op, uint32_t value, uint32_
     reg = next;
 }
 
-/* Section 27.5.5 CLR_GOT_A_NAK returns the halted controller to idle. */
+/* § 27.5.5 CLR_GOT_A_NAK returns the halted controller to idle. */
 void Imx28I2c::WriteCtrl1(Imx28SctOp op, uint32_t value, uint32_t addr) {
     const uint32_t next = Imx28ApplySct(op, ctrl1_, value & ~kCtrl1ClrGotNak);
     if ((next & kCtrl1Unsupported) != 0u) Die("CTRL1 bits", addr, value);
@@ -127,7 +127,7 @@ void Imx28I2c::WriteDebug0(Imx28SctOp op, uint32_t value, uint32_t addr) {
     debug0_ = next;
 }
 
-/* Section 27.2.3.1 Figure 27-9: the DMA PIO word is the CTRL0 value of the command. */
+/* § 27.2.3.1 Figure 27-9: the DMA PIO word is the CTRL0 value of the command. */
 void Imx28I2c::DmaPioWrite(uint32_t, uint32_t index, uint32_t value) {
     const uint32_t addr = base_ + index * kWordBytes;
     if (index != 0u) Die("DMA PIO word index", addr, value);

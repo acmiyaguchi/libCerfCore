@@ -8,14 +8,14 @@ namespace cerfcore {
 
 namespace {
 
-/* MCIMX28RM Rev. 2 section 31.3.20 FRINDEX [13:0], one micro-frame every 125 microseconds. */
+/* MCIMX28RM Rev. 2 § 31.3.20 FRINDEX [13:0], one micro-frame every 125 microseconds. */
 constexpr uint32_t kFrIndexBits       = 0x00003FFFu;
 constexpr int64_t  kNsPerMicroFrame   = 125000;
 
 }  /* namespace */
 
-/* Section 31.3.17 USBCMD: RS runs the host schedules, ASE and PSE enable the asynchronous and
-   periodic schedule walks, IAA rings the async advance doorbell; section 31.3.32 the port starts
+/* § 31.3.17 USBCMD: RS runs the host schedules, ASE and PSE enable the asynchronous and
+   periodic schedule walks, IAA rings the async advance doorbell; § 31.3.32 the port starts
    with no device connected. */
 void Imx28Usbctrl::WriteHostCmd(uint32_t value, uint32_t addr) {
     if ((value & (kUsbCmdAse | kUsbCmdPse | kUsbCmdIaa)) != 0u) {
@@ -29,7 +29,7 @@ void Imx28Usbctrl::WriteHostCmd(uint32_t value, uint32_t addr) {
     }
 }
 
-/* Section 31.3.20: the host controller advances FRINDEX every micro-frame while RS is set; in
+/* § 31.3.20: the host controller advances FRINDEX every micro-frame while RS is set; in
    device mode the SOF marker updates it. */
 uint32_t Imx28Usbctrl::ComposeFrIndex() const {
     if (Mode() != kUsbModeHost || (r_[kCmd] & kUsbCmdRs) == 0u) return r_[kFrIndex];
@@ -37,7 +37,7 @@ uint32_t Imx28Usbctrl::ComposeFrIndex() const {
     return static_cast<uint32_t>(r_[kFrIndex] + elapsed / kNsPerMicroFrame) & kFrIndexBits;
 }
 
-/* Section 31.3.20: "This register cannot be written unless the Host Controller is in the
+/* § 31.3.20: "This register cannot be written unless the Host Controller is in the
    'Halted' state"; read-only in device mode. */
 void Imx28Usbctrl::WriteFrIndex(uint32_t value, uint32_t addr) {
     if (Mode() != kUsbModeHost) return;

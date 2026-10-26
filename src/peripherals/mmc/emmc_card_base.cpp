@@ -133,7 +133,7 @@ MmcCommandResult EmmcCardBase::Command(uint8_t index, uint32_t argument,
         response[0] = StatusWord(before);
         return MmcCommandResult::Short;
 
-    /* JEDEC JESD84-A43 Table 14 CMD16 SET_BLOCKLEN R1; section 8.3 READ_BL_PARTIAL: 512B
+    /* JEDEC JESD84-A43 Table 14 CMD16 SET_BLOCKLEN R1; § 8.3 READ_BL_PARTIAL: 512B
        blocks are always usable. */
     case kCmdSetBlockLen:
         if (before != MmcState::Tran || argument != kBlockBytes) break;
@@ -141,7 +141,7 @@ MmcCommandResult EmmcCardBase::Command(uint8_t index, uint32_t argument,
         return MmcCommandResult::Short;
 
     /* JEDEC JESD84-A43 Table 16 CMD23 SET_BLOCK_COUNT: [31] Reliable Write Request, [30:16] 0,
-       [15:0] blocks for the immediately following CMD18 or CMD25 (sections 7.5.6, 7.5.7). */
+       [15:0] blocks for the immediately following CMD18 or CMD25 (§ 7.5.6, 7.5.7). */
     case kCmdSetBlockCount:
         if (before != MmcState::Tran) break;
         if ((argument & 0xFFFF0000u) != 0u) {

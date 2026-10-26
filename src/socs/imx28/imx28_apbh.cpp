@@ -8,10 +8,10 @@ namespace cerfcore {
 
 namespace {
 
-/* Section 6.5.1 CTRL0 reset E000_0000h, RSVD0 [27:16]; section 6.5.120 VERSION 0301_0000h;
-   Table 6-3 reserved bits [11:9], of which Linux v6.1 drivers/dma/mxs-dma.c sets bit 9
-   (CCW_TERM_FLUSH) in every i.MX28 slave descriptor with no effect; Table 6-1 channels 4-11 are
-   the NAND (GPMI) channels. */
+/* § 6.5.1 CTRL0 reset E000_0000h, RSVD0 [27:16]; § 6.5.120 VERSION 0301_0000h;
+   Table 6-1 channels 4-11 are the NAND (GPMI) channels. */
+/* Table 6-3 reserved bits [11:9]; Linux v6.1 mxs-dma.c sets bit 9 (CCW_TERM_FLUSH) in every
+   i.MX28 slave descriptor. */
 constexpr uint32_t kCtrl0Reset     = 0xE0000000u;
 constexpr uint32_t kCtrl0Writable  = 0xF000FFFFu;
 constexpr uint32_t kClkgateChannel = 0x0000FFFFu;

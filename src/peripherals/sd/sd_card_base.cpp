@@ -124,7 +124,7 @@ MmcCommandResult SdCardBase::Command(uint8_t index, uint32_t argument, uint32_t 
             response[0] = StatusWord(before) | kR1AppCmd;
             return MmcCommandResult::Short;
 
-        /* Version 6.00 section 4.3.9.1 (2), (4): ACMD55 does not exist and an undefined ACMD is
+        /* Version 6.00 § 4.3.9.1 (2), (4): ACMD55 does not exist and an undefined ACMD is
            handled as the regular command. */
         default:
             break;
@@ -143,8 +143,8 @@ MmcCommandResult SdCardBase::Command(uint8_t index, uint32_t argument, uint32_t 
         response[0] = argument;
         return MmcCommandResult::Short;
 
-    /* Section 4.3.10 CMD55 APP_CMD; sdbus.dll SDCardSendAppCommand c05047e0; version 6.00
-       section 4.3.9.1 (1) the response sets APP_CMD. */
+    /* § 4.3.10 CMD55 APP_CMD; sdbus.dll SDCardSendAppCommand c05047e0; version 6.00
+       § 4.3.9.1 (1) the response sets APP_CMD. */
     case 55u:
         app_cmd_ = true;
         response[0] = StatusWord(before) | kR1AppCmd;
@@ -209,7 +209,7 @@ MmcCommandResult SdCardBase::Command(uint8_t index, uint32_t argument, uint32_t 
         state_ = kStateStby;
         return MmcCommandResult::NoResponse;
 
-    /* Version 6.00 section 4.3.10 CMD6 SWITCH_FUNC, Table 4-13: function 0 of every group, the
+    /* Version 6.00 § 4.3.10 CMD6 SWITCH_FUNC, Table 4-13: function 0 of every group, the
        one function TRAN_SPEED 25 MHz in CMD9 allows; Tables 4-15 to 4-17 status codes; section
        4.2.3.1 XPC=0 limit of 100 mA. */
     case 6u: {
