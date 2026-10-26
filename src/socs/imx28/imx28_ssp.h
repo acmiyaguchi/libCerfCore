@@ -6,6 +6,7 @@
 #include "imx28_sct_reg.h"
 
 #include <cstdint>
+#include <vector>
 
 namespace cerfcore {
 
@@ -40,9 +41,16 @@ private:
     MmcCard* Card();
     void     CheckRun(uint32_t addr) const;
     bool     IssueCommand(uint32_t addr);
+    void     StartRun(uint32_t addr);
     void     RunCommandOnly(uint32_t addr);
-    uint32_t BeginData(bool to_memory, uint32_t count);
+    uint32_t DataBlockBytes(uint32_t addr) const;
+    void     BeginDmaData(bool to_memory, uint32_t count);
     void     EndData();
+    void     ReadCardBytes(uint8_t* dst, uint32_t count);
+    void     WriteCardBytes(const uint8_t* src, uint32_t count);
+    uint32_t ReadDataWord(uint32_t addr);
+    void     WriteDataWord(uint32_t addr, uint32_t value);
+    void     RequirePioData(bool read, uint32_t addr, uint32_t value) const;
     [[noreturn]] void Die(const char* what, uint32_t addr, uint32_t value) const;
 
     void     DmaPioWrite(uint32_t channel, uint32_t index, uint32_t value) override;
@@ -71,6 +79,11 @@ private:
     uint32_t status_     = 0u;
     uint32_t sdresp_[4]  = {};
     bool     dma_pio_    = false;
+    bool     sw_data_    = false;
+    uint32_t data_left_  = 0u;
+    uint32_t data_block_ = 0u;
+    uint32_t data_off_   = 0u;
+    std::vector<uint8_t> pio_block_;
 };
 
 }

@@ -5,10 +5,13 @@
 #include <cerfcore/socs/guest_cpu_reset.h>
 #include <cerfcore/state/state_stream.h>
 #include "../../peripherals/peripheral_dispatcher.h"
+#include "../../execution/guest_cycle_clock.h"
 #include "../mpu_lcd_panel.h"
+#include "../oscillator_ticks.h"
 #include "imx28_apb_dma_device.h"
 #include "imx28_apb_peripheral.h"
 #include "imx28_apbh.h"
+#include "imx28_clkctrl.h"
 #include "imx28_icoll.h"
 #include "imx28_id.h"
 #include "imx28_lcdif_regs.h"
@@ -34,6 +37,10 @@ constexpr uint32_t kCtrlUnmodelled = kCtrlDataFormat16 | kCtrlRgbToYcbcr | kCtrl
 
 constexpr uint32_t kDmaChannel = 13u;
 
+/* Section 33.4.7 TIMING: CMD_HOLD [31:24], CMD_SETUP [23:16], DATA_HOLD [15:8], DATA_SETUP [7:0],
+   in CLK_DIS_LCDIF cycles, each non-zero for the system mode. */
+constexpr uint32_t kTiming = 0x060u;
+
 /* MCIMX28RM Rev. 2 chapter 33 (LCDIF) at 0x8003_0000. */
 class Imx28Lcdif : public Imx28ApbPeripheral, private Imx28ApbDmaDevice {
 public:
@@ -47,12 +54,20 @@ public:
     void OnReady() override {
         icoll_ = &emu_.Get<Imx28Icoll>();
         panel_ = emu_.TryGet<MpuLcdPanel>();
+        apbh_  = &emu_.Get<Imx28Apbh>();
+        clock_ = &emu_.Get<GuestCycleClock>();
+        done_  = clock_->Add([this] { OnTransferDone(); });
+        dis_clk_.Attach(1u, 1u);
+        clock_->RegisterRateListener([this] {
+            dis_clk_.Rescale();
+            if (busy_) dis_clk_.ArmAt(done_, done_tick_);
+        });
         ResetBlock(false);
         emu_.Get<GuestCpuReset>().RegisterResetListener([this](ResetLineKind) {
             ResetBlock(false);
             DriveIrq();
         });
-        emu_.Get<Imx28Apbh>().AttachDevice(kDmaChannel, this);
+        apbh_->AttachDevice(kDmaChannel, this);
         emu_.Get<PeripheralDispatcher>().Register(this);
     }
 
@@ -86,26 +101,45 @@ public:
         return Transfer{count, false, false};
     }
 
+    /* Section 33.2.8: the block clears RUN and toggles dma_end_cmd when the transfer completes. */
     bool DmaCommandEnded(uint32_t channel) override {
         (void)channel;
-        return true;
+        if ((Reg(kCtrl) & kCtrlRun) == 0u) return true;
+        dma_wait_ = true;
+        return false;
     }
 
     void DmaChannelReset(uint32_t channel) override {
         (void)channel;
+        dma_wait_ = false;
     }
 
     void SaveState(StateWriter& w) override {
         w.Write("regs", regs_);
         w.Write("pio_left", pio_left_);
+        w.Write<uint8_t>("busy", busy_ ? 1u : 0u);
+        w.Write<uint8_t>("dma_wait", dma_wait_ ? 1u : 0u);
+        w.Write("done_tick", done_tick_);
+        dis_clk_.Save(w, "dis_clk_");
     }
 
     void RestoreState(StateReader& r) override {
+        uint8_t busy = 0u, dma_wait = 0u;
         r.Read("regs", regs_);
         r.Read("pio_left", pio_left_);
+        r.Read("busy", busy);
+        r.Read("dma_wait", dma_wait);
+        r.Read("done_tick", done_tick_);
+        dis_clk_.Restore(r, "dis_clk_");
+        busy_     = busy != 0u;
+        dma_wait_ = dma_wait != 0u;
     }
 
-    void PostRestore() override { DriveIrq(); }
+    void PostRestore() override {
+        if (busy_) dis_clk_.ArmAt(done_, done_tick_);
+        else       clock_->Disarm(done_);
+        DriveIrq();
+    }
 
 private:
     static int SpecIndex(uint32_t reg);
@@ -121,11 +155,21 @@ private:
     void WriteData(uint32_t addr, uint32_t value);
     void SendWord(uint16_t word);
     void FinishTransfer();
+    void ArmTransferEnd(uint32_t beats);
+    void OnTransferDone();
+    void CancelTransfer();
     void DriveIrq();
     [[noreturn]] void Die(const char* what, uint32_t addr, uint32_t value) const;
 
-    Imx28Icoll*  icoll_ = nullptr;
-    MpuLcdPanel* panel_ = nullptr;
+    Imx28Icoll*             icoll_ = nullptr;
+    MpuLcdPanel*            panel_ = nullptr;
+    Imx28Apbh*              apbh_  = nullptr;
+    GuestCycleClock*        clock_ = nullptr;
+    GuestCycleClock::Event* done_  = nullptr;
+    OscillatorTicks         dis_clk_{emu_, false};
+    bool                    busy_      = false;
+    bool                    dma_wait_  = false;
+    uint64_t                done_tick_ = 0u;
 
     uint32_t regs_[kStorageCount] = {};
     uint32_t pio_left_ = 0u;
@@ -148,6 +192,7 @@ void Imx28Lcdif::ResetBlock(bool keep_lcd_reset) {
     for (uint32_t i = 0; i < kStorageCount; ++i) regs_[i] = kStorage[i].reset;
     if (keep_lcd_reset) Reg(kCtrl1) |= lcd_reset;
     pio_left_ = 0u;
+    CancelTransfer();
 }
 
 uint32_t Imx28Lcdif::ReadWord(uint32_t addr) {
@@ -221,7 +266,11 @@ void Imx28Lcdif::WriteCtrl(Imx28SctOp op, uint32_t addr, uint32_t value) {
     }
     WriteStorage(SpecIndex(kCtrl), op, addr, value);
     /* Section 33.2.6: clearing RUN cancels the current transfer. */
-    if ((next & kCtrlRun) == 0u) pio_left_ = 0u;
+    if ((next & kCtrlRun) == 0u) {
+        if (busy_ && dma_wait_) Die("RUN cleared by software with a DMA command waiting", addr, value);
+        pio_left_ = 0u;
+        CancelTransfer();
+    }
     if ((old & kCtrlRun) == 0u && (next & kCtrlRun) != 0u) Start(addr);
 }
 
@@ -272,7 +321,38 @@ void Imx28Lcdif::RunFrameDma() {
             SendWord(static_cast<uint16_t>(line[x] | (line[x + 1u] << 8)));
     }
     pio_left_ = 0u;
+    ArmTransferEnd(h_count * v_count);
+}
+
+/* Section 33.2.6 Figure 33-11: TCS (CMD_SETUP), TDS + TDH (DATA_SETUP + DATA_HOLD) per bus
+   beat, TCH (CMD_HOLD); section 10.8.19 CLK_DIS_LCDIF. */
+void Imx28Lcdif::ArmTransferEnd(uint32_t beats) {
+    const uint32_t timing = Reg(kTiming);
+    const uint64_t cmd_hold   = timing >> 24;
+    const uint64_t cmd_setup  = (timing >> 16) & 0xFFu;
+    const uint64_t data_hold  = (timing >> 8) & 0xFFu;
+    const uint64_t data_setup = timing & 0xFFu;
+    if (cmd_hold == 0u || cmd_setup == 0u || data_hold == 0u || data_setup == 0u)
+        Die("system mode transfer with a zero TIMING field", MmioBase() + kTiming, timing);
+    const GuestCycleClock::Rate rate = emu_.Get<Imx28Clkctrl>().LcdifRate();
+    dis_clk_.SetOscRate(rate.num, rate.den);
+    done_tick_ = dis_clk_.Now() + cmd_setup + cmd_hold + beats * (data_setup + data_hold);
+    busy_      = true;
+    dis_clk_.ArmAt(done_, done_tick_);
+}
+
+void Imx28Lcdif::OnTransferDone() {
+    busy_ = false;
     FinishTransfer();
+    if (dma_wait_) {
+        dma_wait_ = false;
+        apbh_->NotifyEndCommand(kDmaChannel);
+    }
+}
+
+void Imx28Lcdif::CancelTransfer() {
+    busy_ = false;
+    clock_->Disarm(done_);
 }
 
 /* Sections 33.2.6, 33.4.2 BYTE_PACKING_FORMAT: a 16-bit half-word is valid when its two

@@ -22,6 +22,8 @@ constexpr uint8_t kCmdSendCsd          = 9u;
 constexpr uint8_t kCmdSendCid          = 10u;
 constexpr uint8_t kCmdStopTransmission = 12u;
 constexpr uint8_t kCmdSendStatus       = 13u;
+constexpr uint8_t kCmdSetBlockLen      = 16u;
+constexpr uint8_t kCmdSetBlockCount    = 23u;
 constexpr uint8_t kCmdReadSingleBlock  = 17u;
 constexpr uint8_t kCmdReadMultiBlock   = 18u;
 constexpr uint8_t kCmdWriteBlock       = 24u;
@@ -70,6 +72,10 @@ constexpr uint32_t kBusWidth4BitDdr   = 5u;
 constexpr uint32_t kBusWidth8BitDdr   = 6u;
 constexpr uint32_t kExtCsdHsTiming    = 185u;
 constexpr uint32_t kHsTimingHighSpeed = 1u;
+constexpr uint32_t kExtCsdEraseGroupDef  = 175u;
+constexpr uint32_t kExtCsdHcWpGrpSize    = 221u;
+constexpr uint32_t kExtCsdHcEraseGrpSize = 224u;
+constexpr uint32_t kSectorsPer512K       = 1024u;
 
 constexpr uint32_t kExtCsdErasedMemCont = 181u;
 constexpr uint8_t  kErasedMemContZeros  = 0u;
@@ -120,6 +126,7 @@ protected:
 private:
     uint8_t  CheckedErasedMemCont() const;
     uint32_t WpGroupSectors() const;
+    uint8_t  PartExtCsd(uint32_t offset) const;
     uint32_t StatusWord(cerf_mmc::MmcState before) const;
     void     BuildExtCsd();
     void     ApplySwitch(uint32_t argument);
@@ -133,9 +140,12 @@ private:
     uint16_t             rca_         = 0u;
     uint8_t              hs_timing_   = 0u;
     uint8_t              user_wp_     = 0u;
+    uint8_t              erase_group_def_ = 0u;
     bool                 multi_read_  = false;
     bool                 multi_write_ = false;
     uint32_t             next_sector_ = 0u;
+    uint32_t             block_count_ = 0u;
+    uint32_t             blocks_left_ = 0u;
     std::vector<uint8_t> power_on_wp_;
     std::vector<uint8_t> read_data_;
 };

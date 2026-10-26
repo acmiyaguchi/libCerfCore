@@ -34,6 +34,7 @@ public:
 
     GuestCycleClock::Rate XbusRate() const;
     GuestCycleClock::Rate SaifRate(uint32_t unit) const;
+    GuestCycleClock::Rate LcdifRate() const;
     bool                  WatchdogPorDisabled() const;
     void                  RegisterApbxListener(std::function<void()> fn);
 

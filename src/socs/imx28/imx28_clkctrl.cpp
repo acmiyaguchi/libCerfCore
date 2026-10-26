@@ -49,6 +49,14 @@ constexpr uint32_t kXbusDivFracEn    = 1u << 10;
 /* Section 10.8.26 CLKSEQ BYPASS_CPU [18]. */
 constexpr uint32_t kBypassCpu       = 1u << 18;
 
+/* Section 10.8.26 CLKSEQ BYPASS_DIS_LCDIF [14]; section 10.8.25 FRAC1 CLKGATEPIX [7],
+   PIXFRAC [5:0]; section 10.8.19 DIS_LCDIF DIV_FRAC_EN [13], DIV [12:0]. */
+constexpr uint32_t kBypassDisLcdif  = 1u << 14;
+constexpr uint32_t kFrac1GatePix    = 1u << 7;
+constexpr uint32_t kDisLcdifFracEn  = 1u << 13;
+constexpr uint32_t kDisLcdifDivMask = 0x1FFFu;
+constexpr uint32_t kClkDisLcdif     = 0x120u >> 4;
+
 /* Section 10.8.27 RESET: WDOG_POR_DISABLE [5], CHIP [1], DIG [0]. */
 constexpr uint32_t kResetWdogPorDisable = 1u << 5;
 constexpr uint32_t kResetChip       = 1u << 1;
@@ -186,6 +194,28 @@ GuestCycleClock::Rate Imx28Clkctrl::SaifRate(uint32_t unit) const {
     }
     return DividerRate(GuestCycleClock::Rate{kPll0Hz, 1u}, reg & 0xFFFFu,
                        true, 16u, "SAIF DIV");
+}
+
+/* Section 10.8.19 CLK_DIS_LCDIF divides ref_xtal or ref_pix; section 10.8.26 BYPASS_DIS_LCDIF;
+   section 10.8.25 ref_pix 480 * (18/PIXFRAC), PIXFRAC 18-35. */
+GuestCycleClock::Rate Imx28Clkctrl::LcdifRate() const {
+    const uint32_t reg = regs_[kClkDisLcdif];
+    if ((reg & kClkGate) != 0u) {
+        emu_.Get<Fatal>().Die("Imx28Clkctrl: CLK_DIS_LCDIF used while gated (DIS_LCDIF %08X)", reg);
+    }
+    GuestCycleClock::Rate ref{kXtalHz, 1u};
+    if ((regs_[kClkClkseq] & kBypassDisLcdif) == 0u) {
+        const uint32_t frac1   = regs_[kClkFrac1];
+        const uint32_t pixfrac = frac1 & kFracMask;
+        if ((regs_[kClkPll0Ctrl0] & kPllPower) == 0u || (frac1 & kFrac1GatePix) != 0u ||
+            pixfrac < kFracMin || pixfrac > kFracMax) {
+            emu_.Get<Fatal>().Die("Imx28Clkctrl: ref_pix used with PLL0CTRL0 %08X FRAC1 %08X",
+                                  regs_[kClkPll0Ctrl0], frac1);
+        }
+        ref = GuestCycleClock::Rate{kPll0Hz * kFracNumerator, pixfrac};
+    }
+    return DividerRate(ref, reg & kDisLcdifDivMask, (reg & kDisLcdifFracEn) != 0u, 13u,
+                       "DIS_LCDIF DIV");
 }
 
 bool Imx28Clkctrl::WatchdogPorDisabled() const {
