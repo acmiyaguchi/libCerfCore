@@ -95,14 +95,26 @@ public:
         (void)channel;
     }
 
+    /* The MPU panel's GRAM is the only copy of the displayed image; the LCDIF
+       that drives it saves it, as sed1356 does for its panel. A board without
+       an MPU panel writes an empty frame. */
     void SaveState(StateWriter& w) override {
         w.Write("regs", regs_);
         w.Write("pio_left", pio_left_);
+        w.BeginFrame(panel_ ? 1u : 0u);
+        if (panel_) panel_->SaveState(w);
+        w.EndFrame();
     }
 
     void RestoreState(StateReader& r) override {
         r.Read("regs", regs_);
         r.Read("pio_left", pio_left_);
+        const uint32_t has_panel = r.EnterFrame();
+        if (has_panel != (panel_ ? 1u : 0u))
+            r.Reject("LCDIF panel frame %u, this board %s an MPU panel", has_panel,
+                     panel_ ? "has" : "has no");
+        if (panel_) panel_->RestoreState(r);
+        r.LeaveFrame();
     }
 
     void PostRestore() override { DriveIrq(); }

@@ -115,7 +115,7 @@ public:
     }
 
     void SaveState(StateWriter& w) override {
-        w.WriteBytes("gram", gram_.data(), gram_.size());
+        w.WriteBytes("gram", gram_.data(), gram_.size() * sizeof(gram_[0]));
         w.Write("window", window_);
         w.Write("cursor", cursor_);
         w.Write("command", command_);
@@ -128,7 +128,7 @@ public:
     }
 
     void RestoreState(StateReader& r) override {
-        r.ReadBytes("gram", gram_.data(), gram_.size());
+        r.ReadBytes("gram", gram_.data(), gram_.size() * sizeof(gram_[0]));
         r.Read("window", window_);
         r.Read("cursor", cursor_);
         r.Read("command", command_);
