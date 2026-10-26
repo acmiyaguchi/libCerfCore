@@ -34,6 +34,7 @@ public:
 private:
     static constexpr uint32_t kChannels = 4u;
 
+    static bool HasSctAlias(uint32_t reg);
     void ResetBlock();
     void WriteCtrl(Imx28SctOp op, uint32_t value, uint32_t addr);
     void WriteChannel(uint32_t ch, uint32_t reg, Imx28SctOp op, uint32_t value, uint32_t addr);
@@ -82,6 +83,14 @@ constexpr uint32_t kChannelCtrlWritable = 0x0001FFFFu;
 /* Sections 13.3.4 CAPABILITY0 reset 0000_0404h, 13.3.5 CAPABILITY1 reset 0007_0001h. */
 constexpr uint32_t kCapability0 = 0x00000404u;
 constexpr uint32_t kCapability1 = 0x00070001u;
+
+/* Section 13.3 register summary: SET/CLR/TOG addresses for CTRL, STAT, CHANNELCTRL, CHnSTAT, CHnOPTS. */
+bool Imx28Dcp::HasSctAlias(uint32_t reg) {
+    if (reg == kOffCtrl || reg == kOffStat || reg == kOffChannelCtrl) return true;
+    if (reg < kOffChannel0 || reg >= kOffChannel0 + kChannels * kChannelStride) return false;
+    const uint32_t r = (reg - kOffChannel0) % kChannelStride;
+    return r == kChStat || r == kChOpts;
+}
 
 }  /* namespace */
 
@@ -150,7 +159,10 @@ uint32_t Imx28Dcp::ReadWord(uint32_t addr) {
     const uint32_t off = addr - MmioBase();
     if ((off & 0x3u) != 0u) HaltUnsupportedAccess("ReadWord", addr, 0);
     const Imx28SctAccess a = Imx28DecodeSct(off);
-    if (a.op != Imx28SctOp::Write) return 0u;
+    if (a.op != Imx28SctOp::Write) {
+        if (!HasSctAlias(a.reg_offset)) HaltUnsupportedAccess("ReadWord", addr, 0);
+        return 0u;
+    }
     if (a.reg_offset == kOffCtrl) return ctrl_;
     RequireOperating("ReadWord", ctrl_, addr, 0);
     switch (a.reg_offset) {
