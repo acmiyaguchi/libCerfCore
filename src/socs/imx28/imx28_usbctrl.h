@@ -55,6 +55,9 @@ private:
     void     WriteReg(uint32_t off, uint32_t value, uint32_t addr);
     void     WriteGptCtrl(uint32_t i, uint32_t value, uint32_t addr);
     void     WriteCmd(uint32_t value, uint32_t addr);
+    void     WriteHostCmd(uint32_t value, uint32_t addr);
+    uint32_t ComposeFrIndex() const;
+    void     WriteFrIndex(uint32_t value, uint32_t addr);
     void     WriteMode(uint32_t value, uint32_t addr);
     void     WritePortsc(uint32_t value, uint32_t addr);
     void     WriteOtgsc(uint32_t value, uint32_t addr);
@@ -80,15 +83,17 @@ private:
     uint32_t gptctrl_[2] = {};
     uint32_t gptcnt_[2]  = {};
     uint32_t endptctrl_[kEndpoints] = {};
-    uint32_t r_[20] = {};
+    uint32_t r_[21] = {};
     uint32_t port_ = 0;
+    int64_t  run_ns_ = 0;
     int64_t  onems_ack_ = 0;
     bool     mode_locked_ = false;
     bool     line_ = false;
 
     enum RegSlot : uint32_t {
         kSbusCfg, kCmd, kSts, kIntr, kFrIndex, kAddrBase, kListAddr, kTtCtrl, kBurst, kTxFill,
-        kIcUsb, kNak, kNakEn, kPortsc, kOtgsc, kMode, kDciVersion, kSetupStat, kComplete, kEndptStat
+        kIcUsb, kNak, kNakEn, kPortsc, kOtgsc, kMode, kDciVersion, kSetupStat, kComplete, kEndptStat,
+        kConfigFlag
     };
 };
 

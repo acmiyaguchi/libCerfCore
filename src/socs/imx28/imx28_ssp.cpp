@@ -13,6 +13,7 @@
 #include "imx28_id.h"
 #include "imx28_ssp_regs.h"
 
+#include <algorithm>
 #include <cstring>
 #include <vector>
 
@@ -66,6 +67,11 @@ void Imx28Ssp::ResetBlock() {
     status_     = 0u;
     for (uint32_t& r : sdresp_) r = 0u;
     dma_pio_    = false;
+    sw_data_    = false;
+    data_left_  = 0u;
+    data_block_ = 0u;
+    data_off_   = 0u;
+    pio_block_.clear();
     DriveLine(false);
 }
 
@@ -136,10 +142,27 @@ bool Imx28Ssp::IssueCommand(uint32_t addr) {
     return true;
 }
 
+/* § 17.10.1 DATA_XFER transfers XFER_SIZE bytes; U-Boot 2021.07 drivers/mmc/mxsmmc.c
+   mxsmmc_send_cmd sets RUN by software for data commands, then moves the data through a
+   descriptor with no PIO words (DMA_ENABLE set) or through HW_SSP_DATA (DMA_ENABLE clear). */
+void Imx28Ssp::StartRun(uint32_t addr) {
+    if ((ctrl0_ & kCtrl0DataXfer) == 0u) {
+        RunCommandOnly(addr);
+        return;
+    }
+    const uint32_t block = DataBlockBytes(addr);
+    if (!IssueCommand(addr)) Die("data command response timeout", addr, cmd0_);
+    if (Card() == nullptr) Die("data command with no card", addr, cmd0_);
+    sw_data_    = true;
+    data_left_  = xfer_size_;
+    data_block_ = block;
+    data_off_   = 0u;
+    pio_block_.clear();
+}
+
 /* sharp_brain_pw_sh4 sdhc.dll SDHCSendCommand c0784128 sets RUN for a command with no data and
    polls RUN clear. */
 void Imx28Ssp::RunCommandOnly(uint32_t addr) {
-    if ((ctrl0_ & kCtrl0DataXfer) != 0u) Die("RUN set by software with DATA_XFER", addr, ctrl0_);
     IssueCommand(addr);
     MmcCard* card = Card();
     if (card != nullptr && !card->ReadData().empty()) {
@@ -149,30 +172,114 @@ void Imx28Ssp::RunCommandOnly(uint32_t addr) {
     DriveLine(false);
 }
 
-/* Section 17.8.2 Figure 17-11: the DMA sets RUN after the PIO cycle; section 17.8.2.1 block size
-   and count; section 17.10.9 DMA_ENABLE. */
-uint32_t Imx28Ssp::BeginData(bool to_memory, uint32_t count) {
-    const uint32_t addr = base_ + kCtrl0;
-    if (!dma_pio_) Die("DMA data phase with no PIO words", addr, count);
-    if ((ctrl1_ & kCtrl1DmaEnable) == 0u) Die("DMA data phase with DMA_ENABLE clear", addr, ctrl1_);
-    if ((ctrl0_ & kCtrl0DataXfer) == 0u) Die("DMA data phase with DATA_XFER clear", addr, ctrl0_);
-    if (((ctrl0_ & kCtrl0Read) != 0u) != to_memory) Die("DMA direction differs from READ", addr, ctrl0_);
-    if (xfer_size_ != count) Die("DMA XFER_COUNT differs from XFER_SIZE", addr, count);
+/* § 17.8.2.1 block size and count. */
+uint32_t Imx28Ssp::DataBlockBytes(uint32_t addr) const {
     const uint32_t blocks_less_one = (block_size_ >> kBlockCountShift) & kBlockCountMask;
     const uint32_t block =
         blocks_less_one != 0u ? (1u << (block_size_ & kBlockSizeFieldMask)) : xfer_size_;
     if (block == 0u || (blocks_less_one != 0u && uint64_t(block) * (blocks_less_one + 1u) != xfer_size_)) {
         Die("BLOCK_SIZE does not divide XFER_SIZE", addr, block_size_);
     }
-    if (!IssueCommand(addr)) Die("data command response timeout", addr, cmd0_);
-    if (Card() == nullptr) Die("data command with no card", addr, cmd0_);
     return block;
+}
+
+/* § 17.8.2 Figure 17-11: the DMA sets RUN after the PIO cycle; § 17.10.9 DMA_ENABLE;
+   § 17.8.2.1: one or more DMA descriptors move the XFER_SIZE bytes of the data phase (Linux
+   v6.1 drivers/mmc/host/mxs-mmc.c mxs_mmc_adtc chains one descriptor per scatterlist entry). */
+void Imx28Ssp::BeginDmaData(bool to_memory, uint32_t count) {
+    const uint32_t addr = base_ + kCtrl0;
+    if ((ctrl1_ & kCtrl1DmaEnable) == 0u) Die("DMA data phase with DMA_ENABLE clear", addr, ctrl1_);
+    if ((ctrl0_ & kCtrl0DataXfer) == 0u) Die("DMA data phase with DATA_XFER clear", addr, ctrl0_);
+    if (((ctrl0_ & kCtrl0Read) != 0u) != to_memory) Die("DMA direction differs from READ", addr, ctrl0_);
+    if (!sw_data_) {
+        if (!dma_pio_) Die("DMA data phase with no PIO words", addr, count);
+        const uint32_t block = DataBlockBytes(addr);
+        if (!IssueCommand(addr)) Die("data command response timeout", addr, cmd0_);
+        if (Card() == nullptr) Die("data command with no card", addr, cmd0_);
+        dma_pio_    = false;
+        sw_data_    = true;
+        data_left_  = xfer_size_;
+        data_block_ = block;
+        data_off_   = 0u;
+        pio_block_.clear();
+    }
+    if (count == 0u || count > data_left_) Die("DMA XFER_COUNT exceeds the data phase left", addr, count);
+}
+
+void Imx28Ssp::ReadCardBytes(uint8_t* dst, uint32_t count) {
+    MmcCard& card = *Card();
+    for (uint32_t done = 0; done < count;) {
+        if (data_off_ == data_block_) {
+            card.NextBlock();
+            data_off_ = 0u;
+        }
+        const std::vector<uint8_t>& data = card.ReadData();
+        if (data.size() != data_block_) Die("card block bytes differ from SSP block", base_, static_cast<uint32_t>(data.size()));
+        const uint32_t take = std::min(count - done, data_block_ - data_off_);
+        std::memcpy(dst + done, data.data() + data_off_, take);
+        data_off_  += take;
+        data_left_ -= take;
+        done       += take;
+    }
+    if (data_left_ == 0u) {
+        card.EndDataPhase();
+        EndData();
+    }
+}
+
+void Imx28Ssp::WriteCardBytes(const uint8_t* src, uint32_t count) {
+    MmcCard& card = *Card();
+    for (uint32_t done = 0; done < count;) {
+        const uint32_t take = std::min(count - done, data_block_ - static_cast<uint32_t>(pio_block_.size()));
+        pio_block_.insert(pio_block_.end(), src + done, src + done + take);
+        data_left_ -= take;
+        done       += take;
+        if (pio_block_.size() == data_block_) {
+            card.ReceiveBlock(pio_block_.data(), data_block_);
+            pio_block_.clear();
+        }
+    }
+    if (data_left_ == 0u) EndData();
 }
 
 void Imx28Ssp::EndData() {
     ctrl0_ &= ~kCtrl0Run;
-    dma_pio_ = false;
+    dma_pio_   = false;
+    sw_data_   = false;
+    data_left_ = 0u;
+    data_off_  = 0u;
+    pio_block_.clear();
     DriveLine(false);
+}
+
+/* § 17.10.10: with RUN set, HW_SSP_DATA reads and writes move the FIFO pointers; one access
+   holds four 8-bit or two 16-bit words. U-Boot 2021.07 mxsmmc_init sets EIGHT_BITS over the reset
+   WORD_LENGTH 8h, which leaves Fh. § 17.10.9 DMA_ENABLE routes the FIFO to the DMA. */
+void Imx28Ssp::RequirePioData(bool read, uint32_t addr, uint32_t value) const {
+    if (!sw_data_ || (ctrl0_ & kCtrl0Run) == 0u) Die("DATA access with no data phase", addr, value);
+    if ((ctrl1_ & kCtrl1DmaEnable) != 0u) Die("DATA access with DMA_ENABLE set", addr, ctrl1_);
+    if (((ctrl0_ & kCtrl0Read) != 0u) != read) Die("DATA access direction differs from READ", addr, ctrl0_);
+    const uint32_t word_length = (ctrl1_ >> kCtrl1WordLenShift) & kCtrl1WordLenMask;
+    if (word_length != kCtrl1WordLen8Bits && word_length != kCtrl1WordLen16Bits) {
+        Die("DATA access with WORD_LENGTH other than 8 or 16 bits", addr, ctrl1_);
+    }
+    if (data_left_ < 4u || (data_block_ & 3u) != 0u) Die("DATA access with a partial word", addr, data_left_);
+}
+
+uint32_t Imx28Ssp::ReadDataWord(uint32_t addr) {
+    RequirePioData(true, addr, 0u);
+    uint8_t bytes[4];
+    ReadCardBytes(bytes, sizeof(bytes));
+    uint32_t word = 0u;
+    std::memcpy(&word, bytes, sizeof(word));
+    return word;
+}
+
+void Imx28Ssp::WriteDataWord(uint32_t addr, uint32_t value) {
+    RequirePioData(false, addr, value);
+    uint8_t bytes[4];
+    std::memcpy(bytes, &value, sizeof(bytes));
+    WriteCardBytes(bytes, sizeof(bytes));
 }
 
 void Imx28Ssp::DmaPioWrite(uint32_t, uint32_t index, uint32_t value) {
@@ -184,28 +291,26 @@ void Imx28Ssp::DmaPioWrite(uint32_t, uint32_t index, uint32_t value) {
 }
 
 Imx28ApbDmaDevice::Transfer Imx28Ssp::DmaToMemory(uint32_t, uint8_t* dst, uint32_t count) {
-    const uint32_t block = BeginData(true, count);
-    MmcCard& card = *Card();
-    for (uint32_t off = 0; off < count; off += block) {
-        if (off != 0u) card.NextBlock();
-        const std::vector<uint8_t>& data = card.ReadData();
-        if (data.size() != block) Die("card block bytes differ from SSP block", base_, static_cast<uint32_t>(data.size()));
-        std::memcpy(dst + off, data.data(), block);
-    }
-    card.EndDataPhase();
-    EndData();
+    BeginDmaData(true, count);
+    ReadCardBytes(dst, count);
     return Transfer{count, false};
 }
 
 Imx28ApbDmaDevice::Transfer Imx28Ssp::DmaFromMemory(uint32_t, const uint8_t* src, uint32_t count) {
-    const uint32_t block = BeginData(false, count);
-    MmcCard& card = *Card();
-    for (uint32_t off = 0; off < count; off += block) card.ReceiveBlock(src + off, block);
-    EndData();
+    BeginDmaData(false, count);
+    WriteCardBytes(src, count);
     return Transfer{count, false};
 }
 
+/* § 17.8: one PIO setup performs a card register operation; Linux v6.1
+   drivers/mmc/host/mxs-mmc.c mxs_mmc_ac sends CTRL0 without RUN in a WAIT4END descriptor with no
+   data transfer. */
 bool Imx28Ssp::DmaCommandEnded(uint32_t) {
+    if (dma_pio_ && (ctrl0_ & (kCtrl0DataXfer | kCtrl0Run)) == 0u) {
+        RunCommandOnly(base_ + kCtrl0);
+        dma_pio_ = false;
+        return true;
+    }
     if (dma_pio_ || (ctrl0_ & kCtrl0Run) != 0u) Die("DMA command end with no data phase", base_, ctrl0_);
     return true;
 }
@@ -223,8 +328,9 @@ void Imx28Ssp::WriteCtrl0(Imx28SctOp op, uint32_t value, uint32_t addr) {
         ResetBlock();
         return;
     }
+    if (sw_data_) Die("CTRL0 write during a data phase", addr, value);
     ctrl0_ = next;
-    if ((old & kCtrl0Run) == 0u && (next & kCtrl0Run) != 0u) RunCommandOnly(addr);
+    if ((old & kCtrl0Run) == 0u && (next & kCtrl0Run) != 0u) StartRun(addr);
 }
 
 void Imx28Ssp::WriteTiming(uint32_t value, uint32_t addr) {
@@ -251,7 +357,7 @@ void Imx28Ssp::WriteRegister(uint32_t reg, Imx28SctOp op, uint32_t value, uint32
         case kTiming:    WriteTiming(value, addr);                            return;
         case kDdrCtrl:   ddr_ctrl_ = CheckReserved(value, kDdrCtrlWritable, addr, value); return;
         case kDllCtrl:   dll_ctrl_ = CheckReserved(value, kDllCtrlWritable, addr, value); return;
-        case kData:      Die("DATA write", addr, value);
+        case kData:      WriteDataWord(addr, value);                          return;
         case kCtrl1:
             ctrl1_ = CheckReserved(Imx28ApplySct(op, ctrl1_, value), kCtrl1Writable, addr, value);
             DriveLine(false);
@@ -272,7 +378,14 @@ uint32_t Imx28Ssp::ReadWord(uint32_t addr) {
     }
     if (a.reg_offset == kCtrl0) return ctrl0_;
     /* Section 17.10.1 SFTRST, CLKGATE; sharp_brain_pw_sh4 nk.exe 80211ad4. */
-    if (a.reg_offset == kStatus) return kStatusReset | status_;
+    if (a.reg_offset == kStatus) {
+        uint32_t status = kStatusReset | status_;
+        if (sw_data_) status |= kStatusDataBusy | kStatusBusy;
+        if (sw_data_ && (ctrl0_ & kCtrl0Read) != 0u && (ctrl1_ & kCtrl1DmaEnable) == 0u) {
+            status &= ~kStatusFifoEmpty;
+        }
+        return status;
+    }
     RequireOperating("ReadWord", ctrl0_, addr, 0);
     if (a.reg_offset >= kSdresp0 && a.reg_offset <= kSdresp3) {
         return sdresp_[(a.reg_offset - kSdresp0) / kRegStride];
@@ -289,7 +402,7 @@ uint32_t Imx28Ssp::ReadWord(uint32_t addr) {
         case kDdrCtrl:   return ddr_ctrl_;
         case kDllCtrl:   return dll_ctrl_;
         case kVersion:   return kVersionValue;
-        case kData:      Die("DATA read", addr, 0u);
+        case kData:      return ReadDataWord(addr);
         case kDllSts:    Die("DLL_STS read", addr, 0u);
         case kDebug:     Die("DEBUG read", addr, 0u);
         default:         break;
@@ -322,6 +435,12 @@ void Imx28Ssp::SaveState(StateWriter& w) {
     w.Write("status", status_);
     w.WriteBytes("sdresp", sdresp_, sizeof(sdresp_));
     w.Write<uint8_t>("dma_pio", dma_pio_ ? 1u : 0u);
+    w.Write<uint8_t>("sw_data", sw_data_ ? 1u : 0u);
+    w.Write("data_left", data_left_);
+    w.Write("data_block", data_block_);
+    w.Write("data_off", data_off_);
+    w.Write("pio_block_bytes", static_cast<uint32_t>(pio_block_.size()));
+    w.WriteBytes("pio_block", pio_block_.data(), pio_block_.size());
     MmcCard* card = Card();
     w.Write<uint8_t>("card", card != nullptr ? 1u : 0u);
     if (card != nullptr) card->SaveState(w);
@@ -344,6 +463,19 @@ void Imx28Ssp::RestoreState(StateReader& r) {
     r.ReadBytes("sdresp", sdresp_, sizeof(sdresp_));
     r.Read("dma_pio", pio);
     dma_pio_ = pio != 0u;
+    uint8_t sw = 0u;
+    r.Read("sw_data", sw);
+    sw_data_ = sw != 0u;
+    r.Read("data_left", data_left_);
+    r.Read("data_block", data_block_);
+    r.Read("data_off", data_off_);
+    uint32_t pio_bytes = 0u;
+    r.Read("pio_block_bytes", pio_bytes);
+    if (pio_bytes > data_block_) {
+        emu_.Get<Fatal>().Die("Imx28 SSP%u: saved PIO block %u exceeds block %u", unit_, pio_bytes, data_block_);
+    }
+    pio_block_.resize(pio_bytes);
+    r.ReadBytes("pio_block", pio_block_.data(), pio_block_.size());
     uint8_t saved_card = 0u;
     r.Read("card", saved_card);
     MmcCard* card = Card();

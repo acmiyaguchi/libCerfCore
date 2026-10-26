@@ -46,11 +46,26 @@ struct FixedParamCommand {
     uint8_t value;
 };
 
-/* MIPI DCS set_address_mode 36h, set_pixel_format 3Ah, set_tear_on 35h;
-   sharp_brain_pw_sh4 ddraw_mx28.dll PanelInitSeq c06d6d10 (D0h, 55h, 00h). */
+/* MIPI DCS set_pixel_format 3Ah, set_tear_on 35h; sharp_brain_pw_sh4 ddraw_mx28.dll PanelInitSeq
+   c06d6d10 (55h, 00h). */
 constexpr FixedParamCommand kFixedParamCommands[] = {
-    {0x36u, 0xD0u}, {0x3Au, 0x55u}, {0x35u, 0x00u},
+    {0x3Au, 0x55u}, {0x35u, 0x00u},
 };
+
+/* ILI9806H V091 page 224 MADCTL 36h: MY [7], MX [6], MV [5], ML [4], BGR [3], MH [2], SS [1],
+   GS [0]; sharp_brain_pw_sh4 ddraw_mx28.dll PanelInitSeq c06d6d10 sends D0h. */
+/* ILI9806H V091 page 209 and page 211: SC/EC above 1DFh (MV 0) or 35Fh (MV 1) and SP/EP above 35Fh
+   (MV 0) or 1DFh (MV 1) are out of range. */
+constexpr uint8_t  kMadctl     = 0x36u;
+constexpr uint8_t  kMadctlMy   = 1u << 7;
+constexpr uint8_t  kMadctlMx   = 1u << 6;
+constexpr uint8_t  kMadctlMv   = 1u << 5;
+constexpr uint8_t  kMadctlBgr  = 1u << 3;
+constexpr uint8_t  kMadctlSs   = 1u << 1;
+constexpr uint8_t  kMadctlGs   = 1u << 0;
+constexpr uint8_t  kMadctlWinCe = 0xD0u;
+constexpr uint32_t kShortLimit = 0x1DFu;
+constexpr uint32_t kLongLimit  = 0x35Fu;
 
 /* ILI9806H V091 datasheet pages 199-208 (10h, 11h, 13h, 22h, 28h, 29h); sharp_brain_pw_sh4
    ddraw_mx28.dll PanelInitSeq c06d6d10 (22h), PanelPowerOff c06d7424 (10h), LcdifUpdateRegion
@@ -125,6 +140,7 @@ public:
         w.Write<uint8_t>("sleep", sleep_);
         w.Write<uint8_t>("display_on", display_on_);
         w.Write<uint8_t>("all_pixels_off", all_pixels_off_);
+        w.Write<uint8_t>("madctl", madctl_);
     }
 
     void RestoreState(StateReader& r) override {
@@ -138,6 +154,7 @@ public:
         r.Read("sleep", sleep_);
         r.Read("display_on", display_on_);
         r.Read("all_pixels_off", all_pixels_off_);
+        r.Read("madctl", madctl_);
     }
 
 private:
@@ -147,12 +164,14 @@ private:
     }
 
     void EndAddressSet();
+    void StorePixel(uint32_t column, uint32_t page, uint16_t pixel);
 
     void SetDisplayState(uint8_t cmd);
     void Handoff() {
         sleep_          = 0u;
         display_on_     = 1u;
         all_pixels_off_ = 0u;
+        madctl_         = kMadctlWinCe;
     }
 
     std::vector<uint16_t> gram_;
@@ -166,6 +185,7 @@ private:
     uint8_t  sleep_           = 1u;
     uint8_t  display_on_      = 0u;
     uint8_t  all_pixels_off_  = 0u;
+    uint8_t  madctl_          = kMadctlWinCe;
 };
 
 /* ILI9806H V091 datasheet pages 199-208 default and blank states. */
@@ -190,14 +210,15 @@ void SharpBrainPwSh4Panel::WriteCommand(uint32_t bus_word) {
         SetDisplayState(cmd);
         return;
     }
-    if (SettingParamCount(cmd) != 0u || FindFixedParam(cmd)) return;
+    if (SettingParamCount(cmd) != 0u || FindFixedParam(cmd) || cmd == kMadctl) return;
     if (cmd != kCaset && cmd != kPaset && cmd != kRamwr) return;
     if (cmd != kRamwr) return;
     if (window_valid_ != 0x3u) {
+        const bool mv = (madctl_ & kMadctlMv) != 0u;
         window_[0] = 0;
-        window_[1] = kColumns - 1;
+        window_[1] = (mv ? kPages : kColumns) - 1;
         window_[2] = 0;
-        window_[3] = kPages - 1;
+        window_[3] = (mv ? kColumns : kPages) - 1;
         window_valid_ = 0x3u;
     }
     cursor_[0] = window_[0];
@@ -207,17 +228,37 @@ void SharpBrainPwSh4Panel::WriteCommand(uint32_t bus_word) {
 /* ILI9341 V1.11 sections 8.2.20, 8.2.21: parameters carry D7-D0, high byte first. */
 void SharpBrainPwSh4Panel::EndAddressSet() {
     const uint32_t start = (static_cast<uint32_t>(params_[0]) << 8) | params_[1];
-    const uint32_t end   = (static_cast<uint32_t>(params_[2]) << 8) | params_[3];
-    const uint32_t limit = command_ == kCaset ? kColumns : kPages;
-    if (start > end || end >= limit) return;
+    uint32_t       end   = (static_cast<uint32_t>(params_[2]) << 8) | params_[3];
+    if (start > end) return;
+    /* ILI9806H V091 page 209 and page 211 NOTE1: SC/SP and the window size count in pixel pairs. */
+    if (end > start && ((end - start + 1u) & 1u) != 0u) --end;
     const uint32_t base = command_ == kCaset ? 0u : 2u;
     window_[base]      = start;
     window_[base + 1u] = end;
     window_valid_ |= command_ == kCaset ? 0x1u : 0x2u;
 }
 
+/* ILI9806H V091 page 224: MV exchanges the MCU column and page counters, MX and MY reverse the
+   frame memory column and page order, SS and GS reverse the source and gate scan; pages 209, 211
+   drop out of range data. */
+void SharpBrainPwSh4Panel::StorePixel(uint32_t column, uint32_t page, uint16_t pixel) {
+    const bool mv = (madctl_ & kMadctlMv) != 0u;
+    if (column > (mv ? kLongLimit : kShortLimit) || page > (mv ? kShortLimit : kLongLimit)) return;
+    uint32_t c = mv ? page : column;
+    uint32_t p = mv ? column : page;
+    if ((madctl_ & kMadctlMx) != 0u) c = kShortLimit - c;
+    if ((madctl_ & kMadctlMy) != 0u) p = kLongLimit - p;
+    if ((madctl_ & kMadctlSs) != 0u) c = kShortLimit - c;
+    if ((madctl_ & kMadctlGs) != 0u) p = kLongLimit - p;
+    const uint32_t x = kShortLimit - c;
+    const uint32_t y = kLongLimit - p;
+    if (y >= kPages) return;
+    gram_[static_cast<size_t>(y) * kColumns + x] = pixel;
+}
+
 /* ILI9341 V1.11 section 8.2.22: data goes to the frame memory and the column then page
-   counters advance inside the window. */
+   counters advance inside the window; ILI9806H V091 page 22 Address Counter: the AC stays
+   within the SC-EC, SP-EP window. */
 void SharpBrainPwSh4Panel::WriteData(uint32_t bus_word) {
     if (command_ == kCaset || command_ == kPaset) {
         if (param_count_ >= 4u) return;
@@ -234,19 +275,25 @@ void SharpBrainPwSh4Panel::WriteData(uint32_t bus_word) {
         if (param_count_ == 0u) ++param_count_;
         return;
     }
+    if (command_ == kMadctl) {
+        if (param_count_ == 0u) {
+            if ((bus_word & kMadctlBgr) != 0u) Die("MADCTL BGR order", bus_word);
+            madctl_ = static_cast<uint8_t>(bus_word & 0xFFu);
+        }
+        ++param_count_;
+        return;
+    }
     if (command_ != kRamwr) {
         ++param_count_;
         return;
     }
-    if (cursor_[1] > window_[3]) return;
-    gram_[static_cast<size_t>(cursor_[1]) * kColumns + cursor_[0]] =
-        static_cast<uint16_t>(bus_word & 0xFFFFu);
+    StorePixel(cursor_[0], cursor_[1], static_cast<uint16_t>(bus_word & 0xFFFFu));
     if (cursor_[0] < window_[1]) {
         ++cursor_[0];
         return;
     }
     cursor_[0] = window_[0];
-    ++cursor_[1];
+    cursor_[1] = cursor_[1] < window_[3] ? cursor_[1] + 1u : window_[2];
 }
 
 }  /* namespace */

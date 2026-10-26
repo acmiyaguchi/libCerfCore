@@ -37,7 +37,6 @@ constexpr uint32_t kTtCtrlMask     = 0x7F000000u;
 constexpr uint32_t kBurstMask      = 0x0000FFFFu;
 constexpr uint32_t kBurstReset     = 0x00001010u;
 constexpr uint32_t kIcUsbMask      = 0x0000000Fu;
-constexpr uint32_t kFrIndexMask    = 0x00003FFFu;
 constexpr uint32_t kDciMask        = 0x0000FFFFu;
 constexpr uint32_t kDciReset       = 0x00000001u;
 constexpr uint32_t kEndptBits      = 0x00FF00FFu;
@@ -173,7 +172,8 @@ uint32_t Imx28Usbctrl::ReadReg(uint32_t off, uint32_t addr) {
         case kUsbCmd:            return r_[kCmd];
         case kUsbSts:            return ComposeSts();
         case kUsbIntr:           return r_[kIntr];
-        case kUsbFrIndex:        return r_[kFrIndex];
+        case kUsbFrIndex:        return ComposeFrIndex();
+        case kUsbConfigFlag:     return r_[kConfigFlag];
         case kUsbAddrBase:       return r_[kAddrBase];
         case kUsbListAddr:       return r_[kListAddr];
         case kUsbTtCtrl:         return r_[kTtCtrl];
@@ -219,9 +219,7 @@ void Imx28Usbctrl::WriteCmd(uint32_t value, uint32_t addr) {
         ResetLocked();
         return;
     }
-    if (Mode() == kUsbModeHost && (value & (kUsbCmdRs | kUsbCmdIaa)) != 0u) {
-        Die("host controller run", addr, value);
-    }
+    if (Mode() == kUsbModeHost) WriteHostCmd(value, addr);
     r_[kCmd] = value & kUsbCmdWritable;
     if ((value & kUsbCmdRs) == 0u) port_ = 0u;
 }
@@ -275,7 +273,8 @@ void Imx28Usbctrl::WriteReg(uint32_t off, uint32_t value, uint32_t addr) {
         case kUsbCmd:        WriteCmd(value, addr); return;
         case kUsbSts:        r_[kSts] &= ~(value & kUsbStsW1c); return;
         case kUsbIntr:       r_[kIntr] = value & kUsbIntrWritable; return;
-        case kUsbFrIndex:    r_[kFrIndex] = value & kFrIndexMask; return;
+        case kUsbFrIndex:    WriteFrIndex(value, addr); return;
+        case kUsbConfigFlag: r_[kConfigFlag] = value & 1u; return;
         case kUsbAddrBase:
             if (!host && (value & kAddrAdra) != 0u) Die("DEVICEADDR USBADRA", addr, value);
             r_[kAddrBase] = value & (host ? kAddrMaskHost : kAddrMaskDevice);
@@ -469,6 +468,7 @@ void Imx28Usbctrl::SaveState(StateWriter& w) {
     w.Write("regs", r_);
     w.Write("onems_ack", onems_ack_);
     w.Write("port", port_);
+    w.Write("run_ns", run_ns_);
     w.Write<uint8_t>("mode_locked", mode_locked_ ? 1u : 0u);
 }
 
@@ -482,6 +482,7 @@ void Imx28Usbctrl::RestoreState(StateReader& r) {
     r.Read("regs", r_);
     r.Read("onems_ack", onems_ack_);
     r.Read("port", port_);
+    r.Read("run_ns", run_ns_);
     r.Read("mode_locked", locked);
     mode_locked_ = locked != 0u;
     session_ = power_->Session(unit_);

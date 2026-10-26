@@ -22,6 +22,7 @@ enum State : uint32_t {
 };
 
 constexpr uint32_t kR1ReadyForData = 1u << 8;
+constexpr uint32_t kR1AppCmd       = 1u << 5;
 constexpr uint32_t kR1StateShift   = 9u;
 
 constexpr uint32_t kOcrBusy        = 0x80000000u;
@@ -100,13 +101,13 @@ MmcCommandResult SdCardBase::Command(uint8_t index, uint32_t argument, uint32_t 
             if (before != kStateTran) break;
             read_data_ = {0x02u, 0x35u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u};
             state_ = kStateData;
-            response[0] = StatusWord(before);
+            response[0] = StatusWord(before) | kR1AppCmd;
             return MmcCommandResult::Short;
 
         /* Section 4.3.11 ACMD6 SET_BUS_WIDTH. */
         case 6u:
             if (before != kStateTran) break;
-            response[0] = StatusWord(before);
+            response[0] = StatusWord(before) | kR1AppCmd;
             return MmcCommandResult::Short;
 
         /* Section 4.3.11 ACMD13 SD_STATUS. */
@@ -114,17 +115,19 @@ MmcCommandResult SdCardBase::Command(uint8_t index, uint32_t argument, uint32_t 
             if (before != kStateTran) break;
             read_data_.assign(64u, 0u);
             state_ = kStateData;
-            response[0] = StatusWord(before);
+            response[0] = StatusWord(before) | kR1AppCmd;
             return MmcCommandResult::Short;
 
         /* Section 4.3.12 ACMD42 SET_CLR_CARD_DETECT. */
         case 42u:
             if (before != kStateTran) break;
-            response[0] = StatusWord(before);
+            response[0] = StatusWord(before) | kR1AppCmd;
             return MmcCommandResult::Short;
 
+        /* Version 6.00 § 4.3.9.1 (2), (4): ACMD55 does not exist and an undefined ACMD is
+           handled as the regular command. */
         default:
-            return MmcCommandResult::NoResponse;
+            break;
         }
     }
 
@@ -140,10 +143,11 @@ MmcCommandResult SdCardBase::Command(uint8_t index, uint32_t argument, uint32_t 
         response[0] = argument;
         return MmcCommandResult::Short;
 
-    /* Section 4.3.10 CMD55 APP_CMD; sdbus.dll SDCardSendAppCommand c05047e0. */
+    /* § 4.3.10 CMD55 APP_CMD; sdbus.dll SDCardSendAppCommand c05047e0; version 6.00
+       § 4.3.9.1 (1) the response sets APP_CMD. */
     case 55u:
         app_cmd_ = true;
-        response[0] = StatusWord(before);
+        response[0] = StatusWord(before) | kR1AppCmd;
         return MmcCommandResult::Short;
 
     /* Section 5.1 CMD2 ALL_SEND_CID; sdbus.dll SDAssignRcaReadCsd c0505a98. */
@@ -204,6 +208,27 @@ MmcCommandResult SdCardBase::Command(uint8_t index, uint32_t argument, uint32_t 
         }
         state_ = kStateStby;
         return MmcCommandResult::NoResponse;
+
+    /* Version 6.00 § 4.3.10 CMD6 SWITCH_FUNC, Table 4-13: function 0 of every group, the
+       one function TRAN_SPEED 25 MHz in CMD9 allows; Tables 4-15 to 4-17 status codes; section
+       4.2.3.1 XPC=0 limit of 100 mA. */
+    case 6u: {
+        if (before != kStateTran) break;
+        read_data_.assign(64u, 0u);
+        read_data_[1] = 100u;
+        for (uint32_t group = 0; group < 6u; ++group) {
+            read_data_[2u + group * 2u] = 0x80u;
+            read_data_[3u + group * 2u] = 0x01u;
+        }
+        for (uint32_t group = 0; group < 6u; ++group) {
+            const uint32_t arg  = (argument >> (group * 4u)) & 0xFu;
+            const uint8_t  code = (arg == 0u || arg == 0xFu) ? 0u : 0xFu;
+            read_data_[16u - group / 2u] |= static_cast<uint8_t>(code << ((group & 1u) * 4u));
+        }
+        state_ = kStateData;
+        response[0] = StatusWord(before);
+        return MmcCommandResult::Short;
+    }
 
     /* Section 4.3.11 CMD16 SET_BLOCKLEN. */
     case 16u:

@@ -30,6 +30,13 @@ constexpr uint32_t kMis   = 0x40u;
 constexpr uint32_t kIcr   = 0x44u;
 constexpr uint32_t kDmacr = 0x48u;
 
+/* ARM DDI 0183G § 3.3.15 and 3.3.16: UARTPeriphID0-3 at 0xFE0-0xFEC (part 0x011, designer
+   0x41, configuration 0), UARTPCellID0-3 at 0xFF0-0xFFC (0xB105F00D); revision as QEMU
+   hw/char/pl011.c pl011_id_arm. */
+constexpr uint32_t kPrimeCellId    = 0xFE0u;
+constexpr uint32_t kPrimeCellIdEnd = 0x1000u;
+constexpr uint32_t kPrimeCellIdBytes[8] = {0x11u, 0x10u, 0x14u, 0x00u, 0x0Du, 0xF0u, 0x05u, 0xB1u};
+
 /* Section 24.3.3 FR reset 0x90: TXFE [7] and RXFE [4]; CTS [0] is "the complement of the UART
    clear to send" input. Section 9.4.8 MUXSEL6 BANK3_PIN00: 10 = duart_cts. */
 constexpr uint32_t kFrReset   = 0x90u;
@@ -135,8 +142,13 @@ uint32_t Imx28Duart::ReadWord(uint32_t addr) {
         case kMis:   return ris_ & imsc_;
         case kIcr:   return 0u;          /* section 24.3.13 write-only, reset 0, bits 15:11 read as zero */
         case kDmacr: return dmacr_;
-        default:     HaltUnsupportedAccess("ReadWord", addr, 0);
+        default:     break;
     }
+    const uint32_t off = addr - MmioBase();
+    if (off >= kPrimeCellId && off < kPrimeCellIdEnd && (off & 0x3u) == 0u) {
+        return kPrimeCellIdBytes[(off - kPrimeCellId) / 4u];
+    }
+    HaltUnsupportedAccess("ReadWord", addr, 0);
 }
 
 /* MCIMX28RM section 24.3.1 (DR write pushes the transmit FIFO), 24.3.8 (TXE and UARTEN must

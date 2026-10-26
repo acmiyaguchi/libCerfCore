@@ -16,7 +16,7 @@ enum Imx28UsbctrlOffset : uint32_t {
     kUsbCmd = 0x140, kUsbSts = 0x144, kUsbIntr = 0x148, kUsbFrIndex = 0x14C,
     kUsbAddrBase = 0x154, kUsbListAddr = 0x158, kUsbTtCtrl = 0x15C, kUsbBurstSize = 0x160,
     kUsbTxFillTuning = 0x164, kUsbIcUsb = 0x16C, kUsbUlpi = 0x170, kUsbEndptNak = 0x178,
-    kUsbEndptNakEn = 0x17C, kUsbPortsc1 = 0x184, kUsbOtgsc = 0x1A4, kUsbMode = 0x1A8,
+    kUsbEndptNakEn = 0x17C, kUsbConfigFlag = 0x180, kUsbPortsc1 = 0x184, kUsbOtgsc = 0x1A4, kUsbMode = 0x1A8,
     kUsbEndptSetupStat = 0x1AC, kUsbEndptPrime = 0x1B0, kUsbEndptFlush = 0x1B4,
     kUsbEndptStat = 0x1B8, kUsbEndptComplete = 0x1BC, kUsbEndptCtrl0 = 0x1C0,
     kUsbMapEnd = 0x1E0
@@ -42,6 +42,8 @@ constexpr uint32_t kUsbCmdWritable  = 0x00FFEB7Fu;
 constexpr uint32_t kUsbCmdRs        = 1u << 0;
 constexpr uint32_t kUsbCmdRst       = 1u << 1;
 constexpr uint32_t kUsbCmdIaa       = 1u << 6;
+constexpr uint32_t kUsbCmdAse       = 1u << 5;
+constexpr uint32_t kUsbCmdPse       = 1u << 4;
 constexpr uint32_t kUsbCmdHostAspe  = 1u << 11;
 constexpr uint32_t kUsbCmdHostAsp   = 3u << 8;
 

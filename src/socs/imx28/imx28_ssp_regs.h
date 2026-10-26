@@ -78,6 +78,7 @@ constexpr uint32_t kCtrl1SlaveMode      = 1u << 8;
 constexpr uint32_t kCtrl1WordLenShift   = 4u;
 constexpr uint32_t kCtrl1WordLenMask    = 0xFu;
 constexpr uint32_t kCtrl1WordLen8Bits   = 0x7u;
+constexpr uint32_t kCtrl1WordLen16Bits  = 0xFu;
 constexpr uint32_t kCtrl1ModeMask       = 0xFu;
 constexpr uint32_t kCtrl1ModeSdMmc      = 0x3u;
 
@@ -87,10 +88,13 @@ constexpr uint32_t kDdrCtrlWritable = 0xC0000003u;
 /* Section 17.10.16 DLL_CTRL register figure: RSVD1 [19:16], RSVD0 [8]. */
 constexpr uint32_t kDllCtrlWritable = 0xFFF0FEFFu;
 
-/* Section 17.10.17 STATUS reset E000_0020h: PRESENT, RSVD4, SD_PRESENT, FIFO_EMPTY;
-   RESP_TIMEOUT [14]. */
+/* § 17.10.17 STATUS reset E000_0020h: PRESENT, RSVD4, SD_PRESENT, FIFO_EMPTY;
+   RESP_TIMEOUT [14], FIFO_EMPTY [5], DATA_BUSY [2], BUSY [0]. */
 constexpr uint32_t kStatusReset       = 0xE0000020u;
 constexpr uint32_t kStatusRespTimeout = 1u << 14;
+constexpr uint32_t kStatusFifoEmpty   = 1u << 5;
+constexpr uint32_t kStatusDataBusy    = 1u << 2;
+constexpr uint32_t kStatusBusy        = 1u << 0;
 
 /* Section 17.10.20 VERSION reset 0400_0000h. */
 constexpr uint32_t kVersionValue = 0x04000000u;
