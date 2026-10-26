@@ -67,14 +67,14 @@ void Imx28I2c::Transmit(const uint8_t* data) {
     DriveLine(false);
 }
 
-/* Section 27.3.1 steps 17-20 (word layout not defined); sharp_brain_pw_sh4 nk.exe
-   OAL_I2CProcessPackets 802160f0 unpacks most significant byte first, right-justified. */
+/* Section 27.3.1 steps 17-20 (word layout not defined); Figure 27-9 byte order; Linux v6.1
+   i2c-mxs.c mxs_i2c_pio_setup_xfer takes the first byte from bits 7:0. */
 uint32_t Imx28I2c::ReadData(uint32_t addr) {
     if (pio_ != Pio::Drain) Die("DATA read with no receive pending", addr, 0u);
     const uint32_t left = static_cast<uint32_t>(pio_buf_.size()) - pio_pos_;
     const uint32_t n    = std::min(kWordBytes, left);
     uint32_t word = 0u;
-    for (uint32_t k = 0; k < n; ++k) word = (word << 8) | pio_buf_[pio_pos_ + k];
+    for (uint32_t k = 0; k < n; ++k) word |= static_cast<uint32_t>(pio_buf_[pio_pos_ + k]) << (8u * k);
     pio_pos_ += n;
     if (pio_pos_ >= pio_buf_.size()) {
         if ((ctrl0_ & kCtrl0Run) != 0u) Complete(false);
