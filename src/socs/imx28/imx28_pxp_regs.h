@@ -16,10 +16,15 @@ constexpr uint32_t kStat         = 0x010u;
 constexpr uint32_t kOutbuf       = 0x020u;
 constexpr uint32_t kOutsize      = 0x040u;
 constexpr uint32_t kS0buf        = 0x050u;
+constexpr uint32_t kS0ubuf       = 0x060u;
+constexpr uint32_t kS0vbuf       = 0x070u;
 constexpr uint32_t kS0param      = 0x080u;
 constexpr uint32_t kS0background = 0x090u;
 constexpr uint32_t kS0crop       = 0x0A0u;
+constexpr uint32_t kS0scale      = 0x0B0u;
+constexpr uint32_t kS0offset     = 0x0C0u;
 constexpr uint32_t kCsccoeff0    = 0x0D0u;
+constexpr uint32_t kCsccoeff1    = 0x0E0u;
 constexpr uint32_t kCsccoeff2    = 0x0F0u;
 constexpr uint32_t kNext         = 0x100u;
 constexpr uint32_t kS0ColorkeyLo = 0x180u;
@@ -55,7 +60,7 @@ constexpr RegSpec SpecAt(uint32_t offset) {
         case 0x0B0u:         return {0x10001000u, 0x7FFF7FFFu};
         case 0x0C0u:         return {0x00000000u, 0x0FFF0FFFu};
         case kCsccoeff0:     return {0x04000000u, 0x9FFFFFFFu};
-        case 0x0E0u:         return {0x01230208u, 0x07FF07FFu};
+        case kCsccoeff1:     return {0x01230208u, 0x07FF07FFu};
         case kCsccoeff2:     return {0x079B076Cu, 0x07FF07FFu};
         case kNext:          return {0x00000000u, 0xFFFFFFFCu};
         case kS0ColorkeyLo:  return {0x00FFFFFFu, 0x00FFFFFFu};
@@ -91,6 +96,7 @@ constexpr uint32_t kCtrlInPlace       = 1u << 21;
 constexpr uint32_t kCtrlBlockSize     = 1u << 23;
 constexpr uint32_t kCtrlInterlaced    = 0xFu << 24;
 constexpr uint32_t kFormatRgb565      = 0x4u;
+constexpr uint32_t kFormatYuv420      = 0x9u;
 
 /* Section 34.4.2 STAT: IRQ [0], NEXT_IRQ [3]. */
 constexpr uint32_t kStatIrq     = 1u << 0;
