@@ -2,6 +2,7 @@
 
 #include "paced_wave_out.h"
 
+#include <chrono>
 #include <cstdint>
 
 namespace cerfcore {
@@ -27,6 +28,11 @@ private:
     PacedWaveOut  host_;
     bool          active_ = false;
     uint32_t      rate_   = 0;
+    uint64_t      stream_bytes_ = 0;
+    uint32_t      stream_peak_  = 0;
+    std::chrono::steady_clock::time_point last_report_;
+
+    void ReportStream();
 };
 
 }
