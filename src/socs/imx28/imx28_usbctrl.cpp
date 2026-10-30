@@ -228,11 +228,11 @@ void Imx28Usbctrl::WriteMode(uint32_t value, uint32_t addr) {
     r_[kMode] = next;
 }
 
-/* Section 31.3.32: PTC selects test modes, FPR forces resume, PR and SUSP are host controls. */
+/* Section 31.3.32: PTC selects test modes, PR and SUSP are host controls. Device-mode FPR clears
+ * when the device is in normal operation; this port never enters suspend (usbfn.dll c06a1818). */
 void Imx28Usbctrl::WritePortsc(uint32_t value, uint32_t addr) {
     const bool host = Mode() == kUsbModeHost;
-    if ((value & kUsbPortPtc) != 0u || (value & kPortFpr) != 0u ||
-        (host && (value & (kPortPr | kPortSusp)) != 0u)) {
+    if ((value & kUsbPortPtc) != 0u || (host && (value & (kPortFpr | kPortPr | kPortSusp)) != 0u)) {
         Die("PORTSC1 control", addr, value);
     }
     r_[kPortsc] = value & (kUsbPortWritable | (host ? kUsbPortHostPp : 0u));
