@@ -363,6 +363,8 @@ void ConfigLoader::LoadInto(DeviceConfig& config) {
             int n = atoi(a + sizeof(kArgScreenRefreshRate) - 1);
             if (n < 1) CfgFatal("(command line)", "--screen-refresh-rate must be >= 1");
             config.screen_refresh_rate = (uint32_t)n;
+        } else if (strncmp(a, kArgUsbSerialHost, sizeof(kArgUsbSerialHost) - 1) == 0) {
+            config.usb_serial_host = a + sizeof(kArgUsbSerialHost) - 1;
         } else if (strncmp(a, kArgGaShareFolder, sizeof(kArgGaShareFolder) - 1) == 0) {
             config.share_folder = a + sizeof(kArgGaShareFolder) - 1;
         } else if (strcmp(a, kArgFullScreen) == 0) {

@@ -22,6 +22,14 @@ constexpr uint32_t kVdd5vChannel = 15u;
 constexpr uint32_t kBattDivider  = 4u;
 constexpr uint32_t kVdd5vDivider = 4u;
 
+/* Section 38.2.2: channels 8 and 9 with CTRL2 TEMPSENSE_PWD [15] clear; Kelvin =
+   (Channel9 - Channel8) * 1.012 / 4. */
+constexpr uint32_t kTempChannel0    = 8u;
+constexpr uint32_t kTempChannel1    = 9u;
+constexpr uint32_t kTempsensePwd    = 1u << 15;
+constexpr uint32_t kTempGainMilli   = 1012u;
+constexpr uint32_t kTempCodesPerK   = 4u;
+
 /* Section 38.5.3 CTRL2 DIVIDE_BY_TWO [31:24]; section 38.5.20 CONVERSION SCALE_FACTOR [17:16],
    0x2 LI_ION. */
 constexpr uint32_t kDivideByTwoShift = 24u;
@@ -59,6 +67,14 @@ uint32_t Imx28LradcAdc::Convert(uint32_t channel, uint32_t select, uint32_t ctrl
         }
         mv      = inputs->Vdd5vMillivolts();
         divisor = kVdd5vDivider;
+    } else if (select == kTempChannel0 || select == kTempChannel1) {
+        if (divide || (ctrl2 & kTempsensePwd) != 0u) {
+            fatal.Die("Imx28 %08X: channel %u die temperature conversion with CTRL2 %08X",
+                      kImx28LradcBase, channel, ctrl2);
+        }
+        if (select == kTempChannel0) return 0u;
+        const uint32_t code = inputs->DieMillikelvin() * kTempCodesPerK / kTempGainMilli;
+        return code > kCodeMax ? kCodeMax : code;
     } else {
         fatal.Die("Imx28 %08X: channel %u select %u conversion with no source model", kImx28LradcBase,
                   channel, select);

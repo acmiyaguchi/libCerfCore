@@ -3,6 +3,7 @@
 #include <cerfcore/core/service.h>
 #include "../../execution/guest_cycle_clock.h"
 #include "../../peripherals/usb/usb_bot_host.h"
+#include "../../peripherals/usb/usb_cdc_acm_host.h"
 
 #include <cstdint>
 #include <vector>
@@ -16,10 +17,11 @@ class StateWriter;
 /* USB 2.0 chapter 9 enumeration of the device on USBCTRL0. */
 class Imx28UsbVirtualHost : public Service {
 public:
-    explicit Imx28UsbVirtualHost(CerfEmulator& emu) : Service(emu), bot_(emu) {}
+    explicit Imx28UsbVirtualHost(CerfEmulator& emu) : Service(emu), bot_(emu), cdc_(emu) {}
 
     bool ShouldRegister() override;
     void OnReady() override;
+    void OnShutdown() override;
 
     void Attach(Imx28Usbctrl& port);
     void SaveState(StateWriter& w);
@@ -41,6 +43,7 @@ private:
     void Arm(int64_t ns);
     void Rearm();
     [[noreturn]] void Die(const char* what, uint32_t a, uint32_t b) const;
+    uint32_t AcmInterface() const;
 
     Imx28Usbctrl*            port_  = nullptr;
     GuestCycleClock*         clock_ = nullptr;
@@ -56,7 +59,9 @@ private:
     uint8_t                  setup_[8] = {};
     std::vector<uint8_t>     data_;
     std::vector<uint8_t>     config_;
+    uint32_t                 cdc_active_ = 0;
     UsbBotHost               bot_;
+    UsbCdcAcmHost            cdc_;
 };
 
 }

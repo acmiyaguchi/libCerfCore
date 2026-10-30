@@ -26,6 +26,7 @@ inline constexpr char kArgGaFontSize[]     = "--ga-font-size=";
 inline constexpr char kArgGaAutorun[]      = "--ga-autorun=";
 inline constexpr char kArgRecovery[]       = "--recovery";
 inline constexpr char kArgGaShareFolder[]  = "--ga-share-folder=";
+inline constexpr char kArgUsbSerialHost[]  = "--usb-serial-host=";
 inline constexpr char kArgBoot[]           = "--boot=";
 inline constexpr char kArgTab[]            = "--tab=";
 inline constexpr char kArgFullScreen[]     = "--full-screen";

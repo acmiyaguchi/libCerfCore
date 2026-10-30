@@ -20,10 +20,11 @@ class CerfEmulator;
 
 class HostSerialForward : public SerialEndpoint {
 public:
-    HostSerialForward(std::string host_port, CerfEmulator& emu);
+    HostSerialForward(std::string host_port, CerfEmulator& emu, bool paced = true);
     ~HostSerialForward() override;
 
     void SetOnBridgeDead(std::function<void()> cb) { on_dead_ = std::move(cb); }
+    void SetDeadNotice(std::string text) { dead_notice_ = std::move(text); }
 
     void OnGuestTx(const uint8_t* data, size_t n) override;
     void OnControlLines(bool dtr, bool rts) override;
@@ -42,11 +43,14 @@ private:
 
     CerfEmulator&               emu_;
     std::string                 port_name_;
+    bool                        paced_;
     host_platform::HostSerialPort port_;
     std::atomic<bool>           running_{false};
     std::atomic<bool>           dead_{false};
 
     std::function<void()> on_dead_;
+    std::string           dead_notice_ = "The port has been ejected. Check that the port exists and is not in use "
+                                         "by another application, then insert it again.";
 
     std::thread reader_;
     std::thread writer_;

@@ -38,8 +38,8 @@ host_platform::SerialPortSettings ToPortSettings(const SerialLine::LineConfig& c
 }
 }
 
-HostSerialForward::HostSerialForward(std::string host_port, CerfEmulator& emu)
-    : emu_(emu), port_name_(std::move(host_port)) {}
+HostSerialForward::HostSerialForward(std::string host_port, CerfEmulator& emu, bool paced)
+    : emu_(emu), port_name_(std::move(host_port)), paced_(paced) {}
 
 HostSerialForward::~HostSerialForward() { OnClose(); }
 
@@ -47,10 +47,7 @@ void HostSerialForward::ReportDead(const std::string& detail) {
     if (dead_.exchange(true)) return;
     emu_.Get<UserAlert>().Post(
         AlertLevel::kWarning, "Serial port forwarder - CE Runtime Foundation",
-        "The serial port forwarder lost host " + port_name_ + ".\n\n" + detail +
-            "\n\nThe port has been ejected. Check that the port exists "
-            "and is not in use by another application, then insert it "
-            "again.",
+        "The serial port forwarder lost host " + port_name_ + ".\n\n" + detail + "\n\n" + dead_notice_,
         on_dead_);
 }
 
@@ -129,7 +126,7 @@ void HostSerialForward::ApplyLineConfig(const SerialLine::LineConfig& c) {
 }
 
 void HostSerialForward::OnGuestTx(const uint8_t* data, size_t n) {
-    if (!port_.IsOpen() || n == 0) return;
+    if (!port_.IsOpen() || n == 0 || dead_.load()) return;
 #if CERF_DEV_MODE
     LOG(Periph, "[SerialFwd] TX guest->host %s n=%zu b0=0x%02X\n",
         port_name_.c_str(), n, data[0]);
@@ -214,7 +211,7 @@ void HostSerialForward::WriterLoop() {
         const SerialLine::LineConfig cfg =
             uart_ ? uart_->GetLineConfig() : SerialLine::LineConfig{};
         const int64_t byte_ticks =
-            cfg.baud ? (int64_t)(cfg.BitsPerChar() * (double)freq / cfg.baud) : 0;
+            paced_ && cfg.baud ? (int64_t)(cfg.BitsPerChar() * (double)freq / cfg.baud) : 0;
 
         for (size_t i = 0; i < local.size() && running_.load(); ++i) {
             const int64_t now = host_platform::MonotonicTicks();
@@ -242,14 +239,14 @@ void HostSerialForward::WriterLoop() {
                     "%zu/%zu; guest->host bytes dropped\n", port_name_.c_str(),
                     err, i, local.size());
                 ReportDead("Writing to the port failed (error " + std::to_string(err) + ").");
-                break;
+                return;
             }
             if (wrote == 0) {
                 LOG(Caution, "[SerialFwd] %s writer timed out at byte %zu/%zu; "
                     "guest->host bytes dropped\n", port_name_.c_str(), i,
                     local.size());
                 ReportDead("The port stopped accepting data (write timed out).");
-                break;
+                return;
             }
             next += byte_ticks;
         }

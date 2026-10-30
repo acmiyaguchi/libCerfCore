@@ -14,15 +14,16 @@ namespace cerfcore {
 namespace {
 
 /* sharp_brain_pw_sh4 battdrvr.dll BAT_UpdateStatus c0661c9c: BatteryLifePercent steps 100, 75,
-   50, 25 start at 3901, 3751, 3451, 3351 mV; pmuPdk.dll 0x1022 (4130 mV) bounds 100; battdrvr.dll
-   BAT_LowBatteryShutdown fatal below 3250 mV. */
-constexpr uint32_t kFullFillMv   = 4015u;
+   50, 25 start at 3901, 3751, 3451, 3351 mV; pmuPdk.dll c0625020 full above 0x1022 (4130 mV);
+   battdrvr.dll BAT_LowBatteryShutdown fatal below 3250 mV; MCIMX28RM section 11.6 limit 4.2 V. */
+constexpr uint32_t kFullFillMv   = 4200u;
 constexpr uint32_t kThreeQuarter = 3825u;
 constexpr uint32_t kHalfFillMv   = 3600u;
 constexpr uint32_t kQuarterMv    = 3400u;
 constexpr uint32_t kLowFillMv    = 3300u;
 
 constexpr uint32_t kVdd5vMv = 5000u;
+constexpr uint32_t kDieMk    = 298150u;
 
 /* sharp_brain_pw_sh4 lradc.dll LDC_ReadBattTemp table 0xC06716B8: raw 1895 is 25 degC; section
    38.5.3 TEMP_ISRC0 0x7 is 140 uA; ROM LDC_ReadBattTemp programs ISRC0 7 with IENABLE0. */
@@ -68,6 +69,7 @@ public:
     }
 
     uint32_t Vdd5vMillivolts() override { return battery_.IsOnBattery() ? 0u : kVdd5vMv; }
+    uint32_t DieMillikelvin() override { return kDieMk; }
 
     bool TouchDetected(uint32_t ctrl0) override { return panel_->Detected(ctrl0); }
     bool ButtonDetected(uint32_t, uint32_t) override { return false; }

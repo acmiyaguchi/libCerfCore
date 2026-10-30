@@ -4,6 +4,7 @@
 #include "imx28_apb_peripheral.h"
 #include "imx28_power.h"
 #include "imx28_usb_endpoints.h"
+#include "imx28_usb_gp_timers.h"
 #include "imx28_usbctrl_regs.h"
 
 #include <cstdint>
@@ -19,7 +20,7 @@ class Imx28Icoll;
 class Imx28Usbctrl : public Imx28ApbPeripheral {
 public:
     Imx28Usbctrl(CerfEmulator& emu, uint32_t unit, uint32_t base)
-        : Imx28ApbPeripheral(emu), base_(base), unit_(unit), endpoints_(emu, base) {}
+        : Imx28ApbPeripheral(emu), base_(base), unit_(unit), endpoints_(emu, base), timers_(emu, base) {}
 
     bool ShouldRegister() override;
     void OnReady() override;
@@ -40,6 +41,7 @@ public:
     void     Setup(const uint8_t* setup);
     bool     Transact(uint32_t bit, uint8_t* data, uint32_t length, Imx28UsbEndpoints::Transfer& out);
     uint32_t DeviceAddress();
+    bool     HighSpeed();
 
 protected:
     bool HasSct() const override { return false; }
@@ -53,7 +55,6 @@ private:
     uint32_t ComposePortsc() const;
     uint32_t ReadReg(uint32_t off, uint32_t addr);
     void     WriteReg(uint32_t off, uint32_t value, uint32_t addr);
-    void     WriteGptCtrl(uint32_t i, uint32_t value, uint32_t addr);
     void     WriteCmd(uint32_t value, uint32_t addr);
     void     WriteHostCmd(uint32_t value, uint32_t addr);
     uint32_t ComposeFrIndex() const;
@@ -76,12 +77,10 @@ private:
     Imx28Power*  power_  = nullptr;
     Imx28Power::UsbSession session_{};
     Imx28UsbEndpoints      endpoints_;
+    Imx28UsbGpTimers       timers_;
     std::function<void()>  on_link_;
     std::function<void()>  on_prime_;
 
-    uint32_t gptld_[2]   = {};
-    uint32_t gptctrl_[2] = {};
-    uint32_t gptcnt_[2]  = {};
     uint32_t endptctrl_[kEndpoints] = {};
     uint32_t r_[21] = {};
     uint32_t port_ = 0;

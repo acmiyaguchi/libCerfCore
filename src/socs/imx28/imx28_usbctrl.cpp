@@ -11,19 +11,14 @@
 #include "imx28_id.h"
 #include "imx28_usbctrl.h"
 
+#include <array>
+#include <bit>
 #include <cstdint>
 #include <mutex>
 
 namespace cerfcore {
 
 namespace {
-
-/* Sections 31.3.7-31.3.10 GPTIMERnLD [23:0], GPTIMERnCTRL GPTRUN [31], GPTRST [30], GPTMODE
-   [24], GPTCNT [23:0]. */
-constexpr uint32_t kGptLdMask = 0x00FFFFFFu;
-constexpr uint32_t kGptRun    = 1u << 31;
-constexpr uint32_t kGptRst    = 1u << 30;
-constexpr uint32_t kGptMode   = 1u << 24;
 
 /* Sections 31.3.11 SBUSCFG [2:0], 31.3.22 DEVICEADDR [31:24], 31.3.21 PERIODICLISTBASE [31:12],
    31.3.24 ENDPOINTLISTADDR [31:11], 31.3.23 ASYNCLISTADDR [31:5], 31.3.25 TTCTRL [30:24], 31.3.26
@@ -40,6 +35,7 @@ constexpr uint32_t kIcUsbMask      = 0x0000000Fu;
 constexpr uint32_t kDciMask        = 0x0000FFFFu;
 constexpr uint32_t kDciReset       = 0x00000001u;
 constexpr uint32_t kEndptBits      = 0x00FF00FFu;
+constexpr uint32_t kGatedFlushBits = 0x00010001u;
 
 constexpr int64_t kNsPerMs = 1000000;
 
@@ -111,7 +107,7 @@ void Imx28Usbctrl::Reset() {
 /* Section 31.3 memory map, Reset value column. */
 void Imx28Usbctrl::ResetLocked() {
     for (uint32_t& v : r_) v = 0u;
-    for (uint32_t i = 0; i < 2u; ++i) gptld_[i] = gptctrl_[i] = gptcnt_[i] = 0u;
+    timers_.Reset();
     for (uint32_t& e : endptctrl_) e = 0u;
     endptctrl_[0]  = kUsbEp0Reset;
     r_[kCmd]       = kUsbCmdReset;
@@ -162,11 +158,8 @@ uint32_t Imx28Usbctrl::ReadReg(uint32_t off, uint32_t addr) {
     for (const Imx28UsbConst& c : kImx28UsbConsts) {
         if (c.offset == off) return c.value;
     }
+    if (uint32_t v = 0u; timers_.Read(off, v)) return v;
     switch (off) {
-        case kUsbGptLd0:         return gptld_[0];
-        case kUsbGptLd1:         return gptld_[1];
-        case kUsbGptCtrl0:       return gptctrl_[0] | gptcnt_[0];
-        case kUsbGptCtrl1:       return gptctrl_[1] | gptcnt_[1];
         case kUsbSbusCfg:        return r_[kSbusCfg];
         case kUsbDciVersion:     return r_[kDciVersion];
         case kUsbCmd:            return r_[kCmd];
@@ -201,15 +194,10 @@ uint32_t Imx28Usbctrl::ReadReg(uint32_t off, uint32_t addr) {
 uint32_t Imx28Usbctrl::ReadWord(uint32_t addr) {
     const uint32_t off = addr - base_;
     if (off >= kUsbMapEnd || (off & 0x3u) != 0u) HaltUnsupportedAccess("ReadWord", addr, 0);
+    if (off == kUsbEndptStat && digctl_->UsbClockGated(unit_))
+        Die("ReadWord of ENDPTSTAT with USBn_CLKGATE set", addr, 0u);
     std::lock_guard<std::mutex> guard(mtx_);
     return ReadReg(off, addr);
-}
-
-/* Section 31.3.8: GPTRUN starts a countdown that interrupts at zero; GPTRST loads GPTCNT. */
-void Imx28Usbctrl::WriteGptCtrl(uint32_t i, uint32_t value, uint32_t addr) {
-    if ((value & kGptRun) != 0u) Die("GPTIMER run", addr, value);
-    if ((value & kGptRst) != 0u) gptcnt_[i] = gptld_[i];
-    gptctrl_[i] = value & kGptMode;
 }
 
 /* Section 31.3.17: RST resets the controller and reads back 0 once complete; RS in host mode
@@ -262,12 +250,9 @@ void Imx28Usbctrl::WriteOtgsc(uint32_t value, uint32_t addr) {
 }
 
 void Imx28Usbctrl::WriteReg(uint32_t off, uint32_t value, uint32_t addr) {
+    if (timers_.Write(off, value)) return;
     const bool host = Mode() == kUsbModeHost;
     switch (off) {
-        case kUsbGptLd0:     gptld_[0] = value & kGptLdMask; return;
-        case kUsbGptLd1:     gptld_[1] = value & kGptLdMask; return;
-        case kUsbGptCtrl0:   WriteGptCtrl(0u, value, addr); return;
-        case kUsbGptCtrl1:   WriteGptCtrl(1u, value, addr); return;
         case kUsbSbusCfg:    r_[kSbusCfg] = value & kSbusCfgMask; return;
         case kUsbDciVersion: r_[kDciVersion] = value & kDciMask; return;
         case kUsbCmd:        WriteCmd(value, addr); return;
@@ -311,7 +296,14 @@ void Imx28Usbctrl::WriteReg(uint32_t off, uint32_t value, uint32_t addr) {
 void Imx28Usbctrl::WriteWord(uint32_t addr, uint32_t value) {
     const uint32_t off = addr - base_;
     if (off >= kUsbMapEnd || (off & 0x3u) != 0u) HaltUnsupportedAccess("WriteWord", addr, value);
-    if (digctl_->UsbClockGated(unit_)) Die("WriteWord with USBn_CLKGATE set", addr, value);
+    if (digctl_->UsbClockGated(unit_)) {
+        /* sharp_brain_pw_sh4 usbfn.dll c06a09c0 ENDPTFLUSH bit n, 16 + n (SWP c06a29bc). */
+        std::lock_guard<std::mutex> guard(mtx_);
+        if (off != kUsbEndptFlush || (value & ~kGatedFlushBits) != 0u || !std::has_single_bit(value) ||
+            (r_[kEndptStat] & value) != 0u)
+            Die("WriteWord with USBn_CLKGATE set", addr, value);
+        return;
+    }
     for (const Imx28UsbConst& c : kImx28UsbConsts) {
         if (c.offset == off) HaltUnsupportedAccess("WriteWord", addr, value);
     }
@@ -427,6 +419,12 @@ bool Imx28Usbctrl::Transact(uint32_t bit, uint8_t* data, uint32_t length,
     return true;
 }
 
+/* Section 31.3.32 PORTSC1 PSPD [27:26] 2: high speed. */
+bool Imx28Usbctrl::HighSpeed() {
+    std::lock_guard<std::mutex> guard(mtx_);
+    return (port_ & kPortPspdHigh) != 0u;
+}
+
 uint32_t Imx28Usbctrl::DeviceAddress() {
     std::lock_guard<std::mutex> guard(mtx_);
     return r_[kAddrBase] >> kAddrShift;
@@ -461,31 +459,31 @@ void Imx28Usbctrl::DriveLine(bool force) {
 
 void Imx28Usbctrl::SaveState(StateWriter& w) {
     std::lock_guard<std::mutex> guard(mtx_);
-    w.Write("gptld", gptld_);
-    w.Write("gptctrl", gptctrl_);
-    w.Write("gptcnt", gptcnt_);
+    timers_.SaveState(w);
     w.Write("endptctrl", endptctrl_);
     w.Write("regs", r_);
     w.Write("onems_ack", onems_ack_);
     w.Write("port", port_);
     w.Write("run_ns", run_ns_);
     w.Write<uint8_t>("mode_locked", mode_locked_ ? 1u : 0u);
+    w.Write("session", std::array<uint8_t, 4>{session_.avalid, session_.bvalid, session_.vbusvalid,
+                                              session_.sessend});
 }
 
 void Imx28Usbctrl::RestoreState(StateReader& r) {
     std::lock_guard<std::mutex> guard(mtx_);
     uint8_t locked = 0u;
-    r.Read("gptld", gptld_);
-    r.Read("gptctrl", gptctrl_);
-    r.Read("gptcnt", gptcnt_);
+    std::array<uint8_t, 4> s{};
+    timers_.RestoreState(r);
     r.Read("endptctrl", endptctrl_);
     r.Read("regs", r_);
     r.Read("onems_ack", onems_ack_);
     r.Read("port", port_);
     r.Read("run_ns", run_ns_);
     r.Read("mode_locked", locked);
+    r.Read("session", s);
     mode_locked_ = locked != 0u;
-    session_ = power_->Session(unit_);
+    session_     = {s[0] != 0u, s[1] != 0u, s[2] != 0u, s[3] != 0u};
 }
 
 }
