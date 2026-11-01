@@ -3,6 +3,7 @@
 #include <cerfcore/core/host_fs_path.h>
 #include <cerfcore/platform/host_process.h>
 
+#include <cstdlib>
 #include <filesystem>
 
 namespace cerfcore {
@@ -14,6 +15,13 @@ constexpr char kSeparator = static_cast<char>(std::filesystem::path::preferred_s
 }
 
 std::string GetCerfDir() {
+    // CERF_DIR overrides the data directory (db.json, devices/, ce_apps/), so a
+    // frontend binary can live outside the directory holding that data.
+    if (const char* env = std::getenv("CERF_DIR"); env && *env) {
+        std::string dir = env;
+        if (dir.back() != '/' && dir.back() != '\\') dir += kSeparator;
+        return dir;
+    }
     const std::string exe = host_platform::ExecutablePath();
     const size_t sep = exe.find_last_of("\\/");
     if (sep == std::string::npos) return "";
