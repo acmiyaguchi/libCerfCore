@@ -189,8 +189,10 @@ void Imx28PxpFrame::FillPreYuv420(const uint32_t* regs, uint32_t pre_w, uint32_t
     const int32_t  c4  = SignExtend(k1, 11);
     const int32_t  c2  = SignExtend(k2 >> 16, 11);
     const int32_t  c3  = SignExtend(k2, 11);
-    /* Section 34.4.14: YCBCR_MODE changes the U/V scaler in a way the manual leaves open. */
-    if ((k0 & 0x80000000u) != 0u) Die("CSCCOEFF0 YCBCR_MODE", k0);
+    /* PW-SH4 hardware (YUV420 S0, RGB565 out) applies the formula below with YCBCR_MODE set.
+       With it clear, C1-C4 and UV_OFFSET have no effect and the output is not this formula;
+       the manual (section 34.4.14) does not describe that mode, so it is not modelled. */
+    if ((k0 & 0x80000000u) == 0u) Die("CSCCOEFF0 YCBCR_MODE clear", k0);
 
     for (uint32_t r = 0; r < h; ++r) {
         const uint32_t fy  = (org_y << 12) + r * step_y + off_y;
